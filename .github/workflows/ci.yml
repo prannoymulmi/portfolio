@@ -30,6 +30,9 @@ jobs:
       - name: Run TypeScript type check
         run: npm run type-check
 
+      - name: Run ESLint
+        run: npm run lint
+
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
