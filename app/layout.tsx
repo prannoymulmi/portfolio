@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
+import { Navbar } from '@/components/Navigation/Navbar';
+import { Footer } from '@/components/Navigation/Footer';
 import './globals.css';
 
 const geistSans = Geist({
@@ -56,9 +58,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           crossOrigin="anonymous"
         />
       </head>
-      <body className="min-h-full bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
         <ErrorBoundary>
-          <ContentProvider>{children}</ContentProvider>
+          <ContentProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </ContentProvider>
         </ErrorBoundary>
       </body>
     </html>
