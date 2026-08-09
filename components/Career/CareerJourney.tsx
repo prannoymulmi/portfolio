@@ -6,6 +6,7 @@ import { SVGPitch } from './SVGPitch';
 import { PlayerSVG, usePlayerAnimation } from './PlayerAnimation';
 import { TimelineToggle } from './TimelineToggle';
 import { TimelineView } from './TimelineView';
+import { MilestoneCard } from './MilestoneCard';
 import { LoadingState } from '@/components/Common/LoadingState';
 
 export function CareerJourney() {
@@ -65,50 +66,11 @@ export function CareerJourney() {
           {/* Milestone cards below pitch */}
           <div className="space-y-4">
             {sortedExperiences.map((experience, index) => (
-              <div
+              <MilestoneCard
                 key={experience.id || index}
-                className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">
-                      {experience.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{experience.subtitle}</p>
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
-                      {experience.dateText}
-                    </p>
-                  </div>
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-900 dark:bg-blue-900 dark:text-blue-100">
-                    {experience.workType}
-                  </span>
-                </div>
-
-                {/* Achievements */}
-                {experience.workDescription && experience.workDescription.length > 0 && (
-                  <ul className="mt-3 space-y-1">
-                    {experience.workDescription.map((desc, idx) => (
-                      <li key={idx} className="ml-4 text-sm text-gray-700 dark:text-gray-300">
-                        • {desc}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Technologies */}
-                {experience.technologies && experience.technologies.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {experience.technologies.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-200"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+                experience={experience}
+                index={index}
+              />
             ))}
           </div>
         </div>
