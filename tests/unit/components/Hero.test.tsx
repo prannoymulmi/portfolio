@@ -21,11 +21,11 @@ describe('Hero Component', () => {
     );
   };
 
-  it('renders hero section', () => {
+  it('renders hero section', async () => {
     renderHero();
-    // Hero section should render
-    const section = screen.queryByRole('region');
-    expect(section || document.querySelector('section')).toBeInTheDocument();
+    // Wait for async content load before asserting the section renders
+    await screen.findByText(/Prannoy Mulmi/i);
+    expect(document.querySelector('section')).toBeInTheDocument();
   });
 
   it('displays portfolio owner name when content loads', async () => {
