@@ -79,4 +79,4 @@ jobs:
         run: npm run build
 
       - name: Check bundle size
-        run: ls -lh .next/standalone/.next/static/
+        run: du -sh .next/static/ && ls -lh .next/static/chunks/
