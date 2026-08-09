@@ -1,0 +1,51 @@
+{
+  "logo": {
+    "source": "/logo.svg",
+    "height": 32,
+    "width": 120
+  },
+  "sections": [
+    {
+      "title": "Home",
+      "href": "/"
+    },
+    {
+      "title": "Skills",
+      "href": "/skills"
+    },
+    {
+      "title": "Career",
+      "href": "/career"
+    },
+    {
+      "title": "Education",
+      "href": "/education"
+    },
+    {
+      "title": "Projects",
+      "href": "/projects"
+    },
+    {
+      "title": "Playbook",
+      "href": "/playbook"
+    },
+    {
+      "title": "About",
+      "href": "/about"
+    },
+    {
+      "title": "Contact",
+      "href": "/contact"
+    },
+    {
+      "title": "GitHub",
+      "href": "https://github.com/prannoymulmi",
+      "type": "link"
+    },
+    {
+      "title": "LinkedIn",
+      "href": "https://linkedin.com/in/prannoy-mulmi",
+      "type": "link"
+    }
+  ]
+}
