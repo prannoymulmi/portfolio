@@ -66,8 +66,8 @@ export function SkillsFormation() {
       ...FORMATION_LAYOUT.attackers,
     ];
 
-    (skills.data.skills as any[]).forEach((category: any) => {
-      (category.items as any[]).forEach((skill: any) => {
+    skills.data.skills.forEach((category) => {
+      category.items.forEach((skill) => {
         allSkills.push({
           title: skill.title,
           category: category.title,
