@@ -186,7 +186,7 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 - [ ] T061 [US6] Complete migration script implementation `lib/scripts/migrate-content.ts`: finalize logic, add logging, test with existing e-portfolio data
 - [ ] T062 [US6] Create README for migration: document how to run script, what source data is expected, how to manually edit JSON files post-migration
 - [ ] T063 [US6] Test migration script with actual data: run script, validate JSON output against schema, fix any transformation errors
-- [ ] T064 [US6] Document JSON editing guide in docs/ explaining: file location, field descriptions, validation rules, how to add new skills/experiences/projects
+- [X] T064 [US6] Document JSON editing guide in docs/ explaining: file location, field descriptions, validation rules, how to add new skills/experiences/projects
 - [ ] T065 [US6] Verify content updates reflect on portfolio (no code rebuild required): edit skills.json, refresh page, new skill appears
 
 ---
@@ -206,7 +206,7 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 - [x] T069 [US7] Create footer component `components/Navigation/Footer.tsx`: display social links (from social.json), copyright, contact info
 - [x] T070 [US7] Integrate navbar to root layout `app/layout.tsx`, ensure sticky or persistent across all pages
 - [X] T071 [US7] Setup 404 fallback page `app/not-found.tsx` with "Page not found" message and return-home link
-- [ ] T072 [US7] Write navigation tests `tests/integration/navigation.test.tsx` (all links clickable, active state highlights, mobile hamburger works)
+- [X] T072 [US7] Write navigation tests `tests/integration/navigation.test.tsx` (all links clickable, active state highlights, mobile hamburger works)
 
 ---
 
@@ -222,7 +222,7 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 - [x] T073 [P] [US8] Create social links component `components/About/SocialLinks.tsx`: load social.json, render as icon/text links
 - [x] T074 [P] [US8] Implement link behavior: `target="_blank"`, `rel="noopener noreferrer"`, correct URLs
 - [ ] T075 [US8] Integrate to footer (T069) and about page (T085)
-- [ ] T076 [US8] Write unit tests `tests/unit/components/SocialLinks.test.tsx` (links render, target and rel attributes correct)
+- [X] T076 [US8] Write unit tests `tests/unit/components/SocialLinks.test.tsx` (links render, target and rel attributes correct)
 
 ---
 
@@ -239,7 +239,7 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 - [x] T078 [P] [US9] Optimize profile image: lazy-load, responsive sizing
 - [ ] T079 [P] [US9] Integrate social links (T073) below biography
 - [x] T080 [US9] Integrate to /about page `app/(routes)/about/page.tsx` with SEO meta tags
-- [ ] T081 [US9] Write unit tests `tests/unit/components/AboutSection.test.tsx` (biography renders, image displays)
+- [X] T081 [US9] Write unit tests `tests/unit/components/AboutSection.test.tsx` (biography renders, image displays)
 
 ---
 
@@ -254,8 +254,8 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 ### Error Handling
 - [x] T082 [P] [US10] Implement JSON validation in `lib/utils/validation.ts`: check required fields, validate types, return detailed error messages
 - [X] T083 [P] [US10] Enhance error boundary (T015) to catch JSON loading errors, display fallback UI with error message logged to console
-- [ ] T084 [P] [US10] Test error scenarios: missing JSON file, malformed JSON, missing required fields, type mismatches
-- [ ] T085 [US10] Write integration tests `tests/integration/error-handling.test.tsx` (missing JSON → fallback, malformed JSON → fallback, no crashes)
+- [X] T084 [P] [US10] Test error scenarios: missing JSON file, malformed JSON, missing required fields, type mismatches
+- [X] T085 [US10] Write integration tests `tests/integration/error-handling.test.tsx` (missing JSON → fallback, malformed JSON → fallback, no crashes)
 
 ---
 
@@ -268,8 +268,8 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Independent Test**: TypeScript strict mode compilation succeeds, no implicit `any`
 
 ### Type Safety
-- [ ] T086 [P] [US11] Ensure all JSON usage in components is typed: import from `lib/types/portfolio.ts`, use proper types in hooks/services
-- [ ] T087 [P] [US11] Audit codebase for `any` types: `grep -r "any" app/ components/ lib/ --include="*.ts" --include="*.tsx"`, justify or replace each with proper type
+- [X] T086 [P] [US11] Ensure all JSON usage in components is typed: import from `lib/types/portfolio.ts`, use proper types in hooks/services
+- [X] T087 [P] [US11] Audit codebase for `any` types: `grep -r "any" app/ components/ lib/ --include="*.ts" --include="*.tsx"`, justify or replace each with proper type
 - [X] T088 [US11] Run TypeScript compiler check: `npm run type-check`, ensure strict mode passes with no errors
 - [ ] T089 [US11] Write IDE autocomplete validation: open component file, type `content.` and verify autocomplete suggestions appear
 
@@ -292,7 +292,7 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 - [ ] T095 [P] Run full test suite: `npm test` (all unit tests pass)
 - [ ] T096 [P] Run E2E tests: `npm run test:e2e` (recruiter flow, career journey, skills, projects, mobile, accessibility)
 - [ ] T097 [P] Run Lighthouse audit: `npm run test:lighthouse`, ensure Performance ≥ 90, Accessibility ≥ 90, Best Practices ≥ 90, SEO ≥ 90
-- [ ] T098 [P] Run linting: `npm run lint`, fix all ESLint warnings
+- [X] T098 [P] Run linting: `npm run lint`, fix all ESLint warnings
 - [X] T099 [P] Run type check: `npm run type-check`, ensure TypeScript strict mode passes
 
 ### SEO & Meta Tags
@@ -304,15 +304,15 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 
 ### Accessibility
 - [ ] T105 [P] Audit accessibility: run axe DevTools, WAVE, or Lighthouse audit, fix any WCAG 2.1 AA violations
-- [ ] T106 [P] Test keyboard navigation: Tab through all pages, ensure focus is visible, all interactive elements accessible via keyboard
+- [X] T106 [P] Test keyboard navigation: Tab through all pages, ensure focus is visible, all interactive elements accessible via keyboard
 - [ ] T107 [P] Test screen reader: use NVDA or VoiceOver to read pages, ensure all content is announced
 - [ ] T108 [P] Verify color contrast: check all text has ≥ 4.5:1 contrast ratio for AA compliance
-- [ ] T109 [P] Test `prefers-reduced-motion`: enable in OS settings, verify animations are disabled but content remains accessible
+- [X] T109 [P] Test `prefers-reduced-motion`: enable in OS settings, verify animations are disabled but content remains accessible
 
 ### Documentation & Deployment
-- [ ] T110 Finalize README.md with setup instructions, development workflow, deployment guide
+- [X] T110 Finalize README.md with setup instructions, development workflow, deployment guide
 - [ ] T111 Create CONTRIBUTING.md with commit message format, PR process, testing requirements
-- [ ] T112 Setup Vercel deployment: connect GitHub repo, configure environment variables, enable auto-preview deploys
+- [X] T112 Setup Vercel deployment: connect GitHub repo, configure environment variables, enable auto-preview deploys
 - [X] T113 Verify production build: `npm run build && npm start`, test all features on production build
 - [ ] T114 Test preview deployment: create dummy PR, verify Vercel preview deploy works
 - [ ] T115 Test production deployment: merge to main, verify automatic production deploy to portfolio.prannoy-mulmi.com
