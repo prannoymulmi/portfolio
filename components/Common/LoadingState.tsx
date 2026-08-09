@@ -99,3 +99,13 @@ export function PlaybookSkeleton() {
     </div>
   );
 }
+
+export function AboutSkeleton() {
+  return (
+    <div className="space-y-6 p-8">
+      <SkeletonLoader type="image" />
+      <SkeletonLoader type="text-block" />
+      <SkeletonLoader type="text-block" />
+    </div>
+  );
+}

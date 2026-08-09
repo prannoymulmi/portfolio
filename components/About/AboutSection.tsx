@@ -2,14 +2,15 @@
 
 import React from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
+import type { About } from '@/lib/types/portfolio';
 import { SocialLinks } from './SocialLinks';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { AboutSkeleton } from '@/components/Common/LoadingState';
 
 export function AboutSection() {
   const { about } = useContent();
 
   if (about.loading) {
-    return <LoadingState.AboutSkeleton />;
+    return <AboutSkeleton />;
   }
 
   if (about.error || !about.data) {
@@ -20,13 +21,13 @@ export function AboutSection() {
     );
   }
 
-  const { about: aboutData } = about.data;
+  const aboutData = about.data as About;
 
   return (
     <section className="space-y-8 py-12">
       <div className="space-y-8 md:flex md:gap-12">
         {/* Profile image */}
-        {aboutData.imageSource && (
+        {aboutData?.imageSource && (
           <div className="md:w-48 md:shrink-0">
             <img
               src={aboutData.imageSource}
@@ -42,7 +43,7 @@ export function AboutSection() {
           <div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">About Me</h2>
             <p className="mt-4 whitespace-pre-wrap text-lg text-gray-700 dark:text-gray-300">
-              {aboutData.about}
+              {aboutData?.about}
             </p>
           </div>
 
