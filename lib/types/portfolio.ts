@@ -28,6 +28,7 @@ export interface SkillsFile {
 }
 
 export interface Experience {
+  id?: string;
   title: string;
   subtitle: string;
   workType: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
@@ -66,6 +67,7 @@ export interface ProjectLink {
 }
 
 export interface Project {
+  id?: string;
   title: string;
   bodyText: string;
   image?: string;

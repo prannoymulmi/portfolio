@@ -20,7 +20,7 @@ export function usePlayerAnimation(
   isEnabled: boolean,
 ) {
   useEffect(() => {
-    if (!playerRef.current || !isEnabled || prefersReducedMotion) return;
+    if (!playerRef.current || !isEnabled || prefersReducedMotion()) return;
 
     const container = document.querySelector(containerSelector);
     if (!container) return;

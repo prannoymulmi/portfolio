@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { EducationSkeleton } from '@/components/Common/LoadingState';
 
 export function EducationSection() {
   const { education } = useContent();
 
   if (education.loading) {
-    return <LoadingState.EducationSkeleton />;
+    return <EducationSkeleton />;
   }
 
   if (education.error || !education.data) {

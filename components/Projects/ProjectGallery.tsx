@@ -10,7 +10,7 @@ export function ProjectGallery() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   if (projects.loading) {
-    return <LoadingState.ProjectsSkeleton />;
+    return <<ProjectsSkeleton /> />;
   }
 
   if (projects.error || !projects.data) {

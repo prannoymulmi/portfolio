@@ -51,7 +51,7 @@ export function SkillsFormation() {
 
   // Flatten skill categories and map to formation positions
   const skillPositions = useMemo(() => {
-    if (!skills.data || skills.data.length === 0) return [];
+    if (!skills.data || !skills.data.skills || skills.data.skills.length === 0) return [];
 
     const allSkills: Array<{
       title: string;
@@ -66,8 +66,8 @@ export function SkillsFormation() {
       ...FORMATION_LAYOUT.attackers,
     ];
 
-    skills.data.forEach((category) => {
-      category.items.forEach((skill) => {
+    (skills.data.skills as any[]).forEach((category: any) => {
+      (category.items as any[]).forEach((skill: any) => {
         allSkills.push({
           title: skill.title,
           category: category.title,
@@ -86,7 +86,7 @@ export function SkillsFormation() {
   const selectedSkill = selectedSkillIndex !== null ? skillPositions[selectedSkillIndex] : null;
 
   if (skills.loading) {
-    return <LoadingState.SkillsSkeleton />;
+    return <<SkillsSkeleton /> />;
   }
 
   if (skills.error || !skills.data) {

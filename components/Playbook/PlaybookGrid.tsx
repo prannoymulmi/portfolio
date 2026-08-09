@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { PrincipleCategory } from './PrincipleCategory';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { PlaybookSkeleton } from '@/components/Common/LoadingState';
 
 export function PlaybookGrid() {
   const { playbook } = useContent();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   if (playbook.loading) {
-    return <LoadingState.PlaybookSkeleton />;
+    return <<PlaybookSkeleton /> />;
   }
 
   if (playbook.error || !playbook.data) {

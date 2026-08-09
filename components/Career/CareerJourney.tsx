@@ -7,19 +7,19 @@ import { PlayerSVG, usePlayerAnimation } from './PlayerAnimation';
 import { TimelineToggle } from './TimelineToggle';
 import { TimelineView } from './TimelineView';
 import { MilestoneCard } from './MilestoneCard';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { CareerSkeleton } from '@/components/Common/LoadingState';
 
 export function CareerJourney() {
   const { experiences } = useContent();
   const [isInteractiveMode, setIsInteractiveMode] = useState(true);
-  const playerRef = useRef<SVGGElement>(null);
+  const playerRef = useRef<SVGGElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Setup GSAP player animation
-  usePlayerAnimation(playerRef, '.career-section', isInteractiveMode);
+  usePlayerAnimation(playerRef as React.RefObject<SVGGElement>, '.career-section', isInteractiveMode);
 
   if (experiences.loading) {
-    return <LoadingState.CareerSkeleton />;
+    return <CareerSkeleton />;
   }
 
   if (experiences.error || !experiences.data) {

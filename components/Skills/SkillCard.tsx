@@ -14,11 +14,11 @@ export function SkillCard({ skillName, category, onClose }: SkillCardProps) {
 
   // Find the skill data from skills.json
   const skillData = useMemo(() => {
-    if (!skills.data) return null;
+    if (!skills.data || !skills.data.skills) return null;
 
-    for (const cat of skills.data) {
+    for (const cat of skills.data.skills as any[]) {
       if (cat.title === category) {
-        const skill = cat.items.find((s) => s.title === skillName);
+        const skill = (cat.items as any[]).find((s: any) => s.title === skillName);
         return { skill, category: cat };
       }
     }
@@ -74,7 +74,7 @@ export function SkillCard({ skillName, category, onClose }: SkillCardProps) {
           Related Skills
         </p>
         <div className="flex flex-wrap gap-2">
-          {categoryData.items.slice(0, 3).map((relatedSkill, idx) => (
+          {((categoryData.items as any[]) || []).slice(0, 3).map((relatedSkill: any, idx: number) => (
             <span
               key={idx}
               className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-200"
