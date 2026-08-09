@@ -8,6 +8,15 @@
 
 **Input**: Build a modern senior software engineer portfolio using football metaphor to explain career journey with Framer Motion parallax effects, powered by JSON content structure for skills, experiences, education, and projects.
 
+## Clarifications
+
+### Session 2026-08-09
+
+- Q1: Should Technical Playbook be JSON-driven or hardcoded? → A: JSON-driven (playbook.json for consistency and maintainability)
+- Q2: How should content be populated into JSON files for v1? → A: Create manual migration script for skills, experiences, education, projects, playbook; manually create routes, navbar, social, about, home
+- Q3: Is Education section required for v1 and where? → A: Required in v1 and must be prominently accessible
+- Q4: What should users see during JSON loading? → A: Skeleton screens for each section
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Recruiter Quick Overview (Priority: P1)
@@ -76,17 +85,17 @@ A viewer sees strongest technical projects highlighted as case studies from proj
 
 ### User Story 5 - Technical Playbook Reference (Priority: P3)
 
-A technically-minded visitor (engineer, architect) can reference technical principles and approaches across architecture, cloud, security, backend, and DevOps (loaded from content or hardcoded for v1).
+A technically-minded visitor (engineer, architect) can reference technical principles and approaches across architecture, cloud, security, backend, and DevOps, loaded dynamically from playbook.json.
 
 **Why this priority**: Demonstrates thought leadership and engineering philosophy. Useful for peer discussions and senior-level conversations.
 
-**Independent Test**: Technical Playbook section is readable, organized by topic, and provides clear principles without requiring interaction.
+**Independent Test**: Technical Playbook section is readable, organized by topic, and provides clear principles without requiring interaction. Content loaded from playbook.json.
 
 **Acceptance Scenarios**:
 
-1. **Given** Technical Playbook section exists, **When** user navigates to it, **Then** categories (Architecture, Cloud, Security, Backend, DevOps, Engineering Principles) are visible
-2. **Given** user clicks on a category, **When** section expands, **Then** 3-5 bullet points describing principles/approaches appear
-3. **Given** user is skimming quickly, **When** they scan playbook, **Then** headings and short principles are clear without lengthy prose
+1. **Given** playbook.json defines principle categories, **When** user navigates to Technical Playbook, **Then** categories (Architecture, Cloud, Security, Backend, DevOps, Engineering Principles) render from playbook.json
+2. **Given** user clicks on a category, **When** section expands, **Then** 3-5 bullet points describing principles/approaches from playbook.json appear
+3. **Given** user is skimming quickly, **When** they scan playbook, **Then** headings and short principles from playbook.json are clear without lengthy prose
 
 ---
 
@@ -241,6 +250,8 @@ As a developer, I want TypeScript types/interfaces defined for each JSON schema 
 - **FR-034**: System MUST type-check JSON data against TypeScript interfaces/schemas at compile time and runtime
 - **FR-035**: System MUST provide clear error messages in browser console or UI if JSON loading fails
 - **FR-036**: System MUST cache loaded JSON data to avoid repeated fetches; cache MUST invalidate on deployment
+- **FR-037**: System MUST display skeleton screens (placeholder shimmer layouts) for each portfolio section while JSON content is loading
+- **FR-038**: System MUST include a migration script that transforms skills, experiences, education, projects, and playbook data from existing e-portfolio into JSON format; script MUST be run manually before v1 launch
 
 ### Key Entities
 
@@ -254,6 +265,7 @@ As a developer, I want TypeScript types/interfaces defined for each JSON schema 
 - **Social**: `{ network, href }` — social media profile link
 - **Home**: `{ name, roles[] }` — hero section data
 - **About**: `{ about, imageSource }` — biography and profile image
+- **Playbook**: `{ categories[{ name, principles[] }] }` — technical principles organized by category (Architecture, Cloud, Security, Backend, DevOps, Engineering Principles)
 
 ## Success Criteria *(mandatory)*
 
@@ -283,6 +295,7 @@ As a developer, I want TypeScript types/interfaces defined for each JSON schema 
 - **SC-019**: All optional fields in JSON (images, descriptions, links) render correctly or show graceful fallbacks when missing
 - **SC-020**: Page remains functional and readable even if one JSON file fails to load (other sections still render)
 - **SC-021**: TypeScript types for JSON schemas provide IDE autocomplete for all data properties; no `any` types used for content access
+- **SC-022**: Skeleton screens display for each section within 100ms of page load; user perceives loading progress (not a blank page)
 
 ## Assumptions
 
@@ -294,6 +307,8 @@ As a developer, I want TypeScript types/interfaces defined for each JSON schema 
 - **Content Ownership**: All text, images, and project details owned by portfolio owner; no third-party content licensing issues
 - **Football Metaphor Familiarity**: Target audience (tech professionals) understands basic football concepts (position, pass, formation, etc.)
 - **Career Data is Complete**: All career milestones, projects, and technical principles are well-documented and available for content entry
+- **Education Section Required**: Education section is required for v1 and prominently accessible (via nav, dedicated page, or quick-view section); not deferred post-launch
+- **Content Migration Strategy**: Manual migration script provided to transform skills, experiences, education, projects, and playbook from existing e-portfolio; other files (routes, navbar, social, about, home) created manually
 - **Content Location**: JSON files stored in `public/data/`; files bundled with deployment and served as static assets
 - **Content Format**: All content uses JSON (not YAML, TOML, or database); JSON is source of truth for portfolio data
 - **No Real-Time Updates**: Content updates require redeployment (not hot-reload); no live content management system needed for v1
