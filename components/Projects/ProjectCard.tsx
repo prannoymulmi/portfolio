@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Project } from '@/lib/types/portfolio';
 
@@ -29,11 +30,12 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
       {/* Project thumbnail */}
       {project.image && (
         <div className="h-40 overflow-hidden bg-gray-200 dark:bg-gray-700">
-          <img
+          <Image
             src={project.image}
             alt={project.title}
+            width={600}
+            height={160}
             className="h-full w-full object-cover transition-transform group-hover:scale-105"
-            loading="lazy"
           />
         </div>
       )}

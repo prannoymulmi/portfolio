@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import type { About } from '@/lib/types/portfolio';
 import { SocialLinks } from './SocialLinks';
@@ -29,11 +30,12 @@ export function AboutSection() {
         {/* Profile image */}
         {aboutData?.imageSource && (
           <div className="md:w-48 md:shrink-0">
-            <img
+            <Image
               src={aboutData.imageSource}
               alt="Profile"
+              width={256}
+              height={256}
               className="h-64 w-64 rounded-lg object-cover md:h-48 md:w-48"
-              loading="lazy"
             />
           </div>
         )}

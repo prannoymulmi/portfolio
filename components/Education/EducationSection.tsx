@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EducationSkeleton } from '@/components/Common/LoadingState';
 
@@ -60,11 +61,12 @@ export function EducationSection() {
             {item.media && (
               <div className="mt-4 rounded-lg overflow-hidden">
                 {item.media.type === 'IMAGE' && (
-                  <img
+                  <Image
                     src={item.media.source.url}
                     alt={item.media.name}
+                    width={800}
+                    height={192}
                     className="h-48 w-full object-cover"
-                    loading="lazy"
                   />
                 )}
               </div>
