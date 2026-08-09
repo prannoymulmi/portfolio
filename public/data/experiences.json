@@ -1,0 +1,61 @@
+{
+  "experiences": [
+    {
+      "title": "Senior Software Engineer",
+      "subtitle": "Tech Company",
+      "workType": "Full-time",
+      "workDescription": [
+        "Led technical architecture decisions for microservices migration",
+        "Mentored team of 5 junior engineers through code reviews and pair programming",
+        "Improved deployment pipeline reducing release time by 60%",
+        "Maintained 99.9% uptime SLA across production systems"
+      ],
+      "dateText": "2023-01 — Present",
+      "technologies": [
+        "TypeScript",
+        "Go",
+        "Kubernetes",
+        "AWS",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "title": "Backend Engineer",
+      "subtitle": "Another Company",
+      "workType": "Full-time",
+      "workDescription": [
+        "Designed and implemented RESTful API handling 1M+ requests daily",
+        "Optimized database queries reducing query latency by 40%",
+        "Built real-time notification system serving 100K concurrent users",
+        "Established engineering best practices and code review culture"
+      ],
+      "dateText": "2021-06 — 2022-12",
+      "technologies": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Redis",
+        "Docker"
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "subtitle": "Startup",
+      "workType": "Full-time",
+      "workDescription": [
+        "Built full-stack web application from scratch using React and Node.js",
+        "Implemented authentication and authorization systems",
+        "Deployed application to AWS with CI/CD pipeline",
+        "Collaborated with product team to define technical roadmap"
+      ],
+      "dateText": "2019-03 — 2021-05",
+      "technologies": [
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "AWS"
+      ]
+    }
+  ]
+}

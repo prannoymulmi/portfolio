@@ -1,0 +1,80 @@
+{
+  "intro": "Core competencies across full-stack development, cloud architecture, and technical leadership.",
+  "skills": [
+    {
+      "title": "Languages & Databases",
+      "items": [
+        {
+          "title": "TypeScript",
+          "category": "Languages & Databases"
+        },
+        {
+          "title": "Go",
+          "category": "Languages & Databases"
+        },
+        {
+          "title": "Python",
+          "category": "Languages & Databases"
+        },
+        {
+          "title": "PostgreSQL",
+          "category": "Languages & Databases"
+        },
+        {
+          "title": "Redis",
+          "category": "Languages & Databases"
+        }
+      ]
+    },
+    {
+      "title": "Cloud & DevOps",
+      "items": [
+        {
+          "title": "AWS",
+          "category": "Cloud & DevOps"
+        },
+        {
+          "title": "Kubernetes",
+          "category": "Cloud & DevOps"
+        },
+        {
+          "title": "Docker",
+          "category": "Cloud & DevOps"
+        },
+        {
+          "title": "Terraform",
+          "category": "Cloud & DevOps"
+        },
+        {
+          "title": "CI/CD",
+          "category": "Cloud & DevOps"
+        }
+      ]
+    },
+    {
+      "title": "Frontend & Web",
+      "items": [
+        {
+          "title": "React",
+          "category": "Frontend & Web"
+        },
+        {
+          "title": "Next.js",
+          "category": "Frontend & Web"
+        },
+        {
+          "title": "Tailwind CSS",
+          "category": "Frontend & Web"
+        },
+        {
+          "title": "GraphQL",
+          "category": "Frontend & Web"
+        },
+        {
+          "title": "REST APIs",
+          "category": "Frontend & Web"
+        }
+      ]
+    }
+  ]
+}

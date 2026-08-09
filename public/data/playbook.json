@@ -1,0 +1,106 @@
+{
+  "categories": [
+    {
+      "name": "Architecture",
+      "principles": [
+        {
+          "title": "Microservices First",
+          "description": "Break systems into independently deployable services for scalability and maintainability"
+        },
+        {
+          "title": "Event-Driven Design",
+          "description": "Use events to decouple services and enable real-time data flow"
+        },
+        {
+          "title": "CQRS Pattern",
+          "description": "Separate read and write models for better scalability"
+        }
+      ]
+    },
+    {
+      "name": "Cloud",
+      "principles": [
+        {
+          "title": "Infrastructure as Code",
+          "description": "Define all infrastructure in version-controlled code for reproducibility"
+        },
+        {
+          "title": "Multi-Region Deployment",
+          "description": "Deploy across multiple regions for high availability and disaster recovery"
+        },
+        {
+          "title": "Cost Optimization",
+          "description": "Monitor and optimize cloud spending through reserved instances and rightsizing"
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "principles": [
+        {
+          "title": "Principle of Least Privilege",
+          "description": "Grant minimal necessary permissions to reduce attack surface"
+        },
+        {
+          "title": "Defense in Depth",
+          "description": "Implement multiple layers of security controls"
+        },
+        {
+          "title": "Zero Trust Architecture",
+          "description": "Never trust, always verify every access request"
+        }
+      ]
+    },
+    {
+      "name": "Backend",
+      "principles": [
+        {
+          "title": "API Versioning",
+          "description": "Version APIs explicitly to support multiple client versions"
+        },
+        {
+          "title": "Database Optimization",
+          "description": "Use indexes, caching, and query optimization for performance"
+        },
+        {
+          "title": "Stateless Services",
+          "description": "Design services to be stateless for horizontal scaling"
+        }
+      ]
+    },
+    {
+      "name": "DevOps",
+      "principles": [
+        {
+          "title": "Continuous Deployment",
+          "description": "Automate testing and deployment to ship small changes frequently"
+        },
+        {
+          "title": "Observable Systems",
+          "description": "Implement comprehensive logging, metrics, and tracing"
+        },
+        {
+          "title": "Incident Response",
+          "description": "Establish clear runbooks and escalation procedures for incidents"
+        }
+      ]
+    },
+    {
+      "name": "Engineering Principles",
+      "principles": [
+        {
+          "title": "Code Review Culture",
+          "description": "Require peer review for all changes to ensure quality"
+        },
+        {
+          "title": "Test-Driven Development",
+          "description": "Write tests before code to ensure coverage and design"
+        },
+        {
+          "title": "Continuous Learning",
+          "description": "Invest time in learning new technologies and best practices"
+        }
+      ]
+    }
+  ]
+}

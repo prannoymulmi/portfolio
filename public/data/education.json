@@ -1,0 +1,16 @@
+{
+  "education": [
+    {
+      "title": "2014-2018",
+      "cardTitle": "B.S. Computer Science",
+      "cardSubtitle": "University",
+      "cardDetailedText": "GPA: 3.8"
+    },
+    {
+      "title": "2022",
+      "cardTitle": "AWS Solutions Architect Certified",
+      "cardSubtitle": "Amazon Web Services",
+      "cardDetailedText": "Professional Level"
+    }
+  ]
+}

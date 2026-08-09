@@ -1,0 +1,59 @@
+{
+  "projects": [
+    {
+      "title": "Cloud Migration Platform",
+      "bodyText": "Built a Kubernetes-based platform that reduced deployment time by 60% and improved system reliability to 99.99% uptime. Led cross-functional team of 8 engineers across backend, frontend, and DevOps. Implemented automated CI/CD pipeline using GitHub Actions and deployed to AWS.",
+      "tags": [
+        "Kubernetes",
+        "Go",
+        "AWS",
+        "DevOps",
+        "Terraform"
+      ],
+      "links": [
+        {
+          "text": "GitHub",
+          "route": "https://github.com"
+        },
+        {
+          "text": "Demo",
+          "route": "/projects/migration"
+        }
+      ]
+    },
+    {
+      "title": "Real-Time Analytics Dashboard",
+      "bodyText": "Created a real-time analytics dashboard processing 10M+ events daily using React, WebSockets, and PostgreSQL. Implemented data visualization with D3.js and optimized queries for sub-second latency. Scaled to support 100K concurrent users with Redis caching.",
+      "tags": [
+        "React",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "WebSockets"
+      ],
+      "links": [
+        {
+          "text": "GitHub",
+          "route": "https://github.com"
+        }
+      ]
+    },
+    {
+      "title": "E-Commerce API",
+      "bodyText": "Designed and built production-grade REST API for e-commerce platform handling millions of transactions. Implemented payment processing, inventory management, and order fulfillment. Achieved 99.99% uptime with comprehensive monitoring and alerting.",
+      "tags": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Docker",
+        "AWS"
+      ],
+      "links": [
+        {
+          "text": "Case Study",
+          "route": "/projects/ecommerce"
+        }
+      ]
+    }
+  ]
+}
