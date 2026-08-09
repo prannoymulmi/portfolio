@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { ContentProvider } from '@/components/Common/ContentProvider';
+import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import './globals.css';
 
 const geistSans = Geist({
@@ -39,7 +41,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="min-h-full bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-        {children}
+        <ErrorBoundary>
+          <ContentProvider>{children}</ContentProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
