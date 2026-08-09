@@ -1,0 +1,58 @@
+'use client';
+
+import React from 'react';
+import { useContent } from '@/components/Common/ContentProvider';
+import { SocialLinks } from './SocialLinks';
+import { LoadingState } from '@/components/Common/LoadingState';
+
+export function AboutSection() {
+  const { about } = useContent();
+
+  if (about.loading) {
+    return <LoadingState.AboutSkeleton />;
+  }
+
+  if (about.error || !about.data) {
+    return (
+      <section className="py-12">
+        <p className="text-center text-red-600">Failed to load about content</p>
+      </section>
+    );
+  }
+
+  const { about: aboutData } = about.data;
+
+  return (
+    <section className="space-y-8 py-12">
+      <div className="space-y-8 md:flex md:gap-12">
+        {/* Profile image */}
+        {aboutData.imageSource && (
+          <div className="md:w-48 md:shrink-0">
+            <img
+              src={aboutData.imageSource}
+              alt="Profile"
+              className="h-64 w-64 rounded-lg object-cover md:h-48 md:w-48"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {/* Biography */}
+        <div className="flex-1 space-y-4">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">About Me</h2>
+            <p className="mt-4 whitespace-pre-wrap text-lg text-gray-700 dark:text-gray-300">
+              {aboutData.about}
+            </p>
+          </div>
+
+          {/* Social links */}
+          <div className="pt-4">
+            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Connect with me:</h3>
+            <SocialLinks />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
