@@ -81,13 +81,13 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Independent Test**: Load portfolio, verify hero section visible and content appears in < 1.2s FCP
 
 ### Hero Component
-- [ ] T025 [US1] Create hero section component `components/Hero/Hero.tsx` displaying: name (from home.json), "Senior Software Engineer" title, 1-line value prop
-- [ ] T026 [US1] Implement Framer Motion parallax effect in `components/Hero/HeroParallax.tsx` for subtle background shift on scroll (subtle, not excessive)
-- [ ] T027 [US1] Create CTA buttons component `components/Hero/ValueProp.tsx` with "View Work" and "Play Career" buttons linking to /projects and /career
-- [ ] T028 [US1] Integrate hero to home page `app/page.tsx` with layout, SEO meta tags (title, description, Open Graph)
-- [ ] T029 [US1] Create quick skills preview component `components/Hero/TopSkillsPreview.tsx` displaying top 3-4 skills from skills.json (no animation, just list)
-- [ ] T030 [US1] Optimize hero assets: compress images, preload fonts, setup image optimization in next.config.js
-- [ ] T031 [US1] Write tests for Hero component `tests/unit/components/Hero.test.tsx` (name renders, title visible, CTA links work)
+- [x] T025 [US1] Create hero section component `components/Hero/Hero.tsx` displaying: name (from home.json), "Senior Software Engineer" title, 1-line value prop
+- [x] T026 [US1] Implement Framer Motion parallax effect in `components/Hero/HeroParallax.tsx` for subtle background shift on scroll (subtle, not excessive)
+- [x] T027 [US1] Create CTA buttons component `components/Hero/ValueProp.tsx` with "View Work" and "Play Career" buttons linking to /projects and /career
+- [x] T028 [US1] Integrate hero to home page `app/page.tsx` with layout, SEO meta tags (title, description, Open Graph)
+- [x] T029 [US1] Create quick skills preview component `components/Hero/TopSkillsPreview.tsx` displaying top 3-4 skills from skills.json (no animation, just list)
+- [x] T030 [US1] Optimize hero assets: compress images, preload fonts, setup image optimization in next.config.js
+- [x] T031 [US1] Write tests for Hero component `tests/unit/components/Hero.test.tsx` (name renders, title visible, CTA links work)
 
 ---
 
