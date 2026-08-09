@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface HeroParallaxProps {
@@ -10,24 +10,22 @@ interface HeroParallaxProps {
 export function HeroParallax({ children }: HeroParallaxProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-
-  // Check if user prefers reduced motion
-  const prefersReducedMotion = useRef(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    prefersReducedMotion.current = mediaQuery.matches;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
-      prefersReducedMotion.current = e.matches;
+      setPrefersReducedMotion(e.matches);
     };
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Create parallax effect: background moves at 50% of scroll speed
-  const y = useTransform(scrollY, [0, 500], [0, prefersReducedMotion.current ? 0 : 250]);
+  const y = useTransform(scrollY, [0, 500], [0, prefersReducedMotion ? 0 : 250]);
 
   return (
     <div ref={containerRef} className="relative overflow-hidden">

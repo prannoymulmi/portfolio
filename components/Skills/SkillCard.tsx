@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 
 interface SkillCardProps {
@@ -9,21 +9,25 @@ interface SkillCardProps {
   onClose: () => void;
 }
 
+function findSkill(
+  data: unknown,
+  category: string,
+  skillName: string,
+): { skill: { title: string; icon?: string } | undefined; category: { title: string; items: { title: string }[] } } | null {
+  const skillsData = data as { skills?: Array<{ title: string; items: Array<{ title: string; icon?: string }> }> } | null;
+  if (!skillsData?.skills) return null;
+  for (const cat of skillsData.skills) {
+    if (cat.title === category) {
+      const skill = cat.items.find((s) => s.title === skillName);
+      return { skill, category: cat };
+    }
+  }
+  return null;
+}
+
 export function SkillCard({ skillName, category, onClose }: SkillCardProps) {
   const { skills } = useContent();
-
-  // Find the skill data from skills.json
-  const skillData = useMemo(() => {
-    if (!skills.data || !skills.data.skills) return null;
-
-    for (const cat of skills.data.skills as any[]) {
-      if (cat.title === category) {
-        const skill = (cat.items as any[]).find((s: any) => s.title === skillName);
-        return { skill, category: cat };
-      }
-    }
-    return null;
-  }, [skills.data, skillName, category]);
+  const skillData = findSkill(skills.data, category, skillName);
 
   if (!skillData?.skill) {
     return (
@@ -74,7 +78,7 @@ export function SkillCard({ skillName, category, onClose }: SkillCardProps) {
           Related Skills
         </p>
         <div className="flex flex-wrap gap-2">
-          {((categoryData.items as any[]) || []).slice(0, 3).map((relatedSkill: any, idx: number) => (
+          {(categoryData.items || []).slice(0, 3).map((relatedSkill, idx) => (
             <span
               key={idx}
               className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-200"

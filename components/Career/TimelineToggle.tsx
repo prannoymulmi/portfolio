@@ -10,12 +10,15 @@ interface TimelineToggleProps {
 export function TimelineToggle({ isInteractive, onChange }: TimelineToggleProps) {
   const [isMounted, setIsMounted] = useState(false);
 
-  // Load preference from localStorage on mount
+  // Load preference from localStorage on mount. setState is unavoidable
+  // here because we can't read localStorage during SSR without a
+  // hydration mismatch.
   useEffect(() => {
     const stored = localStorage.getItem('career-view-mode');
     if (stored !== null) {
       onChange(stored === 'interactive');
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, [onChange]);
 

@@ -4,30 +4,32 @@ import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
+function readInitialTheme(): Theme {
+  if (typeof window === 'undefined') return 'light';
+  const saved = window.localStorage.getItem('theme');
+  if (saved === 'light' || saved === 'dark') return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme: Theme) {
+  const html = document.documentElement;
+  if (theme === 'dark') {
+    html.classList.add('dark');
+  } else {
+    html.classList.remove('dark');
+  }
+}
+
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
-  // Initialize theme on mount (avoid hydration mismatch)
   useEffect(() => {
+    const initial = readInitialTheme();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(initial);
     setMounted(true);
-
-    // Check localStorage first
-    const saved = localStorage.getItem('theme') as Theme | null;
-    if (saved) {
-      setTheme(saved);
-      applyTheme(saved);
-      return;
-    }
-
-    // Check system preference
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-      applyTheme('dark');
-    } else {
-      setTheme('light');
-      applyTheme('light');
-    }
+    applyTheme(initial);
   }, []);
 
   const toggleTheme = () => {
@@ -44,13 +46,4 @@ export function useTheme() {
     isLight: theme === 'light',
     mounted,
   };
-}
-
-function applyTheme(theme: Theme) {
-  const html = document.documentElement;
-  if (theme === 'dark') {
-    html.classList.add('dark');
-  } else {
-    html.classList.remove('dark');
-  }
 }
