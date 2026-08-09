@@ -282,9 +282,9 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Parallelizable**: Partially (many tasks can run in parallel)
 
 ### Performance & Optimization
-- [ ] T090 [P] Optimize images: compress all images in `public/images/`, setup Next.js Image component with optimization
-- [ ] T091 [P] Code split components: use dynamic imports for heavy components (Career journey GSAP, Projects gallery) in `app/(routes)/**/page.tsx`
-- [ ] T092 [P] Setup image preloading: `<link rel="preload" as="image">` in layout.tsx for critical hero/skill icons
+- [X] T090 [P] Optimize images: compress all images in `public/images/`, setup Next.js Image component with optimization
+- [X] T091 [P] Code split components: use dynamic imports for heavy components (Career journey GSAP, Projects gallery) in `app/(routes)/**/page.tsx`
+- [X] T092 [P] Setup image preloading: `<link rel="preload" as="image">` in layout.tsx for critical hero/skill icons
 - [X] T093 [P] Optimize fonts: preload Google Fonts or system fonts in layout.tsx, avoid layout shift
 - [X] T094 [P] Setup CSS caching: ensure Tailwind CSS is minified, cache headers set in next.config.js for static assets
 
