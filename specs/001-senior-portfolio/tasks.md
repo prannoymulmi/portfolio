@@ -27,16 +27,16 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Blockers**: None  
 **Parallelizable**: No (sequential setup)
 
-- [ ] T001 Initialize Next.js project with App Router: `npm create next-app@latest portfolio -- --typescript --tailwind --app --eslint`
-- [ ] T002 Configure TypeScript strict mode in `tsconfig.json` (set `"strict": true`, `"noImplicitAny": true`, `"strictNullChecks": true`)
-- [ ] T003 Install primary dependencies: `npm install framer-motion gsap zod react-hook-form`
-- [ ] T004 Install dev dependencies: `npm install -D @testing-library/react @testing-library/jest-dom jest jest-environment-jsdom`
-- [ ] T005 Configure Tailwind CSS in `tailwind.config.js` (add content paths, setup dark mode via class)
-- [ ] T006 Setup `prettier-plugin-tailwindcss` in `.prettierrc` for consistent Tailwind class ordering
-- [ ] T007 Create directory structure per plan.md: `app/(routes)`, `components/{Navigation,Hero,Skills,Career,...}`, `lib/{types,hooks,utils,scripts}`, `public/data/`, `tests/{unit,integration,e2e}`
-- [ ] T008 Initialize Git branches: `git checkout -b 001-senior-portfolio` (already on this branch; verify current branch)
-- [ ] T009 Create `.env.local` with build variables (API endpoints, external service keys if any)
-- [ ] T010 Setup GitHub Actions CI pipeline in `.github/workflows/ci.yml` (type-check, lint, test on PR)
+- [x] T001 Initialize Next.js project with App Router: `npm create next-app@latest portfolio -- --typescript --tailwind --app --eslint`
+- [x] T002 Configure TypeScript strict mode in `tsconfig.json` (set `"strict": true`, `"noImplicitAny": true`, `"strictNullChecks": true`)
+- [x] T003 Install primary dependencies: `npm install framer-motion gsap zod react-hook-form`
+- [x] T004 Install dev dependencies: `npm install -D @testing-library/react @testing-library/jest-dom jest jest-environment-jsdom`
+- [x] T005 Configure Tailwind CSS in `tailwind.config.js` (add content paths, setup dark mode via class)
+- [x] T006 Setup `prettier-plugin-tailwindcss` in `.prettierrc` for consistent Tailwind class ordering
+- [x] T007 Create directory structure per plan.md: `app/(routes)`, `components/{Navigation,Hero,Skills,Career,...}`, `lib/{types,hooks,utils,scripts}`, `public/data/`, `tests/{unit,integration,e2e}`
+- [x] T008 Initialize Git branches: `git checkout -b 001-senior-portfolio` (already on this branch; verify current branch)
+- [x] T009 Create `.env.local` with build variables (API endpoints, external service keys if any)
+- [x] T010 Setup GitHub Actions CI pipeline in `.github/workflows/ci.yml` (type-check, lint, test on PR)
 
 ---
 
