@@ -1,156 +1,99 @@
-# Portfolio — Senior Software Engineer
+# Portfolio — Prannoy Mulmi
 
-A modern, interactive portfolio showcasing engineering expertise using football as a storytelling metaphor. Built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and GSAP.
+Interactive senior software engineer portfolio. Built with Next.js 16
+(App Router), React 19, TypeScript strict mode, Tailwind CSS v4, GSAP,
+and Framer Motion. Content lives in JSON files under `public/data/`
+and is validated at runtime with Zod.
 
-**Domain**: portfolio.prannoy-mulmi.com (not live yet — in development)
+**Live**: portfolio.prannoy-mulmi.com
 
-## Vision
-
-**Professional first, interactive second.**
-
-The portfolio should communicate who I am, my skills, and experience within 20 seconds for recruiters. For curious visitors, it offers an interactive football-themed career journey that explains technical growth through the lens of the sport.
-
-The football metaphor is subtle and purposeful:
-- **Player** = me
-- **Position** = skill
-- **Pass** = career transition
-- **Match** = major project
-- **Season** = career period
-- **Trophy** = major accomplishment
-
-The goal: **High-end engineering portfolio, not a football game.**
-
-## Stack
-
-- **Framework**: Next.js (App Router) + TypeScript (strict mode)
-- **Styling**: Tailwind CSS
-- **Animation**: Framer Motion (React-driven UI), GSAP + ScrollTrigger (scroll-sequenced timelines)
-- **Visualization**: SVG football pitch (in-browser rendering)
-- **Deployment**: GitHub → Vercel (automatic preview + production deploys)
-- **Domain**: Custom domain via Vercel
-
-## Structure
-
-### Hero
-- Name and title
-- 1-line value proposition
-- CTA: View Work / Play Career
-
-### Skills Formation ⚽
-- Skills displayed as a football formation on an SVG pitch
-- Click/hover to reveal details and technologies
-- Professional and readable, not a game
-
-### Career Journey ⚽
-- **Primary interactive feature**
-- Scroll-driven animation: player moves through pitch/path
-- Each pass = career transition
-- Each milestone = role, company, dates, achievements, technologies
-- Animations are subtle and premium
-- **Toggle mode**: Interactive ⚽ or Linear Timeline (for recruiters, mobile, accessibility)
-
-### Projects / Match Highlights 🏆
-- Separate from career history
-- Strongest technical projects
-- Focus on impact, architecture, engineering decisions
-- Case-study style cards
-
-### Technical Playbook
-- Architecture
-- Cloud
-- Security
-- Backend
-- DevOps
-- Engineering principles
-
-### About & Contact
-- Short personal story
-- Contact information
-
-## Development
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Getting Started
+## Quickstart
 
 ```bash
-# Install dependencies
-npm install
-
-# Run dev server
-npm run dev
-
-# Open http://localhost:3000
+# Requires Node 22.x (matches CI). React 19 forces the legacy peer-dep flag —
+# see docs/adr/0007 for rationale.
+npm install --legacy-peer-deps
+npm run dev             # http://localhost:3000
 ```
 
-### Building
+## Common tasks
 
-```bash
-# Production build
-npm run build
+| Command | What it does |
+|---|---|
+| `npm run dev` | Turbopack dev server with fast refresh |
+| `npm run build` | Production build (also prerenders sitemap.xml + robots.txt) |
+| `npm start` | Serve the production build locally |
+| `npm run type-check` | `tsc --noEmit`, strict mode |
+| `npm run lint` | ESLint 9 flat config with Next.js + React Hooks rules |
+| `npm test` | Jest + React Testing Library |
+| `npm run validate:json` | Validate `public/data/*.json` against Zod schemas |
 
-# Test production build locally
-npm start
+## Editing content
+
+All copy — bio, roles, skills, jobs, projects, playbook — lives in
+`public/data/*.json`. Edit the file, refresh the page. No rebuild
+needed. See [docs/content-editing.md](docs/content-editing.md) for the
+schema reference and common gotchas.
+
+## Architecture
+
+Key decisions live under [docs/adr/](docs/adr/README.md). Read those
+before proposing a major change — they explain what was already
+considered and why.
+
+Highlights:
+- [ADR 0001](docs/adr/0001-json-files-over-cms.md) — JSON files over a CMS
+- [ADR 0002](docs/adr/0002-nextjs-app-router.md) — Next.js App Router
+- [ADR 0003](docs/adr/0003-client-content-loading-with-zod.md) — Client-side loading + Zod validation
+- [ADR 0004](docs/adr/0004-football-pitch-metaphor.md) — Football pitch metaphor
+- [ADR 0007](docs/adr/0007-react-19-legacy-peer-deps.md) — React 19 with `--legacy-peer-deps`
+
+## Project layout
+
 ```
-
-### Linting & Testing
-
-```bash
-# Type check
-npm run type-check
-
-# Lint (ESLint + Prettier)
-npm run lint
-
-# Tests
-npm test
+app/                     # Next.js App Router — pages, layout, sitemap, robots
+  (routes)/              # Grouped routes: about, career, skills, projects, ...
+  layout.tsx             # Root layout: theme, fonts, structured data, skip link
+  sitemap.ts             # Auto-generated sitemap.xml
+  robots.ts              # Auto-generated robots.txt
+  not-found.tsx          # 404 page
+components/
+  About/                 # About section + social links
+  Career/                # Football pitch + player animation + timeline
+  Common/                # ContentProvider, ErrorBoundary, LoadingState, ...
+  Hero/                  # Hero section + parallax
+  Navigation/            # Navbar, Footer
+  Playbook/              # Principle cards
+  Projects/              # Project gallery + cards
+  Skills/                # 4-3-3 formation on the pitch
+lib/
+  hooks/                 # useContentLoader, useTheme
+  types/portfolio.ts     # All content type definitions
+  utils/validation.ts    # Zod schemas — the source of truth for shape
+  utils/animations.ts    # GSAP helpers + prefers-reduced-motion check
+public/data/*.json       # All portfolio content
+docs/adr/                # Architecture Decision Records
+tests/                   # Jest unit + integration
 ```
-
-## Project Governance
-
-This project is managed with **Spec Kit**, an AI-assisted specification and planning workflow. See `.specify/memory/constitution.md` for the project constitution.
-
-### Key Principles
-
-1. **KISS & Maintainability** — Code must be simple to read and understand without context
-2. **Test-First** — All features require passing tests; tests must be as readable as production code
-3. **Atomic Commits** — Small, self-contained commits with messages explaining both **what** and **why**
-4. **Fixed Technology Stack** — No substitutions without a constitution amendment
-5. **Token Efficiency** — LLM prompts are concise and minimize redundant context
-
-### Workflow
-
-- **Spec**: Feature specifications stored in `.specify/`
-- **Plan**: Implementation plans with design artifacts
-- **Tasks**: Actionable, dependency-ordered task lists
-- **Claude**: AI-assisted spec, plan, and implementation via Spec Kit skills
-
-See `.specify/` for templates and workflow configuration.
 
 ## Deployment
 
-- **Preview**: Every PR gets a Vercel preview deploy
-- **Production**: Merge to `main` triggers production deploy to custom domain
-- **CI**: GitHub Actions runs type-check, lint, and tests on every PR
-
-## Performance & SEO
-
-- Lighthouse score ≥ 90
-- Mobile-first responsive design
-- Optimized images and animations
-- Open Graph & meta tags
-- Accessibility (WCAG 2.1)
+- **Platform**: Vercel (see [vercel.json](vercel.json) — pins install
+  command to `--legacy-peer-deps`).
+- **Domain**: Porkbun-registered, DNS pointed at Vercel via A record
+  (`76.76.21.21`) or CNAME to `cname.vercel-dns.com` for subdomains.
+- **Env vars** (Vercel dashboard, Production scope):
+  - `NEXT_PUBLIC_SITE_URL` — the canonical URL, e.g.
+    `https://portfolio.prannoy-mulmi.com`. Used by `sitemap.ts`,
+    `robots.ts`, and Open Graph metadata.
+- **CI**: [.github/workflows/ci.yml](.github/workflows/ci.yml) runs
+  type-check, lint, tests, and a bundle-size check on every PR.
 
 ## Contributing
 
-See `.specify/memory/constitution.md` for governance rules and commit guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for commit format, PR flow, and
+what triggers an ADR.
 
 ## License
 
-[Your License]
-
----
-
-**Built with Claude and Spec Kit** — AI-assisted engineering for scalable, maintainable design.
+MIT (see `LICENSE`).
