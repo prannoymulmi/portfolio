@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ProjectGallery } from '@/components/Projects/ProjectGallery';
+import { ProjectGalleryLazy } from '@/components/Projects/ProjectGalleryLazy';
 
 export const metadata: Metadata = {
   title: 'Projects & Case Studies | Prannoy Mulmi',
@@ -15,7 +15,7 @@ export default function ProjectsPage() {
   return (
     <main className="min-h-screen bg-white px-4 py-16 dark:bg-gray-900 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <ProjectGallery />
+        <ProjectGalleryLazy />
       </div>
     </main>
   );
