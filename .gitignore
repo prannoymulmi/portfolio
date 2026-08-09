@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+.nyc_output
+
+# Next.js
+/.next/
+/out/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production
+/build
+/dist
+.next
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.env
+.env.local
+.env.*.local
+
+# IDE extensions
+*.code-workspace
+
+# Misc
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+
+# Vercel
+.vercel
+
+# Turborepo
+.turbo
+
+# Env
+.env*.local
