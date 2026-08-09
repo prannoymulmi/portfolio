@@ -10,7 +10,7 @@ export function PlaybookGrid() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   if (playbook.loading) {
-    return <<PlaybookSkeleton /> />;
+    return <PlaybookSkeleton />;
   }
 
   if (playbook.error || !playbook.data) {

@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { ProjectCard } from './ProjectCard';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { ProjectsSkeleton } from '@/components/Common/LoadingState';
 
 export function ProjectGallery() {
   const { projects } = useContent();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   if (projects.loading) {
-    return <<ProjectsSkeleton /> />;
+    return <ProjectsSkeleton />;
   }
 
   if (projects.error || !projects.data) {

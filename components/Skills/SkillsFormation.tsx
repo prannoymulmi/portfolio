@@ -5,7 +5,7 @@ import { useContent } from '@/components/Common/ContentProvider';
 import { SVGPitch } from '@/components/Career/SVGPitch';
 import { SkillPosition } from './SkillPosition';
 import { SkillCard } from './SkillCard';
-import { LoadingState } from '@/components/Common/LoadingState';
+import { SkillsSkeleton } from '@/components/Common/LoadingState';
 
 // 4-3-3 formation layout (positions mapped to pitch)
 // Defenders (4): positions at bottom
@@ -86,7 +86,7 @@ export function SkillsFormation() {
   const selectedSkill = selectedSkillIndex !== null ? skillPositions[selectedSkillIndex] : null;
 
   if (skills.loading) {
-    return <<SkillsSkeleton /> />;
+    return <SkillsSkeleton />;
   }
 
   if (skills.error || !skills.data) {
