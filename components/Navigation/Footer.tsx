@@ -59,15 +59,15 @@ export function Footer() {
               Connect
             </p>
             <div className="mt-3 space-y-2">
-              {social.data?.social?.map((link) => (
-                <div key={link.id}>
+              {social.data?.social?.map((link, idx) => (
+                <div key={idx}>
                   <a
-                    href={link.url}
+                    href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                   >
-                    {link.label}
+                    {link.network}
                   </a>
                 </div>
               ))}
