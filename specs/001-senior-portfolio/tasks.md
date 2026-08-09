@@ -100,19 +100,19 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Independent Test**: Navigate to /career, scroll smoothly, player moves along pitch, no jank
 
 ### SVG Pitch Visualization
-- [ ] T032 [P] [US2] Create SVG pitch component `components/Career/SVGPitch.tsx`: render football pitch outline, field markings, yard lines; make responsive with viewBox
-- [ ] T033 [P] [US2] Create player animation component `components/Career/PlayerAnimation.tsx` that: moves SVG player element along defined path based on scroll position (GSAP ScrollTrigger), maintains 60 FPS
-- [ ] T034 [US2] Create career journey main component `components/Career/CareerJourney.tsx` orchestrating pitch + player + milestones, layout responsive
+- [x] T032 [P] [US2] Create SVG pitch component `components/Career/SVGPitch.tsx`: render football pitch outline, field markings, yard lines; make responsive with viewBox
+- [x] T033 [P] [US2] Create player animation component `components/Career/PlayerAnimation.tsx` that: moves SVG player element along defined path based on scroll position (GSAP ScrollTrigger), maintains 60 FPS
+- [x] T034 [US2] Create career journey main component `components/Career/CareerJourney.tsx` orchestrating pitch + player + milestones, layout responsive
 
 ### Milestone & Detail Display
-- [ ] T035 [P] [US2] Create milestone card component `components/Career/MilestoneCard.tsx` displaying on hover/click: company, job title, dates, 3-5 achievements (bullets), tech stack
-- [ ] T036 [P] [US2] Load experiences.json in CareerJourney, map each experience to a milestone position on pitch (Y-axis based on date)
-- [ ] T037 [US2] Implement milestone click/hover interaction: show tooltip or expanded card with full details
+- [x] T035 [P] [US2] Create milestone card component `components/Career/MilestoneCard.tsx` displaying on hover/click: company, job title, dates, 3-5 achievements (bullets), tech stack
+- [x] T036 [P] [US2] Load experiences.json in CareerJourney, map each experience to a milestone position on pitch (Y-axis based on date)
+- [x] T037 [US2] Implement milestone click/hover interaction: show tooltip or expanded card with full details
 
 ### Timeline Fallback Mode
-- [ ] T038 [P] [US2] Create Timeline mode toggle component `components/Career/TimelineToggle.tsx` with "Interactive ⚽ / Timeline" switch
-- [ ] T039 [P] [US2] Create linear timeline view component `components/Career/TimelineView.tsx` displaying all experiences as chronological list (no animation)
-- [ ] T040 [US2] Wire toggle to switch between Interactive (SVG) and Timeline modes, persist preference
+- [x] T038 [P] [US2] Create Timeline mode toggle component `components/Career/TimelineToggle.tsx` with "Interactive ⚽ / Timeline" switch
+- [x] T039 [P] [US2] Create linear timeline view component `components/Career/TimelineView.tsx` displaying all experiences as chronological list (no animation)
+- [x] T040 [US2] Wire toggle to switch between Interactive (SVG) and Timeline modes, persist preference
 
 ### Accessibility & Mobile
 - [ ] T041 [US2] Ensure SVG elements have ARIA labels: `aria-label="Career milestone at <company>"` for each interactive position
