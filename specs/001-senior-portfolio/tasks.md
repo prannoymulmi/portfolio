@@ -130,11 +130,11 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Independent Test**: Navigate to /skills, see formation, click skill, details appear
 
 ### Skills Formation Component
-- [ ] T044 [P] [US3] Create skills formation component `components/Skills/SkillsFormation.tsx`: load skills.json, arrange by category (Backend, Cloud, etc.) as football positions on SVG pitch (e.g., 4-3-3 layout)
-- [ ] T045 [P] [US3] Create skill position component `components/Skills/SkillPosition.tsx` for each position on pitch (clickable, hoverable)
-- [ ] T046 [P] [US3] Implement responsive layout: on small screens (< 768px), stack skills vertically instead of formation
-- [ ] T047 [US3] Create skill detail card component `components/Skills/SkillCard.tsx` displaying on interaction: skill name, 5-8 technologies (comma-separated), one-line description, 1-2 project examples
-- [ ] T048 [US3] Integrate to /skills page `app/(routes)/skills/page.tsx` with layout and loading skeleton
+- [x] T044 [P] [US3] Create skills formation component `components/Skills/SkillsFormation.tsx`: load skills.json, arrange by category (Backend, Cloud, etc.) as football positions on SVG pitch (e.g., 4-3-3 layout)
+- [x] T045 [P] [US3] Create skill position component `components/Skills/SkillPosition.tsx` for each position on pitch (clickable, hoverable)
+- [x] T046 [P] [US3] Implement responsive layout: on small screens (< 768px), stack skills vertically instead of formation
+- [x] T047 [US3] Create skill detail card component `components/Skills/SkillCard.tsx` displaying on interaction: skill name, 5-8 technologies (comma-separated), one-line description, 1-2 project examples
+- [x] T048 [US3] Integrate to /skills page `app/(routes)/skills/page.tsx` with layout and loading skeleton
 - [ ] T049 [US3] Write unit tests `tests/unit/components/SkillsFormation.test.tsx` (formations renders, categories mapped correctly, click reveals details)
 
 ---
