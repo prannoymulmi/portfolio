@@ -47,28 +47,28 @@ PARALLEL: Multiple user stories can run in parallel after Phase 2 (independent c
 **Parallelizable**: Partially (T011-T016 can run in parallel; T017-T018 depend on T015)
 
 ### Content Type System
-- [ ] T011 [P] Create TypeScript interfaces file `lib/types/portfolio.ts` with all 10 entity types (Home, About, Skill, Experience, Education, Project, Playbook, Route, NavItem, Social) per data-model.md
-- [ ] T012 [P] Create JSON schema validation helper `lib/utils/validation.ts` using Zod or TypeScript interfaces to validate loaded JSON against types
-- [ ] T013 [P] Create content loader hook `lib/hooks/useContentLoader.ts` that: fetches JSON, validates, caches in memory, handles errors, returns skeleton-safe state
-- [ ] T014 Create content provider component `components/Common/ContentProvider.tsx` that wraps app with Context, exposes useContent hook globally
+- [x] T011 [P] Create TypeScript interfaces file `lib/types/portfolio.ts` with all 10 entity types (Home, About, Skill, Experience, Education, Project, Playbook, Route, NavItem, Social) per data-model.md
+- [x] T012 [P] Create JSON schema validation helper `lib/utils/validation.ts` using Zod or TypeScript interfaces to validate loaded JSON against types
+- [x] T013 [P] Create content loader hook `lib/hooks/useContentLoader.ts` that: fetches JSON, validates, caches in memory, handles errors, returns skeleton-safe state
+- [x] T014 Create content provider component `components/Common/ContentProvider.tsx` that wraps app with Context, exposes useContent hook globally
 
 ### Error Handling & Fallbacks
-- [ ] T015 [P] Create error boundary component `components/Common/ErrorBoundary.tsx` to catch and log errors, display fallback UI ("Section not available")
-- [ ] T016 [P] Create loading/skeleton component `components/Common/LoadingState.tsx` with shimmer animations for hero, skills, career, education, projects, playbook sections
+- [x] T015 [P] Create error boundary component `components/Common/ErrorBoundary.tsx` to catch and log errors, display fallback UI ("Section not available")
+- [x] T016 [P] Create loading/skeleton component `components/Common/LoadingState.tsx` with shimmer animations for hero, skills, career, education, projects, playbook sections
 
 ### Core Utilities & Animation Helpers
-- [ ] T017 Create GSAP animation utilities `lib/utils/animations.ts` with helper functions for: ScrollTrigger setup, player path animation, scroll-sync timing
-- [ ] T018 Create theme provider component `lib/hooks/useTheme.ts` and `components/Common/ThemeToggle.tsx` for dark/light mode toggle with localStorage persistence
+- [x] T017 Create GSAP animation utilities `lib/utils/animations.ts` with helper functions for: ScrollTrigger setup, player path animation, scroll-sync timing
+- [x] T018 Create theme provider component `lib/hooks/useTheme.ts` and `components/Common/ThemeToggle.tsx` for dark/light mode toggle with localStorage persistence
 
 ### JSON Content Files (Manual Data Entry or Migration)
-- [ ] T019 Create `public/data/home.json` with portfolio owner's name and roles (manually or via migration script)
-- [ ] T020 Create `public/data/about.json` with biography and optional profile image path
-- [ ] T021 Create `public/data/social.json` with LinkedIn and GitHub profile URLs
-- [ ] T022 Create `public/data/routes.json` with all 8 routes per routes.contract.md
-- [ ] T023 Create `public/data/navbar.json` with logo config and navigation sections per routes.contract.md
+- [x] T019 Create `public/data/home.json` with portfolio owner's name and roles (manually or via migration script)
+- [x] T020 Create `public/data/about.json` with biography and optional profile image path
+- [x] T021 Create `public/data/social.json` with LinkedIn and GitHub profile URLs
+- [x] T022 Create `public/data/routes.json` with all 8 routes per routes.contract.md
+- [x] T023 Create `public/data/navbar.json` with logo config and navigation sections per routes.contract.md
 
 ### Migration Script (for v1 data population)
-- [ ] T024 Create migration script `lib/scripts/migrate-content.ts` that: reads existing e-portfolio data (skills, experiences, education, projects, playbook), transforms to portfolio JSON schema, validates, outputs to `public/data/`, reports any mismatches
+- [x] T024 Create migration script `lib/scripts/migrate-content.ts` that: reads existing e-portfolio data (skills, experiences, education, projects, playbook), transforms to portfolio JSON schema, validates, outputs to `public/data/`, reports any mismatches
 
 ---
 
