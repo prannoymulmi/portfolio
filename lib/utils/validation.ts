@@ -21,7 +21,10 @@ export const SkillsFileSchema = z.object({
 
 export const HomeSchema = z.object({
   name: z.string().min(1).max(100),
-  roles: z.array(z.string().min(10).max(100)).min(1).max(3),
+  intro: z.string().min(20).max(200),
+  // Short phrases ("AI enthusiast"), all rendered together and annotated.
+  // At least 2 so the mark sequence has something to vary across.
+  roles: z.array(z.string().min(3).max(40)).min(2).max(5),
 });
 
 export const AboutSchema = z.object({

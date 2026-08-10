@@ -46,10 +46,10 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 **⚠️ CRITICAL**: No hero story work can begin until this phase is complete
 
-- [ ] T007 Update the `Home` interface in `lib/types/portfolio.ts` — add `intro: string`, keep `roles: string[]` (see `data-model.md` → HeroIntroduction)
-- [ ] T008 Update `HomeSchema` in `lib/utils/validation.ts` — add `intro` (20–200 chars), and change `roles` from `.min(10).max(100)` per entry / 1–3 entries to **3–40 chars per entry / 2–5 entries** so short phrases like "AI enthusiast" validate (see `contracts/content-schema.md`)
-- [ ] T009 Update `public/data/home.json` — add the `intro` line and replace `roles` with `["Software Engineer", "AI enthusiast", "Security Nerd"]` (FR-017)
-- [ ] T010 [P] Add a schema test in `tests/unit/validation.test.ts` asserting the new `home.json` validates, that a 2-entry and a 5-entry `roles` array both pass, and that a 1-entry array fails (contract C3)
+- [X] T007 Update the `Home` interface in `lib/types/portfolio.ts` — add `intro: string`, keep `roles: string[]` (see `data-model.md` → HeroIntroduction)
+- [X] T008 Update `HomeSchema` in `lib/utils/validation.ts` — add `intro` (20–200 chars), and change `roles` from `.min(10).max(100)` per entry / 1–3 entries to **3–40 chars per entry / 2–5 entries** so short phrases like "AI enthusiast" validate (see `contracts/content-schema.md`)
+- [X] T009 Update `public/data/home.json` — add the `intro` line and replace `roles` with `["Software Engineer", "AI enthusiast", "Security Nerd"]` (FR-017)
+- [X] T010 [P] Add a schema test in `tests/unit/validation.test.ts` asserting the new `home.json` validates, that a 2-entry and a 5-entry `roles` array both pass, and that a 1-entry array fails (contract C3)
 
 **Checkpoint**: Content schema and data updated and validating — hero stories can start.
 
