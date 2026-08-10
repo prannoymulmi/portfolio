@@ -2,9 +2,6 @@
  * Inline SVG flags rather than emoji: flag emoji don't render on Windows
  * Chrome (they fall back to letter pairs), which is a large share of the
  * audience this page is written for.
- *
- * Both are simplified for legibility at ~24px — recognisable silhouette and
- * emblems rather than exact official geometry.
  */
 
 export function FlagGermany({ className }: { className?: string }) {
@@ -17,26 +14,58 @@ export function FlagGermany({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Nepal — the only non-rectangular national flag, so the silhouette is the
+ * whole recognisability of it and worth getting right.
+ *
+ * Laid out from the construction in Schedule 1 of Nepal's constitution, with
+ * the bottom edge AB as the unit: the left edge runs the full height (4/3 of
+ * AB), the lower pennant ends in a point at the bottom-right corner so its
+ * bottom edge is horizontal, and the upper pennant's lower edge is horizontal
+ * too, meeting the lower pennant's hypotenuse at a concave notch a little
+ * under a third of the way in.
+ *
+ * Both emblems are white and rayed: the moon is a crescent with its horns up
+ * under a fan of eight rays, the sun a disc with twelve.
+ */
 export function FlagNepal({ className }: { className?: string }) {
-  // The only non-rectangular national flag: two stacked pennants, crimson
-  // field with a blue border, white moon above and white sun below.
+  // Rays are drawn as triangles rotated about the emblem's centre.
+  const ray = (inner: number, outer: number, halfWidth: number) =>
+    `0,${-outer} ${halfWidth},${-inner} ${-halfWidth},${-inner}`;
+
   return (
-    <svg viewBox="0 0 75 91" className={className} role="img" aria-label="Nepal">
+    <svg viewBox="0 0 316 416" className={className} role="img" aria-label="Nepal">
+      {/* Crimson field with a deep blue border. The stroke is centred on the
+          path, so the path is inset by half its width to stay in the box, and
+          mitred rather than rounded so the two pennants keep their points —
+          every join here is wide enough to stay inside the default 4x limit. */}
       <path
-        d="M2.5 88.5V2.5l54 42H24l32.5 32z"
+        d="M8 408V8l246 188H96l212 212z"
         fill="#DC143C"
         stroke="#003893"
-        strokeWidth="4"
-        strokeLinejoin="round"
+        strokeWidth="16"
+        strokeLinejoin="miter"
       />
-      {/* Crescent moon, upper pennant */}
-      <path d="M20 15a13 13 0 1 0 0 26 10.5 10.5 0 0 1 0-26z" fill="#FFFFFF" fillRule="evenodd" />
-      {/* Twelve-rayed sun, lower pennant */}
-      <g fill="#FFFFFF" transform="translate(20 62)">
-        <circle r="7" />
-        {Array.from({ length: 12 }).map((_, i) => (
-          <polygon key={i} points="0,-15 2.6,-7 -2.6,-7" transform={`rotate(${i * 30})`} />
+
+      {/* Moon, upper pennant: horns up, eight rays fanned over the top. The
+          rays stay short so the crescent, not the fan, is what carries it. */}
+      <g fill="#FFFFFF" transform="translate(78 143)">
+        {[-78.75, -56.25, -33.75, -11.25, 11.25, 33.75, 56.25, 78.75].map((angle) => (
+          <polygon key={angle} points={ray(27, 41, 6.5)} transform={`rotate(${angle})`} />
         ))}
+        {/* A disc with a second disc lifted out of its top. */}
+        <path
+          d="M-24 0a24 24 0 0 0 48 0 24 24 0 0 0-48 0zM-21 -11a21 21 0 0 0 42 0 21 21 0 0 0-42 0z"
+          fillRule="evenodd"
+        />
+      </g>
+
+      {/* Sun, lower pennant: twelve rays */}
+      <g fill="#FFFFFF" transform="translate(110 311)">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <polygon key={i} points={ray(28, 58, 8)} transform={`rotate(${i * 30})`} />
+        ))}
+        <circle r="25" />
       </g>
     </svg>
   );
@@ -51,6 +80,6 @@ export type CountryCode = keyof typeof FLAGS;
 
 /** Rendered aspect differs per flag, so each carries its own box. */
 export const FLAG_CLASS: Record<CountryCode, string> = {
-  DE: 'h-4 w-6',
-  NP: 'h-6 w-5',
+  DE: 'h-6 w-10',
+  NP: 'h-9 w-7',
 };
