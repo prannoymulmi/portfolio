@@ -1,7 +1,17 @@
 # ADR 0003: Client-side content loading with Zod validation
 
-- **Status**: Accepted
+- **Status**: Accepted, fetch policy amended 2026-08-10
 - **Date**: 2026-08-09
+
+> **Amendment (2026-08-10) — freshness beats caching**: the loader originally
+> fetched with `cache: 'force-cache'`, which reuses a cached response even after
+> it has gone stale, so an edited JSON file never appeared on a normal hard
+> refresh (only in a fresh cache such as incognito). `useContentLoader` now uses
+> `cache: 'no-store'`: these files are small and edited often, so freshness
+> matters more than the caching win. The 5-minute `Cache-Control` header in
+> `next.config.ts` still bounds how long a CDN or intermediary may hold them.
+> The session-level `Map` cache is unchanged — each file is still fetched once
+> per visit.
 
 ## Context
 
@@ -32,8 +42,8 @@ For validation:
 
 **Positive**
 
-- JSON edits go live within the CDN cache TTL (5 min in `next.config.ts`)
-  — no rebuild, no deploy.
+- JSON edits go live on the next load, bounded only by the CDN cache TTL
+  (5 min in `next.config.ts`) — no rebuild, no deploy.
 - Zod catches schema drift at load time with a specific field/path in the
   error message, so a bad edit doesn't just render nothing — it logs a
   useful reason.

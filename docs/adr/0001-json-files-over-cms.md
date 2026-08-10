@@ -3,6 +3,13 @@
 - **Status**: Accepted
 - **Date**: 2026-08-09
 
+> **Clarification (2026-08-10)**: `public/data/` is the only location that is
+> served. `useContentLoader` fetches `/data/<file>.json`, which Next resolves
+> from `public/`. A second set of JSON files exists under `app/data/`; nothing
+> imports or fetches it, and several of those files have since drifted from
+> their `public/data/` counterparts. Edit `public/data/` — see
+> [docs/content-editing.md](../content-editing.md).
+
 ## Context
 
 Portfolio content changes rarely (a few times a year: new job, new project,
