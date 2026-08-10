@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero/Hero';
-import { AboutSection } from '@/components/About/AboutSection';
 import { SkillsFormation } from '@/components/Skills/SkillsFormation';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
 import { EducationSection } from '@/components/Education/EducationSection';
@@ -27,16 +26,6 @@ export default function Home() {
     <>
       <section id="hero" aria-label="Introduction">
         <Hero />
-      </section>
-
-      <section
-        id="about"
-        aria-label="About"
-        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
-      >
-        <div className="mx-auto max-w-4xl">
-          <AboutSection />
-        </div>
       </section>
 
       <section
