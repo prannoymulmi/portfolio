@@ -1,8 +1,20 @@
 <!-- SYNC IMPACT REPORT
-Version change: [unversioned] → 1.0.0
-Added sections: Core Principles (I–V), Technology Stack, Development Workflow, Governance
-Removed sections: none (initial ratification)
-Modified principles: none (initial)
+Version change: 1.0.0 → 1.1.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — expanded to name the libraries already
+    ratified by ADRs 0009/0010/0011 (rough-notation, next-themes, class-based dark
+    mode), to state the three-library animation ceiling with per-library domains, and
+    to add a bounded exception to the no-inline-styles rule for palette tokens
+    Tailwind cannot see at build time (ADR 0013).
+Added sections:
+  - VI. Recorded Decisions (ADRs) — new principle requiring an ADR for architecturally
+    significant decisions and forbidding silent rewriting of superseded records.
+  - Governance: stack changes now require an ADR *and* an amendment in the same PR.
+Removed sections: none
+Modified sections:
+  - Technology & Quality Constraints — inline-style exception, ADR back-reference rule.
+  - Development Workflow — `docs/<slug>` added to the allowed branch name formats,
+    matching existing practice for documentation-only changes.
 Follow-up TODOs: none
 -->
 
@@ -36,24 +48,44 @@ Every commit message MUST state both **what** changed and **why** it was changed
 Format: `<type>(<scope>): <what> — <why>`.
 Example: `feat(pitch): add SVG offside line — needed to visualise tactical positions`.
 
+A commit touching more than five files MUST be a single unit of work by nature — a
+config, formatting, or lint pass, or one change that genuinely spans that many files.
+Anything separable MUST be split, even when the parts ship together.
+
 **Rationale**: Atomic commits make history reviewable, bisectable, and revertable.
 The "why" prevents future engineers (including the author) from undoing intentional
 decisions unknowingly.
 
 ### IV. Technology Stack (NON-NEGOTIABLE)
 
-The following stack is fixed and MUST NOT be substituted without a constitution amendment:
+The following stack is fixed and MUST NOT be substituted or extended without a
+constitution amendment:
 
 - **Framework**: Next.js (App Router) + TypeScript — strict mode enabled.
-- **Styling**: Tailwind CSS — no inline styles, no CSS-in-JS outside Tailwind utilities.
-- **Animation**: Framer Motion for React-driven UI animations; GSAP + ScrollTrigger for
-  scroll-sequenced and timeline animations.
+- **Structure**: one scrolling story at `/`; sections are anchors, not routes. Retired
+  paths MUST redirect rather than 404 (ADR 0012).
+- **Content**: JSON files in `public/data/`, fetched client-side and validated against a
+  Zod schema before use. No CMS, no database (ADR 0001, ADR 0003).
+- **Styling**: Tailwind CSS v4, theme tokens via `@theme inline`; dark mode is bound to
+  the `.dark` class through `@custom-variant`, never to `prefers-color-scheme`
+  (ADR 0006, ADR 0011). No CSS-in-JS.
+- **Theming**: `next-themes` owns theme state and applies the class before first paint.
+  No hand-rolled theme hook (ADR 0010).
+- **Animation**: exactly three libraries, each with one domain and no overlap —
+  GSAP + ScrollTrigger for scroll-sequenced and timeline motion; Framer Motion for
+  component entrance, exit, and interaction motion; `rough-notation` for hand-drawn
+  annotation marks over text (ADR 0005, ADR 0009). If a need matches none of those three
+  domains, none of these libraries is the answer; a fourth requires an amendment.
 - **Visualisation**: SVG football pitch rendered in-browser; no canvas unless SVG is
-  demonstrably insufficient.
+  demonstrably insufficient. The football metaphor extends to the hero player card
+  (ADR 0004, ADR 0013).
 - **Deployment**: GitHub → Vercel (automatic preview + production deploys on push).
+  Installs use `--legacy-peer-deps` in every environment until the blocking peer ranges
+  are published (ADR 0007).
 
 **Rationale**: A fixed stack eliminates decision fatigue, keeps dependencies coherent,
-and ensures all tooling choices have been made deliberately upfront.
+and ensures all tooling choices have been made deliberately upfront. Naming the ADR
+behind each entry means the reasoning stays reachable when the entry is questioned.
 
 ### V. Token Efficiency
 
@@ -64,19 +96,46 @@ Large file dumps and redundant scaffolding context are forbidden in AI requests.
 **Rationale**: Token waste slows iteration and increases cost. Lean prompts also force
 clearer thinking about what information is actually required.
 
+### VI. Recorded Decisions (ADRs)
+
+Every architecturally significant decision MUST be recorded as an ADR in `docs/adr/`,
+landing in the same PR as the change it justifies. A decision is significant if it adds
+or removes a dependency, changes the site's structure or URLs, changes how content is
+stored, loaded, or validated, or commits the design to a metaphor other work must follow.
+
+Accepted ADRs MUST NOT be rewritten or deleted once merged. When a later decision
+overturns part of an earlier one, the earlier record keeps its text and gains a dated
+note naming the ADR that replaced it; the new ADR states what it supersedes or amends.
+The index in `docs/adr/README.md` MUST reflect every record's current status.
+
+**Rationale**: The value of an ADR is the rejected alternatives and the constraints in
+force at the time — deleting or editing that away leaves a decision no one can re-litigate
+on the original terms. A superseded ADR is still true about the past.
+
 ## Technology & Quality Constraints
 
 - TypeScript strict mode (`"strict": true`) is always on; `any` types require an explicit
   `// eslint-disable` comment with justification.
+- Styling goes through Tailwind utility classes. Inline `style` is permitted only to apply
+  a value exported by a shared token module (e.g. `components/Hero/palette.ts`), because
+  Tailwind scans class strings as literal text and an interpolated class never reaches the
+  stylesheet. Any other inline style MUST be rewritten as a utility.
 - Tailwind classes MUST be ordered consistently (use `prettier-plugin-tailwindcss`).
+- `dark:` utilities are the only supported way to style for dark mode; hand-written
+  `.dark` selectors MUST NOT be added, as they silently outrank the zero-specificity
+  custom variant.
 - GSAP ScrollTrigger instances MUST be killed in cleanup functions to prevent memory leaks.
+- Motion MUST respect `prefers-reduced-motion` through the existing helpers, not a new
+  detection path per component.
 - All SVG elements MUST have accessible `aria-label` or `role` attributes where interactive.
 - Lighthouse performance score MUST remain ≥ 90 on production builds.
+- Code that exists because of an ADR SHOULD name that ADR in a comment, so the constraint
+  survives contact with a future reader who would otherwise "simplify" it away.
 
 ## Development Workflow
 
-- **Branching**: feature branches off `main`; branch name format `feat/<slug>` or
-  `fix/<slug>`.
+- **Branching**: feature branches off `main`; branch name format `feat/<slug>`,
+  `fix/<slug>`, or `docs/<slug>`.
 - **CI**: GitHub Actions runs type-check, lint, and tests on every PR; merge blocked on
   failure.
 - **Deploy**: Vercel preview deploy on every PR; production deploy on merge to `main`.
@@ -91,6 +150,10 @@ This constitution supersedes all other documented practices. Any amendment requi
 2. Review and approval before merge.
 3. A migration note if the amendment invalidates existing code patterns.
 
+Adding, removing, or replacing anything in Principle IV requires **both** an ADR
+recording the decision and an amendment to this file, in the same PR. An ADR alone does
+not change the stack, and an amendment without an ADR loses the reasoning.
+
 Version bumping follows semantic versioning:
 - **MAJOR**: removal or redefinition of a non-negotiable principle.
 - **MINOR**: new principle or section added.
@@ -98,4 +161,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-09
+**Version**: 1.1.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10
