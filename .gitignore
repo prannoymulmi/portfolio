@@ -14,12 +14,16 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-tsconfig.tsbuildinfo
+next-env.d.ts
+*.tsbuildinfo
 
 # Production
 /build
 /dist
 .next
+
+# Certificates
+*.pem
 
 # OS
 .DS_Store
