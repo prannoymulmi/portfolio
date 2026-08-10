@@ -1,7 +1,12 @@
 # ADR 0004: Football pitch metaphor for career + skills
 
-- **Status**: Accepted
+- **Status**: Accepted, extended by [ADR 0013](0013-hero-player-card.md)
 - **Date**: 2026-08-09
+
+> **Extension note**: the metaphor now also carries the hero, which
+> [ADR 0013](0013-hero-player-card.md) rebuilt as a football player card. The
+> two pitch-based sections below are unchanged: `SVGPitch` still backs both
+> `CareerJourney` and `SkillsFormation`.
 
 ## Context
 
