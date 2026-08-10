@@ -11,6 +11,14 @@ interface RoughAnnotationProps {
   type: AnnotationType;
   /** Delay before drawing, in ms — lets a group of marks draw in sequence. */
   delay?: number;
+  /**
+   * Overrides the default palette. The caller owns contrast when it sets this:
+   * for `highlight` the colour becomes the text's background, so it must clear
+   * WCAG AA against whatever text sits on top.
+   */
+  color?: string;
+  /** Multiplier on the mark's thickness relative to the text box. */
+  padding?: number;
 }
 
 // `highlight` fills the box behind the glyphs, so its colour becomes the text's
@@ -32,7 +40,13 @@ function markColor(type: AnnotationType, isDark: boolean): string {
  * the carrier of meaning, so a failure to draw degrades to normal text.
  * See docs/adr/0009-rough-notation-third-animation-library.md
  */
-export function RoughAnnotation({ children, type, delay = 0 }: RoughAnnotationProps) {
+export function RoughAnnotation({
+  children,
+  type,
+  delay = 0,
+  color,
+  padding,
+}: RoughAnnotationProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const { resolvedTheme } = useTheme();
 
@@ -52,12 +66,13 @@ export function RoughAnnotation({ children, type, delay = 0 }: RoughAnnotationPr
       annotation?.remove();
       annotation = annotate(element, {
         type,
-        color: markColor(type, resolvedTheme === 'dark'),
+        color: color ?? markColor(type, resolvedTheme === 'dark'),
         animate: !prefersReducedMotion(),
         animationDuration: 700,
         strokeWidth: 2,
         iterations: 2,
         multiline: true,
+        ...(padding !== undefined ? { padding } : {}),
       });
       annotation.show();
     };
@@ -91,7 +106,7 @@ export function RoughAnnotation({ children, type, delay = 0 }: RoughAnnotationPr
       observer?.disconnect();
       annotation?.remove();
     };
-  }, [type, delay, resolvedTheme]);
+  }, [type, delay, resolvedTheme, color, padding]);
 
   return (
     <span ref={ref} className="relative inline-block">

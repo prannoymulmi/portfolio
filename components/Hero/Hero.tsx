@@ -4,17 +4,22 @@ import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
-import { RoughAnnotation, type AnnotationType } from '@/components/Common/RoughAnnotation';
+import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
 import { HeroParallax } from './HeroParallax';
 import { ValueProp } from './ValueProp';
 
-// Fixed in code rather than content, so the marks stay visually varied
-// however the phrases are later edited. Wraps if there are more phrases
-// than styles. See docs/adr/0009-rough-notation-third-animation-library.md
-const MARK_SEQUENCE: AnnotationType[] = ['highlight', 'circle', 'underline', 'box', 'bracket'];
+// One colour per stacked phrase, cycling if there are more phrases than
+// colours. Each bar becomes the background for the text sitting on it, so
+// every colour is checked against HIGHLIGHT_TEXT below: the weakest pairing
+// (blue) is 4.63:1, clearing WCAG AA for normal text and well clear of the
+// 3:1 large-text threshold this display type actually falls under.
+const HIGHLIGHT_COLORS = ['#f0921e', '#7ac81f', '#12b886', '#3b7ff0'] as const;
 
-// Stagger the marks so they draw one after another rather than all at once.
-const MARK_STAGGER_MS = 450;
+// Deliberately near-black rather than theme-dependent: the bar supplies the
+// background, so the same text colour is legible in light and dark alike.
+const HIGHLIGHT_TEXT = 'text-gray-900';
+
+const MARK_STAGGER_MS = 350;
 
 export function Hero() {
   const { home, about } = useContent();
@@ -28,70 +33,62 @@ export function Hero() {
   return (
     <HeroParallax>
       <section className="relative flex min-h-screen items-center bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-5xl">
-          <div className="flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-between md:gap-14">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             {/* Introduction */}
-            <div className="order-2 flex-1 space-y-6 text-center md:order-1 md:text-left">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
+            <div className="order-2 lg:order-1">
+              <p className="mb-5 text-base font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
                 {name}
-              </h1>
+              </p>
 
-              {/* Annotated role phrases */}
-              <p className="flex flex-wrap justify-center gap-x-3 gap-y-4 text-lg font-semibold text-gray-800 dark:text-gray-100 sm:text-xl md:justify-start">
+              {/* Stacked, each on its own line so the colour bars read as a
+                  vertical stack rather than an inline run of highlights. */}
+              <ul className="space-y-3">
                 {roles.map((role, index) => (
-                  <RoughAnnotation
-                    key={role}
-                    type={MARK_SEQUENCE[index % MARK_SEQUENCE.length]}
-                    delay={index * MARK_STAGGER_MS}
-                  >
-                    {role}
-                  </RoughAnnotation>
+                  <li key={role} className="flex">
+                    <RoughAnnotation
+                      type="highlight"
+                      color={HIGHLIGHT_COLORS[index % HIGHLIGHT_COLORS.length]}
+                      delay={index * MARK_STAGGER_MS}
+                      padding={6}
+                    >
+                      <span
+                        className={`text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl ${HIGHLIGHT_TEXT}`}
+                      >
+                        {role}.
+                      </span>
+                    </RoughAnnotation>
+                  </li>
                 ))}
-              </p>
+              </ul>
 
-              <p className="mx-auto max-w-xl text-lg text-gray-600 dark:text-gray-300 md:mx-0">
-                {intro}
-              </p>
+              <p className="mt-9 max-w-xl text-lg text-gray-600 dark:text-gray-300">{intro}</p>
 
-              <div className="pt-2">
+              <div className="mt-8">
                 <ValueProp />
               </div>
             </div>
 
             {/* Portrait */}
-            <div className="order-1 shrink-0 md:order-2">
-              {imageSource ? (
-                <Image
-                  src={imageSource}
-                  alt="Profile"
-                  width={288}
-                  height={288}
-                  className="h-48 w-48 rounded-full object-cover sm:h-64 sm:w-64 lg:h-72 lg:w-72"
-                  priority
-                />
-              ) : (
-                <ProfilePicturePlaceholder className="h-48 w-48 rounded-full sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
-              )}
-            </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="mt-16 flex justify-center">
-            <div className="animate-bounce">
-              <svg
-                className="h-6 w-6 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
+            <div className="order-1 lg:order-2">
+              <figure className="mx-auto w-full max-w-md lg:mx-0 lg:ml-auto">
+                {imageSource ? (
+                  <Image
+                    src={imageSource}
+                    alt="Profile"
+                    width={640}
+                    height={640}
+                    className="aspect-square w-full rounded-2xl bg-sky-400 object-cover"
+                    priority
+                  />
+                ) : (
+                  <ProfilePicturePlaceholder className="aspect-square w-full rounded-2xl" />
+                )}
+                <figcaption className="mt-3 flex items-center gap-2 font-mono text-sm text-gray-500 dark:text-gray-400">
+                  <span aria-hidden="true">↖</span>
+                  That&apos;s me
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
