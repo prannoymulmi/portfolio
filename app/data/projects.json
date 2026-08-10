@@ -1,0 +1,53 @@
+{
+    "projects" : [
+        {
+            "title": "Launching into Cyber Security",
+            "bodyText": "This is a simple CRUD application written in Spring boot framework. This Application allows one to save a users data and query them using their.",
+            "links": [
+                {
+                    "text": "Portfolio",
+                    "route": "/lics"
+                }
+            ],
+            "tags" : [
+                "Python",
+                "In-memory SQL DB",
+                "Network Security",
+                "Privacy Protection"
+            ]
+        },
+        {
+            "image" : "../../e-portfolio/images/srm_module_card_image.png",
+            "title": "Security and Risk management",
+            "bodyText": "Module which focuses on  security risk management.",
+            "links": [
+                {
+                    "text": "Portfolio",
+                    "route": "/srm_main"
+                }
+            ],
+            "tags" : [
+                "Qualitative Risk management",
+                "Quantitative Risk management",
+                "Open Fair",
+                "Industry 4.0"
+            ]
+        },
+        {
+            "image" : "../../e-portfolio/images/RM/rm_module_card_image.png",
+            "title": "Research Methods and Professional Practice",
+            "bodyText": "Module which focuses on Research methods and professional practices.",
+            "links": [
+                {
+                    "text": "Portfolio",
+                    "route": "/rm_main"
+                }
+            ],
+            "tags" : [
+                "Research Methods",
+                "Data Collection Methods",
+                "Qualitative Research"
+            ]
+        }
+    ]
+}
