@@ -25,6 +25,21 @@ const nextConfig: NextConfig = {
   // Use Turbopack bundler (default in Next.js 16)
   turbopack: {},
 
+  // The portfolio used to be separate pages; now it's one scrolling story.
+  // Redirect each old page URL to the matching section anchor on "/" so
+  // existing bookmarks, shared links, and search results keep working.
+  async redirects() {
+    return [
+      { source: '/skills', destination: '/#skills', permanent: true },
+      { source: '/career', destination: '/#career', permanent: true },
+      { source: '/education', destination: '/#education', permanent: true },
+      { source: '/projects', destination: '/#projects', permanent: true },
+      { source: '/playbook', destination: '/#playbook', permanent: true },
+      { source: '/about', destination: '/#about', permanent: true },
+      { source: '/contact', destination: '/#contact', permanent: true },
+    ];
+  },
+
   // Long-lived cache for immutable public assets; JSON content is
   // versioned by deploy, so a shorter cache lets edits go live quickly.
   async headers() {
