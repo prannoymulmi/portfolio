@@ -29,12 +29,21 @@ export function HeroParallax({ children }: HeroParallaxProps) {
 
   return (
     <div ref={containerRef} className="relative overflow-hidden">
-      {/* Parallax Background Layer */}
+      {/* Parallax Background Layer.
+          Overscanned top and bottom so the layer still covers the section once
+          the scroll transform has pushed it down. */}
       <motion.div
         style={{ y, willChange: 'transform' }}
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-blue-100 via-white to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800"
+        className="pointer-events-none absolute inset-x-0 -top-[15%] -z-10 h-[130%] bg-gray-900"
         aria-hidden="true"
-      />
+      >
+        {/* The sunset photo is the page's light theme. In dark mode it stays
+            as a low ember behind the near-black, rather than disappearing. */}
+        <div
+          className="h-full w-full bg-cover bg-center opacity-100 dark:opacity-40"
+          style={{ backgroundImage: "url('/images/normal.jpg')" }}
+        />
+      </motion.div>
 
       {/* Content Layer */}
       {children}

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
 import type { PlayerCard as PlayerCardData } from '@/lib/types/portfolio';
 import { FLAGS, FLAG_CLASS, type CountryCode } from './Flags';
+import { CARD_INK, SUNGLOW, SUNGLOW_TEXT } from './palette';
 import { StarRating } from './StarRating';
 
 interface PlayerCardProps {
@@ -18,23 +19,35 @@ interface PlayerCardProps {
  * rest of the site's metaphor already sets up (ADR 0004): number block, stat
  * pills, portrait, country, and a name banner with a rating.
  *
- * Deep navy with an amber accent — the same floodlight amber the hero's first
- * highlight bar uses, so the card and the headline read as one system.
+ * Deep navy carrying the backdrop photo's own orange, so the card reads as the
+ * one cool object on a warm page.
  */
 export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
   return (
-    <figure className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-[#0e1f3d] p-3 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto">
+    <figure
+      className="mx-auto w-full max-w-md overflow-hidden rounded-2xl p-3 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto"
+      style={{ backgroundColor: CARD_INK }}
+    >
       <div className="rounded-xl border border-white/15">
         {/* Top bar: what he plays, and the headline figure */}
         <div className="flex items-stretch justify-between gap-3 border-b border-white/15 p-4">
           <p className="self-center font-mono text-xs font-bold uppercase leading-snug tracking-[0.16em] text-white sm:text-sm">
             {role}
           </p>
-          <div className="flex shrink-0 flex-col items-center justify-center rounded-md bg-amber-400 px-3 py-1.5">
-            <span className="font-mono text-3xl font-extrabold leading-none text-[#0b1220]">
+          <div
+            className="flex shrink-0 flex-col items-center justify-center rounded-md px-3 py-1.5"
+            style={{ backgroundColor: SUNGLOW }}
+          >
+            <span
+              className="font-mono text-3xl font-extrabold leading-none"
+              style={{ color: SUNGLOW_TEXT }}
+            >
               {card.yearsExperience}
             </span>
-            <span className="mt-0.5 font-mono text-[9px] font-bold uppercase leading-none tracking-widest text-[#0b1220]/70">
+            <span
+              className="mt-0.5 font-mono text-[9px] font-bold uppercase leading-none tracking-widest"
+              style={{ color: SUNGLOW_TEXT }}
+            >
               yrs
             </span>
           </div>
@@ -55,7 +68,10 @@ export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
           <ul className="relative z-10 flex w-[4.5rem] shrink-0 flex-col justify-center gap-3">
             {card.stats.map((stat) => (
               <li key={stat.label} className="text-center">
-                <p className="truncate rounded-md bg-amber-400 px-1.5 py-1 font-mono text-[9px] font-bold uppercase leading-none tracking-wider text-[#0b1220]">
+                <p
+                  className="truncate rounded-md px-1.5 py-1 font-mono text-[9px] font-bold uppercase leading-none tracking-wider"
+                  style={{ backgroundColor: SUNGLOW, color: SUNGLOW_TEXT }}
+                >
                   {stat.label}
                 </p>
                 <p className="mt-1.5 font-mono text-2xl font-extrabold leading-none text-white">
@@ -96,8 +112,11 @@ export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
 
         {/* Name banner and rating */}
         <div className="border-t border-white/15 px-4 pb-4 pt-4">
-          <div className="-mx-4 bg-amber-400 px-4 py-2">
-            <h1 className="font-mono text-base font-extrabold uppercase tracking-[0.14em] text-[#0b1220] sm:text-lg">
+          <div className="-mx-4 px-4 py-2" style={{ backgroundColor: SUNGLOW }}>
+            <h1
+              className="font-mono text-base font-extrabold uppercase tracking-[0.14em] sm:text-lg"
+              style={{ color: SUNGLOW_TEXT }}
+            >
               {name}
             </h1>
           </div>

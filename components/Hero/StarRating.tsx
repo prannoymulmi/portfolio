@@ -1,3 +1,5 @@
+import { SUNGLOW } from './palette';
+
 const STAR_PATH = 'M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.6 6.1 20.7l1.2-6.6L2.5 9.5l6.6-.9z';
 
 interface StarRatingProps {
@@ -25,9 +27,7 @@ export function StarRating({ rating, className }: StarRatingProps) {
             </defs>
             {/* Empty star underneath, filled portion clipped over it. */}
             <path d={STAR_PATH} className="fill-white/20" />
-            {fill > 0 && (
-              <path d={STAR_PATH} className="fill-amber-400" clipPath={`url(#${clipId})`} />
-            )}
+            {fill > 0 && <path d={STAR_PATH} fill={SUNGLOW} clipPath={`url(#${clipId})`} />}
           </svg>
         );
       })}
