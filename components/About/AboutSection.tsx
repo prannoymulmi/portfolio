@@ -6,6 +6,7 @@ import { useContent } from '@/components/Common/ContentProvider';
 import type { About } from '@/lib/types/portfolio';
 import { SocialLinks } from './SocialLinks';
 import { AboutSkeleton } from '@/components/Common/LoadingState';
+import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
 
 export function AboutSection() {
   const { about } = useContent();
@@ -27,9 +28,9 @@ export function AboutSection() {
   return (
     <section className="space-y-8 py-12">
       <div className="space-y-8 md:flex md:gap-12">
-        {/* Profile image */}
-        {aboutData?.imageSource && (
-          <div className="md:w-48 md:shrink-0">
+        {/* Profile image (or a placeholder until one is configured) */}
+        <div className="md:w-48 md:shrink-0">
+          {aboutData?.imageSource ? (
             <Image
               src={aboutData.imageSource}
               alt="Profile"
@@ -37,8 +38,10 @@ export function AboutSection() {
               height={256}
               className="h-64 w-64 rounded-lg object-cover md:h-48 md:w-48"
             />
-          </div>
-        )}
+          ) : (
+            <ProfilePicturePlaceholder className="h-64 w-64 md:h-48 md:w-48" />
+          )}
+        </div>
 
         {/* Biography */}
         <div className="flex-1 space-y-4">
