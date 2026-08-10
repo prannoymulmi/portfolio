@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Hero } from '@/components/Hero/Hero';
@@ -84,6 +86,20 @@ describe('Hero Component', () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
     expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+  });
+
+  it('reads every card stat as a count of years, not a 0-100 score', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+    for (const stat of raw.card.stats) {
+      expect(stat.value).toBeLessThanOrEqual(raw.card.yearsExperience);
+      const label = screen.getByText(stat.label);
+      // Each pill sits directly above its figure inside the same list item.
+      expect(label.closest('li')).toHaveTextContent(String(stat.value));
+    }
   });
 
   it('shows a flag for each country on the card', async () => {

@@ -21,7 +21,8 @@ export const SkillsFileSchema = z.object({
 
 export const PlayerStatSchema = z.object({
   label: z.string().min(2).max(24),
-  value: z.number().int().min(0).max(100),
+  // Years in that area, so it shares the bound with yearsExperience below.
+  value: z.number().int().min(0).max(60),
 });
 
 export const PlayerCardSchema = z.object({
