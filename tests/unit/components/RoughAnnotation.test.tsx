@@ -56,6 +56,29 @@ describe('RoughAnnotation', () => {
     );
   });
 
+  it('uses a pale fill for highlight, which sits behind the glyphs', async () => {
+    // A saturated fill here measured 2.84:1 against body text — under WCAG AA.
+    render(<RoughAnnotation type="highlight">Security Nerd</RoughAnnotation>);
+
+    await waitFor(() =>
+      expect(annotate).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ color: '#fef08a' }),
+      ),
+    );
+  });
+
+  it('uses a saturated stroke for outline marks, which do not cover text', async () => {
+    render(<RoughAnnotation type="circle">AI enthusiast</RoughAnnotation>);
+
+    await waitFor(() =>
+      expect(annotate).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ color: '#2563eb' }),
+      ),
+    );
+  });
+
   it('passes the requested mark type through', async () => {
     render(<RoughAnnotation type="box">Cloud Architect</RoughAnnotation>);
 
