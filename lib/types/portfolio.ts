@@ -24,13 +24,15 @@ export interface Home {
   intro: string;
   /** Role phrases rendered together in the hero, each with a hand-drawn mark. */
   roles: string[];
+  /**
+   * Short biography, shown beneath the intro. Replaces the About chapter,
+   * which was retired in feature 004.
+   */
+  bio: string;
+  /** Portrait for the player card; falls back to a placeholder when absent. */
+  imageSource?: string;
   /** Figures shown on the hero's player card. */
   card: PlayerCard;
-}
-
-export interface About {
-  about: string;
-  imageSource?: string;
 }
 
 export interface Skill {
