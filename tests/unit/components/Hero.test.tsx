@@ -88,6 +88,11 @@ describe('Hero Component', () => {
     expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
   });
 
+  it('prints the job title across the top of the player card', async () => {
+    renderHero();
+    expect(await screen.findByText(/Senior Software Engineer/i)).toBeInTheDocument();
+  });
+
   it('reads every card stat as a count of years, not a 0-100 score', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);

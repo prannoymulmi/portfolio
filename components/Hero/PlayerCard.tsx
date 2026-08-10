@@ -9,14 +9,13 @@ import { StarRating } from './StarRating';
 
 interface PlayerCardProps {
   name: string;
-  role: string;
   card: PlayerCardData;
   imageSource?: string;
 }
 
 /**
  * A collectible-style player card, following the football-card anatomy the
- * rest of the site's metaphor already sets up (ADR 0004): number block, stat
+ * rest of the site's metaphor already sets up (ADR 0004): title bar, stat
  * pills, portrait, country, and a name banner with a rating.
  *
  * Every figure on it is a count of years, so the card says the same thing four
@@ -26,17 +25,17 @@ interface PlayerCardProps {
  * Deep navy carrying the backdrop photo's own orange, so the card reads as the
  * one cool object on a warm page.
  */
-export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
+export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
   return (
     <figure
       className="mx-auto w-full max-w-md overflow-hidden rounded-2xl p-3 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto"
       style={{ backgroundColor: CARD_INK }}
     >
       <div className="rounded-xl border border-white/15">
-        {/* Top bar: what he plays, and the headline figure */}
+        {/* Title bar: the job, and the career total it took to get there */}
         <div className="flex items-stretch justify-between gap-3 border-b border-white/15 p-4">
           <p className="self-center font-mono text-xs font-bold uppercase leading-snug tracking-[0.16em] text-white sm:text-sm">
-            {role}
+            {card.title}
           </p>
           <div
             className="flex shrink-0 flex-col items-center justify-center rounded-md px-3 py-1.5"

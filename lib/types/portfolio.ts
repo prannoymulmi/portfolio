@@ -8,6 +8,8 @@ export interface PlayerStat {
 }
 
 export interface PlayerCard {
+  /** Job title printed across the top of the card. */
+  title: string;
   yearsExperience: number;
   /** Out of 5, in half steps. */
   rating: number;

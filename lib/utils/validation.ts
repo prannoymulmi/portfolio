@@ -26,6 +26,7 @@ export const PlayerStatSchema = z.object({
 });
 
 export const PlayerCardSchema = z.object({
+  title: z.string().min(3).max(40),
   yearsExperience: z.number().int().min(0).max(60),
   // Half steps only — the star row can't render finer than that.
   rating: z

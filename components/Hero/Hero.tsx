@@ -72,7 +72,7 @@ export function Hero() {
             {/* Portrait, framed as a player card — same metaphor the career
                 and skills sections already run on. */}
             <div className="order-1 min-w-0 lg:order-2">
-              <PlayerCard name={name} role={roles[0]} card={card} imageSource={imageSource} />
+              <PlayerCard name={name} card={card} imageSource={imageSource} />
             </div>
           </div>
         </div>
