@@ -7,6 +7,7 @@ const validHome = {
   intro: 'I build scalable cloud systems, and I care about the details.',
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
   card: {
+    title: 'Senior Software Engineer',
     yearsExperience: 9,
     rating: 4.5,
     countries: ['DE', 'NP'],
@@ -48,6 +49,11 @@ describe('HomeSchema', () => {
       card: { ...validHome.card, stats: [{ label: 'Backend', value: 140 }] },
     };
     expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('requires a card title, since the card prints it across the top', () => {
+    const { title: _title, ...cardWithoutTitle } = validHome.card;
+    expect(HomeSchema.safeParse({ ...validHome, card: cardWithoutTitle }).success).toBe(false);
   });
 
   it('requires the player card figures', () => {
