@@ -38,9 +38,11 @@ export function Hero() {
     <HeroParallax>
       <section className="relative flex min-h-screen items-center bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-            {/* Introduction */}
-            <div className="order-2 lg:order-1">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
+            {/* Introduction. min-w-0 on both cells: a grid item defaults to
+                min-width:auto, which would let the card's fixed side rails push
+                the column past the viewport on narrow screens. */}
+            <div className="order-2 min-w-0 lg:order-1">
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
               <ul aria-label="What I do" className="space-y-3">
@@ -71,7 +73,7 @@ export function Hero() {
 
             {/* Portrait, framed as a player card — same metaphor the career
                 and skills sections already run on. */}
-            <div className="order-1 lg:order-2">
+            <div className="order-1 min-w-0 lg:order-2">
               <PlayerCard name={name} role={roles[0]} card={card} imageSource={imageSource} />
             </div>
           </div>

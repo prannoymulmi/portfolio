@@ -23,25 +23,25 @@ interface PlayerCardProps {
  */
 export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
   return (
-    <figure className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl bg-[#0e1f3d] p-2.5 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto">
+    <figure className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-[#0e1f3d] p-3 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto">
       <div className="rounded-xl border border-white/15">
         {/* Top bar: what he plays, and the headline figure */}
-        <div className="flex items-stretch justify-between gap-3 border-b border-white/15 p-3">
-          <p className="self-center font-mono text-[11px] font-bold uppercase leading-tight tracking-[0.15em] text-white">
+        <div className="flex items-stretch justify-between gap-3 border-b border-white/15 p-4">
+          <p className="self-center font-mono text-xs font-bold uppercase leading-snug tracking-[0.16em] text-white sm:text-sm">
             {role}
           </p>
-          <div className="flex shrink-0 flex-col items-center rounded-md bg-amber-400 px-2.5 py-1">
-            <span className="font-mono text-xl font-extrabold leading-none text-[#0b1220]">
+          <div className="flex shrink-0 flex-col items-center justify-center rounded-md bg-amber-400 px-3 py-1.5">
+            <span className="font-mono text-3xl font-extrabold leading-none text-[#0b1220]">
               {card.yearsExperience}
             </span>
-            <span className="font-mono text-[8px] font-bold uppercase leading-none tracking-widest text-[#0b1220]/70">
+            <span className="mt-0.5 font-mono text-[9px] font-bold uppercase leading-none tracking-widest text-[#0b1220]/70">
               yrs
             </span>
           </div>
         </div>
 
         {/* Portrait, flanked by stat pills and the country block */}
-        <div className="relative flex gap-2 p-3">
+        <div className="relative flex gap-2.5 p-4">
           {/* Sunburst behind the portrait, as on the reference card */}
           <div
             aria-hidden="true"
@@ -52,13 +52,13 @@ export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
             }}
           />
 
-          <ul className="relative z-10 flex shrink-0 flex-col gap-2">
+          <ul className="relative z-10 flex w-[4.5rem] shrink-0 flex-col justify-center gap-3">
             {card.stats.map((stat) => (
-              <li key={stat.label} className="w-14 text-center">
-                <p className="rounded-md bg-amber-400 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase leading-tight tracking-wider text-[#0b1220]">
+              <li key={stat.label} className="text-center">
+                <p className="truncate rounded-md bg-amber-400 px-1.5 py-1 font-mono text-[9px] font-bold uppercase leading-none tracking-wider text-[#0b1220]">
                   {stat.label}
                 </p>
-                <p className="font-mono text-lg font-extrabold leading-tight text-white">
+                <p className="mt-1.5 font-mono text-2xl font-extrabold leading-none text-white">
                   {stat.value}
                 </p>
               </li>
@@ -80,31 +80,31 @@ export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
             )}
           </div>
 
-          <div className="relative z-10 flex w-14 shrink-0 flex-col items-center gap-1.5">
-            <div className="flex w-full flex-col items-center gap-2 rounded-md border border-white/15 p-2">
+          <div className="relative z-10 flex w-[4.5rem] shrink-0 flex-col items-center justify-center gap-2.5">
+            <div className="flex w-full flex-col items-center gap-2.5 rounded-md border border-white/15 py-2.5">
               {card.countries.map((code) => {
                 const key = code as CountryCode;
                 const Flag = FLAGS[key];
                 return Flag ? <Flag key={code} className={FLAG_CLASS[key]} /> : null;
               })}
             </div>
-            <span className="font-mono text-[7px] font-bold uppercase tracking-wider text-white/50">
+            <span className="font-mono text-[8px] font-bold uppercase tracking-wider text-white/50">
               Country
             </span>
           </div>
         </div>
 
         {/* Name banner and rating */}
-        <div className="border-t border-white/15 px-3 pb-3 pt-3">
-          <div className="-mx-3 bg-amber-400 px-3 py-1.5">
-            <h1 className="font-mono text-sm font-extrabold uppercase tracking-[0.12em] text-[#0b1220]">
+        <div className="border-t border-white/15 px-4 pb-4 pt-4">
+          <div className="-mx-4 bg-amber-400 px-4 py-2">
+            <h1 className="font-mono text-base font-extrabold uppercase tracking-[0.14em] text-[#0b1220] sm:text-lg">
               {name}
             </h1>
           </div>
 
-          <div className="mt-3 flex items-center gap-2">
+          <div className="mt-4 flex items-center gap-2.5">
             <StarRating rating={card.rating} />
-            <span className="font-mono text-[11px] font-bold text-white/70">
+            <span className="font-mono text-sm font-bold text-white/70">
               {card.rating.toFixed(1)}
             </span>
           </div>
