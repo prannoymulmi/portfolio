@@ -11,7 +11,7 @@ describe('Story page (/)', () => {
       </ContentProvider>,
     );
 
-  it('renders all 8 story sections in narrative order', () => {
+  it('renders all 7 story sections in narrative order', () => {
     const { container } = renderStory();
     const sectionIds = Array.from(container.querySelectorAll('section[id]')).map(
       (section) => section.id,
@@ -19,7 +19,6 @@ describe('Story page (/)', () => {
 
     expect(sectionIds).toEqual([
       'hero',
-      'about',
       'skills',
       'career',
       'education',

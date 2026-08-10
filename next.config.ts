@@ -44,7 +44,9 @@ const nextConfig: NextConfig = {
       { source: '/education', destination: '/#education', permanent: true },
       { source: '/projects', destination: '/#projects', permanent: true },
       { source: '/playbook', destination: '/#playbook', permanent: true },
-      { source: '/about', destination: '/#about', permanent: true },
+      // The About chapter folded into the hero, so its anchor no longer
+      // exists; pointing at it would silently strand the visitor at the top.
+      { source: '/about', destination: '/', permanent: true },
       { source: '/contact', destination: '/#contact', permanent: true },
     ];
   },
