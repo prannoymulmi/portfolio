@@ -9,8 +9,7 @@
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "validate:json": "node lib/scripts/validate-json.js"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "framer-motion": "^11",
