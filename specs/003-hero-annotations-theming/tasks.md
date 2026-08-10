@@ -65,19 +65,19 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 ### Tests for User Story 2
 
-- [ ] T011 [P] [US2] Integration test in `tests/integration/theming.test.tsx` asserting an explicitly chosen theme takes precedence over the OS preference (contract T-precedence, FR-013)
-- [ ] T012 [P] [US2] Integration test in `tests/integration/theming.test.tsx` asserting the chosen theme is restored from storage on remount (contract T3, FR-012)
-- [ ] T013 [P] [US2] Unit test in `tests/unit/components/ThemeToggle.test.tsx` asserting the control renders with an accessible label, is keyboard-operable, and calls through to set the opposite theme (contract T1, FR-010, SC-009)
+- [X] T011 [P] [US2] Integration test in `tests/integration/theming.test.tsx` asserting an explicitly chosen theme takes precedence over the OS preference (contract T-precedence, FR-013)
+- [X] T012 [P] [US2] Integration test in `tests/integration/theming.test.tsx` asserting the chosen theme is restored from storage on remount (contract T3, FR-012)
+- [X] T013 [P] [US2] Unit test in `tests/unit/components/ThemeToggle.test.tsx` asserting the control renders with an accessible label, is keyboard-operable, and calls through to set the opposite theme (contract T1, FR-010, SC-009)
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Add `@custom-variant dark (&:where(.dark, .dark *));` to `app/globals.css` so Tailwind's `dark:` utilities key off the class instead of `prefers-color-scheme` (`research.md` §3 — fixes defect 2)
-- [ ] T015 [US2] In `app/globals.css`, move the custom-property overrides out of `@media (prefers-color-scheme: dark)` and onto a `.dark` selector so `--background`/`--foreground`/`--border` follow the explicit choice (fixes defect 3)
-- [ ] T016 [US2] Create `components/Common/ThemeProvider.tsx` — a thin client wrapper around `next-themes`' provider configured for class-based switching with system default
-- [ ] T017 [US2] Wrap the app in `ThemeProvider` in `app/layout.tsx` and add `suppressHydrationWarning` to the `<html>` element (required: the pre-paint script mutates it before React hydrates — fixes defect 4)
-- [ ] T018 [US2] Rewire `components/Common/ThemeToggle.tsx` to read and set theme via `next-themes` instead of the local hook; keep the existing icons, ARIA label, and hydration guard
-- [ ] T019 [US2] Mount `<ThemeToggle />` inside `components/Navigation/StoryProgressNav.tsx`, in the sticky bar beside the section links (fixes defect 1 — FR-010)
-- [ ] T020 [US2] Delete `lib/hooks/useTheme.ts` and confirm via grep that nothing imports it
+- [X] T014 [US2] Add `@custom-variant dark (&:where(.dark, .dark *));` to `app/globals.css` so Tailwind's `dark:` utilities key off the class instead of `prefers-color-scheme` (`research.md` §3 — fixes defect 2)
+- [X] T015 [US2] In `app/globals.css`, move the custom-property overrides out of `@media (prefers-color-scheme: dark)` and onto a `.dark` selector so `--background`/`--foreground`/`--border` follow the explicit choice (fixes defect 3)
+- [X] T016 [US2] Create `components/Common/ThemeProvider.tsx` — a thin client wrapper around `next-themes`' provider configured for class-based switching with system default
+- [X] T017 [US2] Wrap the app in `ThemeProvider` in `app/layout.tsx` and add `suppressHydrationWarning` to the `<html>` element (required: the pre-paint script mutates it before React hydrates — fixes defect 4)
+- [X] T018 [US2] Rewire `components/Common/ThemeToggle.tsx` to read and set theme via `next-themes` instead of the local hook; keep the existing icons, ARIA label, and hydration guard
+- [X] T019 [US2] Mount `<ThemeToggle />` inside `components/Navigation/StoryProgressNav.tsx`, in the sticky bar beside the section links (fixes defect 1 — FR-010)
+- [X] T020 [US2] Delete `lib/hooks/useTheme.ts` and confirm via grep that nothing imports it
 
 **Checkpoint**: All four theming defects fixed. Site is switchable, persistent, and flash-free — independently shippable.
 

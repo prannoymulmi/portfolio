@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { ThemeToggle } from '@/components/Common/ThemeToggle';
 
 // The story has no page-to-page nav bar, but visitors still need a way to
 // jump between chapters (and keyboard/screen-reader users need a way to
@@ -40,20 +41,25 @@ export function StoryProgressNav() {
         style={{ scaleX }}
         aria-hidden="true"
       />
-      <nav aria-label="Story sections" className="overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
-        <ul className="flex w-max gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
-          {STORY_SECTIONS.map((section) => (
-            <li key={section.id}>
-              <a
-                href={`#${section.id}`}
-                className="whitespace-nowrap hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                {section.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className="flex items-center gap-3 px-4 py-2 sm:px-6 lg:px-8">
+        <nav aria-label="Story sections" className="min-w-0 flex-1 overflow-x-auto">
+          <ul className="flex w-max gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
+            {STORY_SECTIONS.map((section) => (
+              <li key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  className="whitespace-nowrap hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  {section.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {/* The only persistent chrome left after the nav bar was removed, so
+            the theme control lives here to stay reachable from anywhere. */}
+        <ThemeToggle />
+      </div>
     </div>
   );
 }

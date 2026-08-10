@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+/* Drive `dark:` utilities from a class instead of the OS media query, so an
+   explicit visitor choice can outrank the system setting. `:where()` keeps
+   specificity at zero so the variant can't outrank unrelated utilities.
+   See docs/adr/0011-class-based-dark-mode.md */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,12 +24,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --border: #374151;
-  }
+/* Keyed off the same class as the `dark` variant above, so the custom
+   properties and the utilities can never disagree about the theme. */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --border: #374151;
 }
 
 html {
