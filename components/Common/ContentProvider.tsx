@@ -11,7 +11,6 @@ import {
   ProjectsFileSchema,
   PlaybookFileSchema,
   RoutesFileSchema,
-  NavbarConfigSchema,
   SocialFileSchema,
 } from '@/lib/utils/validation';
 import type {
@@ -23,7 +22,6 @@ import type {
   ProjectsFile,
   PlaybookFile,
   RoutesFile,
-  NavbarConfig,
   SocialFile,
   ContentState,
 } from '@/lib/types/portfolio';
@@ -37,7 +35,6 @@ interface ContentContextType {
   projects: ContentState<ProjectsFile>;
   playbook: ContentState<PlaybookFile>;
   routes: ContentState<RoutesFile>;
-  navbar: ContentState<NavbarConfig>;
   social: ContentState<SocialFile>;
 }
 
@@ -52,7 +49,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const projects = useContentLoader('projects.json', ProjectsFileSchema);
   const playbook = useContentLoader('playbook.json', PlaybookFileSchema);
   const routes = useContentLoader('routes.json', RoutesFileSchema);
-  const navbar = useContentLoader('navbar.json', NavbarConfigSchema);
   const social = useContentLoader('social.json', SocialFileSchema);
 
   const value: ContentContextType = {
@@ -64,7 +60,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     projects,
     playbook,
     routes,
-    navbar,
     social,
   };
 

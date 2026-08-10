@@ -42,16 +42,16 @@ describe('Hero Component', () => {
     expect(roleElement).toBeInTheDocument();
   });
 
-  it('has View Work CTA button linking to projects', async () => {
+  it('has View Work CTA button linking to the projects section', async () => {
     renderHero();
     const viewWorkButton = await screen.findByRole('link', { name: /View Work/i });
-    expect(viewWorkButton).toHaveAttribute('href', '/projects');
+    expect(viewWorkButton).toHaveAttribute('href', '/#projects');
   });
 
-  it('has Play Career CTA button linking to career', async () => {
+  it('has Play Career CTA button linking to the career section', async () => {
     renderHero();
     const playCareerButton = await screen.findByRole('link', { name: /Play Career/i });
-    expect(playCareerButton).toHaveAttribute('href', '/career');
+    expect(playCareerButton).toHaveAttribute('href', '/#career');
   });
 
   it('displays core expertise skills preview', async () => {
