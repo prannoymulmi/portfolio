@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
 import type { PlayerCard as PlayerCardData } from '@/lib/types/portfolio';
+import { AwsBadge } from './AwsBadge';
 import { FLAGS, FLAG_CLASS, type CountryCode } from './Flags';
 import { CARD_INK, SUNGLOW, SUNGLOW_TEXT } from './palette';
 import { StarRating } from './StarRating';
@@ -16,7 +17,7 @@ interface PlayerCardProps {
 /**
  * A collectible-style player card, following the football-card anatomy the
  * rest of the site's metaphor already sets up (ADR 0004): title bar, stat
- * pills, portrait, country, and a name banner with a rating.
+ * pills, portrait, honours rail, and a name banner with a rating.
  *
  * Every figure on it is a count of years, so the card says the same thing four
  * ways instead of mixing years with an invented 0–100 score: the block up top
@@ -56,7 +57,7 @@ export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
           </div>
         </div>
 
-        {/* Portrait, flanked by stat pills and the country block */}
+        {/* Portrait, flanked by the year pills and the honours rail */}
         <div className="relative flex gap-2.5 p-4">
           {/* Sunburst behind the portrait, as on the reference card */}
           <div
@@ -102,7 +103,9 @@ export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
             )}
           </div>
 
+          {/* Honours rail: where he's built, and where he's from */}
           <div className="relative z-10 flex w-[4.5rem] shrink-0 flex-col items-center justify-center gap-2.5">
+            <AwsBadge />
             <div className="flex w-full flex-col items-center gap-2.5 rounded-md border border-white/15 py-2.5">
               {card.countries.map((code) => {
                 const key = code as CountryCode;
@@ -110,9 +113,6 @@ export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
                 return Flag ? <Flag key={code} className={FLAG_CLASS[key]} /> : null;
               })}
             </div>
-            <span className="font-mono text-[8px] font-bold uppercase tracking-wider text-white/50">
-              Country
-            </span>
           </div>
         </div>
 
