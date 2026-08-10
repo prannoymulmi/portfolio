@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { prefersReducedMotion } from '@/lib/utils/animations';
+import { prefersReducedMotion } from '@/lib/utils/motion';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { SocialIcons } from './SocialIcons';
 

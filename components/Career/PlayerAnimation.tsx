@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { prefersReducedMotion } from '@/lib/utils/animations';
+import { prefersReducedMotion } from '@/lib/utils/motion';
 
 interface PlayerAnimationProps {
   experiences: Array<{ id: string; title: string }>;

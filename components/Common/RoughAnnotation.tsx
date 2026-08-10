@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react';
 import { useTheme } from 'next-themes';
-import { prefersReducedMotion } from '@/lib/utils/animations';
+import { prefersReducedMotion } from '@/lib/utils/motion';
 
 export type AnnotationType = 'highlight' | 'circle' | 'underline' | 'box' | 'bracket';
 

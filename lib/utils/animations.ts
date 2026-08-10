@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from './motion';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -138,9 +139,9 @@ export function killAllAnimations(): void {
 /**
  * Check if user prefers reduced motion (accessibility)
  */
-export function prefersReducedMotion(): boolean {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+// Re-exported so existing importers keep working; the implementation lives in
+// lib/utils/motion.ts, which pulls in no animation library.
+export { prefersReducedMotion };
 
 /**
  * Disable animations if user prefers reduced motion
