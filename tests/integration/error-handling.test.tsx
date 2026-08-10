@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
-import { AboutSection } from '@/components/About/AboutSection';
+import { EducationSection } from '@/components/Education/EducationSection';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { clearContentCache } from '@/lib/hooks/useContentLoader';
 
@@ -44,12 +44,12 @@ describe('Error handling', () => {
     render(
       <ErrorBoundary>
         <ContentProvider>
-          <AboutSection />
+          <EducationSection />
         </ContentProvider>
       </ErrorBoundary>,
     );
 
-    expect(await screen.findByText(/failed to load about content/i)).toBeInTheDocument();
+    expect(await screen.findByText(/failed to load education/i)).toBeInTheDocument();
 
     global.fetch = originalFetch;
   });
