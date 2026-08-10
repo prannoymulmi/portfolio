@@ -43,7 +43,7 @@ export function Hero() {
             <div className="order-2 lg:order-1">
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
-              <ul className="space-y-3">
+              <ul aria-label="What I do" className="space-y-3">
                 {roles.map((role, index) => (
                   <li key={role} className="flex">
                     <RoughAnnotation
@@ -72,7 +72,7 @@ export function Hero() {
             {/* Portrait, framed as a player card — same metaphor the career
                 and skills sections already run on. */}
             <div className="order-1 lg:order-2">
-              <PlayerCard name={name} card={card} imageSource={imageSource} />
+              <PlayerCard name={name} role={roles[0]} card={card} imageSource={imageSource} />
             </div>
           </div>
         </div>

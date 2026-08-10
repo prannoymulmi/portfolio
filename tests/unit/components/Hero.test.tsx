@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Hero } from '@/components/Hero/Hero';
 import { ContentProvider } from '@/components/Common/ContentProvider';
@@ -42,17 +42,18 @@ describe('Hero Component', () => {
 
   it('renders every role phrase from home.json, each annotated', async () => {
     renderHero();
-    // Rendered with a trailing period as a styling choice, so match loosely.
+    const list = await screen.findByRole('list', { name: /what i do/i });
     for (const phrase of ['Software Engineer', 'AI enthusiast', 'Security Nerd']) {
-      expect(await screen.findByText(new RegExp(`^${phrase}\\.?$`))).toBeInTheDocument();
+      // Rendered with a trailing period as a styling choice, so match loosely.
+      expect(within(list).getByText(new RegExp(`^${phrase}\\.?$`))).toBeInTheDocument();
     }
   });
 
   it('stacks the phrases one per line so the colour bars read vertically', async () => {
     renderHero();
-    await screen.findByText(/Software Engineer/);
+    const list = await screen.findByRole('list', { name: /what i do/i });
     // One list item per phrase, rather than an inline run of highlights.
-    expect(document.querySelectorAll('li')).toHaveLength(3);
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
   });
 
   it('displays the intro statement from content, not hardcoded copy', async () => {

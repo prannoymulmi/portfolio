@@ -26,8 +26,18 @@ export const PlayerStatSchema = z.object({
 
 export const PlayerCardSchema = z.object({
   yearsExperience: z.number().int().min(0).max(60),
-  // Three reads well on the card; more than five and the bars get cramped.
-  stats: z.array(PlayerStatSchema).min(1).max(5),
+  // Half steps only — the star row can't render finer than that.
+  rating: z
+    .number()
+    .min(0)
+    .max(5)
+    .refine((n) => n * 2 === Math.round(n * 2), 'rating must be in half steps'),
+  countries: z
+    .array(z.enum(['DE', 'NP']))
+    .min(1)
+    .max(3),
+  // Three reads well on the card; more than four and the pills get cramped.
+  stats: z.array(PlayerStatSchema).min(1).max(4),
 });
 
 export const HomeSchema = z.object({
