@@ -7,7 +7,7 @@ describe('legacy page redirects', () => {
     '/education': '/#education',
     '/projects': '/#projects',
     '/playbook': '/#playbook',
-    '/about': '/#about',
+    '/about': '/',
     '/contact': '/#contact',
   };
 

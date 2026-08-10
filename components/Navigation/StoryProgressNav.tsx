@@ -12,7 +12,6 @@ import { SocialIcons } from './SocialIcons';
 // scroll-progress bar plus a compact set of anchor links to every section.
 const STORY_SECTIONS = [
   { id: 'hero', label: 'Introduction' },
-  { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'career', label: 'Career Journey' },
   { id: 'education', label: 'Education' },

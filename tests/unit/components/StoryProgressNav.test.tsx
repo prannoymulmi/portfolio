@@ -26,12 +26,13 @@ describe('StoryProgressNav', () => {
   // served the content an earlier test already fetched.
   beforeEach(() => clearContentCache());
 
-  it('renders a jump link for every story section', () => {
+  it('renders a jump link for every story section, and none for the retired About chapter', () => {
     renderNav();
+
+    expect(screen.queryByRole('link', { name: 'About' })).not.toBeInTheDocument();
 
     const expectedSections = [
       'Introduction',
-      'About',
       'Skills',
       'Career Journey',
       'Education',
