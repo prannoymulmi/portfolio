@@ -93,17 +93,17 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 ### Tests for User Story 1
 
-- [ ] T021 [P] [US1] Unit test in `tests/unit/components/RoughAnnotation.test.tsx` asserting the wrapper renders its children as readable text regardless of annotation state (spec Edge Case: text must carry the meaning, never the mark)
-- [ ] T022 [P] [US1] Unit test in `tests/unit/components/RoughAnnotation.test.tsx` asserting annotation animation is disabled when `prefers-reduced-motion: reduce` is set, while the annotation is still shown (FR-003, SC-008)
-- [ ] T023 [P] [US1] Unit test in `tests/unit/components/Hero.test.tsx` asserting every entry in `roles` renders wrapped in an annotation, and that a 4-entry list still annotates all four (FR-002, FR-025, contract C2/C3)
+- [X] T021 [P] [US1] Unit test in `tests/unit/components/RoughAnnotation.test.tsx` asserting the wrapper renders its children as readable text regardless of annotation state (spec Edge Case: text must carry the meaning, never the mark)
+- [X] T022 [P] [US1] Unit test in `tests/unit/components/RoughAnnotation.test.tsx` asserting annotation animation is disabled when `prefers-reduced-motion: reduce` is set, while the annotation is still shown (FR-003, SC-008)
+- [X] T023 [P] [US1] Unit test in `tests/unit/components/Hero.test.tsx` asserting every entry in `roles` renders wrapped in an annotation, and that a 4-entry list still annotates all four (FR-002, FR-025, contract C2/C3)
 
 ### Implementation for User Story 1
 
-- [ ] T024 [US1] Create `components/Common/RoughAnnotation.tsx` — a client wrapper around `rough-notation` taking children and a mark type; draws on mount, disables animation under reduced motion via the existing `prefersReducedMotion()` in `lib/utils/animations.ts` (do not add a second detection path — `research.md` §6)
-- [ ] T025 [US1] In `RoughAnnotation.tsx`, re-run the annotation when the element's box changes (resize/orientation) and delay the first draw until web fonts have loaded, so marks never strand after reflow (FR-004, SC-006 — `research.md` §5)
-- [ ] T026 [US1] In `RoughAnnotation.tsx`, resolve mark colour per theme so annotated text stays legible in both light and dark (FR-006, SC-007)
-- [ ] T027 [US1] Define the fixed mark-style sequence as a constant in `components/Hero/Hero.tsx` (e.g. `highlight`, `circle`, `underline`) and zip it positionally against `roles`, wrapping when phrases outnumber styles; do **not** read style from content (FR-024, FR-025)
-- [ ] T028 [US1] Render the annotated phrases and the new `intro` line in `components/Hero/Hero.tsx`, reading both from content rather than hardcoded copy (FR-001, FR-005)
+- [X] T024 [US1] Create `components/Common/RoughAnnotation.tsx` — a client wrapper around `rough-notation` taking children and a mark type; draws on mount, disables animation under reduced motion via the existing `prefersReducedMotion()` in `lib/utils/animations.ts` (do not add a second detection path — `research.md` §6)
+- [X] T025 [US1] In `RoughAnnotation.tsx`, re-run the annotation when the element's box changes (resize/orientation) and delay the first draw until web fonts have loaded, so marks never strand after reflow (FR-004, SC-006 — `research.md` §5)
+- [X] T026 [US1] In `RoughAnnotation.tsx`, resolve mark colour per theme so annotated text stays legible in both light and dark (FR-006, SC-007)
+- [X] T027 [US1] Define the fixed mark-style sequence as a constant in `components/Hero/Hero.tsx` (e.g. `highlight`, `circle`, `underline`) and zip it positionally against `roles`, wrapping when phrases outnumber styles; do **not** read style from content (FR-024, FR-025)
+- [X] T028 [US1] Render the annotated phrases and the new `intro` line in `components/Hero/Hero.tsx`, reading both from content rather than hardcoded copy (FR-001, FR-005)
 
 **Checkpoint**: Hero introduction is annotated, reflow-safe, and reduced-motion aware.
 
@@ -117,15 +117,15 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 ### Tests for User Story 3
 
-- [ ] T029 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the hero renders the name, annotated phrases, intro line, and both CTA buttons (FR-026)
-- [ ] T030 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the "Core Expertise" heading is **not** present — replacing the existing assertion at `tests/unit/components/Hero.test.tsx:60` that requires it (FR-027)
+- [X] T029 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the hero renders the name, annotated phrases, intro line, and both CTA buttons (FR-026)
+- [X] T030 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the "Core Expertise" heading is **not** present — replacing the existing assertion at `tests/unit/components/Hero.test.tsx:60` that requires it (FR-027)
 
 ### Implementation for User Story 3
 
-- [ ] T031 [US3] Restructure the hero layout in `components/Hero/Hero.tsx` into a two-column arrangement — introduction on one side, portrait on the other — collapsing to a single stacked column at mobile widths (FR-007, FR-008)
-- [ ] T032 [US3] Remove the "Core Expertise" card and its `TopSkillsPreview` usage from `components/Hero/Hero.tsx` (FR-027)
-- [ ] T033 [US3] Delete `components/Hero/TopSkillsPreview.tsx` once nothing imports it, confirming via grep
-- [ ] T034 [US3] Verify in `components/Hero/Hero.tsx` that the existing `ProfilePicturePlaceholder` still renders correctly in its new column position, and that setting `imageSource` in `public/data/about.json` swaps a real photo in without a layout break (FR-009)
+- [X] T031 [US3] Restructure the hero layout in `components/Hero/Hero.tsx` into a two-column arrangement — introduction on one side, portrait on the other — collapsing to a single stacked column at mobile widths (FR-007, FR-008)
+- [X] T032 [US3] Remove the "Core Expertise" card and its `TopSkillsPreview` usage from `components/Hero/Hero.tsx` (FR-027)
+- [X] T033 [US3] Delete `components/Hero/TopSkillsPreview.tsx` once nothing imports it, confirming via grep
+- [X] T034 [US3] Verify in `components/Hero/Hero.tsx` that the existing `ProfilePicturePlaceholder` still renders correctly in its new column position, and that setting `imageSource` in `public/data/about.json` swaps a real photo in without a layout break (FR-009)
 
 **Checkpoint**: Hero is fully composed — annotated text beside the portrait, responsive, uncluttered.
 
@@ -148,8 +148,8 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T037 [P] Update the site-wide description in `app/layout.tsx` metadata to the professional framing "Senior software engineer and cloud architect, with a focus on AI and security", keeping it independent of the hero copy (FR-022, FR-023, SC-012)
-- [ ] T038 [P] Verify the background accent's `dark:invert` in `app/layout.tsx` behaves correctly now that `dark` is class-driven rather than OS-driven (spec Dependencies)
+- [X] T037 [P] Update the site-wide description in `app/layout.tsx` metadata to the professional framing "Senior software engineer and cloud architect, with a focus on AI and security", keeping it independent of the hero copy (FR-022, FR-023, SC-012)
+- [X] T038 [P] Verify the background accent's `dark:invert` in `app/layout.tsx` behaves correctly now that `dark` is class-driven rather than OS-driven (spec Dependencies)
 - [ ] T039 Check WCAG AA contrast across the hero, annotated phrases, and body text in both themes with an accessibility inspector (FR-016, SC-007)
 - [ ] T040 Run `npm run type-check`, `npm run lint`, and `npm test`; fix any failures
 - [ ] T041 Run `npm run build`, then measure Lighthouse performance against the production build and confirm it remains ≥ 90 with the ~11KB gz of new dependencies (constitution Quality Constraints)
