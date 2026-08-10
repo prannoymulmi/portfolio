@@ -1,7 +1,12 @@
 # ADR 0012: One scrolling story instead of per-page routes
 
-- **Status**: Accepted
+- **Status**: Accepted, amended by [ADR 0016](0016-about-folds-into-the-opening.md)
 - **Date**: 2026-08-10
+
+> **Amendment note**: the story is seven chapters now, not eight — About folded
+> into the opening per [ADR 0016](0016-about-folds-into-the-opening.md), and
+> `/about` redirects to `/` rather than to a section anchor. Everything else
+> below stands.
 - **Supersedes**: the route structure in [ADR 0002](0002-nextjs-app-router.md).
   App Router itself still stands — only the number of routes changes.
 - **Amends**: [ADR 0008](0008-file-based-seo-conventions.md) — the sitemap's
