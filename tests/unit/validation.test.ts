@@ -5,6 +5,7 @@ import { HomeSchema } from '@/lib/utils/validation';
 const validHome = {
   name: 'Prannoy Mulmi',
   intro: 'I build scalable cloud systems, and I care about the details.',
+  bio: 'Senior software engineer with 9 years building cloud systems and leading teams.',
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
   card: {
     title: 'Senior Software Engineer',
@@ -23,6 +24,39 @@ describe('HomeSchema', () => {
   it('accepts the real home.json shipped in public/data', () => {
     const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8');
     expect(HomeSchema.safeParse(JSON.parse(raw)).success).toBe(true);
+  });
+
+  it('requires the biography that replaced the About chapter', () => {
+    const { bio: _bio, ...withoutBio } = validHome;
+    expect(HomeSchema.safeParse(withoutBio).success).toBe(false);
+  });
+
+  it('rejects a biography longer than two sentences worth of prose', () => {
+    // 240 characters is the enforceable proxy for the spec's 40-word ceiling.
+    const tooLong = { ...validHome, bio: 'a'.repeat(241) };
+    expect(HomeSchema.safeParse(tooLong).success).toBe(false);
+  });
+
+  it('rejects a biography trimmed down to a fragment', () => {
+    expect(HomeSchema.safeParse({ ...validHome, bio: 'Engineer.' }).success).toBe(false);
+  });
+
+  it('keeps the portrait reference optional, so the card falls back to its placeholder', () => {
+    const withPortrait = { ...validHome, imageSource: '/images/portrait.jpg' };
+    expect(HomeSchema.safeParse(withPortrait).success).toBe(true);
+    expect(HomeSchema.safeParse(validHome).success).toBe(true);
+  });
+
+  it('states the same years of experience in the biography and on the card', () => {
+    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8');
+    const home = JSON.parse(raw);
+
+    // Nothing in the schema can enforce this, so it is asserted against the
+    // real content: the retired About copy claimed "10+ years" while the card
+    // said 9.
+    const yearsInBio = home.bio.match(/(\d+)\s*(?:\+\s*)?years?/i);
+    expect(yearsInBio).not.toBeNull();
+    expect(Number(yearsInBio[1])).toBe(home.card.yearsExperience);
   });
 
   it('accepts short role phrases like "AI enthusiast"', () => {
