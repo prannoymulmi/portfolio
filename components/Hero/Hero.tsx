@@ -17,13 +17,12 @@ const HIGHLIGHT_COLORS = [INK, EMBER, TEAL] as const;
 const MARK_STAGGER_MS = 350;
 
 export function Hero() {
-  const { home, about } = useContent();
+  const { home } = useContent();
 
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, intro, roles, card } = home.data;
-  const imageSource = about.data?.imageSource;
+  const { name, intro, roles, card, bio, imageSource } = home.data;
 
   return (
     <>
@@ -63,6 +62,10 @@ export function Hero() {
               <p className="mt-9 max-w-xl text-lg font-medium text-[#3d2318] dark:text-gray-300">
                 {intro}
               </p>
+
+              {/* The About chapter, condensed to what the opening can carry
+                  without pushing the card off the first screen. */}
+              <p className="mt-4 max-w-xl text-on-photo">{bio}</p>
 
               <div className="mt-8">
                 <ValueProp />
