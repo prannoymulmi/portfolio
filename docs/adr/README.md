@@ -22,6 +22,7 @@ were on the table at the time.
 | [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted |
 | [0012](0012-single-page-story.md) | One scrolling story instead of per-page routes | Accepted |
 | [0013](0013-hero-player-card.md) | The hero is a football player card over a sunset photo | Accepted — extended by [0015](0015-photograph-as-page-surface.md) |
+| [0014](0014-icon-set-dependency.md) | An icon set as a dependency | Accepted |
 | [0015](0015-photograph-as-page-surface.md) | The photograph is the page surface | Accepted |
 
 Nothing here is fully superseded yet. Where a later ADR overturned part of an

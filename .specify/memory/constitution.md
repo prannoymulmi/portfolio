@@ -1,4 +1,16 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.1.0 → 1.2.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — admits `react-icons` for brand marks,
+    scoped to the one component that may import it (ADR 0014), and records the
+    page-wide photographic surface and its contrast floor (ADR 0015).
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: this is the third amendment to Principle IV in two days. Each one has been
+individually justified; the pattern is worth watching.
+
+--- previous ---
 Version change: 1.0.0 → 1.1.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — expanded to name the libraries already
@@ -79,6 +91,14 @@ constitution amendment:
 - **Visualisation**: SVG football pitch rendered in-browser; no canvas unless SVG is
   demonstrably insufficient. The football metaphor extends to the hero player card
   (ADR 0004, ADR 0013).
+- **Surface**: one pinned photograph behind the whole story, served through the image
+  optimizer — never as a CSS `background-image`, which bypasses it. Chapters carry a
+  translucent scrim, never an opaque background. Body copy over it uses the `text-on-photo`
+  token: the photograph's darkest region measures 0.293 relative luminance, so `gray-600`
+  and `gray-700` fall below WCAG AA against it (ADR 0015).
+- **Icons**: `react-icons` for brand marks only, imported per glyph from a subpath, and
+  only in `components/Navigation/SocialIcons.tsx`. Not a general-purpose icon set for the
+  rest of the UI (ADR 0014).
 - **Deployment**: GitHub → Vercel (automatic preview + production deploys on push).
   Installs use `--legacy-peer-deps` in every environment until the blocking peer ranges
   are published (ADR 0007).
@@ -161,4 +181,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.1.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10
+**Version**: 1.2.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10
