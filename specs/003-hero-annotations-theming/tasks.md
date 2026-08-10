@@ -139,8 +139,8 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 **Note**: The records themselves are written in Phase 1 (T002–T005), because they gate the work rather than follow it. This phase verifies them against reality after implementation.
 
-- [ ] T035 [US4] Review `docs/adr/0009-rough-notation-third-animation-library.md`, `docs/adr/0010-next-themes-for-theme-state.md`, and `docs/adr/0011-class-based-dark-mode.md` against what was actually built, correcting any drift between the recorded decision and the shipped implementation (FR-021)
-- [ ] T036 [US4] Confirm every decision in plan.md's Complexity Tracking has a corresponding record, and that ADR 0005 and ADR 0006 both carry the cross-reference to their amending record (FR-019, FR-020, SC-010)
+- [X] T035 [US4] Review `docs/adr/0009-rough-notation-third-animation-library.md`, `docs/adr/0010-next-themes-for-theme-state.md`, and `docs/adr/0011-class-based-dark-mode.md` against what was actually built, correcting any drift between the recorded decision and the shipped implementation (FR-021)
+- [X] T036 [US4] Confirm every decision in plan.md's Complexity Tracking has a corresponding record, and that ADR 0005 and ADR 0006 both carry the cross-reference to their amending record (FR-019, FR-020, SC-010)
 
 **Checkpoint**: Decisions documented and accurate.
 
@@ -150,9 +150,9 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 - [X] T037 [P] Update the site-wide description in `app/layout.tsx` metadata to the professional framing "Senior software engineer and cloud architect, with a focus on AI and security", keeping it independent of the hero copy (FR-022, FR-023, SC-012)
 - [X] T038 [P] Verify the background accent's `dark:invert` in `app/layout.tsx` behaves correctly now that `dark` is class-driven rather than OS-driven (spec Dependencies)
-- [ ] T039 Check WCAG AA contrast across the hero, annotated phrases, and body text in both themes with an accessibility inspector (FR-016, SC-007)
-- [ ] T040 Run `npm run type-check`, `npm run lint`, and `npm test`; fix any failures
-- [ ] T041 Run `npm run build`, then measure Lighthouse performance against the production build and confirm it remains ≥ 90 with the ~11KB gz of new dependencies (constitution Quality Constraints)
+- [X] T039 Check WCAG AA contrast across the hero, annotated phrases, and body text in both themes with an accessibility inspector (FR-016, SC-007)
+- [X] T040 Run `npm run type-check`, `npm run lint`, and `npm test`; fix any failures
+- [ ] T041 Run `npm run build`, then measure Lighthouse performance against the production build and confirm it remains ≥ 90 (constitution Quality Constraints). **Build verified; Lighthouse NOT run — the CLI isn't installed locally.** Bundle impact measured instead: `rough-notation` is dynamically imported and confirmed absent from the 13 chunks loaded on `/`, so only `next-themes` (~2KB gz) touches the initial bundle. Needs a real Lighthouse run before merge.
 - [ ] T042 Walk every scenario in `specs/003-hero-annotations-theming/quickstart.md` and confirm each passes
 
 ---

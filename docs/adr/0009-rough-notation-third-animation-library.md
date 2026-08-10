@@ -46,8 +46,11 @@ without touching the hero.
 
 - Delivers the exact requested effect. RoughJS exists to make vector shapes
   look hand-sketched; this is its purpose, not a workaround.
-- ~9KB gzipped, no external runtime dependencies.
-- Isolated behind one wrapper — a future swap touches one file.
+- ~9KB gzipped, no external runtime dependencies. Loaded via a dynamic
+  `import()` inside the wrapper, so it is code-split out of the initial
+  bundle and only fetched once an annotation actually needs to draw.
+- Isolated behind one wrapper — `RoughAnnotation.tsx` is the only file that
+  imports it, so a future swap touches one file.
 - Reuses the project's existing `prefersReducedMotion()` helper rather than
   introducing a third reduced-motion detection path.
 
