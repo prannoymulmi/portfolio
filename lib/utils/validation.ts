@@ -19,12 +19,24 @@ export const SkillsFileSchema = z.object({
   skills: z.array(SkillCategorySchema).min(1).max(8),
 });
 
+export const PlayerStatSchema = z.object({
+  label: z.string().min(2).max(24),
+  value: z.number().int().min(0).max(100),
+});
+
+export const PlayerCardSchema = z.object({
+  yearsExperience: z.number().int().min(0).max(60),
+  // Three reads well on the card; more than five and the bars get cramped.
+  stats: z.array(PlayerStatSchema).min(1).max(5),
+});
+
 export const HomeSchema = z.object({
   name: z.string().min(1).max(100),
   intro: z.string().min(20).max(200),
   // Short phrases ("AI enthusiast"), all rendered together and annotated.
   // At least 2 so the mark sequence has something to vary across.
   roles: z.array(z.string().min(3).max(40)).min(2).max(5),
+  card: PlayerCardSchema,
 });
 
 export const AboutSchema = z.object({
