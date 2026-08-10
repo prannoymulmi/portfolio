@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
-import { Navbar } from '@/components/Navigation/Navbar';
 import { Footer } from '@/components/Navigation/Footer';
 import { StructuredData } from '@/components/Common/StructuredData';
 import './globals.css';
@@ -76,7 +75,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </a>
         <ErrorBoundary>
           <ContentProvider>
-            <Navbar />
             <main id="main-content" className="flex-1">
               {children}
             </main>

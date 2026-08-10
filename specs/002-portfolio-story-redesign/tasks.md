@@ -29,7 +29,7 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 **Purpose**: Nothing new to install — stack is fixed by the constitution and already present. This phase only confirms the workspace is ready.
 
-- [ ] T001 Run `npm run type-check` and `npm run lint` on the current `main` branch to confirm a clean baseline before changes begin
+- [X] T001 Run `npm run type-check` and `npm run lint` on the current `main` branch to confirm a clean baseline before changes begin
 
 ---
 
@@ -39,12 +39,12 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 Add `async redirects()` to `next.config.ts` mapping the 7 legacy paths to story anchors per `specs/002-portfolio-story-redesign/contracts/legacy-redirects.md` (`/skills`→`/#skills`, `/career`→`/#career`, `/education`→`/#education`, `/projects`→`/#projects`, `/playbook`→`/#playbook`, `/about`→`/#about`, `/contact`→`/#contact`, all `permanent: true`)
-- [ ] T003 [P] Add a redirect test in `tests/integration/legacy-redirects.test.ts` asserting each of the 7 source paths in `next.config.ts` resolves to its documented destination anchor
-- [ ] T004 Remove `<Navbar />` from `app/layout.tsx` (keep `ContentProvider`, `ErrorBoundary`, the existing skip-link, and `<Footer />`)
-- [ ] T005 Delete the 7 now-redundant route folders: `app/(routes)/skills/`, `app/(routes)/career/`, `app/(routes)/education/`, `app/(routes)/projects/`, `app/(routes)/playbook/`, `app/(routes)/about/`, `app/(routes)/contact/`
-- [ ] T006 Update `app/sitemap.ts` to list only `/` (drop the removed standalone routes)
-- [ ] T007 [P] Update the existing `tests/integration/navigation.test.tsx` suite: remove assertions about `<Navbar />` sections/active-route styling that no longer apply once it's unmounted from the layout (keep or relocate any still-relevant external-link assertions to a Footer test)
+- [X] T002 Add `async redirects()` to `next.config.ts` mapping the 7 legacy paths to story anchors per `specs/002-portfolio-story-redesign/contracts/legacy-redirects.md` (`/skills`→`/#skills`, `/career`→`/#career`, `/education`→`/#education`, `/projects`→`/#projects`, `/playbook`→`/#playbook`, `/about`→`/#about`, `/contact`→`/#contact`, all `permanent: true`)
+- [X] T003 [P] Add a redirect test in `tests/integration/legacy-redirects.test.ts` asserting each of the 7 source paths in `next.config.ts` resolves to its documented destination anchor
+- [X] T004 Remove `<Navbar />` from `app/layout.tsx` (keep `ContentProvider`, `ErrorBoundary`, the existing skip-link, and `<Footer />`)
+- [X] T005 Delete the 7 now-redundant route folders: `app/(routes)/skills/`, `app/(routes)/career/`, `app/(routes)/education/`, `app/(routes)/projects/`, `app/(routes)/playbook/`, `app/(routes)/about/`, `app/(routes)/contact/`
+- [X] T006 Update `app/sitemap.ts` to list only `/` (drop the removed standalone routes)
+- [X] T007 [P] Update the existing `tests/integration/navigation.test.tsx` suite: remove assertions about `<Navbar />` sections/active-route styling that no longer apply once it's unmounted from the layout (keep or relocate any still-relevant external-link assertions to a Footer test) — replaced by `tests/unit/components/Footer.test.tsx` since Navbar is fully removed from the app
 
 **Checkpoint**: Redirects work, nav bar is gone from the layout, and old route files no longer exist — user story implementation can now begin
 
