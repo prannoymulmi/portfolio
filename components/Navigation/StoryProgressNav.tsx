@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { SocialIcons } from './SocialIcons';
 
 // The story has no page-to-page nav bar, but visitors still need a way to
 // jump between chapters (and keyboard/screen-reader users need a way to
@@ -57,8 +58,13 @@ export function StoryProgressNav() {
           </ul>
         </nav>
         {/* The only persistent chrome left after the nav bar was removed, so
-            the theme control lives here to stay reachable from anywhere. */}
-        <ThemeToggle />
+            the theme control and the profile links live here to stay reachable
+            from anywhere. shrink-0 keeps them put while the chapter list
+            scrolls beneath them on narrow screens. */}
+        <div className="flex shrink-0 items-center gap-1">
+          <SocialIcons />
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   );
