@@ -10,9 +10,10 @@ const validHome = {
     yearsExperience: 9,
     rating: 4.5,
     countries: ['DE', 'NP'],
+    // Stat values are years in that area, not a 0-100 score.
     stats: [
-      { label: 'Backend', value: 88 },
-      { label: 'Cloud', value: 90 },
+      { label: 'Backend', value: 9 },
+      { label: 'Cloud', value: 6 },
     ],
   },
 };
@@ -41,7 +42,7 @@ describe('HomeSchema', () => {
     expect(HomeSchema.safeParse({ ...validHome, roles: ['Engineer'] }).success).toBe(false);
   });
 
-  it('rejects a stat value outside 0-100', () => {
+  it('rejects a stat value that is not a plausible number of years', () => {
     const bad = {
       ...validHome,
       card: { ...validHome.card, stats: [{ label: 'Backend', value: 140 }] },

@@ -16,15 +16,15 @@
     "stats": [
       {
         "label": "Backend",
-        "value": 88
+        "value": 9
       },
       {
         "label": "Cloud",
-        "value": 90
+        "value": 6
       },
       {
-        "label": "Threat modeling",
-        "value": 85
+        "label": "Security",
+        "value": 4
       }
     ]
   }

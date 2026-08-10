@@ -19,6 +19,10 @@ interface PlayerCardProps {
  * rest of the site's metaphor already sets up (ADR 0004): number block, stat
  * pills, portrait, country, and a name banner with a rating.
  *
+ * Every figure on it is a count of years, so the card says the same thing four
+ * ways instead of mixing years with an invented 0–100 score: the block up top
+ * is the career total, each pill is the years spent in that area.
+ *
  * Deep navy carrying the backdrop photo's own orange, so the card reads as the
  * one cool object on a warm page.
  */
@@ -74,8 +78,11 @@ export function PlayerCard({ name, role, card, imageSource }: PlayerCardProps) {
                 >
                   {stat.label}
                 </p>
-                <p className="mt-1.5 font-mono text-2xl font-extrabold leading-none text-white">
-                  {stat.value}
+                <p className="mt-1.5 flex items-baseline justify-center gap-0.5 font-mono leading-none text-white">
+                  <span className="text-2xl font-extrabold">{stat.value}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-white/55">
+                    yrs
+                  </span>
                 </p>
               </li>
             ))}

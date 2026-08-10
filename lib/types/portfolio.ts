@@ -3,7 +3,7 @@
 
 export interface PlayerStat {
   label: string;
-  /** 0–100, shown as a number and a bar on the hero card. */
+  /** Years worked in this area, shown as a figure on the hero card. */
   value: number;
 }
 
