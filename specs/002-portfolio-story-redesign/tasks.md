@@ -79,14 +79,14 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 ### Tests for User Story 2
 
-- [ ] T013 [P] [US2] Integration test in `tests/integration/career-in-story.test.tsx` asserting `CareerJourneyLazy`'s interactive milestone behavior (e.g., clicking a milestone updates the displayed detail) is unchanged when rendered inside `app/page.tsx`
-- [ ] T014 [P] [US2] Unit test in `tests/unit/components/StoryProgressNav.test.tsx` asserting the jump control renders a link/button for every `StorySection` and that activating the "career" entry moves focus/scroll to `#career`
+- [X] T013 [P] [US2] Integration test in `tests/integration/career-in-story.test.tsx` asserting `CareerJourneyLazy`'s interactive milestone behavior (e.g., clicking a milestone updates the displayed detail) is unchanged when rendered inside `app/page.tsx`
+- [X] T014 [P] [US2] Unit test in `tests/unit/components/StoryProgressNav.test.tsx` asserting the jump control renders a link/button for every `StorySection` and that activating the "career" entry moves focus/scroll to `#career`
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Create `components/Navigation/StoryProgressNav.tsx` — a Framer Motion `useScroll`/`useSpring`-driven progress indicator with keyboard-accessible anchor links to every `StorySection` id (per FR-007)
-- [ ] T016 [US2] Mount `StoryProgressNav` in `app/layout.tsx` (or `app/page.tsx`) so it's present without reintroducing a page-to-page nav bar
-- [ ] T017 [US2] Confirm `CareerJourneyLazy`'s GSAP ScrollTrigger instances (if any target page-level scroll) still initialize/clean up correctly nested inside the new single-page layout; adjust selectors in `components/Career/CareerJourney.tsx` if they assumed a standalone page
+- [X] T015 [US2] Create `components/Navigation/StoryProgressNav.tsx` — a Framer Motion `useScroll`/`useSpring`-driven progress indicator with keyboard-accessible anchor links to every `StorySection` id (per FR-007)
+- [X] T016 [US2] Mount `StoryProgressNav` in `app/layout.tsx` (or `app/page.tsx`) so it's present without reintroducing a page-to-page nav bar
+- [X] T017 [US2] Confirm `CareerJourneyLazy`'s GSAP ScrollTrigger instances (if any target page-level scroll) still initialize/clean up correctly nested inside the new single-page layout; adjust selectors in `components/Career/CareerJourney.tsx` if they assumed a standalone page — verified: `.career-section` selector and `trigger.kill()` cleanup are already position-agnostic, no changes needed
 
 **Checkpoint**: User Stories 1 AND 2 both work — the story flows top to bottom and the career chapter stays fully interactive and directly reachable.
 
