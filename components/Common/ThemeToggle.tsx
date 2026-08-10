@@ -1,14 +1,34 @@
 'use client';
 
+import { useSyncExternalStore } from 'react';
 import { useTheme } from 'next-themes';
+
+const subscribe = () => () => {};
+
+/**
+ * False during SSR and on the client's hydration render, true afterwards.
+ *
+ * The theme can't be read until after hydration: next-themes' pre-paint
+ * script means `resolvedTheme` is already set on the client's *first* render,
+ * so branching on it directly renders a button where the server rendered a
+ * placeholder — a hydration mismatch. useSyncExternalStore has separate
+ * server and client snapshots precisely for this, so both sides agree on the
+ * first pass and the real control swaps in on the next.
+ */
+function useHydrated() {
+  return useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
+}
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
+  const hydrated = useHydrated();
 
-  // resolvedTheme is undefined during SSR and until next-themes resolves on
-  // the client. Render a same-sized placeholder until then, so the markup
-  // matches across hydration and the layout doesn't shift.
-  if (!resolvedTheme) {
+  // Same-sized placeholder so the swap doesn't shift the layout.
+  if (!hydrated) {
     return <div className="h-9 w-9" aria-hidden="true" />;
   }
 
