@@ -107,6 +107,11 @@ describe('Hero Component', () => {
     }
   });
 
+  it('shows an AWS mark on the card', async () => {
+    renderHero();
+    expect(await screen.findByRole('img', { name: /amazon web services/i })).toBeInTheDocument();
+  });
+
   it('shows a flag for each country on the card', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
