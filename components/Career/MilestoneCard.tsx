@@ -41,7 +41,7 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
       {/* Date badge */}
       <time
         dateTime={experience.dateText}
-        className="mt-2 block text-xs text-gray-500 dark:text-gray-500"
+        className="mt-2 block text-xs text-gray-600 dark:text-gray-400"
       >
         {experience.dateText}
       </time>

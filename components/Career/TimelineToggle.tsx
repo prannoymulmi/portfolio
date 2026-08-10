@@ -37,8 +37,12 @@ export function TimelineToggle({ isInteractive, onChange }: TimelineToggleProps)
     <button
       onClick={handleToggle}
       className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-      aria-label={`Switch to ${isInteractive ? 'timeline' : 'interactive'} view`}
     >
+      {/* The visible text names the button; this only adds what it does, so the
+          accessible name still contains the visible label. */}
+      <span className="sr-only">
+        Switch to {isInteractive ? 'timeline' : 'interactive'} view:
+      </span>
       {isInteractive ? (
         <>
           <span>⚽ Interactive</span>

@@ -13,7 +13,9 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps) {
   return (
-    <article
+    // A generic element, because `article` has an implicit role that ARIA does
+    // not allow `button` to override.
+    <div
       className={`group rounded-lg border-2 bg-white shadow-md transition-all hover:shadow-lg dark:bg-gray-800 ${
         isSelected ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-700'
       }`}
@@ -86,6 +88,6 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
           </div>
         )}
       </div>
-    </article>
+    </div>
   );
 }

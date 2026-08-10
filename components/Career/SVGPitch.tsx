@@ -33,8 +33,10 @@ export function SVGPitch({ children, className = '' }: SVGPitchProps) {
         viewBox={`0 0 ${pitchDimensions.width} ${pitchDimensions.height}`}
         className="h-full w-full"
         preserveAspectRatio="xMidYMid meet"
+        // Decorative: the chapter heading and copy carry the meaning, and the
+        // interactive positions inside stay in the accessibility tree. A label
+        // here would be a prohibited attribute on this role.
         role="presentation"
-        aria-label="Football pitch for career timeline"
       >
         {/* Pitch background (grass green) */}
         <rect
