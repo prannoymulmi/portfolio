@@ -29,12 +29,12 @@ The plan's Constitution Check **fails Principle IV** (fixed technology stack) be
 
 **Purpose**: Confirm a clean baseline and land the governance amendments the stack change requires.
 
-- [ ] T001 Run `npm run type-check`, `npm run lint`, and `npm test` on the current `main` to confirm a clean 28-test baseline before changes
-- [ ] T002 Write `docs/adr/0009-rough-notation-third-animation-library.md` — amends ADR 0005's two-library ceiling to three, with the domain rule "GSAP for scroll-driven, Framer for interaction/entrance, RoughJS for hand-drawn marks"; state context, decision, positive/negative consequences, and the rejected alternatives from `research.md` §4 (FR-018, FR-020, FR-021)
-- [ ] T003 [P] Write `docs/adr/0010-next-themes-for-theme-state.md` — records adopting `next-themes` and deleting the hand-rolled hook; cite the pre-paint-script rationale from `research.md` §2 (FR-018, FR-021)
-- [ ] T004 [P] Write `docs/adr/0011-class-based-dark-mode.md` — records replacing the OS media query with a class-based `dark` variant; state that it supersedes ADR 0006's appearance-switching mechanism while ADR 0006 otherwise stands (FR-018, FR-020)
-- [ ] T005 Add the three new records to the index table in `docs/adr/README.md` with their statuses (FR-018)
-- [ ] T006 Install dependencies: `npm install next-themes@^0.4.6 rough-notation@^0.5.1` and confirm no `--legacy-peer-deps` is needed (see `research.md` §2 on React 19 peer support)
+- [X] T001 Run `npm run type-check`, `npm run lint`, and `npm test` on the current `main` to confirm a clean 28-test baseline before changes
+- [X] T002 Write `docs/adr/0009-rough-notation-third-animation-library.md` — amends ADR 0005's two-library ceiling to three, with the domain rule "GSAP for scroll-driven, Framer for interaction/entrance, RoughJS for hand-drawn marks"; state context, decision, positive/negative consequences, and the rejected alternatives from `research.md` §4 (FR-018, FR-020, FR-021)
+- [X] T003 [P] Write `docs/adr/0010-next-themes-for-theme-state.md` — records adopting `next-themes` and deleting the hand-rolled hook; cite the pre-paint-script rationale from `research.md` §2 (FR-018, FR-021)
+- [X] T004 [P] Write `docs/adr/0011-class-based-dark-mode.md` — records replacing the OS media query with a class-based `dark` variant; state that it supersedes ADR 0006's appearance-switching mechanism while ADR 0006 otherwise stands (FR-018, FR-020)
+- [X] T005 Add the three new records to the index table in `docs/adr/README.md` with their statuses (FR-018)
+- [X] T006 Install dependencies: `npm install --legacy-peer-deps next-themes@^0.4.6 rough-notation@^0.5.1`. Note: `--legacy-peer-deps` **is** required, but for the pre-existing `@testing-library/react@14` React ^18 pin recorded in ADR 0007 — a bare `npm install` fails identically. Neither new package adds a peer conflict.
 
 **Checkpoint**: Amendments accepted and dependencies installed — implementation may begin.
 

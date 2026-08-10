@@ -1,7 +1,12 @@
 # ADR 0005: GSAP for scroll-driven, Framer for component motion
 
-- **Status**: Accepted
+- **Status**: Accepted, amended by [ADR 0009](0009-rough-notation-third-animation-library.md)
 - **Date**: 2026-08-09
+
+> **Amendment note**: the two-library ceiling recorded here was raised to
+> three by [ADR 0009](0009-rough-notation-third-animation-library.md),
+> which adds RoughJS for hand-drawn annotation marks. The scroll/interaction
+> split below still stands.
 
 ## Context
 
