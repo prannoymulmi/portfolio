@@ -43,7 +43,12 @@ export function useContentLoader<T>(
         setState((prev) => ({ ...prev, loading: true, error: null }));
 
         const response = await fetch(`/data/${fileName}`, {
-          cache: 'force-cache', // Next.js cache: reuse across requests
+          // `force-cache` reuses a cached response even once it's stale,
+          // so content edits never show up without clearing the cache
+          // entirely (e.g. incognito). `no-store` always fetches fresh —
+          // these files are small and edited often, so freshness matters
+          // more than the caching win.
+          cache: 'no-store',
         });
 
         if (!response.ok) {
