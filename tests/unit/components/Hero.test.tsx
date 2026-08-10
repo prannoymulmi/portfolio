@@ -86,6 +86,13 @@ describe('Hero Component', () => {
     expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
   });
 
+  it('shows a flag for each country on the card', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    expect(screen.getByRole('img', { name: /germany/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /nepal/i })).toBeInTheDocument();
+  });
+
   it('no longer shows the Core Expertise card — the Skills chapter covers it', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
