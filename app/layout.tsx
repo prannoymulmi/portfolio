@@ -67,6 +67,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
       </head>
       <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+        {/* Full-bleed decorative accent, fixed behind the whole story. Low
+            opacity so it reads as a design element without fighting text;
+            inverted in dark mode so the shape stays visible against a dark
+            background instead of disappearing (its fill is solid black). */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[url('/images/background.svg')] bg-cover bg-center opacity-[0.15] dark:opacity-[0.18] dark:invert"
+        />
         <StructuredData />
         <a
           href="#main-content"

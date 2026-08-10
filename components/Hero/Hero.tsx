@@ -20,7 +20,7 @@ export function Hero() {
 
   return (
     <HeroParallax>
-      <section className="relative min-h-screen bg-gradient-to-br from-white via-blue-50 to-white px-4 py-20 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
+      <section className="relative min-h-screen bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           {/* Hero Content */}
           <div className="mb-12 space-y-6 text-center">
