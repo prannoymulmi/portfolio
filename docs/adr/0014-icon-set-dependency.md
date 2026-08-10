@@ -1,10 +1,17 @@
 # ADR 0014: An icon set as a dependency
 
-- **Status**: Accepted
+- **Status**: **Superseded** by [ADR 0017](0017-inline-brand-marks.md)
 - **Date**: 2026-08-10
 - **Amends**: [ADR 0005](0005-gsap-and-framer-motion.md) is untouched — this adds a
   *rendering* dependency, not a fourth animation library.
 - **Paired with**: constitution amendment 1.2.0, which admits this package to Principle IV.
+
+> **Supersession note (2026-08-10)**: the decision below was reversed the same day.
+> The claim that subpath imports would keep the bundle to two glyphs was never
+> measured; `react-icons` put **506 KB** on the initial bundle, violating FR-008b.
+> The marks are now inlined — see [ADR 0017](0017-inline-brand-marks.md). The
+> reasoning here is left intact because it explains how a well-argued choice
+> reached the wrong answer.
 
 ## Context
 

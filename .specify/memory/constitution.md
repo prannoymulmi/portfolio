@@ -1,4 +1,17 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.2.0 → 1.3.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — withdraws `react-icons`, admitted one
+    version ago. Measured at 506 KB on the initial bundle for two glyphs, which
+    the feature spec forbade; the marks are inlined instead (ADR 0017).
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: first entry ever withdrawn from Principle IV. The amendment requirement did
+its job late — the dependency was argued on install size and peer ranges, and
+nobody measured what it cost a visitor until it shipped.
+
+--- previous ---
 Version change: 1.1.0 → 1.2.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — admits `react-icons` for brand marks,
@@ -96,9 +109,10 @@ constitution amendment:
   translucent scrim, never an opaque background. Body copy over it uses the `text-on-photo`
   token: the photograph's darkest region measures 0.293 relative luminance, so `gray-600`
   and `gray-700` fall below WCAG AA against it (ADR 0015).
-- **Icons**: `react-icons` for brand marks only, imported per glyph from a subpath, and
-  only in `components/Navigation/SocialIcons.tsx`. Not a general-purpose icon set for the
-  rest of the UI (ADR 0014).
+- **Icons**: no icon dependency. The two brand marks are inlined as SVG in
+  `components/Navigation/BrandMarks.tsx` (ADR 0017). Before adding any icon package,
+  measure what it puts on the initial bundle — `react-icons` cost 506 KB for two glyphs
+  and was withdrawn (ADR 0014, superseded).
 - **Deployment**: GitHub → Vercel (automatic preview + production deploys on push).
   Installs use `--legacy-peer-deps` in every environment until the blocking peer ranges
   are published (ADR 0007).
@@ -181,4 +195,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.2.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10
+**Version**: 1.3.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10

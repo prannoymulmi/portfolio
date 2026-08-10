@@ -22,14 +22,16 @@ were on the table at the time.
 | [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted |
 | [0012](0012-single-page-story.md) | One scrolling story instead of per-page routes | Accepted |
 | [0013](0013-hero-player-card.md) | The hero is a football player card over a sunset photo | Accepted — extended by [0015](0015-photograph-as-page-surface.md) |
-| [0014](0014-icon-set-dependency.md) | An icon set as a dependency | Accepted |
+| [0014](0014-icon-set-dependency.md) | An icon set as a dependency | **Superseded** by [0017](0017-inline-brand-marks.md) |
 | [0015](0015-photograph-as-page-surface.md) | The photograph is the page surface | Accepted |
 | [0016](0016-about-folds-into-the-opening.md) | The About chapter folds into the opening | Accepted |
+| [0017](0017-inline-brand-marks.md) | Inline the two brand marks, drop the icon dependency | Accepted |
 
-Nothing here is fully superseded yet. Where a later ADR overturned part of an
-earlier one, the earlier record keeps its decision and carries a dated note at
-the top pointing at the replacement — the trade-offs it weighed are still the
-reason the surviving parts look the way they do.
+ADR 0014 is the first fully superseded record — its decision was reversed after
+measurement, and [0017](0017-inline-brand-marks.md) replaces it. Elsewhere, where
+a later ADR overturned only part of an earlier one, the earlier record keeps its
+decision and carries a dated note at the top pointing at the replacement — the
+trade-offs it weighed are still the reason the surviving parts look the way they do.
 
 ## Writing a new ADR
 
