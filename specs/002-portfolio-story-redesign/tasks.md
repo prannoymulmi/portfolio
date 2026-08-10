@@ -58,14 +58,14 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 ### Tests for User Story 1
 
-- [ ] T008 [P] [US1] Integration test in `tests/integration/story-page.test.tsx` asserting `app/page.tsx` renders all 8 section landmarks (`#hero`/intro, `#about`, `#skills`, `#career`, `#education`, `#projects`, `#playbook`, `#contact`) in document order
-- [ ] T009 [P] [US1] Integration test in `tests/integration/story-page.test.tsx` asserting no element with the Navbar's nav-bar role/links renders on `/`
+- [X] T008 [P] [US1] Integration test in `tests/integration/story-page.test.tsx` asserting `app/page.tsx` renders all 8 section landmarks (`#hero`/intro, `#about`, `#skills`, `#career`, `#education`, `#projects`, `#playbook`, `#contact`) in document order
+- [X] T009 [P] [US1] Integration test in `tests/integration/story-page.test.tsx` asserting no element with the Navbar's nav-bar role/links renders on `/`
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Rewrite `app/page.tsx` to render `Hero`, `AboutSection`, `SkillsFormation`, `CareerJourneyLazy`, `EducationSection`, `ProjectGalleryLazy`, `PlaybookGrid`, and the existing Contact content, each wrapped in a `<section id="...">` per the `StorySection` order in `specs/002-portfolio-story-redesign/data-model.md`
-- [ ] T011 [US1] Update `app/layout.tsx`/`app/page.tsx` metadata so the single `/` page's title/description cover the full story (merge the per-page metadata previously on the removed route pages)
-- [ ] T012 [US1] Verify each reused section component renders correctly stacked (no duplicate `<main>`/heading-level conflicts) and adjust heading levels (`h1`/`h2`) in `app/page.tsx`'s section wrappers so the page has one logical heading outline
+- [X] T010 [US1] Rewrite `app/page.tsx` to render `Hero`, `AboutSection`, `SkillsFormation`, `CareerJourneyLazy`, `EducationSection`, `ProjectGalleryLazy`, `PlaybookGrid`, and the existing Contact content, each wrapped in a `<section id="...">` per the `StorySection` order in `specs/002-portfolio-story-redesign/data-model.md`
+- [X] T011 [US1] Update `app/layout.tsx`/`app/page.tsx` metadata so the single `/` page's title/description cover the full story (merge the per-page metadata previously on the removed route pages)
+- [X] T012 [US1] Verify each reused section component renders correctly stacked (no duplicate `<main>`/heading-level conflicts) and adjust heading levels (`h1`/`h2`) in `app/page.tsx`'s section wrappers so the page has one logical heading outline — verified: Hero already owns the page's only `h1`, every other section already opens with `h2`, no changes needed
 
 **Checkpoint**: User Story 1 is fully functional — the whole story reads top to bottom on `/` with no nav bar. This alone is shippable as the MVP.
 
