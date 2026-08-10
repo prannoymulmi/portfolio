@@ -32,7 +32,7 @@ export default function Home() {
       <section
         id="about"
         aria-label="About"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <AboutSection />
@@ -42,7 +42,7 @@ export default function Home() {
       <section
         id="skills"
         aria-label="Skills"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <SkillsFormation />
@@ -52,7 +52,7 @@ export default function Home() {
       <section
         id="career"
         aria-label="Career Journey"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <CareerJourneyLazy />
@@ -62,7 +62,7 @@ export default function Home() {
       <section
         id="education"
         aria-label="Education"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <EducationSection />
@@ -72,7 +72,7 @@ export default function Home() {
       <section
         id="projects"
         aria-label="Projects"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <ProjectGalleryLazy />
@@ -82,7 +82,7 @@ export default function Home() {
       <section
         id="playbook"
         aria-label="Technical Playbook"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <PlaybookGrid />
@@ -92,7 +92,7 @@ export default function Home() {
       <section
         id="contact"
         aria-label="Contact"
-        className="bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-16 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <ContactSection />
