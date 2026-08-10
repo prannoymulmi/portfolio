@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
 
     // Device sizes for responsive images
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+
+    // Certification badges in education.json are hosted on Credly.
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.credly.com',
+        pathname: '/**',
+      },
+    ],
   },
 
   // Compress images and remove metadata

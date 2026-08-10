@@ -32,8 +32,8 @@ export const AboutSchema = z.object({
 export const ExperienceSchema = z.object({
   title: z.string().min(10).max(50),
   subtitle: z.string().min(5).max(50),
-  workType: z.enum(['Full-time', 'Part-time', 'Contract', 'Freelance']),
-  workDescription: z.array(z.string().min(20).max(150)).min(3).max(5),
+  workType: z.enum(['Full-time', 'Part-time', 'Contract', 'Freelance', 'Working student']),
+  workDescription: z.array(z.string().min(20).max(150)).min(3).max(6),
   dateText: z.string().min(5).max(30),
   technologies: z.array(z.string()).optional(),
 });
@@ -85,7 +85,14 @@ export const PrincipleSchema = z.object({
 });
 
 export const PlaybookCategorySchema = z.object({
-  name: z.enum(['Architecture', 'Cloud', 'Security', 'Backend', 'DevOps', 'Engineering Principles']),
+  name: z.enum([
+    'Architecture',
+    'Cloud',
+    'Security',
+    'Backend',
+    'DevOps',
+    'Engineering Principles',
+  ]),
   principles: z.array(PrincipleSchema).min(3).max(5),
 });
 

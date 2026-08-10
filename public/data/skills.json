@@ -6,19 +6,23 @@
       "items": [
         {
           "icon": "images/skills/java.png",
-          "title": "Java"
+          "title": "Java",
+          "category": "Languages & Databases"
         },
         {
           "icon": "images/skills/js.png",
-          "title": "JavaScript"
+          "title": "JavaScript",
+          "category": "Languages & Databases"
         },
         {
           "icon": "images/skills/python.png",
-          "title": "Python"
+          "title": "Python",
+          "category": "Languages & Databases"
         },
         {
           "icon": "images/skills/mysql.png",
-          "title": "MySQL"
+          "title": "MySQL",
+          "category": "Languages & Databases"
         }
       ]
     },
@@ -27,19 +31,23 @@
       "items": [
         {
           "icon": "images/skills/nodejs.png",
-          "title": "Nodejs"
+          "title": "Nodejs",
+          "category": "Frameworks & Technologies"
         },
         {
           "icon": "images/skills/springboot.png",
-          "title": "Springboot"
+          "title": "Springboot",
+          "category": "Frameworks & Technologies"
         },
         {
           "icon": "images/skills/terraform.png",
-          "title": "terraform"
+          "title": "terraform",
+          "category": "Frameworks & Technologies"
         },
         {
           "icon": "images/skills/typescript.png",
-          "title": "typescript"
+          "title": "typescript",
+          "category": "Frameworks & Technologies"
         }
       ]
     },
@@ -48,19 +56,23 @@
       "items": [
         {
           "icon": "images/skills/git.png",
-          "title": "Git"
+          "title": "Git",
+          "category": "Tools & Platforms"
         },
         {
           "icon": "images/skills/docker.png",
-          "title": "Docker"
+          "title": "Docker",
+          "category": "Tools & Platforms"
         },
         {
           "icon": "images/skills/datadog.png",
-          "title": "Data Dog"
+          "title": "Data Dog",
+          "category": "Tools & Platforms"
         },
         {
           "icon": "images/skills/aws.png",
-          "title": "AWS"
+          "title": "AWS",
+          "category": "Tools & Platforms"
         }
       ]
     }
