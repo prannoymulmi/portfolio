@@ -87,10 +87,7 @@ export function setupScrollSyncAnimation(
  * Create parallax effect for hero section
  * Moves background at different speed than scroll
  */
-export function createParallaxAnimation(
-  element: string | HTMLElement,
-  speed: number = 0.5,
-): void {
+export function createParallaxAnimation(element: string | HTMLElement, speed: number = 0.5): void {
   gsap.registerEffect({
     name: 'parallax',
     effect: (target: gsap.TweenTarget, config: { speed: number }) => {

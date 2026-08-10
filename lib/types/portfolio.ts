@@ -9,6 +9,10 @@ export interface PlayerStat {
 
 export interface PlayerCard {
   yearsExperience: number;
+  /** Out of 5, in half steps. */
+  rating: number;
+  /** ISO-ish codes rendered as flags on the card; currently DE and NP. */
+  countries: string[];
   stats: PlayerStat[];
 }
 

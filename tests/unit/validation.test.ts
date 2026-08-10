@@ -8,6 +8,8 @@ const validHome = {
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
   card: {
     yearsExperience: 9,
+    rating: 4.5,
+    countries: ['DE', 'NP'],
     stats: [
       { label: 'Backend', value: 88 },
       { label: 'Cloud', value: 90 },
@@ -50,6 +52,18 @@ describe('HomeSchema', () => {
   it('requires the player card figures', () => {
     const { card: _card, ...withoutCard } = validHome;
     expect(HomeSchema.safeParse(withoutCard).success).toBe(false);
+  });
+
+  it('rejects a rating that is not on a half step', () => {
+    const bad = { ...validHome, card: { ...validHome.card, rating: 4.3 } };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+    const good = { ...validHome, card: { ...validHome.card, rating: 3.5 } };
+    expect(HomeSchema.safeParse(good).success).toBe(true);
+  });
+
+  it('rejects a country without a flag to render', () => {
+    const bad = { ...validHome, card: { ...validHome.card, countries: ['ZZ'] } };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
   });
 
   it('requires the intro statement', () => {

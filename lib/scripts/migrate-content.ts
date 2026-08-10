@@ -54,7 +54,8 @@ async function migrateContent(): Promise<MigrationResult> {
     // Migration templates (update as needed based on actual e-portfolio structure)
     const templates = {
       'skills.json': () => ({
-        intro: 'Core competencies across full-stack development, cloud architecture, and team leadership.',
+        intro:
+          'Core competencies across full-stack development, cloud architecture, and team leadership.',
         skills: [
           {
             title: 'Languages & Databases',

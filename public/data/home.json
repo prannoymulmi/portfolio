@@ -1,13 +1,31 @@
 {
   "name": "Prannoy Mulmi",
   "intro": "I build scalable cloud systems, and I care about getting the security and the details right.",
-  "roles": ["Software Engineer", "AI enthusiast", "Security Nerd"],
+  "roles": [
+    "Software Engineer",
+    "AI enthusiast",
+    "Security Nerd"
+  ],
   "card": {
     "yearsExperience": 9,
+    "rating": 4.5,
+    "countries": [
+      "DE",
+      "NP"
+    ],
     "stats": [
-      { "label": "Backend", "value": 88 },
-      { "label": "Cloud", "value": 90 },
-      { "label": "Threat modeling", "value": 85 }
+      {
+        "label": "Backend",
+        "value": 88
+      },
+      {
+        "label": "Cloud",
+        "value": 90
+      },
+      {
+        "label": "Threat modeling",
+        "value": 85
+      }
     ]
   }
 }
