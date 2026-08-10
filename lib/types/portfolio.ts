@@ -31,7 +31,7 @@ export interface Experience {
   id?: string;
   title: string;
   subtitle: string;
-  workType: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
+  workType: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance' | 'Working student';
   workDescription: string[];
   dateText: string;
   technologies?: string[];

@@ -45,9 +45,7 @@ export function EducationSection() {
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{item.cardSubtitle}</p>
               </div>
-              {item.icon && (
-                <div className="text-4xl">{item.icon.src}</div>
-              )}
+              {item.icon && <div className="text-4xl">{item.icon.src}</div>}
             </div>
 
             {/* Additional details */}
@@ -59,14 +57,13 @@ export function EducationSection() {
 
             {/* Media */}
             {item.media && (
-              <div className="mt-4 rounded-lg overflow-hidden">
+              <div className="relative mt-4 h-48 w-full overflow-hidden rounded-lg">
                 {item.media.type === 'IMAGE' && (
                   <Image
                     src={item.media.source.url}
                     alt={item.media.name}
-                    width={800}
-                    height={192}
-                    className="h-48 w-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 )}
               </div>
