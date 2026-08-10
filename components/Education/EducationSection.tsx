@@ -26,7 +26,7 @@ export function EducationSection() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Education & Certifications</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-on-photo">
           Formal education and professional certifications
         </p>
       </div>
