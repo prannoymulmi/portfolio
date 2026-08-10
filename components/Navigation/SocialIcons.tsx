@@ -1,21 +1,18 @@
 'use client';
 
-import type { IconType } from 'react-icons';
-// Subpath import so only the two glyphs used reach the bundle, rather than the
-// whole icon set.
-import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { useContent } from '@/components/Common/ContentProvider';
+import { GitHubMark, LinkedInMark } from './BrandMarks';
 
 /**
  * Network name → glyph. Keyed lowercase so content can write "GitHub",
  * "Github" or "github" and still match.
  *
  * These are trademarks used to link to the profiles they belong to, which is
- * nominative use. See docs/adr/0014-icon-set-dependency.md
+ * nominative use. See docs/adr/0017-inline-brand-marks.md
  */
-const GLYPHS: Record<string, IconType> = {
-  linkedin: FaLinkedin,
-  github: FaGithub,
+const GLYPHS: Record<string, (props: { className?: string }) => React.JSX.Element> = {
+  linkedin: LinkedInMark,
+  github: GitHubMark,
 };
 
 /**
@@ -47,7 +44,7 @@ export function SocialIcons() {
               className="flex items-center rounded p-1.5 text-gray-600 transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
             >
               {Glyph ? (
-                <Glyph aria-hidden="true" className="h-5 w-5" />
+                <Glyph className="h-5 w-5" />
               ) : (
                 // A network with no glyph still has to be a usable link.
                 <span className="text-sm font-medium">{link.network}</span>
