@@ -10,12 +10,13 @@ import { ContactSection } from '@/components/Contact/ContactSection';
 
 export const metadata: Metadata = {
   title: 'Prannoy Mulmi | Senior Software Engineer',
+  // Professional register, deliberately distinct from the hero's casual
+  // phrasing — this is what search results and link previews show.
   description:
-    'Senior software engineer portfolio: background, skills, career journey, education, projects, technical playbook, and how to get in touch — 10+ years building scalable cloud systems.',
+    'Senior software engineer and cloud architect, with a focus on AI and security. Background, skills, career journey, education, projects, and how to get in touch.',
   openGraph: {
     title: 'Prannoy Mulmi | Senior Software Engineer',
-    description:
-      'Senior software engineer portfolio: background, skills, career journey, education, projects, technical playbook, and how to get in touch.',
+    description: 'Senior software engineer and cloud architect, with a focus on AI and security.',
     type: 'website',
     url: 'https://portfolio.prannoy-mulmi.com',
   },

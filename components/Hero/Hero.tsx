@@ -4,9 +4,17 @@ import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
+import { RoughAnnotation, type AnnotationType } from '@/components/Common/RoughAnnotation';
 import { HeroParallax } from './HeroParallax';
 import { ValueProp } from './ValueProp';
-import { TopSkillsPreview } from './TopSkillsPreview';
+
+// Fixed in code rather than content, so the marks stay visually varied
+// however the phrases are later edited. Wraps if there are more phrases
+// than styles. See docs/adr/0009-rough-notation-third-animation-library.md
+const MARK_SEQUENCE: AnnotationType[] = ['highlight', 'circle', 'underline', 'box', 'bracket'];
+
+// Stagger the marks so they draw one after another rather than all at once.
+const MARK_STAGGER_MS = 450;
 
 export function Hero() {
   const { home, about } = useContent();
@@ -14,67 +22,68 @@ export function Hero() {
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, roles } = home.data;
-  const primaryRole = roles[0];
+  const { name, intro, roles } = home.data;
   const imageSource = about.data?.imageSource;
 
   return (
     <HeroParallax>
-      <section className="relative min-h-screen bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          {/* Hero Content */}
-          <div className="mb-12 space-y-6 text-center">
-            {/* Profile picture (or a placeholder until one is configured) */}
-            {imageSource ? (
-              <Image
-                src={imageSource}
-                alt="Profile"
-                width={128}
-                height={128}
-                className="mx-auto h-32 w-32 rounded-full object-cover"
-              />
-            ) : (
-              <ProfilePicturePlaceholder className="mx-auto h-32 w-32 rounded-full" />
-            )}
+      <section className="relative flex min-h-screen items-center bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-5xl">
+          <div className="flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-between md:gap-14">
+            {/* Introduction */}
+            <div className="order-2 flex-1 space-y-6 text-center md:order-1 md:text-left">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
+                {name}
+              </h1>
 
-            {/* Name */}
-            <h1 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl">
-              {name}
-            </h1>
+              {/* Annotated role phrases */}
+              <p className="flex flex-wrap justify-center gap-x-3 gap-y-4 text-lg font-semibold text-gray-800 dark:text-gray-100 sm:text-xl md:justify-start">
+                {roles.map((role, index) => (
+                  <RoughAnnotation
+                    key={role}
+                    type={MARK_SEQUENCE[index % MARK_SEQUENCE.length]}
+                    delay={index * MARK_STAGGER_MS}
+                  >
+                    {role}
+                  </RoughAnnotation>
+                ))}
+              </p>
 
-            {/* Title */}
-            <p className="text-xl font-semibold text-blue-600 dark:text-blue-400 sm:text-2xl">
-              {primaryRole}
-            </p>
+              <p className="mx-auto max-w-xl text-lg text-gray-600 dark:text-gray-300 md:mx-0">
+                {intro}
+              </p>
 
-            {/* Value Proposition */}
-            <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300 sm:text-xl">
-              I build scalable cloud systems and lead high-performing engineering teams. 10+ years
-              of experience in backend architecture, DevOps, and full-stack development.
-            </p>
-          </div>
+              <div className="pt-2">
+                <ValueProp />
+              </div>
+            </div>
 
-          {/* CTA Buttons */}
-          <div className="mb-16">
-            <ValueProp />
-          </div>
-
-          {/* Top Skills Preview */}
-          <div className="rounded-lg border border-gray-200 bg-white/50 p-8 backdrop-blur dark:border-gray-700 dark:bg-gray-800/50">
-            <h2 className="mb-6 text-center text-lg font-semibold text-gray-900 dark:text-white">
-              Core Expertise
-            </h2>
-            <TopSkillsPreview />
+            {/* Portrait */}
+            <div className="order-1 shrink-0 md:order-2">
+              {imageSource ? (
+                <Image
+                  src={imageSource}
+                  alt="Profile"
+                  width={288}
+                  height={288}
+                  className="h-48 w-48 rounded-full object-cover sm:h-64 sm:w-64 lg:h-72 lg:w-72"
+                  priority
+                />
+              ) : (
+                <ProfilePicturePlaceholder className="h-48 w-48 rounded-full sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
+              )}
+            </div>
           </div>
 
           {/* Scroll Indicator */}
-          <div className="mt-20 flex justify-center">
+          <div className="mt-16 flex justify-center">
             <div className="animate-bounce">
               <svg
                 className="h-6 w-6 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

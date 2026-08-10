@@ -26,14 +26,12 @@ export const metadata: Metadata = {
     default: 'Prannoy Mulmi | Senior Software Engineer',
     template: '%s | Prannoy Mulmi',
   },
-  description:
-    'Senior software engineer portfolio showcasing cloud architecture, full-stack development, and technical leadership.',
+  description: 'Senior software engineer and cloud architect, with a focus on AI and security.',
   authors: [{ name: 'Prannoy Mulmi' }],
   creator: 'Prannoy Mulmi',
   openGraph: {
     title: 'Prannoy Mulmi | Senior Software Engineer',
-    description:
-      'Senior software engineer portfolio showcasing cloud architecture, full-stack development, and technical leadership.',
+    description: 'Senior software engineer and cloud architect, with a focus on AI and security.',
     type: 'website',
     url: SITE_URL,
     siteName: 'Prannoy Mulmi Portfolio',
@@ -42,8 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Prannoy Mulmi | Senior Software Engineer',
-    description:
-      'Senior software engineer portfolio showcasing cloud architecture, full-stack development, and technical leadership.',
+    description: 'Senior software engineer and cloud architect, with a focus on AI and security.',
   },
   robots: {
     index: true,

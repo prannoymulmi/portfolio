@@ -12,6 +12,13 @@ jest.mock('framer-motion', () => ({
   useTransform: () => 0,
 }));
 
+// rough-notation measures real layout, which jsdom doesn't provide. The
+// wrapper always renders its children regardless, so the text assertions
+// below still exercise what matters.
+jest.mock('rough-notation', () => ({
+  annotate: () => ({ show: jest.fn(), hide: jest.fn(), remove: jest.fn() }),
+}));
+
 describe('Hero Component', () => {
   const renderHero = () => {
     return render(
@@ -23,22 +30,26 @@ describe('Hero Component', () => {
 
   it('renders hero section', async () => {
     renderHero();
-    // Wait for async content load before asserting the section renders
     await screen.findByText(/Prannoy Mulmi/i);
     expect(document.querySelector('section')).toBeInTheDocument();
   });
 
   it('displays portfolio owner name when content loads', async () => {
     renderHero();
-    // Wait for name to appear (from home.json)
     const nameElement = await screen.findByText(/Prannoy Mulmi/i);
     expect(nameElement).toBeInTheDocument();
   });
 
-  it('displays a role phrase from home.json', async () => {
+  it('renders every role phrase from home.json, each annotated', async () => {
     renderHero();
-    const roleElement = await screen.findByText(/Software Engineer/i);
-    expect(roleElement).toBeInTheDocument();
+    for (const phrase of ['Software Engineer', 'AI enthusiast', 'Security Nerd']) {
+      expect(await screen.findByText(phrase)).toBeInTheDocument();
+    }
+  });
+
+  it('displays the intro statement from content, not hardcoded copy', async () => {
+    renderHero();
+    expect(await screen.findByText(/scalable cloud systems/i)).toBeInTheDocument();
   });
 
   it('has View Work CTA button linking to the projects section', async () => {
@@ -53,19 +64,6 @@ describe('Hero Component', () => {
     expect(playCareerButton).toHaveAttribute('href', '/#career');
   });
 
-  it('displays core expertise skills preview', async () => {
-    renderHero();
-    // Check for skills section heading
-    const skillsHeading = await screen.findByText(/Core Expertise/i);
-    expect(skillsHeading).toBeInTheDocument();
-  });
-
-  it('contains value proposition text', async () => {
-    renderHero();
-    const valueText = await screen.findByText(/build scalable cloud systems/i);
-    expect(valueText).toBeInTheDocument();
-  });
-
   it('applies a gradient background to the introduction', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
@@ -77,5 +75,11 @@ describe('Hero Component', () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
     expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+  });
+
+  it('no longer shows the Core Expertise card — the Skills chapter covers it', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    expect(screen.queryByText(/Core Expertise/i)).not.toBeInTheDocument();
   });
 });

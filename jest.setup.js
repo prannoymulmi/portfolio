@@ -46,6 +46,13 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+global.ResizeObserver = class ResizeObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+};
+
 global.IntersectionObserver = class IntersectionObserver {
   constructor() {}
   disconnect() {}
