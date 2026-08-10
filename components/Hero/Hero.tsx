@@ -5,23 +5,14 @@ import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
 import { HeroParallax } from './HeroParallax';
 import { PlayerCard } from './PlayerCard';
+import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
 
 /**
- * Palette is drawn from this site's own football-pitch metaphor (ADR 0004)
- * rather than a generic rainbow: floodlight amber, grass under lights, and
- * the same kit blue the #10 jersey already uses in PlayerAnimation.
- *
  * One colour per role — three roles, three colours, no arbitrary cycling.
- * Each is the background for the text on it; all clear 7:1 against
- * HIGHLIGHT_TEXT, so they hold up in both themes.
+ * See ./palette.ts for where the three come from and why they're dark.
  */
-const FLOODLIGHT = '#fbbf24';
-const TURF = '#4ade80';
-const KIT = '#60a5fa';
-const HIGHLIGHT_COLORS = [FLOODLIGHT, TURF, KIT] as const;
-
-const HIGHLIGHT_TEXT = 'text-[#0b1220]';
+const HIGHLIGHT_COLORS = [INK, EMBER, TEAL] as const;
 
 const MARK_STAGGER_MS = 350;
 
@@ -36,7 +27,9 @@ export function Hero() {
 
   return (
     <HeroParallax>
-      <section className="relative flex min-h-screen items-center bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
+      {/* A scrim, not a fill: it lifts the left column clear of the photo's
+          saturated corner while leaving the sunset itself visible. */}
+      <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
             {/* Introduction. min-w-0 on both cells: a grid item defaults to
@@ -55,7 +48,8 @@ export function Hero() {
                       padding={6}
                     >
                       <span
-                        className={`text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl ${HIGHLIGHT_TEXT}`}
+                        className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
+                        style={{ color: CREAM }}
                       >
                         {role}.
                       </span>
@@ -64,7 +58,11 @@ export function Hero() {
                 ))}
               </ul>
 
-              <p className="mt-9 max-w-xl text-lg text-gray-600 dark:text-gray-300">{intro}</p>
+              {/* Literal rather than the WARM_INK token: Tailwind scans class
+                  strings, so an interpolated one never reaches the stylesheet. */}
+              <p className="mt-9 max-w-xl text-lg font-medium text-[#3d2318] dark:text-gray-300">
+                {intro}
+              </p>
 
               <div className="mt-8">
                 <ValueProp />
