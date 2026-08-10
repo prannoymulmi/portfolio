@@ -12,7 +12,7 @@ jest.mock('rough-notation', () => ({
 }));
 
 const mockReducedMotion = jest.fn(() => false);
-jest.mock('@/lib/utils/animations', () => ({
+jest.mock('@/lib/utils/motion', () => ({
   prefersReducedMotion: () => mockReducedMotion(),
 }));
 

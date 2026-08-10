@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { REDUCED_MOTION_QUERY, prefersReducedMotion } from '@/lib/utils/motion';
 
 /**
  * Travel ceiling, in pixels. The drift has to stay small enough that a card
@@ -11,8 +12,6 @@ const MAX_DRIFT = 80;
 
 /** Scroll distance the drift is measured over — roughly one screen. */
 const DRIFT_OVER = 500;
-
-const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
 interface HeroDriftProps {
   children: ReactNode;
@@ -38,18 +37,16 @@ export function HeroDrift({ children, strength, className }: HeroDriftProps) {
   // Read once during the first render, not in an effect: an effect runs after
   // the first paint, so a visitor who asked for reduced motion would get one
   // frame of drift before it was switched off.
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(REDUCED_MOTION).matches,
-  );
+  const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(REDUCED_MOTION);
-    const handleChange = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    const handleChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  const travel = prefersReducedMotion ? 0 : Math.min(Math.abs(strength), MAX_DRIFT);
+  const travel = reducedMotion ? 0 : Math.min(Math.abs(strength), MAX_DRIFT);
   const y = useTransform(scrollY, [0, DRIFT_OVER], [0, travel]);
 
   return (
