@@ -1,7 +1,13 @@
 # ADR 0006: Tailwind CSS v4 with `@theme inline`
 
-- **Status**: Accepted
+- **Status**: Accepted, partially superseded by [ADR 0011](0011-class-based-dark-mode.md)
 - **Date**: 2026-08-09
+
+> **Supersession note**: the `prefers-color-scheme` trigger for dark mode
+> described here was replaced by a class-based `dark` variant in
+> [ADR 0011](0011-class-based-dark-mode.md), so an explicit visitor choice
+> can outrank the OS setting. Everything else here — Tailwind v4 and
+> `@theme inline` — still stands.
 
 ## Context
 

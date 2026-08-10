@@ -17,6 +17,9 @@ were on the table at the time.
 | [0006](0006-tailwind-v4.md) | Tailwind CSS v4 with `@theme inline` | Accepted |
 | [0007](0007-react-19-legacy-peer-deps.md) | React 19 with `--legacy-peer-deps` | Accepted |
 | [0008](0008-file-based-seo-conventions.md) | File-based `sitemap.ts` / `robots.ts` | Accepted |
+| [0009](0009-rough-notation-third-animation-library.md) | RoughJS (via rough-notation) as a third animation library | Accepted |
+| [0010](0010-next-themes-for-theme-state.md) | next-themes for theme state | Accepted |
+| [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted |
 
 ## Writing a new ADR
 

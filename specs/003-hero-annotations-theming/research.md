@@ -21,7 +21,7 @@ No Technical Context entries were left as NEEDS CLARIFICATION — the three open
 
 **Rationale**:
 - Defect 4 (flash) can only be fixed by setting the theme class **before first paint**, which requires a synchronous blocking script in `<head>`. `next-themes` injects exactly this; a `useEffect` fundamentally cannot.
-- Verified React 19 compatible: peer range `^16.8 || ^17 || ^18 || ^19` — no `--legacy-peer-deps` needed (relevant given ADR 0007).
+- Verified React 19 compatible: peer range `^16.8 || ^17 || ^18 || ^19`, so it adds no new peer conflict. **Correction found at install time**: the install still requires `--legacy-peer-deps`, but for a pre-existing reason — `@testing-library/react@14` pins React ^18, so a bare `npm install` fails identically with no new packages. This is the condition ADR 0007 already records; it is not caused by this feature.
 - ~2KB gzipped. Also provides cross-tab sync and live system-preference tracking, both of which the hand-rolled hook lacks.
 - **Net code reduction**: deletes ~45 lines of hand-rolled hook, adds a ~10-line provider wrapper.
 
