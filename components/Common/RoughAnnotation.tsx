@@ -56,10 +56,24 @@ export function RoughAnnotation({
 
     let cancelled = false;
     let annotation: { show: () => void; remove: () => void } | undefined;
-    let observer: ResizeObserver | undefined;
+    let elementObserver: ResizeObserver | undefined;
+    let layoutObserver: ResizeObserver | undefined;
+    let lastRect = '';
+    let hasDrawn = false;
 
-    const draw = async () => {
-      // rough-notation measures layout, so it can only run in the browser.
+    const draw = async (force = false) => {
+      if (cancelled) return;
+
+      // rough-notation draws an absolutely-positioned SVG from the element's
+      // measured rect, so a redraw is only needed when that rect actually
+      // moved or resized. Comparing first keeps observer churn from
+      // re-triggering the draw animation on every unrelated layout tick.
+      const { top, left, width, height } = element.getBoundingClientRect();
+      const rect = `${Math.round(top + window.scrollY)}:${Math.round(left + window.scrollX)}:${Math.round(width)}:${Math.round(height)}`;
+      if (!force && hasDrawn && rect === lastRect) return;
+      if (width === 0 || height === 0) return;
+      lastRect = rect;
+
       const { annotate } = await import('rough-notation');
       if (cancelled) return;
 
@@ -67,7 +81,9 @@ export function RoughAnnotation({
       annotation = annotate(element, {
         type,
         color: color ?? markColor(type, resolvedTheme === 'dark'),
-        animate: !prefersReducedMotion(),
+        // Only the very first draw animates; later redraws are corrections
+        // after a layout shift and should land silently.
+        animate: !hasDrawn && !prefersReducedMotion(),
         animationDuration: 700,
         strokeWidth: 2,
         iterations: 2,
@@ -75,6 +91,7 @@ export function RoughAnnotation({
         ...(padding !== undefined ? { padding } : {}),
       });
       annotation.show();
+      hasDrawn = true;
     };
 
     const start = async () => {
@@ -90,20 +107,31 @@ export function RoughAnnotation({
         if (cancelled) return;
       }
 
-      await draw();
-
-      // Redraw when the element's box changes — resize, orientation change, or
-      // text reflowing onto a different number of lines.
+      await draw(true);
       if (cancelled) return;
-      observer = new ResizeObserver(() => void draw());
-      observer.observe(element);
+
+      // The element's own box catches reflow onto more lines...
+      elementObserver = new ResizeObserver(() => void draw());
+      elementObserver.observe(element);
+
+      // ...but the common failure is the element being pushed *down* by
+      // content loading above it, which leaves its own size unchanged. Watch
+      // the document too, and compare rects before redrawing.
+      layoutObserver = new ResizeObserver(() => void draw());
+      layoutObserver.observe(document.documentElement);
+
+      window.addEventListener('load', onLoad);
     };
+
+    const onLoad = () => void draw();
 
     void start();
 
     return () => {
       cancelled = true;
-      observer?.disconnect();
+      window.removeEventListener('load', onLoad);
+      elementObserver?.disconnect();
+      layoutObserver?.disconnect();
       annotation?.remove();
     };
   }, [type, delay, resolvedTheme, color, padding]);

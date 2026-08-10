@@ -1,12 +1,25 @@
 // Portfolio data type definitions
 // All types map to public/data/*.json files per data-model.md
 
+export interface PlayerStat {
+  label: string;
+  /** 0–100, shown as a number and a bar on the hero card. */
+  value: number;
+}
+
+export interface PlayerCard {
+  yearsExperience: number;
+  stats: PlayerStat[];
+}
+
 export interface Home {
   name: string;
   /** Short introductory statement shown under the name in the hero. */
   intro: string;
   /** Role phrases rendered together in the hero, each with a hand-drawn mark. */
   roles: string[];
+  /** Figures shown on the hero's player card. */
+  card: PlayerCard;
 }
 
 export interface About {

@@ -20,7 +20,23 @@ describe('RoughAnnotation', () => {
   beforeEach(() => {
     annotate.mockClear();
     mockReducedMotion.mockReturnValue(false);
+
+    // jsdom reports every element as 0x0. The component skips drawing against
+    // a zero-size box (there'd be nothing to annotate), so give it a real one.
+    jest.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      left: 20,
+      width: 240,
+      height: 48,
+      right: 260,
+      bottom: 148,
+      x: 20,
+      y: 100,
+      toJSON: () => ({}),
+    });
   });
+
+  afterEach(() => jest.restoreAllMocks());
 
   it('renders its children as readable text — the mark is emphasis, never the meaning', () => {
     render(<RoughAnnotation type="highlight">Security Nerd</RoughAnnotation>);

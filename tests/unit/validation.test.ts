@@ -6,6 +6,13 @@ const validHome = {
   name: 'Prannoy Mulmi',
   intro: 'I build scalable cloud systems, and I care about the details.',
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
+  card: {
+    yearsExperience: 9,
+    stats: [
+      { label: 'Backend', value: 88 },
+      { label: 'Cloud', value: 90 },
+    ],
+  },
 };
 
 describe('HomeSchema', () => {
@@ -30,6 +37,19 @@ describe('HomeSchema', () => {
 
   it('rejects a single role, since the mark sequence needs variation', () => {
     expect(HomeSchema.safeParse({ ...validHome, roles: ['Engineer'] }).success).toBe(false);
+  });
+
+  it('rejects a stat value outside 0-100', () => {
+    const bad = {
+      ...validHome,
+      card: { ...validHome.card, stats: [{ label: 'Backend', value: 140 }] },
+    };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('requires the player card figures', () => {
+    const { card: _card, ...withoutCard } = validHome;
+    expect(HomeSchema.safeParse(withoutCard).success).toBe(false);
   });
 
   it('requires the intro statement', () => {

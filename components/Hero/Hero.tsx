@@ -1,23 +1,27 @@
 'use client';
 
-import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
-import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
 import { HeroParallax } from './HeroParallax';
+import { PlayerCard } from './PlayerCard';
 import { ValueProp } from './ValueProp';
 
-// One colour per stacked phrase, cycling if there are more phrases than
-// colours. Each bar becomes the background for the text sitting on it, so
-// every colour is checked against HIGHLIGHT_TEXT below: the weakest pairing
-// (blue) is 4.63:1, clearing WCAG AA for normal text and well clear of the
-// 3:1 large-text threshold this display type actually falls under.
-const HIGHLIGHT_COLORS = ['#f0921e', '#7ac81f', '#12b886', '#3b7ff0'] as const;
+/**
+ * Palette is drawn from this site's own football-pitch metaphor (ADR 0004)
+ * rather than a generic rainbow: floodlight amber, grass under lights, and
+ * the same kit blue the #10 jersey already uses in PlayerAnimation.
+ *
+ * One colour per role — three roles, three colours, no arbitrary cycling.
+ * Each is the background for the text on it; all clear 7:1 against
+ * HIGHLIGHT_TEXT, so they hold up in both themes.
+ */
+const FLOODLIGHT = '#fbbf24';
+const TURF = '#4ade80';
+const KIT = '#60a5fa';
+const HIGHLIGHT_COLORS = [FLOODLIGHT, TURF, KIT] as const;
 
-// Deliberately near-black rather than theme-dependent: the bar supplies the
-// background, so the same text colour is legible in light and dark alike.
-const HIGHLIGHT_TEXT = 'text-gray-900';
+const HIGHLIGHT_TEXT = 'text-[#0b1220]';
 
 const MARK_STAGGER_MS = 350;
 
@@ -27,22 +31,18 @@ export function Hero() {
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, intro, roles } = home.data;
+  const { name, intro, roles, card } = home.data;
   const imageSource = about.data?.imageSource;
 
   return (
     <HeroParallax>
       <section className="relative flex min-h-screen items-center bg-gradient-to-br from-white/95 via-blue-50/90 to-white/95 px-4 py-20 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             {/* Introduction */}
             <div className="order-2 lg:order-1">
-              <p className="mb-5 text-base font-medium uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
-                {name}
-              </p>
-
-              {/* Stacked, each on its own line so the colour bars read as a
-                  vertical stack rather than an inline run of highlights. */}
+              {/* Stacked one per line, so the colour bars read as a vertical
+                  stack rather than an inline run of highlights. */}
               <ul className="space-y-3">
                 {roles.map((role, index) => (
                   <li key={role} className="flex">
@@ -69,26 +69,10 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Portrait */}
+            {/* Portrait, framed as a player card — same metaphor the career
+                and skills sections already run on. */}
             <div className="order-1 lg:order-2">
-              <figure className="mx-auto w-full max-w-md lg:mx-0 lg:ml-auto">
-                {imageSource ? (
-                  <Image
-                    src={imageSource}
-                    alt="Profile"
-                    width={640}
-                    height={640}
-                    className="aspect-square w-full rounded-2xl bg-sky-400 object-cover"
-                    priority
-                  />
-                ) : (
-                  <ProfilePicturePlaceholder className="aspect-square w-full rounded-2xl" />
-                )}
-                <figcaption className="mt-3 flex items-center gap-2 font-mono text-sm text-gray-500 dark:text-gray-400">
-                  <span aria-hidden="true">↖</span>
-                  That&apos;s me
-                </figcaption>
-              </figure>
+              <PlayerCard name={name} card={card} imageSource={imageSource} />
             </div>
           </div>
         </div>
