@@ -3,7 +3,7 @@
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
-import { HeroParallax } from './HeroParallax';
+import { HeroDrift } from './HeroParallax';
 import { PlayerCard } from './PlayerCard';
 import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
@@ -26,7 +26,7 @@ export function Hero() {
   const imageSource = about.data?.imageSource;
 
   return (
-    <HeroParallax>
+    <>
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
       <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
@@ -35,7 +35,7 @@ export function Hero() {
             {/* Introduction. min-w-0 on both cells: a grid item defaults to
                 min-width:auto, which would let the card's fixed side rails push
                 the column past the viewport on narrow screens. */}
-            <div className="order-2 min-w-0 lg:order-1">
+            <HeroDrift strength={24} className="order-2 min-w-0 lg:order-1">
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
               <ul aria-label="What I do" className="space-y-3">
@@ -67,16 +67,17 @@ export function Hero() {
               <div className="mt-8">
                 <ValueProp />
               </div>
-            </div>
+            </HeroDrift>
 
             {/* Portrait, framed as a player card — same metaphor the career
-                and skills sections already run on. */}
-            <div className="order-1 min-w-0 lg:order-2">
+                and skills sections already run on. Drifts further than the text
+                beside it, so the card reads as the nearer object. */}
+            <HeroDrift strength={56} className="order-1 min-w-0 lg:order-2">
               <PlayerCard name={name} card={card} imageSource={imageSource} />
-            </div>
+            </HeroDrift>
           </div>
         </div>
       </section>
-    </HeroParallax>
+    </>
   );
 }
