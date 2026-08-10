@@ -3,6 +3,9 @@
 
 export interface Home {
   name: string;
+  /** Short introductory statement shown under the name in the hero. */
+  intro: string;
+  /** Role phrases rendered together in the hero, each with a hand-drawn mark. */
   roles: string[];
 }
 

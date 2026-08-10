@@ -1,8 +1,5 @@
 {
   "name": "Prannoy Mulmi",
-  "roles": [
-    "a Senior Software Engineer",
-    "a Cloud Architect",
-    "a Technical Leader"
-  ]
+  "intro": "I build scalable cloud systems, and I care about getting the security and the details right.",
+  "roles": ["Software Engineer", "AI enthusiast", "Security Nerd"]
 }

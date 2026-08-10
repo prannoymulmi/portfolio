@@ -35,10 +35,9 @@ describe('Hero Component', () => {
     expect(nameElement).toBeInTheDocument();
   });
 
-  it('displays primary role/title', async () => {
+  it('displays a role phrase from home.json', async () => {
     renderHero();
-    // Check for role title (first role from home.json)
-    const roleElement = await screen.findByText(/Senior Software Engineer/i);
+    const roleElement = await screen.findByText(/Software Engineer/i);
     expect(roleElement).toBeInTheDocument();
   });
 
