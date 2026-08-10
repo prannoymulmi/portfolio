@@ -27,7 +27,7 @@ export function PlaybookGrid() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Technical Playbook</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-on-photo">
           Core principles guiding architecture, design, and engineering decisions
         </p>
       </div>
