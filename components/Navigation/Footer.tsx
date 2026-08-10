@@ -28,7 +28,7 @@ export function Footer() {
             <div className="mt-3 space-y-2">
               <div>
                 <Link
-                  href="/projects"
+                  href="/#projects"
                   className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Projects
@@ -36,7 +36,7 @@ export function Footer() {
               </div>
               <div>
                 <Link
-                  href="/skills"
+                  href="/#skills"
                   className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Skills
@@ -44,7 +44,7 @@ export function Footer() {
               </div>
               <div>
                 <Link
-                  href="/career"
+                  href="/#career"
                   className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Career

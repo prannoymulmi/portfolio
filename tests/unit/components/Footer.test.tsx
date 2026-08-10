@@ -24,4 +24,11 @@ describe('Footer', () => {
     expect(linkedin).toHaveAttribute('target', '_blank');
     expect(linkedin).toHaveAttribute('rel', 'noopener noreferrer');
   });
+
+  it('points Quick Links at in-page story anchors, not the removed standalone pages', () => {
+    renderFooter();
+    expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/#projects');
+    expect(screen.getByRole('link', { name: 'Skills' })).toHaveAttribute('href', '/#skills');
+    expect(screen.getByRole('link', { name: 'Career' })).toHaveAttribute('href', '/#career');
+  });
 });

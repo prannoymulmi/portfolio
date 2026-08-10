@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import { prefersReducedMotion } from '@/lib/utils/animations';
 
 // The story has no page-to-page nav bar, but visitors still need a way to
 // jump between chapters (and keyboard/screen-reader users need a way to
@@ -19,7 +21,17 @@ const STORY_SECTIONS = [
 
 export function StoryProgressNav() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 300, damping: 40, restDelta: 0.001 });
+  const springScaleX = useSpring(scrollYProgress, {
+    stiffness: 300,
+    damping: 40,
+    restDelta: 0.001,
+  });
+
+  // Respect prefers-reduced-motion: skip the spring's smoothing/overshoot
+  // and just track scroll position directly, with no added motion. Read
+  // once via lazy initializer (`window` isn't available during SSR).
+  const [reducedMotion] = useState(() => typeof window !== 'undefined' && prefersReducedMotion());
+  const scaleX = reducedMotion ? scrollYProgress : springScaleX;
 
   return (
     <div className="sticky top-0 z-40 bg-white/80 backdrop-blur dark:bg-gray-900/80">

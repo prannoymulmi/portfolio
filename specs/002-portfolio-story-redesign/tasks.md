@@ -117,11 +117,11 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 **Purpose**: Accessibility, cleanup, and final validation across all stories.
 
-- [ ] T023 [P] Verify `prefers-reduced-motion` disables/minimizes `StoryProgressNav` scroll animation and the gradient's any transition effects, across `components/Navigation/StoryProgressNav.tsx` and `components/Hero/Hero.tsx`
-- [ ] T024 [P] Update `components/Navigation/Footer.tsx`'s "Quick Links" (`/projects`, `/skills`, `/career`) to point at the in-page anchors (`/#projects`, `/#skills`, `/#career`) instead of the removed standalone routes
-- [ ] T025 Remove now-unused `components/Navigation/Navbar.tsx` and `components/Navigation/NavToggle.tsx` (and their `navbar.json` content wiring) once nothing references them, or confirm via grep that they're fully unreferenced
-- [ ] T026 Run `npm run type-check`, `npm run lint`, and `npm test` and fix any failures
-- [ ] T027 Walk through every scenario in `specs/002-portfolio-story-redesign/quickstart.md` manually and confirm each passes
+- [X] T023 [P] Verify `prefers-reduced-motion` disables/minimizes `StoryProgressNav` scroll animation and the gradient's any transition effects, across `components/Navigation/StoryProgressNav.tsx` and `components/Hero/Hero.tsx` — gradient is static (no transition to disable); progress bar now skips spring easing under reduced motion
+- [X] T024 [P] Update `components/Navigation/Footer.tsx`'s "Quick Links" (`/projects`, `/skills`, `/career`) to point at the in-page anchors (`/#projects`, `/#skills`, `/#career`) instead of the removed standalone routes — also fixed the same issue in `components/Hero/ValueProp.tsx`'s "View Work"/"Play Career" CTAs, found during implementation
+- [X] T025 Remove now-unused `components/Navigation/Navbar.tsx` and `components/Navigation/NavToggle.tsx` (and their `navbar.json` content wiring) once nothing references them, or confirm via grep that they're fully unreferenced — both files deleted, `navbar` content wiring removed from `ContentProvider`
+- [X] T026 Run `npm run type-check`, `npm run lint`, and `npm test` and fix any failures — all clean (28/28 tests passing)
+- [X] T027 Walk through every scenario in `specs/002-portfolio-story-redesign/quickstart.md` manually and confirm each passes — verified via `npm run build` + live `curl` checks against `npm run start` (all 7 redirects return 308 to the correct anchors, all 8 sections present in order, only the intentional `StoryProgressNav` nav renders)
 
 ---
 
