@@ -42,9 +42,17 @@ describe('Hero Component', () => {
 
   it('renders every role phrase from home.json, each annotated', async () => {
     renderHero();
+    // Rendered with a trailing period as a styling choice, so match loosely.
     for (const phrase of ['Software Engineer', 'AI enthusiast', 'Security Nerd']) {
-      expect(await screen.findByText(phrase)).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(`^${phrase}\\.?$`))).toBeInTheDocument();
     }
+  });
+
+  it('stacks the phrases one per line so the colour bars read vertically', async () => {
+    renderHero();
+    await screen.findByText(/Software Engineer/);
+    // One list item per phrase, rather than an inline run of highlights.
+    expect(document.querySelectorAll('li')).toHaveLength(3);
   });
 
   it('displays the intro statement from content, not hardcoded copy', async () => {
