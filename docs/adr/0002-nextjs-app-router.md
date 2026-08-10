@@ -1,7 +1,14 @@
 # ADR 0002: Next.js App Router
 
-- **Status**: Accepted
+- **Status**: Accepted, route structure superseded by [ADR 0012](0012-single-page-story.md)
 - **Date**: 2026-08-09
+
+> **Supersession note**: the eight-route `(routes)` structure described here no
+> longer exists. [ADR 0012](0012-single-page-story.md) collapsed the site into a
+> single scrolling story on `/`, with the old paths kept alive as permanent
+> redirects. The framework choice below — App Router on Next.js, deployed to
+> Vercel — still stands, as do the file-based `sitemap.ts` / `robots.ts` and
+> per-route `metadata` mechanisms; there is simply one route using them now.
 
 ## Context
 

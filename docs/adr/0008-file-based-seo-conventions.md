@@ -1,7 +1,13 @@
 # ADR 0008: File-based `sitemap.ts` / `robots.ts`
 
-- **Status**: Accepted
+- **Status**: Accepted, route list amended by [ADR 0012](0012-single-page-story.md)
 - **Date**: 2026-08-09
+
+> **Amendment note**: `sitemap.ts` now emits a single canonical URL. Since
+> [ADR 0012](0012-single-page-story.md) the portfolio is one scrolling story and
+> the old per-page paths are permanent redirects, so listing them would point
+> crawlers at redirects rather than content. The mechanism below — file-based
+> `sitemap.ts` / `robots.ts` with an env-driven base URL — is unchanged.
 
 ## Context
 
@@ -34,9 +40,8 @@ a production default.
 
 **Negative**
 
-- Sitemap route list is still manual. A more clever implementation would
-  walk the `app/(routes)/*` tree — future improvement if the route
-  count grows.
+- Sitemap route list is still manual — a non-issue at one route, but worth
+  automating if the site ever grows routes again.
 - No dynamic priority based on last-modified per page (all routes get
   the same `lastModified` = build time). Fine for a portfolio; would
   matter more for a blog.
