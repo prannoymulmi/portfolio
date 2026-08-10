@@ -90,11 +90,9 @@ Then run Lighthouse on the production build: performance ≥ 90, accessibility 1
 
 **Content validation:**
 
-```bash
-npm run validate:json
-```
-
-Then break it on purpose: paste 300 characters into `bio` and reload. The opening must
+Note `npm run validate:json` is broken and always has been — it points at
+`lib/scripts/validate-json.js`, which does not exist in this repo. Validation happens at
+load instead, so check it there: paste 300 characters into `bio` and reload. The opening must
 show its error state with a Zod message naming `bio` — a silent blank means validation is
 not wired up.
 
