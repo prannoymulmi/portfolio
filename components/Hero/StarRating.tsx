@@ -17,7 +17,7 @@ export function StarRating({ rating, className }: StarRatingProps) {
         const clipId = `star-clip-${index}`;
 
         return (
-          <svg key={index} viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+          <svg key={index} viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
             <defs>
               <clipPath id={clipId}>
                 <rect x="0" y="0" width={24 * fill} height="24" />
