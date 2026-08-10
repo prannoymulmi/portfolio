@@ -12,6 +12,20 @@
   --primary: #0284c7;
   --accent: #ec4899;
   --border: #e5e7eb;
+
+  /* The whole story sits on one photograph (docs/adr/0015). Chapters carry a
+     scrim rather than a background of their own: enough to keep text legible
+     over photographic detail, translucent enough that the photo still reads.
+
+     0.42 is chosen, not guessed. The photo's darkest region measures 0.293
+     relative luminance; a 42% white scrim lifts a composite over it to ~0.61,
+     which clears 11:1 against --on-photo and still rescues the gray-700 the
+     chapters used to use. See specs/004-photo-background-hero-merge/research.md */
+  --scrim: rgb(255 255 255 / 0.42);
+
+  /* Body copy sitting on the scrim. gray-900 measures 5.79:1 against the bare
+     photo at its darkest; gray-700 measures 3.37:1 and fails AA. */
+  --on-photo: #111827;
 }
 
 @theme inline {
@@ -30,6 +44,23 @@
   --background: #0a0a0a;
   --foreground: #ededed;
   --border: #374151;
+
+  /* Dark mode already holds the backdrop at low opacity, so the composite
+     behind text measures ~0.046 even under the photo's brightest region —
+     ~10:1 against --on-photo. The scrim here is for evenness over that
+     detail, not to rescue contrast. */
+  --scrim: rgb(10 10 10 / 0.55);
+  --on-photo: #f3f4f6;
+}
+
+/* Registered as utilities so they compose with variants and stay sorted by
+   prettier-plugin-tailwindcss, rather than being hand-written selectors. */
+@utility chapter-scrim {
+  background-color: var(--scrim);
+}
+
+@utility text-on-photo {
+  color: var(--on-photo);
 }
 
 html {
