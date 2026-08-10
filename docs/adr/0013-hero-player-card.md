@@ -1,9 +1,14 @@
 # ADR 0013: The hero is a football player card over a sunset photo
 
-- **Status**: Accepted
+- **Status**: Accepted, extended by [ADR 0015](0015-photograph-as-page-surface.md)
 - **Date**: 2026-08-10
 - **Extends**: [ADR 0004](0004-football-pitch-metaphor.md) — carries the
   football metaphor into the hero, which previously sat outside it.
+
+> **Extension note**: the backdrop introduced here now sits behind the whole
+> story, pinned and served through the image optimizer, per
+> [ADR 0015](0015-photograph-as-page-surface.md). The card, the years-only stat
+> rule, and the palette below are unchanged.
 
 ## Context
 
