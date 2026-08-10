@@ -28,4 +28,12 @@ describe('AboutSection', () => {
     expect(await screen.findByRole('heading', { name: /connect with me/i })).toBeInTheDocument();
     expect(await screen.findByRole('link', { name: /Visit my LinkedIn/i })).toBeInTheDocument();
   });
+
+  it('shows a placeholder graphic instead of blank space when about.json has no imageSource', async () => {
+    // Today's about.json has no imageSource, so this exercises the real,
+    // unmocked "no photo yet" state described in FR-005/SC-005.
+    renderSection();
+    await screen.findByRole('heading', { name: /about me/i });
+    expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+  });
 });

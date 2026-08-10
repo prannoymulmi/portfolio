@@ -100,14 +100,14 @@ Single Next.js app — paths under `app/`, `components/`, `tests/`, and root con
 
 ### Tests for User Story 3
 
-- [ ] T018 [P] [US3] Unit test in `tests/unit/components/AboutSection.test.tsx` asserting a placeholder graphic (not blank space) renders when `about.imageSource` is undefined, and the real image renders when it is set
-- [ ] T019 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the gradient background classes are present and the profile-picture placeholder renders in the introduction
+- [X] T018 [P] [US3] Unit test in `tests/unit/components/AboutSection.test.tsx` asserting a placeholder graphic (not blank space) renders when `about.imageSource` is undefined, and the real image renders when it is set (real-image case split into `tests/unit/components/AboutSection.withPhoto.test.tsx` to keep the content mock isolated)
+- [X] T019 [P] [US3] Unit test in `tests/unit/components/Hero.test.tsx` asserting the gradient background classes are present and the profile-picture placeholder renders in the introduction
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Extend the `About` handling in `components/About/AboutSection.tsx` to render a generic placeholder (initials or silhouette) with descriptive `alt`/label text when `imageSource` is absent, instead of omitting the image block
-- [ ] T021 [US3] Apply the extended gradient background (per `specs/002-portfolio-story-redesign/research.md` §3) to the story's outer wrapper in `app/page.tsx`/`components/Hero/Hero.tsx`, consistent in light and dark mode
-- [ ] T022 [US3] Add the same profile-picture placeholder treatment to `components/Hero/Hero.tsx`'s introduction area, reusing the placeholder logic added in T020
+- [X] T020 [US3] Extend the `About` handling in `components/About/AboutSection.tsx` to render a generic placeholder (initials or silhouette) with descriptive `alt`/label text when `imageSource` is absent, instead of omitting the image block — via new shared `components/Common/ProfilePicturePlaceholder.tsx`
+- [X] T021 [US3] Apply the extended gradient background (per `specs/002-portfolio-story-redesign/research.md` §3) to the story's outer wrapper in `app/page.tsx`/`components/Hero/Hero.tsx`, consistent in light and dark mode
+- [X] T022 [US3] Add the same profile-picture placeholder treatment to `components/Hero/Hero.tsx`'s introduction area, reusing the placeholder logic added in T020 — also wired to `about.imageSource` so a real photo swaps in there too
 
 **Checkpoint**: All three user stories work independently and together — this is the full feature.
 

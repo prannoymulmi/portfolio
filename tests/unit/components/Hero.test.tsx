@@ -66,4 +66,17 @@ describe('Hero Component', () => {
     const valueText = await screen.findByText(/build scalable cloud systems/i);
     expect(valueText).toBeInTheDocument();
   });
+
+  it('applies a gradient background to the introduction', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const section = document.querySelector('section');
+    expect(section?.className).toMatch(/bg-gradient-to-/);
+  });
+
+  it('shows a profile-picture placeholder in the introduction', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+  });
 });
