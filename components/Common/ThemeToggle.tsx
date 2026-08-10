@@ -1,44 +1,39 @@
 'use client';
 
-import { useTheme } from '@/lib/hooks/useTheme';
+import { useTheme } from 'next-themes';
 
 export function ThemeToggle() {
-  const { theme, toggleTheme, mounted } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return <div className="h-10 w-10" />;
+  // resolvedTheme is undefined during SSR and until next-themes resolves on
+  // the client. Render a same-sized placeholder until then, so the markup
+  // matches across hydration and the layout doesn't shift.
+  if (!resolvedTheme) {
+    return <div className="h-9 w-9" aria-hidden="true" />;
   }
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
-      onClick={toggleTheme}
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-      className="inline-flex items-center justify-center rounded-lg bg-gray-200 p-2 text-sm text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+      type="button"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
     >
-      {theme === 'light' ? (
-        // Moon icon
-        <svg
-          className="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-        </svg>
-      ) : (
-        // Sun icon
-        <svg
-          className="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+      {isDark ? (
+        // Sun — click to go light
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
           <path
             fillRule="evenodd"
-            d="M10 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.536l1.414 1.414a1 1 0 001.414-1.414l-1.414-1.414a1 1 0 00-1.414 1.414zm2.828-2.828l1.414-1.414a1 1 0 00-1.414-1.414l-1.414 1.414a1 1 0 001.414 1.414zM13.536 5.464l1.414-1.414a1 1 0 00-1.414-1.414l-1.414 1.414a1 1 0 001.414 1.414zM6.464 16.536l-1.414 1.414a1 1 0 01-1.414-1.414l1.414-1.414a1 1 0 011.414 1.414zM17 11a1 1 0 100-2h-2a1 1 0 100 2h2zm-9 8a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zM5.464 6.464a1 1 0 1-1.414-1.414L5.05 3.636a1 1 0 111.414 1.414l-1.414 1.414zM3 11a1 1 0 100-2H1a1 1 0 100 2h2z"
+            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 2.36a1 1 0 011.42 1.42l-.71.7a1 1 0 11-1.41-1.41l.7-.71zM18 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-3.07 5.52a1 1 0 011.41 1.41l-.7.71a1 1 0 01-1.42-1.42l.71-.7zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.93-1.48a1 1 0 011.41 1.42l-.7.7a1 1 0 01-1.42-1.41l.71-.71zM4 9a1 1 0 110 2H3a1 1 0 110-2h1zm1.78-4.64a1 1 0 011.41 0l.71.71A1 1 0 016.49 6.5l-.71-.71a1 1 0 010-1.42zM10 6a4 4 0 100 8 4 4 0 000-8z"
             clipRule="evenodd"
           />
+        </svg>
+      ) : (
+        // Moon — click to go dark
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
         </svg>
       )}
     </button>
