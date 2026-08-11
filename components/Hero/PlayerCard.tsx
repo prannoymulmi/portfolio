@@ -93,14 +93,56 @@ export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
 
           <div className="relative z-10 min-w-0 flex-1">
             {imageSource ? (
-              <Image
-                src={imageSource}
-                alt={`${name}, portrait`}
-                width={480}
-                height={560}
-                className="aspect-[4/5] w-full rounded-lg object-cover"
-                priority
-              />
+              /* The portrait is a studio shot on plain mid-grey — lighter than
+                 the card and with none of its colour, so dropped in raw it
+                 reads as a grey slab laid over the navy. It's framed instead,
+                 with two washes in the card's own CARD_INK plus a hairline rim
+                 in SUNGLOW that ties it to the pills and the name banner.
+
+                 The washes are shaped around the subject, not spread evenly: an
+                 even fade would sit on the face and grey out the white tee. The
+                 linear one is heaviest across the top, where the frame is
+                 almost all backdrop, and again in the last strip at the foot,
+                 so the photo settles into the card rather than stopping on a
+                 hard edge. The radial one is a narrow vignette that takes the
+                 flanks and corners — the rest of the backdrop — while leaving
+                 an opening down the middle for the face and shoulders. What
+                 light is left behind the head reads as a studio spot, which is
+                 the same shape as the sunburst this photo is covering.
+
+                 The filter goes back what the washes take: laying this much
+                 navy over a photo flattens it, and a few points of contrast and
+                 saturation keep the subject from going hazy. */
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
+                <Image
+                  src={imageSource}
+                  alt={`${name}, portrait`}
+                  width={480}
+                  height={600}
+                  // The card caps at max-w-md, so the portrait column never
+                  // exceeds ~288px once the rails and padding are taken off;
+                  // below that the card is as wide as the viewport allows.
+                  sizes="(min-width: 640px) 288px, 55vw"
+                  className="h-full w-full object-cover"
+                  style={{ filter: 'brightness(1.05) contrast(1.07) saturate(1.08)' }}
+                  priority
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background: [
+                      `radial-gradient(62% 95% at 50% 46%, ${CARD_INK}00 34%, ${CARD_INK}CC 100%)`,
+                      `linear-gradient(180deg, ${CARD_INK}EB 0%, ${CARD_INK}99 16%, ${CARD_INK}3D 30%, ${CARD_INK}14 62%, ${CARD_INK}0F 88%, ${CARD_INK}99 100%)`,
+                    ].join(', '),
+                  }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-lg"
+                  style={{ boxShadow: `inset 0 0 0 1px ${SUNGLOW}47` }}
+                />
+              </div>
             ) : (
               <ProfilePicturePlaceholder className="aspect-[4/5] w-full rounded-lg" />
             )}

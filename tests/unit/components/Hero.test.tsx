@@ -64,9 +64,7 @@ describe('Hero Component', () => {
   describe('reading order of the opening section', () => {
     /** True when `first` comes before `second` in document order. */
     const precedes = (first: Element, second: Element) =>
-      Boolean(
-        first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING,
-      );
+      Boolean(first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING);
 
     it('puts the pitch and both calls to action ahead of the player card', async () => {
       const { container } = renderHero();
@@ -142,10 +140,25 @@ describe('Hero Component', () => {
     expect(section?.className).toMatch(/bg-gradient-to-/);
   });
 
-  it('shows a profile-picture placeholder in the introduction', async () => {
+  // Follows the content file rather than asserting one of the two states
+  // outright: the portrait is editable content, and swapping it out — or
+  // taking it away again — shouldn't fail this test, only move which half of
+  // it runs.
+  it('shows the portrait named in home.json, or the placeholder without one', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
-    expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    if (raw.imageSource) {
+      const portrait = screen.getByRole('img', { name: /prannoy mulmi, portrait/i });
+      // next/image rewrites src through the optimizer, so the content path
+      // arrives URL-encoded inside the query string rather than verbatim.
+      expect(portrait.getAttribute('src')).toContain(encodeURIComponent(raw.imageSource));
+    } else {
+      expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
+    }
   });
 
   it('prints the job title across the top of the player card', async () => {
