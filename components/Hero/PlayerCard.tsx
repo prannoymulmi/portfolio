@@ -6,6 +6,7 @@ import type { PlayerCard as PlayerCardData } from '@/lib/types/portfolio';
 import { AwsBadge } from './AwsBadge';
 import { FLAGS, FLAG_CLASS, type CountryCode } from './Flags';
 import { CARD_INK, SUNGLOW, SUNGLOW_TEXT } from './palette';
+import { SkillBars } from './SkillBars';
 import { StarRating } from './StarRating';
 
 interface PlayerCardProps {
@@ -19,9 +20,11 @@ interface PlayerCardProps {
  * rest of the site's metaphor already sets up (ADR 0004): title bar, stat
  * pills, portrait, honours rail, and a name banner with a rating.
  *
- * Every figure on it is a count of years, so the card says the same thing four
- * ways instead of mixing years with an invented 0–100 score: the block up top
- * is the career total, each pill is the years spent in that area.
+ * Every counted figure on it is a count of years, so the card says the same
+ * thing four ways instead of mixing years with an invented 0–100 score: the
+ * block up top is the career total, each pill is the years spent in that area.
+ * The two judgements — the star rating and the soft-skill bars — are kept to
+ * coarse steps and labelled as self-rated, so they never read as measurements.
  *
  * Deep navy carrying the backdrop photo's own orange, so the card reads as the
  * one cool object on a warm page.
@@ -127,11 +130,23 @@ export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
             </h1>
           </div>
 
-          <div className="mt-4 flex items-center gap-2.5">
-            <StarRating rating={card.rating} />
-            <span className="font-mono text-sm font-bold text-white/70">
-              {card.rating.toFixed(1)}
-            </span>
+          {/* Two columns, as on the reference card: rating and scouting line on
+              the left, the self-rated bars on the right. Stacks under sm,
+              where the bars would otherwise be a few pixels wide. */}
+          <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto] sm:gap-5">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2.5">
+                <StarRating rating={card.rating} />
+                <span className="font-mono text-sm font-bold text-white/70">
+                  {card.rating.toFixed(1)}
+                </span>
+              </div>
+              <p className="mt-2.5 text-[11px] leading-snug text-white/60">{card.blurb}</p>
+            </div>
+
+            <div className="sm:w-[11.5rem]">
+              <SkillBars skills={card.softSkills} />
+            </div>
           </div>
         </div>
       </div>

@@ -113,6 +113,36 @@ describe('Hero Component', () => {
     }
   });
 
+  it('prints the scouting line in small type under the name banner', async () => {
+    renderHero();
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+    expect(await screen.findByText(raw.card.blurb)).toBeInTheDocument();
+  });
+
+  it('draws a bar per soft skill, each reading as a self-rating out of 5', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    const meters = screen.getAllByRole('meter');
+    expect(meters).toHaveLength(raw.card.softSkills.length);
+
+    for (const skill of raw.card.softSkills) {
+      const meter = screen.getByRole('meter', { name: skill.label });
+      expect(meter).toHaveAttribute('aria-valuenow', String(skill.level));
+      expect(meter).toHaveAttribute('aria-valuemax', '5');
+    }
+  });
+
+  it('labels the bars as self-rated, so they do not read as measurements', async () => {
+    renderHero();
+    expect(await screen.findByText(/self-rated/i)).toBeInTheDocument();
+  });
+
   it('shows an AWS mark on the card', async () => {
     renderHero();
     expect(await screen.findByRole('img', { name: /amazon web services/i })).toBeInTheDocument();
