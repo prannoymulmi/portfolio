@@ -5,10 +5,14 @@ import '@testing-library/jest-dom';
 import { Hero } from '@/components/Hero/Hero';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 
-// Mock framer-motion to avoid animation issues in tests
+// Mock framer-motion to avoid animation issues in tests. className is forwarded:
+// the layout classes on the drifting columns are the subject of the reading-order
+// tests below, and a mock that dropped them would hide what they assert.
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    div: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+      <div className={className}>{children}</div>
+    ),
   },
   useScroll: () => ({ scrollY: 0 }),
   useTransform: () => 0,
@@ -55,6 +59,56 @@ describe('Hero Component', () => {
       // Rendered with a trailing period as a styling choice, so match loosely.
       expect(within(list).getByText(new RegExp(`^${phrase}\\.?$`))).toBeInTheDocument();
     }
+  });
+
+  describe('reading order of the opening section', () => {
+    /** True when `first` comes before `second` in document order. */
+    const precedes = (first: Element, second: Element) =>
+      Boolean(
+        first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+
+    it('puts the pitch and both calls to action ahead of the player card', async () => {
+      const { container } = renderHero();
+      await screen.findByText(/Prannoy Mulmi/i);
+
+      // The card is the only <figure> in the section.
+      const card = container.querySelector('figure');
+      expect(card).not.toBeNull();
+
+      const ahead = [
+        screen.getByRole('list', { name: /what i do/i }),
+        screen.getByText(/scalable cloud systems/i),
+        screen.getByRole('link', { name: /View Work/i }),
+        screen.getByRole('link', { name: /Play Career/i }),
+      ];
+
+      for (const element of ahead) {
+        expect(precedes(element, card!)).toBe(true);
+      }
+    });
+
+    it('leaves the visual order to the DOM, with no order-* utility to invert it', async () => {
+      const { container } = renderHero();
+      await screen.findByText(/Prannoy Mulmi/i);
+
+      const grid = container.querySelector('.grid');
+      expect(grid).not.toBeNull();
+
+      const columns = Array.from(grid!.children);
+      expect(columns).toHaveLength(2);
+
+      for (const column of columns) {
+        // An order-* utility moves the box but not the node, so it would
+        // desync what a phone shows from what a screen reader announces —
+        // exactly the defect this feature fixes. A DOM-order assertion alone
+        // cannot catch that, which is why this test exists.
+        expect(column.className).not.toMatch(/(^|\s)(lg:)?order-/);
+        // A grid item defaults to min-width:auto, which lets the card's fixed
+        // side rails push the column past the viewport on narrow screens.
+        expect(column.className).toMatch(/(^|\s)min-w-0(\s|$)/);
+      }
+    });
   });
 
   it('stacks the phrases one per line so the colour bars read vertically', async () => {
