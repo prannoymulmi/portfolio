@@ -31,10 +31,16 @@ export function Hero() {
       <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
-            {/* Introduction. min-w-0 on both cells: a grid item defaults to
-                min-width:auto, which would let the card's fixed side rails push
-                the column past the viewport on narrow screens. */}
-            <HeroDrift strength={24} className="order-2 min-w-0 lg:order-1">
+            {/* Introduction. Source order is the reading order at every width:
+                stacked on narrow screens the pitch and its two buttons come
+                first, and the card follows. No order-* utility, because those
+                move the box without moving the node — a phone would show the
+                card first while a screen reader still announced the text first.
+
+                min-w-0 on both cells: a grid item defaults to min-width:auto,
+                which would let the card's fixed side rails push the column past
+                the viewport on narrow screens. */}
+            <HeroDrift strength={24} className="min-w-0">
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
               <ul aria-label="What I do" className="space-y-3">
@@ -75,7 +81,7 @@ export function Hero() {
             {/* Portrait, framed as a player card — same metaphor the career
                 and skills sections already run on. Drifts further than the text
                 beside it, so the card reads as the nearer object. */}
-            <HeroDrift strength={56} className="order-1 min-w-0 lg:order-2">
+            <HeroDrift strength={56} className="min-w-0">
               <PlayerCard name={name} card={card} imageSource={imageSource} />
             </HeroDrift>
           </div>
