@@ -9,7 +9,7 @@ were on the table at the time.
 
 | ID | Title | Status |
 |----|-------|--------|
-| [0001](0001-json-files-over-cms.md) | JSON files over a CMS/database | Accepted |
+| [0001](0001-json-files-over-cms.md) | JSON files over a CMS/database | Accepted — amended by [0017](0017-one-content-source-and-an-unhosted-cv.md) |
 | [0002](0002-nextjs-app-router.md) | Next.js App Router | Accepted — route structure superseded by [0012](0012-single-page-story.md) |
 | [0003](0003-client-content-loading-with-zod.md) | Client-side content loading with Zod validation | Accepted — fetch policy amended 2026-08-10 |
 | [0004](0004-football-pitch-metaphor.md) | Football pitch metaphor for career + skills | Accepted — extended by [0013](0013-hero-player-card.md) |
@@ -25,6 +25,7 @@ were on the table at the time.
 | [0014](0014-icon-set-dependency.md) | An icon set as a dependency | Accepted |
 | [0015](0015-photograph-as-page-surface.md) | The photograph is the page surface | Accepted |
 | [0016](0016-about-folds-into-the-opening.md) | The About chapter folds into the opening | Accepted |
+| [0017](0017-one-content-source-and-an-unhosted-cv.md) | One content source, and a CV the site does not host | Accepted — amends [0001](0001-json-files-over-cms.md) |
 
 Nothing here is fully superseded yet. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at

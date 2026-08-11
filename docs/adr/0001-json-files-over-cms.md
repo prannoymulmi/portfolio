@@ -10,6 +10,15 @@
 > their `public/data/` counterparts. Edit `public/data/` — see
 > [docs/content-editing.md](../content-editing.md).
 
+> **Amendment (2026-08-11)**: the drift noted above was not harmless. The two
+> `social.json` files disagreed about the owner's LinkedIn address, and the
+> *unserved* copy held the correct one — so every spot-check of that link was a
+> coin flip on which file got opened, and it stayed broken through four
+> features. `app/data/social.json` is now deleted, and a test enforces that only
+> one `social.json` may exist anywhere in the repository, per
+> [ADR 0017](0017-one-content-source-and-an-unhosted-cv.md). The four remaining
+> files under `app/data/` are untouched and still dead.
+
 ## Context
 
 Portfolio content changes rarely (a few times a year: new job, new project,
