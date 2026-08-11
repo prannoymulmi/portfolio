@@ -34,8 +34,15 @@ photographic backdrop:
 - **Card anatomy follows the football-card convention**: title bar with the job
   title, portrait, stat pills, an honours rail (AWS certification badge,
   country flags), and a name banner with a star rating.
-- **Every figure on the card is a count of years** — total career years in the
-  title block, years per area in the pills. No invented composite score.
+- **Every *counted* figure on the card is a count of years** — total career
+  years in the title block, years per area in the pills. No invented composite
+  score.
+- **The two judgements are marked as judgements.** The star rating and the
+  three soft-skill bars (`card.softSkills`, drawn by `SkillBars`) cover the
+  part of the job years can't count. They are held to whole steps out of five
+  and sit under a "Self-rated" label, so the card never presents an opinion
+  with the precision of a measurement. A short `card.blurb` in small type runs
+  beside them, the way the reference card's copy block does.
 - **Card content is editable content, not markup.** `PlayerCardSchema` in
   `lib/utils/validation.ts` validates a `card` object in `home.json`, so the
   job title, the year counts and the rating are edited like any other content
@@ -81,7 +88,9 @@ photographic backdrop:
 
 - **A FIFA-style overall rating (e.g. "87 OVR")**: the most recognisable part
   of the reference, and entirely fabricated. Rejected on honesty — the card
-  should not state a number nobody computed.
+  should not state a number nobody computed. The soft-skill bars are the
+  bounded version of the same idea: five steps, no number printed, and labelled
+  as self-rated rather than passed off as a score.
 - **Keeping the plain portrait frame**: safe, and leaves the site's most
   valuable section saying nothing that the résumé does not already say.
 - **A CSS gradient backdrop instead of the photo**: cheaper on the LCP path,
