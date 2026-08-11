@@ -72,13 +72,21 @@ export function Hero() {
 
               {/* The About chapter, condensed to what the opening can carry
                   without pushing the card off the first screen. */}
-              <p className="mt-4 max-w-xl text-on-photo">{bio}</p>
+              <p className="text-on-photo mt-4 max-w-xl">{bio}</p>
 
               <div className="mt-8">
                 <ValueProp />
                 {/* Under the two buttons, not beside them: it is somewhere to
-                    go, not a third thing being asked of the visitor. */}
-                <CvLink cv={cv} />
+                    go, not a third thing being asked of the visitor.
+
+                    Centred to sit on the buttons' axis at both widths — the row
+                    above is justify-center from sm up, and below that the two
+                    buttons stretch full width with their labels centred. Left
+                    aligned, this line reads as loose text under the cluster
+                    rather than as part of it. */}
+                <div className="mt-5 flex justify-center">
+                  <CvLink cv={cv} />
+                </div>
               </div>
             </HeroDrift>
 
