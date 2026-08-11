@@ -1,0 +1,48 @@
+# Spec Kit extension hooks.
+#
+# Every speckit command reads this file, looks for its own phase key under
+# `hooks:`, and runs what it finds there. `optional: false` means the command
+# runs the hook automatically; `optional: true` means it only suggests it.
+#
+# `command` must name a slash command that actually exists. The official
+# `speckit.git.*` hooks come from Spec Kit's git extension, which is NOT
+# installed in this project — `.specify/integrations/` lists only the core
+# speckit and claude files. The three commands below are therefore local skills
+# under `.claude/skills/`, written to stand in for it.
+#
+# Dots in a command name become hyphens at invocation:
+#   speckit.git.commit  ->  /speckit-git-commit
+#
+# `condition:` is deliberately omitted everywhere. A non-empty condition is left
+# to the HookExecutor to evaluate and the agent skips the hook rather than
+# guessing — so setting one here would silently disable the hook.
+
+hooks:
+  before_specify:
+    # Runs first: without a branch, everything below lands on main. This is the
+    # gap that put features 001-004 straight onto main.
+    - extension: feature-branch
+      command: speckit-feature-branch
+      description: Cut a feat/fix/docs branch off main before the spec is written
+      optional: false
+      enabled: true
+
+    # Runs second, on the new branch: catches an approach the constitution
+    # forbids before the spec commits to it. /speckit-plan checks the
+    # constitution too, but by then the spec has to be rewritten rather than
+    # adjusted.
+    - extension: constitution-gate
+      command: speckit-constitution-gate
+      description: Check the proposed feature against the project constitution
+      optional: false
+      enabled: true
+
+  after_specify:
+    # The earliest point a PR can exist: there is now a spec to put in it.
+    # GitHub rejects a pull request with no commits between head and base, so
+    # this cannot move any earlier without an empty commit.
+    - extension: draft-pr
+      command: speckit-draft-pr
+      description: Commit the spec artefacts and open a draft PR for the feature
+      optional: false
+      enabled: true
