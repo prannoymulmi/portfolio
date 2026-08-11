@@ -62,6 +62,29 @@ Both answered and folded into the spec (see Clarifications):
 
 All checklist items now pass. The spec is ready for `/speckit-plan`.
 
+### Iteration 3 — `/speckit-clarify` session, 2026-08-11
+
+Four questions asked and integrated. Checklist held at 16/16 throughout; no item
+changed state, because the spec was already internally consistent — what the session
+removed was under-specification, not error.
+
+- **Phone layout** (FR-020a, SC-003) — legibility wins over proportion; 14px floor,
+  full anatomy at every width. Previously the spec stated the constraint and left the
+  resolution open, which would have surfaced as a disagreement during implementation.
+- **Retiring elements** (FR-018a) — stat pills, star rating, soft-skill bars and blurb
+  are removed with their content fields. This was an Assumption; it is now a confirmed
+  requirement, which matters because it deletes components and schema.
+- **Motion** (FR-023, FR-023a, SC-010) — exactly one treatment, a foil sheen. The spec
+  previously conditioned motion without establishing that any existed.
+- **Desktop proportion** (FR-021a) — the opening stays two columns; the card widens but
+  does not dominate.
+
+Three validation fixes applied in the same pass, all authoring slips rather than
+findings: the card's own element is now consistently the **figure block** (the
+reference's is its *rating block*), SC-008/SC-009 were out of numeric order, and SC-001
+counted "11 of 11 elements listed in FR-001 to FR-010" against a list of ten
+requirements — it now points at the eleven-element enumeration in User Story 1.
+
 ### Deliberate omissions
 
 - **No embedded checklists** in the spec — that is `/speckit-checklist`'s job.

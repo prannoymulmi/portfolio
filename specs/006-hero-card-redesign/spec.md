@@ -29,7 +29,8 @@ and it is not committed.
 
 ### Session 2026-08-11
 
-- **The rating block keeps its shape and loses its invented number.** The reference
+- **The figure block keeps the reference's shape and loses its invented number.** The
+  reference
   prints "91 OVR". ADR 0013 rejected a composite rating in as many words — *"the card
   should not state a number nobody computed"* — and that rule stands. The block keeps
   the reference's position, display size and visual weight, but prints the career total
@@ -39,6 +40,19 @@ and it is not committed.
   exists; one is derived from `hero_pic.png` as part of this work. The flat grey studio
   ground makes this tractable, and hair edges are where it will show, so the matte
   carries an explicit quality bar (FR-007a) rather than being assumed to come out clean.
+- Q: On a phone, does the card keep the mock's tall proportion and shrink its text, or
+  hold the text readable and stretch? → A: Hold the text at a legible minimum and let
+  the card stretch taller than the reference's proportion. Legibility is a floor; the
+  card's outline proportion is not. The full anatomy is present at every width.
+- Q: Do the current card's stat pills, star rating and soft-skill bars survive the new
+  anatomy? → A: All three retire, along with the scouting blurb. The card's evidence
+  becomes the meta column and the achievement rows; the AWS certification moves from a
+  badge to an achievement row.
+- Q: Does the card animate? → A: One signature moment only — a sheen travelling the
+  foil border. No tilt, no deal-in, nothing scattered. Suppressed under reduced motion.
+- Q: At desktop width, does the card grow to dominate the opening? → A: No. It widens
+  enough to hold the new content comfortably, but the opening stays a two-column
+  composition sharing the stage with the three annotated role phrases.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -46,7 +60,7 @@ and it is not committed.
 
 A visitor arrives at the site for the first time in light mode. Beside the three
 annotated role phrases sits a card that reads unmistakably as a collectible player
-card: a shield silhouette in gold on ivory, a rating block top-left, the position and
+card: a shield silhouette in gold on ivory, a figure block top-left, the position and
 title beneath it, where he is and how long he has been doing this, his portrait cut
 out and standing past the frame, his name across the middle, and five things he has
 actually done listed below it.
@@ -62,9 +76,9 @@ present, in the same position, in the same colour family.
 **Acceptance Scenarios**:
 
 1. **Given** the site is loaded in light mode at 1280px, **When** the opening section
-   renders, **Then** the card shows all of: shield outline with gold border, rating
-   block, position abbreviation, full job title, location row, country row, years-of-
-   experience row, portrait, name, five achievement rows, and the foot crest.
+   renders, **Then** the card shows all eleven of: shield outline with gold border,
+   figure block, position abbreviation, full job title, location row, country row,
+   years-of-experience row, portrait, name, five achievement rows, and the foot crest.
 2. **Given** the card is on screen, **When** a reader looks at any figure printed on
    it, **Then** that figure is a count of years or a fact supplied by content — never
    an uncomputed composite score presented as a measurement.
@@ -144,14 +158,19 @@ touched.
   must stay balanced at three and must not overflow the shield at seven; the content
   contract caps the list rather than letting content break the layout.
 - **Very narrow screens (320px)** — the reference is a tall, dense, portrait-format
-  card. At phone width it must remain readable and uncropped without the page scrolling
-  sideways, and it must not push the pitch and the two calls to action off the first
-  screen.
+  card. At phone width the card keeps its full anatomy and holds its text at a legible
+  size, growing taller than the reference's proportion to do so (FR-020a). It must stay
+  uncropped without the page scrolling sideways, and because it grows rather than
+  shrinks, the pitch and its two calls to action must still come first — they precede
+  the card in source order, and nothing here may change that.
 - **Very long single-word content** — a long location or achievement word must not
   force the card wider than its column.
-- **Reduced motion** — any card motion (foil sheen, entrance, hover) is suppressed for
-  visitors who ask for reduced motion, through the existing helper rather than a new
-  detection path.
+- **Reduced motion** — the foil sheen is suppressed for visitors who ask for reduced
+  motion, through the existing helper rather than a new detection path, and the card
+  reads as finished without it.
+- **Touch devices** — the sheen is the card's only motion and has no hover to trigger
+  it on a touch screen. It must not leave the card looking unfinished there, and must
+  not become a tap-to-play interaction competing with the page's real controls.
 - **Theme toggled mid-scroll** — the card re-themes without layout shift.
 - **Portrait fails to load** — the card holds its shape rather than collapsing.
 
@@ -211,12 +230,17 @@ touched.
 **Content**
 
 - **FR-016**: The card's facts — name, job title, position abbreviation, location,
-  country, years of experience, achievements, and any figure in the rating block — MUST
-  be supplied by the site's content file and validated before use.
+  country, years of experience, achievements, and the figure block's value — MUST be
+  supplied by the site's content file and validated before use.
 - **FR-017**: The content contract MUST cap the achievement list at the count the
   design holds, and MUST reject content that would overflow the card.
 - **FR-018**: Content that fails validation MUST surface through the existing error
   path rather than rendering a partial card.
+- **FR-018a**: The card's retired elements — the three stat pills, the star rating, the
+  soft-skill bars and the scouting blurb — MUST be removed rather than hidden, and their
+  fields MUST be removed from the content contract so the file stops carrying values
+  nothing renders. The AWS certification MUST survive as an achievement row rather than
+  a separate badge.
 
 **Quality floor**
 
@@ -224,25 +248,38 @@ touched.
   background in both editions; display-size text MUST clear AAA (7:1).
 - **FR-020**: The card MUST remain readable and uncropped from 320px to 1920px, and
   MUST NOT introduce horizontal page scrolling at any width.
+- **FR-020a**: Text legibility MUST take precedence over the card's proportion. Body
+  text on the card MUST NOT render below 14px at any width; where holding that size
+  makes the card taller than the reference's proportion, the card grows. The full
+  anatomy MUST be present at every width — no element is dropped, hidden, or moved
+  outside the card on small screens.
 - **FR-021**: The card MUST NOT push the pitch text and its two calls to action below
   the fold on a phone — source and reading order established in feature 005 stay intact.
+- **FR-021a**: At desktop width the opening MUST remain a two-column composition. The
+  card MAY widen to hold its new content comfortably, but MUST NOT be enlarged to the
+  point where the three annotated role phrases read as secondary to it.
 - **FR-022**: The redesign MUST NOT add a runtime dependency.
-- **FR-023**: Any motion introduced MUST respect reduced-motion preferences through the
-  existing helper.
+- **FR-023**: The card MUST carry exactly one motion treatment: a sheen that travels
+  the foil border. No tilt, no entrance animation, no per-element motion. The card's
+  existing scroll drift is unchanged and is not part of this.
+- **FR-023a**: The sheen MUST be suppressed entirely for visitors who prefer reduced
+  motion, through the existing helper rather than a new detection path, and its absence
+  MUST leave the card visually complete rather than mid-state.
 - **FR-024**: The reference image `card.png` MUST NOT be committed, MUST NOT be
   referenced by the running site, and MUST NOT ship in the deployed bundle.
 
 **Record**
 
 - **FR-025**: The change MUST be accompanied by an architecture decision record that
-  amends ADR 0013 — it replaces the card anatomy that ADR committed to, and revisits
-  the composite-rating alternative that ADR rejected. Per Principle VI the earlier
-  record keeps its text and gains a dated note.
+  amends ADR 0013 — it replaces the card anatomy that ADR committed to, and retires the
+  soft-skill bars that ADR introduced as its bounded answer to a composite rating. Per
+  Principle VI the earlier record keeps its text and gains a dated note. The new record
+  MUST state what the card gives up, not only what it gains.
 
 ### Key Entities
 
 - **Player Card**: the collectible object shown in the opening. Holds the name, the
-  position abbreviation and full title, the rating block's figure and label, the meta
+  position abbreviation and full title, the figure block's value and label, the meta
   facts, the achievement list, and the portrait reference.
 - **Meta Fact**: one row of the meta column — a kind (place, country, duration), a
   short display value, and the icon that identifies it.
@@ -256,12 +293,13 @@ touched.
 ### Measurable Outcomes
 
 - **SC-001**: Placed beside the reference, a reviewer can account for every element of
-  the reference's anatomy in the built card — 11 of 11 elements listed in FR-001 to
-  FR-010 present and in the same relative position.
+  the reference's anatomy in the built card — all eleven elements enumerated in User
+  Story 1, Scenario 1 present and in the same relative position.
 - **SC-002**: All text on the card measures at or above 4.5:1 against its background in
-  both editions, and the name and rating block measure at or above 7:1.
+  both editions, and the name and figure block measure at or above 7:1.
 - **SC-003**: The card renders complete and readable at every width from 320px to
-  1920px, with no horizontal page scroll and no clipped content.
+  1920px, with no horizontal page scroll and no clipped content, and no text on it
+  measures below 14px at any width.
 - **SC-004**: Switching the theme changes every surface, rule, and glyph on the card —
   a reviewer comparing screenshots finds zero elements holding a light-mode value in
   the dark edition.
@@ -271,10 +309,12 @@ touched.
   floor the constitution sets.
 - **SC-007**: Every number printed on the card is traceable to either a count of years
   or a value a reader could check — a reviewer can name the source of each one.
-- **SC-009**: The cut-out portrait shows no halo or fringing from its original
+- **SC-008**: The cut-out portrait shows no halo or fringing from its original
   background when inspected at twice the size the card displays it, on both grounds.
-- **SC-008**: The repository contains no committed copy of the reference image
+- **SC-009**: The repository contains no committed copy of the reference image
   introduced by this feature, and the deployed bundle does not include it.
+- **SC-010**: With reduced motion requested, the card renders complete and static — a
+  reviewer sees no sheen, no partial gradient, and no element mid-transition.
 
 ## Assumptions
 
@@ -296,10 +336,13 @@ touched.
 - **The dark edition follows the collectible convention of a black parallel** — the
   same card printed on black stock with the foil warmed rather than a different design.
   This is the default direction unless review says otherwise.
-- **The current card's stat pills, star rating and soft-skill bars retire.** The
-  reference's anatomy has no slot for them; their content is carried by the meta column
-  and the achievement rows instead. The AWS certification currently shown as a badge
-  becomes an achievement row.
+- **The current card's stat pills, star rating, soft-skill bars and scouting blurb
+  retire** (confirmed, see Clarifications). The reference's anatomy has no slot for
+  them, and the meta column plus the achievement rows carry more concrete evidence than
+  a self-rated bar does. This gives up two things worth naming: the per-area year counts
+  (Backend 9 / Cloud 6 / Security 4), and the soft-skill bars that ADR 0013 introduced
+  as the bounded alternative to the composite rating it rejected. The ADR amendment
+  (FR-025) records that trade rather than letting it happen silently.
 - **The country flag treatment already built for the current card is reused** rather
   than redrawn.
 - **The three annotated role phrases beside the card are out of scope** and stay as
