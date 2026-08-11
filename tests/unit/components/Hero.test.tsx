@@ -197,19 +197,22 @@ describe('Hero Component', () => {
     expect(await screen.findByText(/self-rated/i)).toBeInTheDocument();
   });
 
-  it('renders no CV link while the shipped content carries no address', async () => {
+  it('links to the CV address the shipped content carries', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
+    // Read the address from content rather than a copy of it, for the same
+    // reason the roles test does: the CV lives on someone else's host (ADR
+    // 0017) and the owner may repoint or relabel it without touching code.
     const raw = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
     );
 
-    // Absent is a valid state, not a gap waiting to be filled: the CV is hosted
-    // elsewhere and the address has not been supplied yet. The populated case
-    // is covered by CvLink's own tests, so that this one can keep asserting
-    // against the content the site actually ships.
-    expect(raw.cv).toBeUndefined();
-    expect(screen.queryByRole('link', { name: /cv/i })).not.toBeInTheDocument();
+    expect(raw.cv.href).toMatch(/^https:\/\//);
+    const link = await screen.findByRole('link', { name: new RegExp(raw.cv.label, 'i') });
+    expect(link).toHaveAttribute('href', raw.cv.href);
+    // Opening a tab is announced in the accessible name, not just implied by
+    // target — the assertion belongs here because the address is now real.
+    expect(link).toHaveAccessibleName(/opens in a new tab/i);
   });
 
   it('shows an AWS mark on the card', async () => {

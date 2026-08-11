@@ -7,6 +7,10 @@
     "Security Advocate",
     "AI enthusiast"
   ],
+  "cv": {
+    "label": "View CV",
+    "href": "https://drive.google.com/file/d/1TEiyG768RlXBEEH4sLLyTIHihJuMpmVc/view?usp=sharing"
+  },
   "card": {
     "title": "Senior Software Engineer",
     "yearsExperience": 9,
