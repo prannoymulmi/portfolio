@@ -54,6 +54,17 @@ export const PlayerCardSchema = z.object({
   softSkills: z.array(SoftSkillSchema).min(1).max(3),
 });
 
+export const CvLinkSchema = z.object({
+  // Two characters is the floor for something a visitor can see and hit; forty
+  // is where a link stops being a link and starts being a sentence, which would
+  // undo the point of keeping it subordinate to the two buttons above it.
+  label: z.string().min(2).max(40),
+  // Same validator SocialSchema.href uses, so a malformed CV address fails at
+  // load exactly as a malformed profile link does. The address is always
+  // external — the site links to the CV and never hosts it (ADR 0017).
+  href: z.string().url(),
+});
+
 export const HomeSchema = z.object({
   name: z.string().min(1).max(100),
   intro: z.string().min(20).max(200),
@@ -67,6 +78,9 @@ export const HomeSchema = z.object({
   // At least 2 so the mark sequence has something to vary across.
   roles: z.array(z.string().min(3).max(40)).min(2).max(5),
   card: PlayerCardSchema,
+  // Optional: absent means the opening renders no CV link, which is a valid
+  // state rather than an error — the address is supplied separately.
+  cv: CvLinkSchema.optional(),
 });
 
 export const ExperienceSchema = z.object({

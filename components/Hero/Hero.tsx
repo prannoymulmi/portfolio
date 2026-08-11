@@ -3,6 +3,7 @@
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
+import { CvLink } from './CvLink';
 import { HeroDrift } from './HeroParallax';
 import { PlayerCard } from './PlayerCard';
 import { CREAM, EMBER, INK, TEAL } from './palette';
@@ -22,7 +23,7 @@ export function Hero() {
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, intro, roles, card, bio, imageSource } = home.data;
+  const { name, intro, roles, card, bio, imageSource, cv } = home.data;
 
   return (
     <>
@@ -75,6 +76,9 @@ export function Hero() {
 
               <div className="mt-8">
                 <ValueProp />
+                {/* Under the two buttons, not beside them: it is somewhere to
+                    go, not a third thing being asked of the visitor. */}
+                <CvLink cv={cv} />
               </div>
             </HeroDrift>
 

@@ -197,6 +197,21 @@ describe('Hero Component', () => {
     expect(await screen.findByText(/self-rated/i)).toBeInTheDocument();
   });
 
+  it('renders no CV link while the shipped content carries no address', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    // Absent is a valid state, not a gap waiting to be filled: the CV is hosted
+    // elsewhere and the address has not been supplied yet. The populated case
+    // is covered by CvLink's own tests, so that this one can keep asserting
+    // against the content the site actually ships.
+    expect(raw.cv).toBeUndefined();
+    expect(screen.queryByRole('link', { name: /cv/i })).not.toBeInTheDocument();
+  });
+
   it('shows an AWS mark on the card', async () => {
     renderHero();
     expect(await screen.findByRole('img', { name: /amazon web services/i })).toBeInTheDocument();
