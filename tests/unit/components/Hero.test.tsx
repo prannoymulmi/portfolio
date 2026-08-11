@@ -45,7 +45,13 @@ describe('Hero Component', () => {
   it('renders every role phrase from home.json, each annotated', async () => {
     renderHero();
     const list = await screen.findByRole('list', { name: /what i do/i });
-    for (const phrase of ['Software Engineer', 'AI enthusiast', 'Security Nerd']) {
+    // Read from the content file rather than a copy of it: the phrases are
+    // editable content, and a reworded role shouldn't fail this test.
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+    expect(raw.roles.length).toBeGreaterThan(0);
+    for (const phrase of raw.roles) {
       // Rendered with a trailing period as a styling choice, so match loosely.
       expect(within(list).getByText(new RegExp(`^${phrase}\\.?$`))).toBeInTheDocument();
     }
