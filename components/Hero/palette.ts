@@ -24,14 +24,17 @@ export const TEAL = '#0d5457';
 /** Text on any of the three bars. */
 export const CREAM = '#fff5ec';
 
-/** The photo's own orange, kept bright — the card's accent on deep navy. */
-export const SUNGLOW = '#ffa62b';
-
-/** Ink used on SUNGLOW fills. */
-export const SUNGLOW_TEXT = '#1a1005';
-
-/** The card body: a shade off INK so the card reads as an object on the page. */
-export const CARD_INK = '#0e1b33';
+/*
+ * The card's three colours — SUNGLOW, SUNGLOW_TEXT and CARD_INK — used to live
+ * here. They moved to app/globals.css as custom properties when the card gained
+ * a second edition: a value consumed as inline `style` cannot carry a theme,
+ * which is exactly why the old card was the same navy in both. See ADR 0018.
+ *
+ * What remains is the annotation bars, which are one colour each in both themes
+ * and are still applied as inline style for the reason ADR 0013 gives — Tailwind
+ * scans class strings as literal text, so an interpolated class never reaches
+ * the stylesheet.
+ */
 
 /**
  * Body copy over the photo — warm near-black, not a neutral grey.

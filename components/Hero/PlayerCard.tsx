@@ -3,11 +3,12 @@
 import Image from 'next/image';
 import { ProfilePicturePlaceholder } from '@/components/Common/ProfilePicturePlaceholder';
 import type { PlayerCard as PlayerCardData } from '@/lib/types/portfolio';
-import { AwsBadge } from './AwsBadge';
-import { FLAGS, FLAG_CLASS, type CountryCode } from './Flags';
-import { CARD_INK, SUNGLOW, SUNGLOW_TEXT } from './palette';
-import { SkillBars } from './SkillBars';
-import { StarRating } from './StarRating';
+import { CardCrest } from './CardCrest';
+import { CardFrame } from './CardFrame';
+import { FigureBlock } from './FigureBlock';
+import { FoilSheen } from './FoilSheen';
+import { HonoursList } from './HonoursList';
+import { MetaColumn } from './MetaColumn';
 
 interface PlayerCardProps {
   name: string;
@@ -16,182 +17,105 @@ interface PlayerCardProps {
 }
 
 /**
- * A collectible-style player card, following the football-card anatomy the
- * rest of the site's metaphor already sets up (ADR 0004): title bar, stat
- * pills, portrait, honours rail, and a name banner with a rating.
+ * A collectible player card, following the anatomy of the reference design:
+ * figure block and position over a meta column on the left, portrait on the
+ * right, name across the full width, honours list beneath, crest at the foot.
  *
- * Every counted figure on it is a count of years, so the card says the same
- * thing four ways instead of mixing years with an invented 0–100 score: the
- * block up top is the career total, each pill is the years spent in that area.
- * The two judgements — the star rating and the soft-skill bars — are kept to
- * coarse steps and labelled as self-rated, so they never read as measurements.
+ * Every figure printed here is a count of years or a fact from content. The
+ * reference leads with "91 OVR"; this does not, because ADR 0013 rejected an
+ * invented composite score and that rule still stands. The block keeps the
+ * reference's position and weight and prints the career total instead.
  *
- * Deep navy carrying the backdrop photo's own orange, so the card reads as the
- * one cool object on a warm page.
+ * Colour is entirely token-driven — see app/globals.css. There is not a single
+ * `dark:` utility or inline colour in this tree, and that is the point: the
+ * dark edition is a change of six values, not a second set of markup.
+ *
+ * The card's height follows its content rather than a locked aspect ratio, so
+ * on a narrow screen it grows taller than the reference's proportion instead of
+ * shrinking its text below the 14px floor (FR-020a).
  */
 export function PlayerCard({ name, card, imageSource }: PlayerCardProps) {
   return (
-    <figure
-      className="mx-auto w-full max-w-md overflow-hidden rounded-2xl p-3 shadow-2xl ring-1 ring-white/10 lg:mx-0 lg:ml-auto"
-      style={{ backgroundColor: CARD_INK }}
-    >
-      <div className="rounded-xl border border-white/15">
-        {/* Title bar: the job, and the career total it took to get there */}
-        <div className="flex items-stretch justify-between gap-3 border-b border-white/15 p-4">
-          <p className="self-center font-mono text-xs font-bold uppercase leading-snug tracking-[0.16em] text-white sm:text-sm">
-            {card.title}
-          </p>
-          <div
-            className="flex shrink-0 flex-col items-center justify-center rounded-md px-3 py-1.5"
-            style={{ backgroundColor: SUNGLOW }}
-          >
-            <span
-              className="font-mono text-3xl font-extrabold leading-none"
-              style={{ color: SUNGLOW_TEXT }}
-            >
-              {card.yearsExperience}
-            </span>
-            <span
-              className="mt-0.5 font-mono text-[9px] font-bold uppercase leading-none tracking-widest"
-              style={{ color: SUNGLOW_TEXT }}
-            >
-              yrs
-            </span>
-          </div>
-        </div>
+    <figure className="relative mx-auto w-full max-w-lg lg:mx-0 lg:ml-auto">
+      <CardFrame>
+        <FoilSheen />
 
-        {/* Portrait, flanked by the year pills and the honours rail */}
-        <div className="relative flex gap-2.5 p-4">
-          {/* Sunburst behind the portrait, as on the reference card */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.13]"
-            style={{
-              background:
-                'repeating-conic-gradient(from 0deg at 50% 42%, #ffffff 0deg 6deg, transparent 6deg 12deg)',
-            }}
-          />
-
-          <ul className="relative z-10 flex w-[4.5rem] shrink-0 flex-col justify-center gap-3">
-            {card.stats.map((stat) => (
-              <li key={stat.label} className="text-center">
-                <p
-                  className="truncate rounded-md px-1.5 py-1 font-mono text-[9px] font-bold uppercase leading-none tracking-wider"
-                  style={{ backgroundColor: SUNGLOW, color: SUNGLOW_TEXT }}
-                >
-                  {stat.label}
-                </p>
-                <p className="mt-1.5 flex items-baseline justify-center gap-0.5 font-mono leading-none text-white">
-                  <span className="text-2xl font-extrabold">{stat.value}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-white/55">
-                    yrs
-                  </span>
-                </p>
-              </li>
-            ))}
-          </ul>
-
-          <div className="relative z-10 min-w-0 flex-1">
-            {imageSource ? (
-              /* The portrait is a studio shot on plain mid-grey — lighter than
-                 the card and with none of its colour, so dropped in raw it
-                 reads as a grey slab laid over the navy. It's framed instead,
-                 with two washes in the card's own CARD_INK plus a hairline rim
-                 in SUNGLOW that ties it to the pills and the name banner.
-
-                 The washes are shaped around the subject, not spread evenly: an
-                 even fade would sit on the face and grey out the white tee. The
-                 linear one is heaviest across the top, where the frame is
-                 almost all backdrop, and again in the last strip at the foot,
-                 so the photo settles into the card rather than stopping on a
-                 hard edge. The radial one is a narrow vignette that takes the
-                 flanks and corners — the rest of the backdrop — while leaving
-                 an opening down the middle for the face and shoulders. What
-                 light is left behind the head reads as a studio spot, which is
-                 the same shape as the sunburst this photo is covering.
-
-                 The filter goes back what the washes take: laying this much
-                 navy over a photo flattens it, and a few points of contrast and
-                 saturation keep the subject from going hazy. */
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
-                <Image
-                  src={imageSource}
-                  alt={`${name}, portrait`}
-                  width={480}
-                  height={600}
-                  // The card caps at max-w-md, so the portrait column never
-                  // exceeds ~288px once the rails and padding are taken off;
-                  // below that the card is as wide as the viewport allows.
-                  sizes="(min-width: 640px) 288px, 55vw"
-                  className="h-full w-full object-cover"
-                  style={{ filter: 'brightness(1.05) contrast(1.07) saturate(1.08)' }}
-                  priority
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background: [
-                      `radial-gradient(62% 95% at 50% 46%, ${CARD_INK}00 34%, ${CARD_INK}CC 100%)`,
-                      `linear-gradient(180deg, ${CARD_INK}EB 0%, ${CARD_INK}99 16%, ${CARD_INK}3D 30%, ${CARD_INK}14 62%, ${CARD_INK}0F 88%, ${CARD_INK}99 100%)`,
-                    ].join(', '),
-                  }}
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 rounded-lg"
-                  style={{ boxShadow: `inset 0 0 0 1px ${SUNGLOW}47` }}
+        <div className="px-5 pb-5 pt-6 sm:px-6 sm:pb-6">
+          {/* Upper half: the identity block, with the portrait beside it. The
+              portrait column is narrower than the mock's because the text has
+              to hold 14px at 320px — see FR-020a. */}
+          <div className="flex gap-3">
+            <div className="min-w-0 flex-1">
+              <FigureBlock
+                years={card.yearsExperience}
+                abbrev={card.positionAbbrev}
+                title={card.title}
+              />
+              <div className="mt-5">
+                <MetaColumn
+                  location={card.location}
+                  countries={card.countries}
+                  years={card.yearsExperience}
                 />
               </div>
-            ) : (
-              <ProfilePicturePlaceholder className="aspect-[4/5] w-full rounded-lg" />
-            )}
-          </div>
+            </div>
 
-          {/* Honours rail: where he's built, and where he's from */}
-          <div className="relative z-10 flex w-[4.5rem] shrink-0 flex-col items-center justify-center gap-2.5">
-            <AwsBadge />
-            <div className="flex w-full flex-col items-center gap-2.5 rounded-md border border-white/15 py-2.5">
-              {card.countries.map((code) => {
-                const key = code as CountryCode;
-                const Flag = FLAGS[key];
-                return Flag ? <Flag key={code} className={FLAG_CLASS[key]} /> : null;
-              })}
+            <div className="relative w-[42%] shrink-0 self-end">
+              {imageSource ? (
+                /* The reference cuts the figure out and lets it stand past the
+                   frame. No background-removed asset exists, and matting one
+                   from the studio photograph was spiked and fails — the grey
+                   backdrop and the subject's white shirt and black jacket
+                   occupy the same region of colour space, so no threshold
+                   separates them (research §5).
+
+                   This is FR-007a's stated fallback: the portrait is framed
+                   rather than cut out. Swapping in a real cut-out is a content
+                   edit plus deleting the mask below — nothing structural. */
+                <div className="border-card-foil/40 relative aspect-[3/4] w-full overflow-hidden rounded-xl border">
+                  <Image
+                    src={imageSource}
+                    alt={`${name}, portrait`}
+                    width={420}
+                    height={560}
+                    sizes="(min-width: 640px) 220px, 40vw"
+                    className="h-full w-full object-cover object-top"
+                    priority
+                  />
+                  {/* Grounds the photograph in the card's own colour so a
+                      rectangular crop does not read as pasted on. */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,var(--card-edge)_100%)] opacity-70"
+                  />
+                </div>
+              ) : (
+                <ProfilePicturePlaceholder className="aspect-[3/4] w-full rounded-xl" />
+              )}
             </div>
           </div>
-        </div>
 
-        {/* Name banner and rating */}
-        <div className="border-t border-white/15 px-4 pb-4 pt-4">
-          <div className="-mx-4 px-4 py-2" style={{ backgroundColor: SUNGLOW }}>
-            <h1
-              className="font-mono text-base font-extrabold uppercase tracking-[0.14em] sm:text-lg"
-              style={{ color: SUNGLOW_TEXT }}
-            >
+          {/* Name banner */}
+          <div className="mt-5 text-center">
+            <h1 className="font-display text-card-ink text-3xl uppercase leading-none tracking-tight sm:text-4xl">
               {name}
             </h1>
-          </div>
-
-          {/* Two columns, as on the reference card: rating and scouting line on
-              the left, the self-rated bars on the right. Stacks under sm,
-              where the bars would otherwise be a few pixels wide. */}
-          <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto] sm:gap-5">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2.5">
-                <StarRating rating={card.rating} />
-                <span className="font-mono text-sm font-bold text-white/70">
-                  {card.rating.toFixed(1)}
-                </span>
-              </div>
-              <p className="mt-2.5 text-[11px] leading-snug text-white/60">{card.blurb}</p>
-            </div>
-
-            <div className="sm:w-[11.5rem]">
-              <SkillBars skills={card.softSkills} />
+            <div className="mt-2 flex items-center justify-center gap-2">
+              <span className="bg-card-foil h-px w-10" />
+              <svg viewBox="0 0 12 12" className="fill-card-foil h-2.5 w-2.5" aria-hidden="true">
+                <path d="M6 0l1.6 4H12l-3.5 2.5L9.8 12 6 9 2.2 12l1.3-5.5L0 4h4.4z" />
+              </svg>
+              <span className="bg-card-foil h-px w-10" />
             </div>
           </div>
+
+          <div className="mt-4">
+            <HonoursList achievements={card.achievements} />
+          </div>
+
+          <CardCrest />
         </div>
-      </div>
+      </CardFrame>
     </figure>
   );
 }

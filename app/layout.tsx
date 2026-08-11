@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Oswald } from 'next/font/google';
 import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
@@ -17,6 +17,22 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+});
+
+/**
+ * The player card's name banner and figure block, and nothing else. The
+ * compression is most of what makes the banner read as a collectible card
+ * rather than as a heading — see specs/006-hero-card-redesign/research.md §6.
+ *
+ * One weight, Latin only, `swap`: the card is on the LCP path and the
+ * constitution holds Lighthouse at 90, so this is the smallest form the effect
+ * comes in. `next/font/google` is part of Next, so no dependency is added.
+ */
+const displayCondensed = Oswald({
+  variable: '--font-display-condensed',
+  subsets: ['latin'],
+  weight: '700',
+  display: 'swap',
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio.prannoy-mulmi.com';
@@ -61,7 +77,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       // next-themes sets the theme class here before React hydrates, so the
       // server and client markup legitimately differ on this element.
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${displayCondensed.variable} h-full scroll-smooth antialiased`}
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />

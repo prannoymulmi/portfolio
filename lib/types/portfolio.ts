@@ -1,35 +1,38 @@
 // Portfolio data type definitions
 // All types map to public/data/*.json files per data-model.md
 
-export interface PlayerStat {
-  label: string;
-  /** Years worked in this area, shown as a figure on the hero card. */
-  value: number;
-}
+/** Which glyph fronts an honours row. CardIcons.tsx owns what each looks like. */
+export type AchievementIcon = 'trophy' | 'shield' | 'code' | 'cloud' | 'people' | 'cert';
 
-export interface SoftSkill {
-  label: string;
+export interface Achievement {
+  icon: AchievementIcon;
+  /** One to two printed lines. The row grows for longer text rather than clipping. */
+  text: string;
   /**
-   * Self-rated, 1–5 in whole steps, drawn as a bar. Deliberately coarse: the
-   * card labels these as self-rated rather than dressing a judgement up as a
-   * measurement (ADR 0013).
+   * The single accent-coloured row. At most one per card — the schema refuses a
+   * second, because two accent rows is not a layout the design has.
    */
-  level: number;
+  emphasis?: boolean;
 }
 
 export interface PlayerCard {
-  /** Job title printed across the top of the card. */
+  /** Job title printed under the position mark. */
   title: string;
+  /** Two or three capitals — the mark above the title, e.g. "SE". */
+  positionAbbrev: string;
+  /**
+   * Printed twice, deliberately: as the figure block's numeral and as the third
+   * meta row. It is the card's most prominent number and it is a count of
+   * years, not a composite score — see ADR 0013 on why the reference's "91 OVR"
+   * is the one thing from the mock the card does not reproduce.
+   */
   yearsExperience: number;
-  /** Out of 5, in half steps. */
-  rating: number;
+  /** Display text for the meta column, e.g. "Hamburg, Germany". */
+  location: string;
   /** ISO-ish codes rendered as flags on the card; currently DE and NP. */
   countries: string[];
-  stats: PlayerStat[];
-  /** Scouting-report line printed in small type under the name banner. */
-  blurb: string;
-  /** The bars beside the blurb — the part of the job the year counts miss. */
-  softSkills: SoftSkill[];
+  /** The honours rows: three to five, five in the reference design. */
+  achievements: Achievement[];
 }
 
 export interface CvLink {

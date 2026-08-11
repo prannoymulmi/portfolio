@@ -19,40 +19,47 @@ export const SkillsFileSchema = z.object({
   skills: z.array(SkillCategorySchema).min(1).max(8),
 });
 
-export const PlayerStatSchema = z.object({
-  label: z.string().min(2).max(24),
-  // Years in that area, so it shares the bound with yearsExperience below.
-  value: z.number().int().min(0).max(60),
+export const AchievementSchema = z.object({
+  // Names which glyph, not what it looks like — components/Hero/CardIcons.tsx
+  // owns that. A closed enum rather than a free string, so a typo fails here
+  // instead of rendering an empty tile.
+  icon: z.enum(['trophy', 'shield', 'code', 'cloud', 'people', 'cert']),
+  // About two printed lines at the card's width. Longer text still renders —
+  // the row grows rather than overlapping — but the cap stops content quietly
+  // reshaping the card.
+  text: z.string().min(10).max(80),
+  // The single accent-coloured row. Optional because a card with no emphasis is
+  // a valid, if flatter, card.
+  emphasis: z.boolean().optional(),
 });
 
-export const SoftSkillSchema = z.object({
-  label: z.string().min(2).max(18),
-  // Whole steps only. Finer resolution would claim a precision that a
-  // self-assessment doesn't have, and the bar can't draw it anyway.
-  level: z.number().int().min(1).max(5),
-});
-
-export const PlayerCardSchema = z.object({
-  title: z.string().min(3).max(40),
-  yearsExperience: z.number().int().min(0).max(60),
-  // Half steps only — the star row can't render finer than that.
-  rating: z
-    .number()
-    .min(0)
-    .max(5)
-    .refine((n) => n * 2 === Math.round(n * 2), 'rating must be in half steps'),
-  countries: z
-    .array(z.enum(['DE', 'NP']))
-    .min(1)
-    .max(3),
-  // Three reads well on the card; more than four and the pills get cramped.
-  stats: z.array(PlayerStatSchema).min(1).max(4),
-  // Small type under the name banner. Capped at roughly two printed lines —
-  // past that it pushes the bars beside it out of alignment.
-  blurb: z.string().min(40).max(150),
-  // Three bars fit the strip beside the blurb; a fourth halves the row height.
-  softSkills: z.array(SoftSkillSchema).min(1).max(3),
-});
+export const PlayerCardSchema = z
+  .object({
+    title: z.string().min(3).max(40),
+    // The mark above the title, set in display type in the accent colour.
+    // Constrained to capitals rather than merely to length: a lowercase or
+    // punctuated value would not render as the mark the design expects, and
+    // silently restyling content is worse than refusing it.
+    positionAbbrev: z.string().regex(/^[A-Z]{2,3}$/, 'must be two or three capital letters'),
+    // Printed twice on purpose: as the figure block's numeral and as the third
+    // meta row. It is the card's most prominent number, and it is a count of
+    // years rather than a composite score — the reference mock's "91 OVR" is
+    // the thing this deliberately does not do (ADR 0013).
+    yearsExperience: z.number().int().min(0).max(60),
+    // Display text, not structured geography. The card prints it; nothing parses it.
+    location: z.string().min(3).max(40),
+    countries: z
+      .array(z.enum(['DE', 'NP']))
+      .min(1)
+      .max(3),
+    // The design is drawn for five. Three still reads as balanced; six overflows
+    // the shield, so the contract refuses it rather than letting the layout break.
+    achievements: z.array(AchievementSchema).min(3).max(5),
+  })
+  .refine(
+    (card) => card.achievements.filter((a) => a.emphasis).length <= 1,
+    'at most one achievement may be emphasised — the design has one accent row',
+  );
 
 export const CvLinkSchema = z.object({
   // Two characters is the floor for something a visitor can see and hit; forty

@@ -40,20 +40,20 @@ Three things from planning that shape this list:
 
 **Purpose**: the mechanisms every later phase draws on. Nothing here renders.
 
-- [ ] T001 Add the light-edition card tokens to `app/globals.css` — declare
+- [X] T001 Add the light-edition card tokens to `app/globals.css` — declare
       `--card-ground`, `--card-edge`, `--card-ink`, `--card-accent`, `--card-foil`,
       `--card-foil-lite` under the existing `:root` block, and expose each through the
       existing `@theme inline` block as `--color-card-*`. Values from research §2. Add a
       comment naming research §2 as the source of the measured ratios, per the
       constitution's ADR-reference rule.
-- [ ] T002 [P] Add one condensed display face at a single heavy weight to
+- [X] T002 [P] Add one condensed display face at a single heavy weight to
       `app/layout.tsx` via `next/font/google` with `display: 'swap'` and the Latin
       subset, exposed as a CSS variable beside the existing Geist pair, and register it
       in the `@theme inline` block of `app/globals.css` as a font token.
-- [ ] T003 [P] Create `components/Hero/CardIcons.tsx` exporting seven inline SVG glyph
+- [X] T003 [P] Create `components/Hero/CardIcons.tsx` exporting seven inline SVG glyph
       components — pin, calendar, trophy, shield, code, cloud, people — each accepting
       `className`, using `currentColor`, and carrying `aria-hidden="true"`.
-- [ ] T004 [P] Add `tests/unit/card-contrast.test.ts` asserting the computed WCAG ratio
+- [X] T004 [P] Add `tests/unit/card-contrast.test.ts` asserting the computed WCAG ratio
       of each token pair from research §2 — ink/ground and accent/ground clear 7:1 in
       both editions, foil/ground clears 3:1. This is the guard that stops a later colour
       tweak from silently dropping below AA.
@@ -67,24 +67,24 @@ Three things from planning that shape this list:
 **⚠️ CRITICAL**: no user story work can begin until this phase completes. T005–T010 land
 as **one commit** — the build is broken at every point between them.
 
-- [ ] T005 Write the contract tests in `tests/unit/validation.test.ts` for the reshaped
+- [X] T005 Write the contract tests in `tests/unit/validation.test.ts` for the reshaped
       card, all nine cases enumerated in [contracts/content-schema.md](./contracts/content-schema.md)
       §"Contract tests". These fail until T006 lands, which is the point.
-- [ ] T006 Reshape `PlayerCardSchema` in `lib/utils/validation.ts` — add
+- [X] T006 Reshape `PlayerCardSchema` in `lib/utils/validation.ts` — add
       `positionAbbrev` (`/^[A-Z]{2,3}$/`), `location` (3–40), and `achievements` (3–5 of
       `AchievementSchema`); remove `rating`, `stats`, `softSkills`, `blurb`. Add
       `AchievementSchema` with `text` (10–80), `icon` (closed enum of the six values),
       and optional `emphasis`, plus a refinement rejecting more than one `emphasis: true`.
       Delete `PlayerStatSchema` and `SoftSkillSchema`.
-- [ ] T007 Update `lib/types/portfolio.ts` to match — reshape `PlayerCard`, add
+- [X] T007 Update `lib/types/portfolio.ts` to match — reshape `PlayerCard`, add
       `Achievement`, delete `PlayerStat` and `SoftSkill`. Keep the doc comments' habit of
       saying why a bound exists, not just what it is.
-- [ ] T008 Update `public/data/home.json` to the new card shape using the mock's own five
+- [X] T008 Update `public/data/home.json` to the new card shape using the mock's own five
       achievement lines as the starting content, per the contract's worked example.
       Remove `rating`, `stats`, `softSkills`, `blurb` entirely — leaving them fails the
       load, by design.
-- [ ] T009 [P] Delete `components/Hero/SkillBars.tsx` and `components/Hero/StarRating.tsx`.
-- [ ] T010 [P] Delete `components/Hero/AwsBadge.tsx` — the AWS certification becomes an
+- [X] T009 [P] Delete `components/Hero/SkillBars.tsx` and `components/Hero/StarRating.tsx`.
+- [X] T010 [P] Delete `components/Hero/AwsBadge.tsx` — the AWS certification becomes an
       achievement row carrying `icon: "cert"`.
 
 **Checkpoint**: `npm run type-check` and `npm test` pass; the site renders with a card
@@ -101,42 +101,42 @@ all eleven anatomy elements (SC-001).
 
 ### Tests first
 
-- [ ] T011 [P] [US1] Create `tests/unit/components/PlayerCard.test.tsx` asserting each of
+- [X] T011 [P] [US1] Create `tests/unit/components/PlayerCard.test.tsx` asserting each of
       the eleven anatomy elements renders — shield frame, figure block, position
       abbreviation, job title, location row, country row, years row, portrait, name,
       five achievement rows, crest.
-- [ ] T012 [P] [US1] Add assertions to the same file that the retired elements are
+- [X] T012 [P] [US1] Add assertions to the same file that the retired elements are
       **absent** — no star rating, no soft-skill bars, no stat pills, no blurb — so they
       cannot creep back in a later edit.
-- [ ] T013 [P] [US1] Add an assertion that exactly one achievement row carries the accent
+- [X] T013 [P] [US1] Add an assertion that exactly one achievement row carries the accent
       treatment (FR-009), and that it is the row content marks with `emphasis`.
 
 ### Frame and ground
 
-- [ ] T014 [US1] Create `components/Hero/CardFrame.tsx` — the shield outline as a
+- [X] T014 [US1] Create `components/Hero/CardFrame.tsx` — the shield outline as a
       rounded rectangle plus a separate crown element at top centre (research §3: **do
       not** clip with an `objectBoundingBox` SVG path, it distorts when the card
       stretches), the two-part foil border, and the ivory-to-sand ground grade.
-- [ ] T015 [P] [US1] Add the paper texture and the pitch-diagram line art to
+- [X] T015 [P] [US1] Add the paper texture and the pitch-diagram line art to
       `CardFrame.tsx` as inline SVG — a `<pattern>` of dots and a small line-art group —
       both at low opacity, both `aria-hidden`, neither legible enough to compete with
       content (FR-003).
 
 ### Card regions
 
-- [ ] T016 [P] [US1] Create `components/Hero/FigureBlock.tsx` — the career total as a
+- [X] T016 [P] [US1] Create `components/Hero/FigureBlock.tsx` — the career total as a
       display-size numeral over a `YRS` label with a rule beneath. It prints
       `yearsExperience`; it must never print a composite score (FR-004a).
-- [ ] T017 [P] [US1] Create `components/Hero/MetaColumn.tsx` — three icon-and-fact rows
+- [X] T017 [P] [US1] Create `components/Hero/MetaColumn.tsx` — three icon-and-fact rows
       for location, country and years, reusing the existing `Flags.tsx` for the country
       row and `CardIcons.tsx` for the other two.
-- [ ] T018 [P] [US1] Create `components/Hero/HonoursList.tsx` — the achievement rows,
+- [X] T018 [P] [US1] Create `components/Hero/HonoursList.tsx` — the achievement rows,
       each an icon tile beside one-to-two lines of text, separated by hairline rules,
       with the `emphasis` row carried in the accent colour. Rows grow to fit longer text
       rather than overlapping (US3 scenario 3).
-- [ ] T019 [P] [US1] Create `components/Hero/CardCrest.tsx` — the foot crest as inline
+- [X] T019 [P] [US1] Create `components/Hero/CardCrest.tsx` — the foot crest as inline
       SVG, centred, `aria-hidden`.
-- [ ] T020 [US1] Rewrite `components/Hero/PlayerCard.tsx` to compose the regions above in
+- [X] T020 [US1] Rewrite `components/Hero/PlayerCard.tsx` to compose the regions above in
       the reference's arrangement: figure block and position over the meta column on the
       left, portrait bleeding at the right, name across the full width, honours list
       beneath, crest at the foot.
@@ -148,20 +148,20 @@ all eleven anatomy elements (SC-001).
       then point `imageSource` at it. macOS Finder → Quick Actions → Remove Background
       produces this in two clicks. Automated matting was spiked and cannot meet FR-007a's
       bar, so this task cannot be completed by tuning a threshold.
-- [ ] T022 [US1] If T021 is not satisfied, implement FR-007a's fallback in
+- [X] T022 [US1] If T021 is not satisfied, implement FR-007a's fallback in
       `PlayerCard.tsx`: the portrait renders framed inside the card rather than as a
       bleeding cut-out, and SC-008 is recorded as deferred. **US1 ships either way** —
       do not block the story, and do not ship a poor matte to close the criterion.
 
 ### Responsive
 
-- [ ] T023 [US1] Make the card's height content-driven with fluid type that floors at
+- [X] T023 [US1] Make the card's height content-driven with fluid type that floors at
       14px (FR-020a), so the card stretches taller than the mock's proportion on narrow
       screens instead of shrinking its text.
-- [ ] T024 [US1] Widen the card's column by one step in `components/Hero/Hero.tsx` while
+- [X] T024 [US1] Widen the card's column by one step in `components/Hero/Hero.tsx` while
       keeping the opening a two-column grid (FR-021a). Do not introduce an `order-*`
       utility — feature 005's source order must survive.
-- [ ] T025 [P] [US1] Add a responsive test asserting no text on the card computes below
+- [X] T025 [P] [US1] Add a responsive test asserting no text on the card computes below
       14px and the anatomy stays complete at 320px.
 
 **Checkpoint**: US1 is independently shippable. The card is complete in light mode; dark
@@ -178,14 +178,14 @@ wrong.
 **Independent test**: toggle the theme; no element holds a light-mode value, all text
 still clears AA (SC-004, SC-002).
 
-- [ ] T026 [P] [US2] Add a test to `PlayerCard.test.tsx` asserting the card renders no
+- [X] T026 [P] [US2] Add a test to `PlayerCard.test.tsx` asserting the card renders no
       hardcoded colour literals — every coloured element resolves through a `card-*`
       token — which is what makes the theme flip total rather than partial.
-- [ ] T027 [US2] Add the dark-edition values to the **existing** `.dark` block in
+- [X] T027 [US2] Add the dark-edition values to the **existing** `.dark` block in
       `app/globals.css`, re-declaring the same six custom properties with the dark values
       from research §2. Add no component-level `.dark` selector and no `dark:` utility on
       the card — see plan.md's judgement call for why this block is the right home.
-- [ ] T028 [US2] Re-tune the foil gradient stops for the dark ground so the border still
+- [X] T028 [US2] Re-tune the foil gradient stops for the dark ground so the border still
       reads as metal rather than as a flat tan line, using `--card-foil` and
       `--card-foil-lite`.
 - [ ] T029 [US2] Sweep every element across `components/Hero/CardFrame.tsx`,
@@ -195,7 +195,7 @@ still clears AA (SC-004, SC-002).
 - [ ] T030 [US2] Verify no flash of the light-mode card when loading `/` directly with
       the theme already dark (US2 scenario 4); if one appears, the cause is in
       `app/layout.tsx`'s theme bootstrap, not in the card.
-- [ ] T031 [P] [US2] Confirm the light-edition foil carries no text anywhere on the card
+- [X] T031 [P] [US2] Confirm the light-edition foil carries no text anywhere on the card
       — it measures 3.79:1 and fails AA for text (research §2, Finding B). Frame and
       rules only, in both editions, so the two stay structurally identical.
 
@@ -211,12 +211,12 @@ this phase proves it and covers the failure path.
 **Independent test**: change a fact of each kind in `home.json`, reload, see all of them
 (SC-005).
 
-- [ ] T032 [P] [US3] Add a test asserting the card renders values read from `home.json`
+- [X] T032 [P] [US3] Add a test asserting the card renders values read from `home.json`
       rather than literals — following the existing `Hero.test.tsx` habit of reading the
       content file and asserting against it, so reworded content does not fail the test.
-- [ ] T033 [P] [US3] Add a test that invalid card content surfaces through the existing
+- [X] T033 [P] [US3] Add a test that invalid card content surfaces through the existing
       error path rather than rendering a partial card (FR-018).
-- [ ] T034 [US3] Update `tests/unit/components/Hero.test.tsx` for the new anatomy —
+- [X] T034 [US3] Update `tests/unit/components/Hero.test.tsx` for the new anatomy —
       the stat-pill test asserts figures that no longer exist and must be replaced with
       the meta column and honours list equivalents.
 - [ ] T035 [US3] Walk the SC-005 procedure in `specs/006-hero-card-redesign/quickstart.md`
@@ -230,20 +230,20 @@ this phase proves it and covers the failure path.
 
 ## Phase 6: Polish and cross-cutting concerns
 
-- [ ] T036 Create `components/Hero/FoilSheen.tsx` — a narrow angled highlight travelling
+- [X] T036 Create `components/Hero/FoilSheen.tsx` — a narrow angled highlight travelling
       the foil border on hover and once on entrance, animated with Framer Motion
       (interaction motion is its declared domain). Masked so it lights the frame only and
       never washes the portrait.
-- [ ] T037 Gate `FoilSheen` on `prefersReducedMotion()` from `lib/utils/animations.ts`
+- [X] T037 Gate `FoilSheen` on `prefersReducedMotion()` from `lib/utils/animations.ts`
       and return `null` when set. It must **not** rely on the global reduced-motion rule
       in `globals.css`, which collapses durations to `0.01ms` and would freeze the sheen
       mid-frame — the exact state FR-023a forbids (research §4).
-- [ ] T038 [P] Add a test asserting the sheen does not render under reduced motion and
+- [X] T038 [P] Add a test asserting the sheen does not render under reduced motion and
       the card reads as complete without it (SC-010).
-- [ ] T039 [P] Clean up `components/Hero/palette.ts` — remove `CARD_INK`, `SUNGLOW` and
+- [X] T039 [P] Clean up `components/Hero/palette.ts` — remove `CARD_INK`, `SUNGLOW` and
       `SUNGLOW_TEXT`, now superseded by the card tokens. Keep `INK`, `EMBER`, `TEAL`,
       `CREAM` and `WARM_INK`: the annotation bars still use them and are out of scope.
-- [ ] T040 Write `docs/adr/0018-collectible-card-anatomy.md` amending ADR 0013 (FR-025).
+- [X] T040 Write `docs/adr/0018-collectible-card-anatomy.md` amending ADR 0013 (FR-025).
       It must record: the anatomy replacement, the content-contract change, the move from
       inline styles to themed tokens, the display font as a design commitment, and —
       explicitly — **what the card gives up**: the per-area year counts, and the
@@ -260,15 +260,42 @@ this phase proves it and covers the failure path.
 - [ ] T043 [P] Run the width sweep in `specs/006-hero-card-redesign/quickstart.md` §SC-003
       — 320 / 375 / 768 / 1024 / 1440 / 1920 — confirming no horizontal scroll, no
       clipped content, complete anatomy, and no text below 14px.
-- [ ] T044 [P] Verify `public/images/card.png` is still uncommitted and unreferenced
+- [X] T044 [P] Verify `public/images/card.png` is still uncommitted and unreferenced
       (SC-009): `git log --oneline --all -- public/images/card.png` shows no commit from
       this feature, and no grep hit in `app`, `components` or `public/data`.
-- [ ] T045 Run `npx prettier --write` across `components/Hero/`, `app/globals.css`,
+- [X] T045 Run `npx prettier --write` across `components/Hero/`, `app/globals.css`,
       `app/layout.tsx`, `lib/` and `tests/` so `prettier-plugin-tailwindcss` orders the
       many new class strings, then `npm run type-check && npm run lint && npm test` as
       the final gate.
 
 ---
+
+## Implementation status — 2026-08-11
+
+**38 of 45 complete.** All 136 tests pass; `tsc`, `eslint` and `prettier --check` are
+clean; the production build succeeds and serves. Both editions' tokens ship in the CSS
+bundle, verified against the built stylesheet.
+
+The seven outstanding tasks are **not** blocked on code. Each needs either an asset that
+does not exist or a browser to look through, and neither is available in this
+environment. They are left unchecked rather than marked done on the basis that the code
+supporting them was written.
+
+| Task | Status | Why |
+|---|---|---|
+| T021 cut-out portrait | **Not done** | No background-removed asset exists. Research §5 showed it cannot be produced from `hero_pic.png` with the available tooling. Needs macOS Quick Actions → Remove Background, or equivalent. |
+| T022 framed fallback | **Done** | FR-007a's fallback is implemented and shipping, so US1 is complete without T021. Swapping a cut-out in later is a content edit plus deleting one gradient overlay. |
+| T029 two-theme sweep | **Not verified** | Needs eyes on both themes. The token test (`PlayerCard.test.tsx`) proves no colour is hardcoded, which is the mechanical half; the visual half is outstanding. |
+| T030 no dark-mode flash | **Not verified** | Needs a browser loading `/` with the theme pre-set. |
+| T035 manual content walk | **Partly done** | The three deliberate breakages are covered by `validation.test.ts`. The edit-and-reload half needs a browser. |
+| T041 Lighthouse ≥ 90 | **Not verified** | No Lighthouse CLI in this environment. The production build succeeds; performance is unmeasured. |
+| T042 font retreat | **Not triggered** | Depends on T041. |
+| T043 width sweep | **Not verified** | Needs a browser at six widths. The 14px floor is asserted by class in `PlayerCard.test.tsx` as a proxy, not by computed layout. |
+
+**The honest summary**: the card is built, typed, tested and building, but nobody has
+looked at it yet. SC-001 (anatomy beside the reference), SC-003 (width sweep), SC-004
+(theme flip) and SC-006 (performance) are all verification criteria that require a human
+with a browser, and they remain open.
 
 ## Dependencies
 

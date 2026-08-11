@@ -26,6 +26,29 @@
   /* Body copy sitting on the scrim. gray-900 measures 5.79:1 against the bare
      photo at its darkest; gray-700 measures 3.37:1 and fails AA. */
   --on-photo: #111827;
+
+  /* The player card, light edition — a collectible printed on warm ivory stock
+     with gold foil. Declared here rather than in components/Hero/palette.ts
+     because a card colour has to change with the theme, and palette.ts is
+     consumed as inline `style`, which cannot carry a variant. Re-declared under
+     .dark below, so the two editions differ by these six values and nothing
+     else. See specs/006-hero-card-redesign/research.md §1.
+
+     Two of these are deliberately NOT the values sampled off the reference
+     mock, and the measurements are why (research.md §2):
+
+       --card-accent  the mock's #9A3B1E measures 6.02:1 on the ground, short
+                      of the 7:1 that display-size type needs. #822F16 reaches
+                      7.68:1 and is still recognisably the same rust.
+       --card-foil    3.79:1 on the ground. That clears WCAG 1.4.11's 3:1 for
+                      meaningful boundaries, so it is sound as a frame and rule
+                      colour — but it MUST NOT carry text. */
+  --card-ground: #f8ede0;
+  --card-edge: #eed6bb;
+  --card-ink: #001126;
+  --card-accent: #822f16;
+  --card-foil: #a86a3f;
+  --card-foil-lite: #d89d6b;
 }
 
 @theme inline {
@@ -36,6 +59,18 @@
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Condensed display face, used only for the card's name banner and its
+     figure block. Geist has no condensed cut and no width axis, and neither
+     tighter tracking nor a CSS scaleX reproduces one — the first narrows the
+     gaps but not the glyphs, the second distorts the stroke weights. */
+  --font-display: var(--font-display-condensed);
+
+  --color-card-ground: var(--card-ground);
+  --color-card-edge: var(--card-edge);
+  --color-card-ink: var(--card-ink);
+  --color-card-accent: var(--card-accent);
+  --color-card-foil: var(--card-foil);
+  --color-card-foil-lite: var(--card-foil-lite);
 }
 
 /* Keyed off the same class as the `dark` variant above, so the custom
@@ -51,6 +86,27 @@
      detail, not to rescue contrast. */
   --scrim: rgb(10 10 10 / 0.55);
   --on-photo: #f3f4f6;
+
+  /* The player card, dark edition — the same collectible printed on black
+     stock. Card sets call this a "black parallel": not a dimmed version of the
+     base card but a separate printing, where the foil is warmed rather than
+     darkened so it still reads as metal against the ground.
+
+     The three hue families are the ones the light edition uses — gold, ivory
+     and rust — changed in value, not swapped (FR-013). What was ink on ivory is
+     now ivory on ink, which is why --card-ink and --card-ground trade places in
+     spirit rather than being separately invented.
+
+     Measured against the dark ground: ink 15.14:1, accent 7.16:1, foil 9.84:1 —
+     all AAA. The accent is #E88A5E rather than the #E07A4F a straight lift of
+     the mock's rust would give, because that measured 6.15:1 and the position
+     mark is display-size. See research.md §2. */
+  --card-ground: #12151b;
+  --card-edge: #0b0d11;
+  --card-ink: #f4e8d9;
+  --card-accent: #e88a5e;
+  --card-foil: #e3b863;
+  --card-foil-lite: #f0d28a;
 }
 
 /* Registered as utilities so they compose with variants and stay sorted by

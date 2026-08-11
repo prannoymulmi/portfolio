@@ -166,48 +166,44 @@ describe('Hero Component', () => {
     expect(await screen.findByText(/Senior Software Engineer/i)).toBeInTheDocument();
   });
 
-  it('reads every card stat as a count of years, not a 0-100 score', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-    for (const stat of raw.card.stats) {
-      expect(stat.value).toBeLessThanOrEqual(raw.card.yearsExperience);
-      const label = screen.getByText(stat.label);
-      // Each pill sits directly above its figure inside the same list item.
-      expect(label.closest('li')).toHaveTextContent(String(stat.value));
-    }
-  });
-
-  it('prints the scouting line in small type under the name banner', async () => {
-    renderHero();
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-    expect(await screen.findByText(raw.card.blurb)).toBeInTheDocument();
-  });
-
-  it('draws a bar per soft skill, each reading as a self-rating out of 5', async () => {
+  it('prints the career total as the card headline figure, not a rating', async () => {
     renderHero();
     await screen.findByText(/Prannoy Mulmi/i);
     const raw = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
     );
 
-    const meters = screen.getAllByRole('meter');
-    expect(meters).toHaveLength(raw.card.softSkills.length);
+    // The reference mock leads with "91 OVR". ADR 0013 rejected a composite
+    // score outright, so the block keeps its position and prints years instead.
+    expect(screen.getAllByText(String(raw.card.yearsExperience)).length).toBeGreaterThan(0);
+    expect(screen.getByText('YRS')).toBeInTheDocument();
+    expect(screen.queryByText(/OVR/i)).not.toBeInTheDocument();
+  });
 
-    for (const skill of raw.card.softSkills) {
-      const meter = screen.getByRole('meter', { name: skill.label });
-      expect(meter).toHaveAttribute('aria-valuenow', String(skill.level));
-      expect(meter).toHaveAttribute('aria-valuemax', '5');
+  it('lists every achievement the content carries', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    for (const achievement of raw.card.achievements) {
+      expect(screen.getByText(achievement.text)).toBeInTheDocument();
     }
   });
 
-  it('labels the bars as self-rated, so they do not read as measurements', async () => {
+  it('prints where he is and how long he has been doing this', async () => {
     renderHero();
-    expect(await screen.findByText(/self-rated/i)).toBeInTheDocument();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    expect(screen.getByText(raw.card.location)).toBeInTheDocument();
+    expect(
+      screen.getByText(new RegExp(`${raw.card.yearsExperience}\\+ Years`, 'i')),
+    ).toBeInTheDocument();
+    expect(screen.getByText(raw.card.positionAbbrev)).toBeInTheDocument();
   });
 
   it('links to the CV address the shipped content carries', async () => {
@@ -228,9 +224,12 @@ describe('Hero Component', () => {
     expect(link).toHaveAccessibleName(/opens in a new tab/i);
   });
 
-  it('shows an AWS mark on the card', async () => {
+  // The AWS badge retired with the old anatomy; the certification is an
+  // achievement row now, so there is no separate mark to find.
+  it('no longer shows a standalone AWS badge', async () => {
     renderHero();
-    expect(await screen.findByRole('img', { name: /amazon web services/i })).toBeInTheDocument();
+    await screen.findByText(/Prannoy Mulmi/i);
+    expect(screen.queryByRole('img', { name: /amazon web services/i })).not.toBeInTheDocument();
   });
 
   it('shows a flag for each country on the card', async () => {

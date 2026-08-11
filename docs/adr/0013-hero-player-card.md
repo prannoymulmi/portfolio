@@ -1,6 +1,7 @@
 # ADR 0013: The hero is a football player card over a sunset photo
 
-- **Status**: Accepted, extended by [ADR 0015](0015-photograph-as-page-surface.md)
+- **Status**: Accepted, extended by [ADR 0015](0015-photograph-as-page-surface.md),
+  amended by [ADR 0018](0018-collectible-card-anatomy.md)
 - **Date**: 2026-08-10
 - **Extends**: [ADR 0004](0004-football-pitch-metaphor.md) — carries the
   football metaphor into the hero, which previously sat outside it.
@@ -9,6 +10,16 @@
 > story, pinned and served through the image optimizer, per
 > [ADR 0015](0015-photograph-as-page-surface.md). The card, the years-only stat
 > rule, and the palette below are unchanged.
+
+> **Amendment note, 2026-08-11**: the card anatomy specified below — the stat
+> pills, the star rating and the soft-skill bars — was replaced by
+> [ADR 0018](0018-collectible-card-anatomy.md), which also moved the card's
+> colour out of `palette.ts` and into themed tokens, resolving the inline-style
+> negative recorded under Consequences. **The years-only rule survives**: ADR
+> 0018 keeps the reference's rating block but prints a count of years in it,
+> upholding the alternative rejected below rather than reversing it. What ADR
+> 0018 gives up — the per-area counts, and the soft-skill bars introduced here
+> as the bounded answer to a composite rating — is recorded in that ADR.
 
 ## Context
 
