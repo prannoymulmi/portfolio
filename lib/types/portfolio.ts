@@ -32,6 +32,16 @@ export interface PlayerCard {
   softSkills: SoftSkill[];
 }
 
+export interface CvLink {
+  /** Visible link text. */
+  label: string;
+  /**
+   * External address of the hosted CV. The site links to the document; it never
+   * stores or serves a copy — see ADR 0017.
+   */
+  href: string;
+}
+
 export interface Home {
   name: string;
   /** Short introductory statement shown under the name in the hero. */
@@ -47,6 +57,8 @@ export interface Home {
   imageSource?: string;
   /** Figures shown on the hero's player card. */
   card: PlayerCard;
+  /** Absent means the opening section renders no CV link at all. */
+  cv?: CvLink;
 }
 
 export interface Skill {

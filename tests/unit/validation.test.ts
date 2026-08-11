@@ -145,6 +145,36 @@ describe('HomeSchema', () => {
     expect(HomeSchema.safeParse(bad).success).toBe(false);
   });
 
+  it('accepts a home.json with no CV link, since the address is optional', () => {
+    expect(HomeSchema.safeParse(validHome).success).toBe(true);
+  });
+
+  it('accepts a CV link with a label and an external address', () => {
+    const withCv = {
+      ...validHome,
+      cv: { label: 'Download CV', href: 'https://example.com/cv.pdf' },
+    };
+    expect(HomeSchema.safeParse(withCv).success).toBe(true);
+  });
+
+  it('rejects a CV label too short to be a visible click target', () => {
+    const bad = { ...validHome, cv: { label: 'X', href: 'https://example.com/cv.pdf' } };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects a CV label long enough to stop being a link and start being a sentence', () => {
+    const bad = {
+      ...validHome,
+      cv: { label: 'a'.repeat(41), href: 'https://example.com/cv.pdf' },
+    };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects a CV address that is not a URL, same as a malformed profile link', () => {
+    const bad = { ...validHome, cv: { label: 'Download CV', href: 'not-a-url' } };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
   it('requires the intro statement', () => {
     const { intro: _intro, ...withoutIntro } = validHome;
     expect(HomeSchema.safeParse(withoutIntro).success).toBe(false);
