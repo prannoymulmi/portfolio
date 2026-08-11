@@ -7,6 +7,16 @@ export interface PlayerStat {
   value: number;
 }
 
+export interface SoftSkill {
+  label: string;
+  /**
+   * Self-rated, 1–5 in whole steps, drawn as a bar. Deliberately coarse: the
+   * card labels these as self-rated rather than dressing a judgement up as a
+   * measurement (ADR 0013).
+   */
+  level: number;
+}
+
 export interface PlayerCard {
   /** Job title printed across the top of the card. */
   title: string;
@@ -16,6 +26,10 @@ export interface PlayerCard {
   /** ISO-ish codes rendered as flags on the card; currently DE and NP. */
   countries: string[];
   stats: PlayerStat[];
+  /** Scouting-report line printed in small type under the name banner. */
+  blurb: string;
+  /** The bars beside the blurb — the part of the job the year counts miss. */
+  softSkills: SoftSkill[];
 }
 
 export interface Home {

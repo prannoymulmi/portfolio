@@ -28,6 +28,21 @@
         "label": "Security",
         "value": 4
       }
+    ],
+    "blurb": "Owns systems end to end, from the whiteboard to the on-call rota, and brings the rest of the team along with it.",
+    "softSkills": [
+      {
+        "label": "Mentoring",
+        "level": 5
+      },
+      {
+        "label": "Communication",
+        "level": 4
+      },
+      {
+        "label": "Leadership",
+        "level": 4
+      }
     ]
   }
 }

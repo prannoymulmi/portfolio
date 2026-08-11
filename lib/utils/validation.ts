@@ -25,6 +25,13 @@ export const PlayerStatSchema = z.object({
   value: z.number().int().min(0).max(60),
 });
 
+export const SoftSkillSchema = z.object({
+  label: z.string().min(2).max(18),
+  // Whole steps only. Finer resolution would claim a precision that a
+  // self-assessment doesn't have, and the bar can't draw it anyway.
+  level: z.number().int().min(1).max(5),
+});
+
 export const PlayerCardSchema = z.object({
   title: z.string().min(3).max(40),
   yearsExperience: z.number().int().min(0).max(60),
@@ -40,6 +47,11 @@ export const PlayerCardSchema = z.object({
     .max(3),
   // Three reads well on the card; more than four and the pills get cramped.
   stats: z.array(PlayerStatSchema).min(1).max(4),
+  // Small type under the name banner. Capped at roughly two printed lines —
+  // past that it pushes the bars beside it out of alignment.
+  blurb: z.string().min(40).max(150),
+  // Three bars fit the strip beside the blurb; a fourth halves the row height.
+  softSkills: z.array(SoftSkillSchema).min(1).max(3),
 });
 
 export const HomeSchema = z.object({

@@ -17,6 +17,12 @@ const validHome = {
       { label: 'Backend', value: 9 },
       { label: 'Cloud', value: 6 },
     ],
+    blurb: 'Owns systems end to end and brings the rest of the team along with it.',
+    softSkills: [
+      { label: 'Mentoring', level: 5 },
+      { label: 'Communication', level: 4 },
+      { label: 'Leadership', level: 4 },
+    ],
   },
 };
 
@@ -100,6 +106,38 @@ describe('HomeSchema', () => {
     expect(HomeSchema.safeParse(bad).success).toBe(false);
     const good = { ...validHome, card: { ...validHome.card, rating: 3.5 } };
     expect(HomeSchema.safeParse(good).success).toBe(true);
+  });
+
+  it('rejects a soft-skill level finer than a whole step', () => {
+    const bad = {
+      ...validHome,
+      card: { ...validHome.card, softSkills: [{ label: 'Mentoring', level: 4.5 }] },
+    };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects a soft-skill level dressed up as a 0-100 score', () => {
+    const bad = {
+      ...validHome,
+      card: { ...validHome.card, softSkills: [{ label: 'Mentoring', level: 87 }] },
+    };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('caps the soft-skill bars at the three the card strip fits', () => {
+    const four = {
+      ...validHome,
+      card: {
+        ...validHome.card,
+        softSkills: [...validHome.card.softSkills, { label: 'Ownership', level: 5 }],
+      },
+    };
+    expect(HomeSchema.safeParse(four).success).toBe(false);
+  });
+
+  it('rejects a blurb too long for the two lines beside the bars', () => {
+    const bad = { ...validHome, card: { ...validHome.card, blurb: 'a'.repeat(151) } };
+    expect(HomeSchema.safeParse(bad).success).toBe(false);
   });
 
   it('rejects a country without a flag to render', () => {
