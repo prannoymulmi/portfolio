@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero/Hero';
 import { ThreeSystems } from '@/components/Work/ThreeSystems';
 import { ChapterGradientOverlay } from '@/components/Common/ChapterGradientOverlay';
+import { PrincipleBand } from '@/components/EngineeringPrinciple/PrincipleBand';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ProjectGalleryLazy } from '@/components/Projects/ProjectGalleryLazy';
@@ -60,6 +61,11 @@ export default function Home() {
           <CareerJourneyLazy />
         </div>
       </section>
+
+      {/* Deliberately absent from STORY_SECTIONS in StoryProgressNav: this is
+          a held statement between chapters, not a chapter. Listing it would
+          promise a section with contents to navigate. */}
+      <PrincipleBand />
 
       <section
         id="education"

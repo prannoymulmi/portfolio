@@ -113,6 +113,17 @@ export interface PlaybookFile {
   categories: PlaybookCategory[];
 }
 
+/**
+ * The single statement carried by the engineering-principle band. Named
+ * EngineeringPrinciple, not Principle: `Principle` is already the playbook's
+ * title/description pair, and two different shapes under one name is how a
+ * schema gets applied to the wrong file.
+ */
+export interface EngineeringPrincipleFile {
+  statement: string;
+  supporting: string;
+}
+
 export interface Route {
   component: string;
   path: string;

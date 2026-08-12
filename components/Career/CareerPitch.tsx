@@ -33,16 +33,18 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
   const previous = index > 0 ? chapters[index - 1] : null;
 
   useEffect(() => {
-    if (!playing) return;
-
     // The walk ends at the newest chapter rather than looping: it is a career,
-    // not a carousel.
-    if (index >= chapters.length - 1) {
-      setPlaying(false);
-      return;
-    }
+    // not a carousel. Stopping is done from the timer callback rather than
+    // here, because setting state synchronously inside an effect cascades a
+    // second render before the first has painted.
+    if (!playing || index >= chapters.length - 1) return;
 
-    const timer = setTimeout(() => setIndex((current) => current + 1), STEP_MS);
+    const timer = setTimeout(() => {
+      const next = index + 1;
+      setIndex(next);
+      if (next >= chapters.length - 1) setPlaying(false);
+    }, STEP_MS);
+
     return () => clearTimeout(timer);
   }, [playing, index, chapters.length]);
 

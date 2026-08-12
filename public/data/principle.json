@@ -1,0 +1,4 @@
+{
+  "statement": "The best architecture is the one your on-call engineer can reason about at 3am.",
+  "supporting": "Every system I ship comes with runbooks, dashboards and alerts that page a human only when a human is needed — on day one, not after the first incident."
+}

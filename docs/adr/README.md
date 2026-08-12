@@ -28,6 +28,7 @@ were on the table at the time.
 | [0017](0017-one-content-source-and-an-unhosted-cv.md) | One content source, and a CV the site does not host | Accepted — amends [0001](0001-json-files-over-cms.md) |
 | [0018](0018-the-opening-leaves-the-player-card.md) | The opening leaves the player card for a cut-out portrait | Accepted — supersedes [0013](0013-hero-player-card.md) in part |
 | [0019](0019-dark-mode-behind-an-experiment-flag.md) | Dark mode ships behind an experiment flag | Accepted — amends [0011](0011-class-based-dark-mode.md) in part |
+| [0020](0020-work-showcase-replaces-skills-formation.md) | The work showcase replaces the skills formation, and gradients overlay the surface | Accepted — amends [0004](0004-football-pitch-metaphor.md) in part, extends [0015](0015-photograph-as-page-surface.md) |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
