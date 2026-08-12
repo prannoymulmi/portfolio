@@ -7,23 +7,6 @@ const validHome = {
   intro: 'I build scalable cloud systems, and I care about the details.',
   bio: 'Senior software engineer with 9 years building cloud systems and leading teams.',
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
-  card: {
-    title: 'Senior Software Engineer',
-    yearsExperience: 9,
-    rating: 4.5,
-    countries: ['DE', 'NP'],
-    // Stat values are years in that area, not a 0-100 score.
-    stats: [
-      { label: 'Backend', value: 9 },
-      { label: 'Cloud', value: 6 },
-    ],
-    blurb: 'Owns systems end to end and brings the rest of the team along with it.',
-    softSkills: [
-      { label: 'Mentoring', level: 5 },
-      { label: 'Communication', level: 4 },
-      { label: 'Leadership', level: 4 },
-    ],
-  },
 };
 
 describe('HomeSchema', () => {
@@ -47,22 +30,10 @@ describe('HomeSchema', () => {
     expect(HomeSchema.safeParse({ ...validHome, bio: 'Engineer.' }).success).toBe(false);
   });
 
-  it('keeps the portrait reference optional, so the card falls back to its placeholder', () => {
+  it('keeps the portrait reference optional, so the opening can fall back to text', () => {
     const withPortrait = { ...validHome, imageSource: '/images/portrait.jpg' };
     expect(HomeSchema.safeParse(withPortrait).success).toBe(true);
     expect(HomeSchema.safeParse(validHome).success).toBe(true);
-  });
-
-  it('states the same years of experience in the biography and on the card', () => {
-    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8');
-    const home = JSON.parse(raw);
-
-    // Nothing in the schema can enforce this, so it is asserted against the
-    // real content: the retired About copy claimed "10+ years" while the card
-    // said 9.
-    const yearsInBio = home.bio.match(/(\d+)\s*(?:\+\s*)?years?/i);
-    expect(yearsInBio).not.toBeNull();
-    expect(Number(yearsInBio[1])).toBe(home.card.yearsExperience);
   });
 
   it('accepts short role phrases like "AI enthusiast"', () => {
@@ -81,68 +52,6 @@ describe('HomeSchema', () => {
 
   it('rejects a single role, since the mark sequence needs variation', () => {
     expect(HomeSchema.safeParse({ ...validHome, roles: ['Engineer'] }).success).toBe(false);
-  });
-
-  it('rejects a stat value that is not a plausible number of years', () => {
-    const bad = {
-      ...validHome,
-      card: { ...validHome.card, stats: [{ label: 'Backend', value: 140 }] },
-    };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
-  });
-
-  it('requires a card title, since the card prints it across the top', () => {
-    const { title: _title, ...cardWithoutTitle } = validHome.card;
-    expect(HomeSchema.safeParse({ ...validHome, card: cardWithoutTitle }).success).toBe(false);
-  });
-
-  it('requires the player card figures', () => {
-    const { card: _card, ...withoutCard } = validHome;
-    expect(HomeSchema.safeParse(withoutCard).success).toBe(false);
-  });
-
-  it('rejects a rating that is not on a half step', () => {
-    const bad = { ...validHome, card: { ...validHome.card, rating: 4.3 } };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
-    const good = { ...validHome, card: { ...validHome.card, rating: 3.5 } };
-    expect(HomeSchema.safeParse(good).success).toBe(true);
-  });
-
-  it('rejects a soft-skill level finer than a whole step', () => {
-    const bad = {
-      ...validHome,
-      card: { ...validHome.card, softSkills: [{ label: 'Mentoring', level: 4.5 }] },
-    };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
-  });
-
-  it('rejects a soft-skill level dressed up as a 0-100 score', () => {
-    const bad = {
-      ...validHome,
-      card: { ...validHome.card, softSkills: [{ label: 'Mentoring', level: 87 }] },
-    };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
-  });
-
-  it('caps the soft-skill bars at the three the card strip fits', () => {
-    const four = {
-      ...validHome,
-      card: {
-        ...validHome.card,
-        softSkills: [...validHome.card.softSkills, { label: 'Ownership', level: 5 }],
-      },
-    };
-    expect(HomeSchema.safeParse(four).success).toBe(false);
-  });
-
-  it('rejects a blurb too long for the two lines beside the bars', () => {
-    const bad = { ...validHome, card: { ...validHome.card, blurb: 'a'.repeat(151) } };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
-  });
-
-  it('rejects a country without a flag to render', () => {
-    const bad = { ...validHome, card: { ...validHome.card, countries: ['ZZ'] } };
-    expect(HomeSchema.safeParse(bad).success).toBe(false);
   });
 
   it('accepts a home.json with no CV link, since the address is optional', () => {
