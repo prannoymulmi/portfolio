@@ -167,7 +167,7 @@ describe('Hero Component', () => {
     expect(portrait.getAttribute('src')).toContain(encodeURIComponent(raw.imageSource));
     // The cut-out, not the studio original — the grey background is baked into
     // hero_pic.png and no CSS can reach it (research.md R2).
-    expect(raw.imageSource).toBe('/images/hero_cutout.png');
+    expect(raw.imageSource).toBe('/images/hero_portrait.png');
   });
 
   it('no longer renders the player card or any of its parts', async () => {
