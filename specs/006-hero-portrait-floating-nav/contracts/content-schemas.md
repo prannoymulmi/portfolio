@@ -43,7 +43,7 @@ This project exposes no HTTP API. Its contracts are of two kinds:
   "name": "Prannoy Mulmi",
   "intro": "I build secure, scalable cloud systems, and I care about getting the security and the details right.",
   "bio": "…",
-  "imageSource": "/images/hero_cutout.png",
+  "imageSource": "/images/hero_portrait.png",
   "roles": ["Software Engineer", "Security Advocate", "AI enthusiast"],
   "cv": { "label": "View CV", "href": "https://…" }
 }

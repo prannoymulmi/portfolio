@@ -45,7 +45,7 @@ alpha channel).
 
 ## R2: How is the portrait framed and blended?
 
-**Decision**: `next/image` rendering `hero_cutout.png`, with
+**Decision**: `next/image` rendering `hero_portrait.png`, with
 
 - `mask-b-from-60% mask-b-to-100%` — dissolves the torso where the frame crops it;
 - `object-top` plus a height cap below `lg` — head-and-shoulders on mobile;

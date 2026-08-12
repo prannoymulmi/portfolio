@@ -37,7 +37,7 @@ One word. Length goes 92 → 100 characters, comfortably inside the existing
 
 ```diff
 - "imageSource": "/images/hero_pic.png"
-+ "imageSource": "/images/hero_cutout.png"
++ "imageSource": "/images/hero_portrait.png"
 ```
 
 `hero_pic.png` stays in the repository as the regeneration source. Nothing

@@ -41,7 +41,7 @@ Three constraints shaped what replaced it:
 Replace the card with a background-removed portrait, blended into the page
 surface by its own alpha channel.
 
-- **The portrait is a derived asset**, `public/images/hero_cutout.png`,
+- **The portrait is a derived asset**, `public/images/hero_portrait.png`,
   committed alongside the studio original. The original is retained purely so
   the cut-out can be regenerated if the treatment changes; nothing renders it.
 
