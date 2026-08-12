@@ -18,7 +18,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
   const { order, position, company, role, years, achievements, tech } = chapter;
 
   return (
-    <div className="rounded-2xl border border-gray-400/40 bg-white/40 p-7 dark:bg-gray-800/40">
+    <div className="chapter-panel rounded-2xl p-7">
       <p className="font-mono text-xs tracking-widest text-[#f2540d] uppercase">
         Chapter {order} · {position}
       </p>

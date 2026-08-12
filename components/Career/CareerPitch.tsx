@@ -69,7 +69,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
           jump straight to a company, or let it walk itself. The pitch is the
           fourth, and none of them is the only way in. */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-1 rounded-full border border-gray-400/50 bg-white/40 p-1 dark:bg-gray-800/40">
+        <div className="chapter-panel flex items-center gap-1 rounded-full p-1">
           <button
             type="button"
             aria-label="Previous chapter"

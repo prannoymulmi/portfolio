@@ -1,8 +1,8 @@
 {
   "experiences": [
     {
-      "title": "Fullstack Engineer",
-      "subtitle": "Immowelt GmbH",
+      "title": "Senior Software Engineer",
+      "subtitle": "AViV GmbH (Formerly Immowelt GmbH) ",
       "workType": "Full-time",
       "workDescription": [
         "Effectively coded software changes and alterations based on specific design specifications.",
@@ -12,7 +12,7 @@
         "Migrated on premises servers and database (Postgres SQL) into AWS.",
         "Implemented and deployed different micro services using AWS services utilizing the Domain- Driven Design."
       ],
-      "dateText": "11/2020 – Present"
+      "dateText": "11/2020 – 03/2025"
     },
     {
       "title": "Junior Backend Developer",
@@ -60,7 +60,7 @@
         "Maintained brand standards under company guidelines.",
         "Workflow tools included: HTML, CSS, React.JS, Cordova, Node.js and Git."
       ],
-      "dateText": "01/2018 – 08/2018"
+      "dateText": "04/2016 – 02/2017"
     }
   ]
 }
