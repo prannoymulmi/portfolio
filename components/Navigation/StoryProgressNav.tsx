@@ -65,7 +65,25 @@ export function StoryProgressNav() {
     // Floating rather than flush: inset from all three edges so the bar reads
     // as an object over the photograph instead of a browser chrome strip.
     // overflow-hidden clips the progress hairline to the rounded ends.
-    <div className="sticky top-3 z-40 mx-3 overflow-hidden rounded-full bg-white/80 shadow-lg ring-1 ring-black/5 backdrop-blur dark:bg-gray-900/80 dark:ring-white/10 sm:mx-6">
+    //
+    // Glass, not a panel. The whole story sits on one photograph, so the bar
+    // samples it: at 55% the sunset's gradient is still legible through the
+    // fill, which is what makes it read as a pane over the scene rather than a
+    // strip laid on top of it. Measured off the reference design, where the
+    // bar's own colour drifts with the photo beneath it — (217,202,198) at one
+    // end of the sweep against (253,218,207) at the other.
+    //
+    // #fffaf4 rather than white, and #0c101c rather than gray-900: a neutral
+    // fill greys the sunset it is meant to belong to, so the light tint is
+    // warm and the dark one leans blue toward INK.
+    //
+    // backdrop-saturate is the one liberty taken here — the photograph reads
+    // slightly more vivid through the bar than beside it, so the glass behaves
+    // like a lens rather than a filter. The drop shadow that used to sit here
+    // is gone: a heavy shadow under glass reads as plastic. What replaces it is
+    // a 1px inner highlight along the top edge, which is how a real pane
+    // catches light.
+    <div className="sticky top-3 z-40 mx-3 overflow-hidden rounded-full bg-[#fffaf4]/55 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.6),0_10px_30px_-18px_rgb(17_28_56/0.45)] ring-1 ring-[#111c38]/10 backdrop-blur-xl backdrop-saturate-150 dark:bg-[#0c101c]/55 dark:shadow-[inset_0_1px_0_0_rgb(255_255_255/0.10),0_10px_30px_-18px_rgb(0_0_0/0.6)] dark:ring-white/10 sm:mx-6">
       <div className="flex items-center gap-3 py-2 pl-5 pr-3">
         {/* The page's only h1, and the site's wordmark. It sits here rather
             than in the opening because the name belongs to the whole story,
