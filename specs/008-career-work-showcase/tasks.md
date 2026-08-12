@@ -124,40 +124,40 @@ toggle to the plain timeline and confirm no pitch/marker/play control is present
 
 ### Tests for User Story 2
 
-- [ ] T016 [P] [US2] Write `tests/unit/components/CareerPitch.test.tsx`: assert one pitch marker per
+- [X] T016 [P] [US2] Write `tests/unit/components/CareerPitch.test.tsx`: assert one pitch marker per
       experience; clicking a marker shows that chapter's company/role/years/achievements; chapters
       are ordered chronologically by parsed `dateText`; "play in order" advances and pause halts
       (test MUST fail until T019/T020)
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Extend `components/Career/SVGPitch.tsx` to accept an optional build-up-route
+- [X] T017 [P] [US2] Extend `components/Career/SVGPitch.tsx` to accept an optional build-up-route
       polyline and ball marker as children/props, without changing its existing rendering for
       current callers
-- [ ] T018 [P] [US2] Create `components/Career/ChapterDetail.tsx`: single detail panel for the
+- [X] T018 [P] [US2] Create `components/Career/ChapterDetail.tsx`: single detail panel for the
       active chapter — company (`subtitle`), role (`title`), years (`dateText`), what was built
       (first `workDescription` entry), achievements (full list), tech tags — per the derived shape
       in [data-model.md](./data-model.md)
-- [ ] T019 [US2] Create `components/Career/CareerPitch.tsx`: sorts experiences by parsed `dateText`,
+- [X] T019 [US2] Create `components/Career/CareerPitch.tsx`: sorts experiences by parsed `dateText`,
       assigns each a fixed formation slot/coordinate by sorted index (cycling if more chapters than
       slots), renders markers inside `SVGPitch`, tracks the active chapter in state, and drives
       `ChapterDetail`. Click/tap only — no scroll-linked animation (depends on T016, T017, T018)
-- [ ] T020 [US2] Add the chronological "play in order" control with pause to `CareerPitch.tsx`,
+- [X] T020 [US2] Add the chronological "play in order" control with pause to `CareerPitch.tsx`,
       stepping earliest→most recent and halting on pause (depends on T019)
-- [ ] T021 [US2] Rework `components/Career/CareerJourney.tsx` to orchestrate `CareerPitch` (the
+- [X] T021 [US2] Rework `components/Career/CareerJourney.tsx` to orchestrate `CareerPitch` (the
       interactive mode) against the existing `TimelineView` (the plain fallback), keeping the
       existing `TimelineToggle`. The timeline branch must render **no** pitch, marker, or play
       control (spec FR-006) (depends on T019, T020)
-- [ ] T022 [US2] Delete `components/Career/PlayerAnimation.tsx` and
+- [X] T022 [US2] Delete `components/Career/PlayerAnimation.tsx` and
       `components/Career/MilestoneCard.tsx`, and drop the `usePlayerAnimation` call and its GSAP
       import path from `CareerJourney.tsx` — the scroll-driven single marker and the per-milestone
       expand/collapse cards are both superseded (depends on T021)
-- [ ] T023 [US2] Mount `ChapterGradientOverlay` (`mesh-soft.png`) inside the Career chapter in
+- [X] T023 [US2] Mount `ChapterGradientOverlay` (`mesh-soft.png`) inside the Career chapter in
       `app/page.tsx` or `CareerJourney.tsx`, consistent with how US1 mounted it (depends on T004, T021)
-- [ ] T024 [US2] Rewrite `tests/integration/career-in-story.test.tsx` against the new pitch/detail
+- [X] T024 [US2] Rewrite `tests/integration/career-in-story.test.tsx` against the new pitch/detail
       structure — the current test asserts `MilestoneCard`'s `aria-expanded` toggle, which no longer
       exists after T022 (depends on T022)
-- [ ] T025 [US2] Verify mobile parity by hand per [quickstart.md](./quickstart.md) step 7: at a
+- [X] T025 [US2] Verify mobile parity by hand per [quickstart.md](./quickstart.md) step 7: at a
       narrow viewport the pitch and chapter detail must both be present and touch-usable — not
       swapped for a plain list (spec FR-007, SC-003)
 

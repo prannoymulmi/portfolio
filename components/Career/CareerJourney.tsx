@@ -1,22 +1,16 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
-import { SVGPitch } from './SVGPitch';
-import { PlayerSVG, usePlayerAnimation } from './PlayerAnimation';
+import { CareerPitch } from './CareerPitch';
 import { TimelineToggle } from './TimelineToggle';
 import { TimelineView } from './TimelineView';
-import { MilestoneCard } from './MilestoneCard';
+import { byMostRecentFirst } from './chapters';
 import { CareerSkeleton } from '@/components/Common/LoadingState';
 
 export function CareerJourney() {
   const { experiences } = useContent();
   const [isInteractiveMode, setIsInteractiveMode] = useState(true);
-  const playerRef = useRef<SVGGElement | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Setup GSAP player animation
-  usePlayerAnimation(playerRef as React.RefObject<SVGGElement>, '.career-section', isInteractiveMode);
 
   if (experiences.loading) {
     return <CareerSkeleton />;
@@ -32,51 +26,29 @@ export function CareerJourney() {
 
   const { experiences: jobList } = experiences.data;
 
-  // Sort experiences by date (most recent first)
-  const sortedExperiences = [...jobList].sort((a, b) => {
-    const dateA = new Date(a.dateText).getTime();
-    const dateB = new Date(b.dateText).getTime();
-    return dateB - dateA;
-  });
-
   return (
-    <section ref={containerRef} className="career-section space-y-8 py-12">
-      <div className="flex items-center justify-between">
+    <section className="career-section space-y-8 py-12">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-bold">Career Journey</h2>
-          <p className="mt-2 text-on-photo">
+          <h2 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
+            Pass the ball to see where I&rsquo;ve played
+          </h2>
+          <p className="text-on-photo mt-3 max-w-xl">
             {isInteractiveMode
-              ? 'Scroll to follow my career path'
-              : 'Click on any position to view details'}
+              ? 'Every player is a chapter. Pass freely to explore, or run the build-up play to walk it in order, oldest to newest.'
+              : 'The same chapters, oldest to newest, as a plain list.'}
           </p>
         </div>
         <TimelineToggle isInteractive={isInteractiveMode} onChange={setIsInteractiveMode} />
       </div>
 
+      {/* The timeline branch is deliberately just the list: no pitch, no
+          player, no play control. It is the view for someone who wants the
+          facts without the metaphor. */}
       {isInteractiveMode ? (
-        // Interactive pitch visualization
-        <div className="relative space-y-4">
-          <div className="mx-auto h-96 max-w-2xl rounded-lg border border-gray-300 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-950">
-            <SVGPitch className="h-full w-full">
-              {/* Player animation on pitch */}
-              <PlayerSVG ref={playerRef} y={20} />
-            </SVGPitch>
-          </div>
-
-          {/* Milestone cards below pitch */}
-          <div className="space-y-4">
-            {sortedExperiences.map((experience, index) => (
-              <MilestoneCard
-                key={experience.id || index}
-                experience={experience}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
+        <CareerPitch experiences={jobList} />
       ) : (
-        // Timeline view (non-interactive)
-        <TimelineView experiences={sortedExperiences} />
+        <TimelineView experiences={byMostRecentFirst(jobList)} />
       )}
     </section>
   );
