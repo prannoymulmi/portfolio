@@ -48,4 +48,18 @@ describe('content sources', () => {
   it('keeps exactly one social.json, so a link can only be edited in one place', () => {
     expect(findByName(REPO_ROOT, 'social.json')).toEqual(['public/data/social.json']);
   });
+
+  it('carries the contact address beside the profile links, not inside them', () => {
+    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/social.json'), 'utf-8');
+    const { social, email } = JSON.parse(raw);
+
+    expect(email).toBe('prannoy.mulmi@gmail.com');
+
+    // Inside the array it would validate — the href validator accepts a
+    // `mailto:` address — but the footer renders every member of that list,
+    // and the address is not wanted there.
+    const networks = social.map((link: { network: string }) => link.network.toLowerCase());
+    expect(networks).not.toContain('email');
+    expect(networks).not.toContain('mail');
+  });
 });

@@ -58,6 +58,10 @@ describe('SocialIcons', () => {
   it('renders a readable label for a network with no matching glyph', async () => {
     const restore = stubSocialContent({
       social: [{ network: 'Mastodon', href: 'https://example.com/@someone' }],
+      // Required by the schema since the contact address moved into this file.
+      // Without it the stub is invalid content, and the component under test
+      // correctly renders nothing — which would look like a glyph-fallback bug.
+      email: 'someone@example.com',
     });
 
     try {
