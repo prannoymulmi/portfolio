@@ -1,164 +1,117 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
+
+/**
+ * The pitch is drawn in a 100 x PITCH_HEIGHT viewBox — a real pitch is wider
+ * than it is tall, and the previous square one letterboxed inside any sensible
+ * layout box. Chapter coordinates are kept in clean 0-100 percent space and
+ * scaled onto this by the caller.
+ */
+export const PITCH_HEIGHT = 64;
 
 interface SVGPitchProps {
   children?: React.ReactNode;
   className?: string;
 }
 
-export function SVGPitch({ children, className = '' }: SVGPitchProps) {
-  const pitchDimensions = useMemo(
-    () => ({
-      width: 100,
-      height: 100,
-      penaltyBoxWidth: 16.5,
-      penaltyBoxHeight: 40.32,
-      goalBoxWidth: 5.5,
-      goalBoxHeight: 18.32,
-      centerSpotRadius: 0.15,
-      centerCircleRadius: 9.15,
-    }),
-    [],
-  );
+const LINE = 'rgba(255, 255, 255, 0.22)';
+const LINE_WIDTH = 0.25;
 
-  // Calculate responsive positions based on pitch dimensions
-  const penaltyBoxX = (pitchDimensions.width - pitchDimensions.penaltyBoxWidth) / 2;
-  const goalBoxX = (pitchDimensions.width - pitchDimensions.goalBoxWidth) / 2;
-  const centerY = pitchDimensions.height / 2;
+/**
+ * A modern, quiet pitch.
+ *
+ * What this replaced filled the frame with #2d5016 astroturf green and drew
+ * every marking in solid white at full strength — a clip-art pitch that fought
+ * the warm photographic surface behind it and shouted louder than the career
+ * chapters standing on it. The markings are the weakest thing here now: deep
+ * ink ground, one soft warm bloom, mowing stripes at 3% and lines at 22%, so
+ * the pitch reads as a surface and the players read as the content.
+ */
+export function SVGPitch({ children, className = '' }: SVGPitchProps) {
+  const midX = 50;
+  const midY = PITCH_HEIGHT / 2;
+  const inset = 3;
+  const penaltyDepth = 13;
+  const penaltyHeight = 30;
+  const goalDepth = 5;
+  const goalHeight = 14;
 
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className={className}>
       <svg
-        viewBox={`0 0 ${pitchDimensions.width} ${pitchDimensions.height}`}
+        viewBox={`0 0 100 ${PITCH_HEIGHT}`}
         className="h-full w-full"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="xMidYMid slice"
         role="presentation"
-        aria-label="Football pitch for career timeline"
       >
-        {/* Pitch background (grass green) */}
-        <rect
-          width={pitchDimensions.width}
-          height={pitchDimensions.height}
-          fill="#2d5016"
-          className="dark:fill-green-900"
-        />
+        <defs>
+          {/* Deep ink rather than grass: it sits under a warm photograph, and a
+              saturated green is the one colour that cannot share a page with
+              it. */}
+          <linearGradient id="pitch-ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#12241d" />
+            <stop offset="100%" stopColor="#0a1712" />
+          </linearGradient>
+          <radialGradient id="pitch-bloom" cx="50%" cy="45%" r="60%">
+            <stop offset="0%" stopColor="#f2540d" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#f2540d" stopOpacity="0" />
+          </radialGradient>
+        </defs>
 
-        {/* Pitch border */}
-        <rect
-          width={pitchDimensions.width}
-          height={pitchDimensions.height}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.15"
-        />
+        <rect width="100" height={PITCH_HEIGHT} fill="url(#pitch-ground)" />
 
-        {/* Halfway line (vertical) */}
-        <line
-          x1={pitchDimensions.width / 2}
-          y1="0"
-          x2={pitchDimensions.width / 2}
-          y2={pitchDimensions.height}
-          stroke="white"
-          strokeWidth="0.08"
-        />
+        {/* Mowing stripes — barely there, but they stop the ground reading as
+            a flat rectangle. */}
+        {Array.from({ length: 8 }).map((_, index) => (
+          <rect
+            key={index}
+            x={(index * 100) / 8}
+            y="0"
+            width={100 / 16}
+            height={PITCH_HEIGHT}
+            fill="#ffffff"
+            opacity="0.03"
+          />
+        ))}
 
-        {/* Center circle */}
-        <circle
-          cx={pitchDimensions.width / 2}
-          cy={centerY}
-          r={pitchDimensions.centerCircleRadius}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.08"
-        />
+        <rect width="100" height={PITCH_HEIGHT} fill="url(#pitch-bloom)" />
 
-        {/* Center spot */}
-        <circle
-          cx={pitchDimensions.width / 2}
-          cy={centerY}
-          r={pitchDimensions.centerSpotRadius}
-          fill="white"
-        />
+        <g stroke={LINE} strokeWidth={LINE_WIDTH} fill="none">
+          <rect
+            x={inset}
+            y={inset}
+            width={100 - inset * 2}
+            height={PITCH_HEIGHT - inset * 2}
+            rx="1.5"
+          />
+          <line x1={midX} y1={inset} x2={midX} y2={PITCH_HEIGHT - inset} />
+          <circle cx={midX} cy={midY} r="8.5" />
 
-        {/* Left penalty box */}
-        <rect
-          x="0"
-          y={penaltyBoxX}
-          width={pitchDimensions.penaltyBoxWidth}
-          height={pitchDimensions.penaltyBoxHeight}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.08"
-        />
+          {/* Penalty and goal areas, both ends. */}
+          <rect
+            x={inset}
+            y={midY - penaltyHeight / 2}
+            width={penaltyDepth}
+            height={penaltyHeight}
+          />
+          <rect x={inset} y={midY - goalHeight / 2} width={goalDepth} height={goalHeight} />
+          <rect
+            x={100 - inset - penaltyDepth}
+            y={midY - penaltyHeight / 2}
+            width={penaltyDepth}
+            height={penaltyHeight}
+          />
+          <rect
+            x={100 - inset - goalDepth}
+            y={midY - goalHeight / 2}
+            width={goalDepth}
+            height={goalHeight}
+          />
+        </g>
 
-        {/* Left goal box */}
-        <rect
-          x="0"
-          y={goalBoxX}
-          width={pitchDimensions.goalBoxWidth}
-          height={pitchDimensions.goalBoxHeight}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.08"
-        />
+        <circle cx={midX} cy={midY} r="0.55" fill={LINE} />
 
-        {/* Right penalty box */}
-        <rect
-          x={pitchDimensions.width - pitchDimensions.penaltyBoxWidth}
-          y={penaltyBoxX}
-          width={pitchDimensions.penaltyBoxWidth}
-          height={pitchDimensions.penaltyBoxHeight}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.08"
-        />
-
-        {/* Right goal box */}
-        <rect
-          x={pitchDimensions.width - pitchDimensions.goalBoxWidth}
-          y={goalBoxX}
-          width={pitchDimensions.goalBoxWidth}
-          height={pitchDimensions.goalBoxHeight}
-          fill="none"
-          stroke="white"
-          strokeWidth="0.08"
-        />
-
-        {/* Left goal line circle */}
-        <circle
-          cx="0"
-          cy={centerY}
-          r={pitchDimensions.centerSpotRadius}
-          fill="white"
-        />
-
-        {/* Right goal line circle */}
-        <circle
-          cx={pitchDimensions.width}
-          cy={centerY}
-          r={pitchDimensions.centerSpotRadius}
-          fill="white"
-        />
-
-        {/* Yard line markers (every 10 yards = ~9.14m on 100m pitch) */}
-        {[10, 20, 30, 40, 50, 60, 70, 80, 90].map((yardLine) => {
-          const xPos = (yardLine / 100) * pitchDimensions.width;
-          return (
-            <line
-              key={`yard-${yardLine}`}
-              x1={xPos}
-              y1={centerY - 1}
-              x2={xPos}
-              y2={centerY + 1}
-              stroke="white"
-              strokeWidth="0.05"
-              opacity="0.5"
-            />
-          );
-        })}
-
-        {/* Content placeholder for career milestones */}
         {children}
       </svg>
     </div>
