@@ -34,7 +34,15 @@ export function Hero() {
         {/* First in source order, so it paints behind the scrim and every
             foreground element below without needing a z-index of its own. */}
         <HeroGradientLayers />
-        <div className="mx-auto w-full max-w-7xl">
+        {/* max-w-7xl (1280px) stopped growing past the xl breakpoint, so
+            every viewport from 1280px up to a 4K monitor rendered the exact
+            same column width — the portrait's height cap could scale with
+            vh, but its width was clamped to that fixed column regardless,
+            so it read as small and adrift on a wide, short display where
+            the gutters outgrew the content. xl/2xl steps let the container,
+            and therefore the portrait, keep growing with real desktop
+            widths; lg and below are untouched. */}
+        <div className="mx-auto w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px]">
           {/* The portrait takes the larger share. Trimmed to its bounding box
               the image is wider relative to its height, so its column — not its
               height cap — became the binding constraint; widening the container

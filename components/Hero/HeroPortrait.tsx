@@ -56,21 +56,24 @@ export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
       // most of the viewport, under text that already carries three role
       // lines, a tagline, a bio and two buttons. Capping the height and
       // anchoring to the top keeps head and shoulders instead of the torso.
-      // The height cap alone is enough to size this: next/image emits the
-      // intrinsic aspect-ratio, so capping height scales width with it. No
-      // width bound is needed, and adding one would imply the height cap could
-      // not be trusted.
+      // The height cap alone is enough to size this on mobile: next/image
+      // emits the intrinsic aspect-ratio, so capping height scales width
+      // with it.
       //
       // The bottom fade starts at 55% rather than 60% because the trim removed
       // the empty band above his head: the same percentage now falls further
       // down his body, so it is moved back up to keep the dissolve where it
       // was.
       //
-      // From lg the cap is a fraction of the viewport rather than a fixed
-      // pixel height, so the portrait keeps its share of the opening on a
-      // laptop and a large display alike instead of shrinking into the corner
-      // of the second.
-      className="mask-b-from-55% mask-b-to-100% mask-r-from-88% mask-r-to-100% mx-auto max-h-[380px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:max-h-[92vh]"
+      // From lg the box is sized in both height (vh) and width (vw), not
+      // height alone: a height-only cap with width left auto only grows with
+      // viewport *height*, so on a wide, shorter display (1920x1080,
+      // 2560x1440) the portrait stayed the same size while the empty gradient
+      // around it grew — it read as small and adrift rather than as the
+      // dominant element the opening needs. object-contain still preserves
+      // the aspect ratio inside this larger box; whichever dimension is
+      // tighter keeps binding, so the portrait never distorts or overflows.
+      className="mask-b-from-55% mask-b-to-100% mask-r-from-88% mask-r-to-100% mx-auto max-h-[380px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:h-[90vh] lg:w-[52vw] lg:max-h-none"
       // Without this the optimizer assumes 100vw and ships a far larger file
       // than a half-width column needs.
       sizes="(min-width: 1024px) 55vw, 70vw"
