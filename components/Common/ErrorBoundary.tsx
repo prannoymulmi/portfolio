@@ -50,13 +50,13 @@ export class ErrorBoundary extends React.Component<Props, State> {
     return (
       <div
         role="alert"
-        className="flex min-h-[40vh] items-center justify-center bg-white px-4 py-12"
+        className="flex min-h-[40vh] items-center justify-center bg-white px-4 py-12 dark:bg-gray-900"
       >
         <div className="max-w-md text-center">
-          <h2 className="mb-2 text-2xl font-bold text-gray-900">
+          <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
             {isContentError ? 'Content unavailable' : 'Something went wrong'}
           </h2>
-          <p className="mb-6 text-gray-600">
+          <p className="mb-6 text-gray-600 dark:text-gray-300">
             {isContentError
               ? 'We could not load this section. Please try again in a moment.'
               : message}
@@ -64,7 +64,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
           <button
             type="button"
             onClick={this.handleRetry}
-            className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             Try again
           </button>

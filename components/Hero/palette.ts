@@ -10,12 +10,13 @@
  * against a backdrop this warm.
  *
  * Every bar carries CREAM text and clears 7:1, so the headline stays AAA at
- * display size.
+ * display size in both themes.
  */
 /**
  * Dusk navy, and deliberately not darker. Taken lower — toward the near-black
- * the deleted card used — the first bar stops reading as one of three notes
- * sampled from the sunset and starts reading as a black box over it.
+ * the deleted card used — the first bar disappears into the dark theme's
+ * background, so that phrase alone loses its mark and the rhythm of the three
+ * breaks.
  */
 export const INK = '#1d3a6b';
 export const EMBER = '#93280f';
@@ -26,9 +27,11 @@ export const CREAM = '#fff5ec';
 
 /**
  * The card's own tokens — CARD_INK, SUNGLOW and SUNGLOW_TEXT — were removed
- * with the card itself (ADR 0018). The photo's orange, `#ffa62b`, went with
- * the dark theme (ADR 0019): it existed to keep the primary action the
- * brightest thing on a near-black page, and there is no near-black page now.
+ * with the card itself (ADR 0018). The photo's orange still appears in the
+ * dark-theme classes of ValueProp and CvLink, but written as the literal
+ * `#ffa62b`: Tailwind scans class strings as text, so a class built from a
+ * constant never reaches the stylesheet. Reintroducing the export would not
+ * let those call sites use it.
  */
 
 /**

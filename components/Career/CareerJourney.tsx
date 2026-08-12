@@ -16,11 +16,7 @@ export function CareerJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Setup GSAP player animation
-  usePlayerAnimation(
-    playerRef as React.RefObject<SVGGElement>,
-    '.career-section',
-    isInteractiveMode,
-  );
+  usePlayerAnimation(playerRef as React.RefObject<SVGGElement>, '.career-section', isInteractiveMode);
 
   if (experiences.loading) {
     return <CareerSkeleton />;
@@ -48,7 +44,7 @@ export function CareerJourney() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold">Career Journey</h2>
-          <p className="text-on-photo mt-2">
+          <p className="mt-2 text-on-photo">
             {isInteractiveMode
               ? 'Scroll to follow my career path'
               : 'Click on any position to view details'}
@@ -60,7 +56,7 @@ export function CareerJourney() {
       {isInteractiveMode ? (
         // Interactive pitch visualization
         <div className="relative space-y-4">
-          <div className="mx-auto h-96 max-w-2xl rounded-lg border border-gray-300 bg-gray-50 p-4">
+          <div className="mx-auto h-96 max-w-2xl rounded-lg border border-gray-300 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-950">
             <SVGPitch className="h-full w-full">
               {/* Player animation on pitch */}
               <PlayerSVG ref={playerRef} y={20} />
@@ -70,7 +66,11 @@ export function CareerJourney() {
           {/* Milestone cards below pitch */}
           <div className="space-y-4">
             {sortedExperiences.map((experience, index) => (
-              <MilestoneCard key={experience.id || index} experience={experience} index={index} />
+              <MilestoneCard
+                key={experience.id || index}
+                experience={experience}
+                index={index}
+              />
             ))}
           </div>
         </div>

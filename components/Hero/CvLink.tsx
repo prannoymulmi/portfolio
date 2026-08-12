@@ -46,7 +46,7 @@ export function CvLink({ cv }: CvLinkProps) {
       // say where it goes, because a link that opens a tab without warning is
       // a surprise for anyone who cannot see the new tab appear.
       aria-label={`${cv.label} (opens in a new tab)`}
-      className="text-on-photo decoration-current/30 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2"
+      className="text-on-photo decoration-current/30 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
     >
       {/* A ruled team sheet, not a download tray: nothing is fetched here, and
           the page it points at is a record rather than a file transfer. */}

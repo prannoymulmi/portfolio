@@ -28,7 +28,11 @@ export default function Home() {
         <Hero />
       </section>
 
-      <section id="skills" aria-label="Skills" className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8">
+      <section
+        id="skills"
+        aria-label="Skills"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto max-w-6xl">
           <SkillsFormation />
         </div>

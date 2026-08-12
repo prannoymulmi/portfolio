@@ -19,7 +19,7 @@ function SkeletonLoader({ type = 'card' }: { type: SkeletonType }) {
   const config = skeletonConfigs[type];
   return (
     <div
-      className={`${config.height} ${config.width} ${config.rounded} animate-shimmer bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200`}
+      className={`${config.height} ${config.width} ${config.rounded} animate-shimmer bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800`}
       style={{
         backgroundSize: '200% 100%',
       }}

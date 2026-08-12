@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, type ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 
 export type AnnotationType = 'highlight' | 'circle' | 'underline' | 'box' | 'bracket';
@@ -24,11 +25,12 @@ interface RoughAnnotationProps {
 // effective background and must stay pale — a saturated blue-600 fill measured
 // 2.84:1 against the body text, well under WCAG AA. The outline marks (circle,
 // underline, box, bracket) don't sit behind glyphs, so they can be saturated.
-const FILL_COLOR = '#fef08a';
-const STROKE_COLOR = '#2563eb';
+const FILL_COLOR = { light: '#fef08a', dark: '#1e3a8a' } as const;
+const STROKE_COLOR = { light: '#2563eb', dark: '#60a5fa' } as const;
 
-function markColor(type: AnnotationType): string {
-  return type === 'highlight' ? FILL_COLOR : STROKE_COLOR;
+function markColor(type: AnnotationType, isDark: boolean): string {
+  const palette = type === 'highlight' ? FILL_COLOR : STROKE_COLOR;
+  return isDark ? palette.dark : palette.light;
 }
 
 /**
@@ -46,6 +48,7 @@ export function RoughAnnotation({
   padding,
 }: RoughAnnotationProps) {
   const ref = useRef<HTMLSpanElement>(null);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const element = ref.current;
@@ -77,7 +80,7 @@ export function RoughAnnotation({
       annotation?.remove();
       annotation = annotate(element, {
         type,
-        color: color ?? markColor(type),
+        color: color ?? markColor(type, resolvedTheme === 'dark'),
         // Only the very first draw animates; later redraws are corrections
         // after a layout shift and should land silently.
         animate: !hasDrawn && !prefersReducedMotion(),
@@ -131,7 +134,7 @@ export function RoughAnnotation({
       layoutObserver?.disconnect();
       annotation?.remove();
     };
-  }, [type, delay, color, padding]);
+  }, [type, delay, resolvedTheme, color, padding]);
 
   return (
     <span ref={ref} className="relative inline-block">

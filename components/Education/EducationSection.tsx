@@ -26,24 +26,33 @@ export function EducationSection() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Education & Certifications</h2>
-        <p className="text-on-photo mt-2">Formal education and professional certifications</p>
+        <p className="mt-2 text-on-photo">
+          Formal education and professional certifications
+        </p>
       </div>
 
       {/* Timeline */}
       <div className="space-y-6">
         {educationList.map((item, idx) => (
-          <article key={idx} className="rounded-lg border border-gray-200 bg-white p-6">
+          <article
+            key={idx}
+            className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800"
+          >
             <div className="mb-3 flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-xl font-bold text-gray-900">{item.cardTitle}</h3>
-                <p className="text-sm text-gray-600">{item.cardSubtitle}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {item.cardTitle}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{item.cardSubtitle}</p>
               </div>
               {item.icon && <div className="text-4xl">{item.icon.src}</div>}
             </div>
 
             {/* Additional details */}
             {item.cardDetailedText && (
-              <p className="mb-4 text-sm text-gray-700">{item.cardDetailedText}</p>
+              <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+                {item.cardDetailedText}
+              </p>
             )}
 
             {/* Media */}
@@ -66,7 +75,7 @@ export function EducationSection() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
               >
                 Learn More
               </a>

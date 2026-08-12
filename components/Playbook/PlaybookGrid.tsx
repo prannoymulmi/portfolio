@@ -27,7 +27,7 @@ export function PlaybookGrid() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Technical Playbook</h2>
-        <p className="text-on-photo mt-2">
+        <p className="mt-2 text-on-photo">
           Core principles guiding architecture, design, and engineering decisions
         </p>
       </div>
@@ -40,7 +40,9 @@ export function PlaybookGrid() {
             category={category}
             isExpanded={expandedCategory === category.name}
             onToggle={() =>
-              setExpandedCategory(expandedCategory === category.name ? null : category.name)
+              setExpandedCategory(
+                expandedCategory === category.name ? null : category.name,
+              )
             }
           />
         ))}

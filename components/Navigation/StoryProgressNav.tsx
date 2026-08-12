@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EmailLink } from './EmailLink';
 import { SocialIcons } from './SocialIcons';
@@ -72,8 +73,9 @@ export function StoryProgressNav() {
     // bar's own colour drifts with the photo beneath it — (217,202,198) at one
     // end of the sweep against (253,218,207) at the other.
     //
-    // #fffaf4 rather than plain white: a neutral fill greys the sunset the bar
-    // is meant to belong to, so the tint is warm.
+    // #fffaf4 rather than white, and #0c101c rather than gray-900: a neutral
+    // fill greys the sunset it is meant to belong to, so the light tint is
+    // warm and the dark one leans blue toward INK.
     //
     // backdrop-saturate is the one liberty taken here — the photograph reads
     // slightly more vivid through the bar than beside it, so the glass behaves
@@ -81,7 +83,7 @@ export function StoryProgressNav() {
     // is gone: a heavy shadow under glass reads as plastic. What replaces it is
     // a 1px inner highlight along the top edge, which is how a real pane
     // catches light.
-    <div className="sticky top-3 z-40 mx-3 overflow-hidden rounded-full bg-[#fffaf4]/55 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.6),0_10px_30px_-18px_rgb(17_28_56/0.45)] ring-1 ring-[#111c38]/10 backdrop-blur-xl backdrop-saturate-150 sm:mx-6">
+    <div className="sticky top-3 z-40 mx-3 overflow-hidden rounded-full bg-[#fffaf4]/55 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.6),0_10px_30px_-18px_rgb(17_28_56/0.45)] ring-1 ring-[#111c38]/10 backdrop-blur-xl backdrop-saturate-150 dark:bg-[#0c101c]/55 dark:shadow-[inset_0_1px_0_0_rgb(255_255_255/0.10),0_10px_30px_-18px_rgb(0_0_0/0.6)] dark:ring-white/10 sm:mx-6">
       <div className="flex items-center gap-3 py-2 pl-5 pr-3">
         {/* The page's only h1, and the site's wordmark. It sits here rather
             than in the opening because the name belongs to the whole story,
@@ -95,7 +97,7 @@ export function StoryProgressNav() {
         <h1 className="shrink-0 text-sm">
           <a
             href="#hero"
-            className="flex items-center gap-3 rounded text-[#111c38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="flex items-center gap-3 rounded text-[#111c38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100"
           >
             {/* Hidden from assistive tech only once the name is there to
                 announce instead. Content loads client-side, so hiding it
@@ -130,7 +132,7 @@ export function StoryProgressNav() {
               scrolling block, so an auto margin right-aligns it when there is
               room and collapses to nothing when there is not, leaving the
               scroll to start at the first chapter. */}
-          <ul className="ml-auto flex w-max gap-4 text-sm font-medium text-[#111c38]">
+          <ul className="ml-auto flex w-max gap-4 text-sm font-medium text-[#111c38] dark:text-gray-200">
             {STORY_SECTIONS.map((section) => (
               <li key={section.id}>
                 <a
@@ -144,7 +146,7 @@ export function StoryProgressNav() {
                   onFocus={(event) =>
                     event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'center' })
                   }
-                  className="whitespace-nowrap hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="whitespace-nowrap hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:text-blue-400"
                 >
                   {section.label}
                 </a>
@@ -153,19 +155,20 @@ export function StoryProgressNav() {
           </ul>
         </nav>
         {/* The only persistent chrome left after the nav bar was removed, so
-            the profile links and the address live here to stay reachable from
-            anywhere. shrink-0 keeps them put while the chapter list scrolls
-            beside them. */}
+            the theme control, the profile links and the address live here to
+            stay reachable from anywhere. shrink-0 keeps them put while the
+            chapter list scrolls beside them. */}
         <div className="flex shrink-0 items-center gap-1">
           <SocialIcons />
           {social.data?.email && <EmailLink email={social.data.email} />}
+          <ThemeToggle />
         </div>
       </div>
       {/* Sits along the bar's own bottom edge now that the bar no longer spans
           the viewport. Same spring and same reduced-motion branch as before —
           only where it is drawn has changed. */}
       <motion.div
-        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-blue-600"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-blue-600 dark:bg-blue-400"
         style={{ scaleX }}
         aria-hidden="true"
       />
