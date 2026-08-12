@@ -31,4 +31,18 @@ describe('Footer', () => {
     expect(screen.getByRole('link', { name: 'Skills' })).toHaveAttribute('href', '/#skills');
     expect(screen.getByRole('link', { name: 'Career' })).toHaveAttribute('href', '/#career');
   });
+
+  it('does not surface the contact address, which was not asked for here', async () => {
+    renderFooter();
+    await screen.findByRole('link', { name: /github/i });
+
+    // The footer maps every member of `social`, so an email placed *inside*
+    // that array would appear here automatically. It is stored as a sibling
+    // field precisely so this stays true by structure rather than by a filter
+    // that a later edit could quietly drop.
+    expect(screen.queryByText(/prannoy\.mulmi@gmail\.com/i)).not.toBeInTheDocument();
+    for (const link of screen.getAllByRole('link')) {
+      expect(link.getAttribute('href')).not.toMatch(/^mailto:/);
+    }
+  });
 });
