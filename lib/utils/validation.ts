@@ -3,22 +3,6 @@ import { z } from 'zod';
 // Validation schemas for all portfolio JSON files
 // Used by useContentLoader to validate data at runtime
 
-const SkillSchema = z.object({
-  title: z.string().min(1).max(30),
-  icon: z.string().optional(),
-  category: z.string().min(1),
-});
-
-const SkillCategorySchema = z.object({
-  title: z.string().min(10).max(50),
-  items: z.array(SkillSchema).min(1).max(8),
-});
-
-export const SkillsFileSchema = z.object({
-  intro: z.string().optional(),
-  skills: z.array(SkillCategorySchema).min(1).max(8),
-});
-
 export const CvLinkSchema = z.object({
   // Two characters is the floor for something a visitor can see and hit; forty
   // is where a link stops being a link and starts being a sentence, which would
@@ -91,6 +75,11 @@ export const ProjectSchema = z.object({
   image: z.string().optional(),
   links: z.array(ProjectLinkSchema).min(1).max(3),
   tags: z.array(z.string()).min(3).max(8),
+  // Showcase-chapter fields. Optional by design — see the note on Project in
+  // lib/types/portfolio.ts for why absence beats a placeholder here.
+  year: z.string().optional(),
+  role: z.string().optional(),
+  metric: z.string().optional(),
 });
 
 export const ProjectsFileSchema = z.object({

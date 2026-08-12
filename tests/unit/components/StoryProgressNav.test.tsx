@@ -50,7 +50,7 @@ describe('StoryProgressNav', () => {
 
     const expectedSections = [
       'Introduction',
-      'Skills',
+      'Selected Work',
       'Career Journey',
       'Education',
       'Projects',
@@ -219,7 +219,7 @@ describe('StoryProgressNav', () => {
 
       // The chapter links are the nav's job; social is not.
       await waitFor(() => {
-        expect(screen.getByRole('link', { name: 'Skills' })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Selected Work' })).toBeInTheDocument();
       });
       expect(screen.queryByRole('link', { name: /GitHub/i })).not.toBeInTheDocument();
     } finally {

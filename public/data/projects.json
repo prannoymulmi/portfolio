@@ -19,7 +19,9 @@
           "text": "Demo Site",
           "route": "/projects/migration"
         }
-      ]
+      ],
+      "role": "Tech lead",
+      "metric": "99.99% uptime"
     },
     {
       "title": "Real-Time Analytics Dashboard",
@@ -36,7 +38,8 @@
           "text": "GitHub",
           "route": "https://github.com"
         }
-      ]
+      ],
+      "metric": "10M+ events daily"
     },
     {
       "title": "E-Commerce API",
@@ -53,7 +56,8 @@
           "text": "Case Study",
           "route": "/projects/ecommerce"
         }
-      ]
+      ],
+      "metric": "Millions of transactions"
     }
   ]
 }

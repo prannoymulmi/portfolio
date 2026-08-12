@@ -4,7 +4,6 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { useContentLoader } from '@/lib/hooks/useContentLoader';
 import {
   HomeSchema,
-  SkillsFileSchema,
   ExperiencesFileSchema,
   EducationFileSchema,
   ProjectsFileSchema,
@@ -14,7 +13,6 @@ import {
 } from '@/lib/utils/validation';
 import type {
   Home,
-  SkillsFile,
   ExperiencesFile,
   EducationFile,
   ProjectsFile,
@@ -26,7 +24,6 @@ import type {
 
 interface ContentContextType {
   home: ContentState<Home>;
-  skills: ContentState<SkillsFile>;
   experiences: ContentState<ExperiencesFile>;
   education: ContentState<EducationFile>;
   projects: ContentState<ProjectsFile>;
@@ -39,7 +36,6 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const home = useContentLoader('home.json', HomeSchema);
-  const skills = useContentLoader('skills.json', SkillsFileSchema);
   const experiences = useContentLoader('experiences.json', ExperiencesFileSchema);
   const education = useContentLoader('education.json', EducationFileSchema);
   const projects = useContentLoader('projects.json', ProjectsFileSchema);
@@ -49,7 +45,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   const value: ContentContextType = {
     home,
-    skills,
     experiences,
     education,
     projects,
