@@ -58,7 +58,51 @@ describe('StoryProgressNav', () => {
     expect(await screen.findByRole('link', { name: /GitHub/i })).toBeInTheDocument();
   });
 
+  describe('the wordmark', () => {
+    it('carries the owner name as the page heading', async () => {
+      renderNav();
+      // Waits on the accessible name: the heading is in the DOM immediately,
+      // but the name arrives with the content fetch.
+      const heading = await screen.findByRole('heading', { level: 1, name: 'Prannoy Mulmi' });
+
+      // The nav renders ahead of <main>, so this is the document's first
+      // heading as well as the site's mark.
+      expect(heading).toHaveTextContent('Prannoy Mulmi');
+      expect(document.querySelectorAll('h1')).toHaveLength(1);
+    });
+
+    it('announces the full name, not the two-letter mark', async () => {
+      renderNav();
+      const heading = await screen.findByRole('heading', { level: 1, name: 'Prannoy Mulmi' });
+
+      // "PM" is decoration once there is a name to announce instead; below sm the name is visually hidden rather than
+      // removed, so the heading never announces as two letters on a phone.
+      expect(heading).toHaveAccessibleName('Prannoy Mulmi');
+      expect(heading.querySelector('[aria-hidden="true"]')).not.toBeNull();
+    });
+
+    it('returns to the top of the story', async () => {
+      renderNav();
+      const heading = await screen.findByRole('heading', { level: 1, name: 'Prannoy Mulmi' });
+      expect(heading.querySelector('a')).toHaveAttribute('href', '#hero');
+    });
+  });
+
   describe('the floating bar', () => {
+    it('puts the wordmark first and the chapters after it', async () => {
+      const { container } = renderNav();
+      const heading = await screen.findByRole('heading', { level: 1, name: 'Prannoy Mulmi' });
+      const sections = screen.getByRole('navigation', { name: /story sections/i });
+
+      // Wordmark left, chapters right — the chapters are pushed over by an
+      // auto margin rather than reordered, so this also holds in the DOM.
+      expect(
+        heading.compareDocumentPosition(sections) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(sections.querySelector('ul')?.className).toMatch(/ml-auto/);
+      expect(container).toBeTruthy();
+    });
+
     it('floats: inset from the viewport edges, with fully rounded ends', () => {
       const { container } = renderNav();
       const bar = container.querySelector('.sticky');

@@ -42,17 +42,10 @@ export function Hero() {
                 which would let the card's fixed side rails push the column past
                 the viewport on narrow screens. */}
             <HeroDrift strength={24} className="min-w-0">
-              {/* The page's only h1. It used to sit on the player card's name
-                  banner, so removing the card without moving it here would
-                  have left the document with no heading at all and taken the
-                  owner's name out of the opening entirely (ADR 0018).
-
-                  Small and quiet above the role phrases: the roles are what
-                  the section leads on visually, but the name is what the
-                  document is about. */}
-              <h1 className="text-on-photo mb-4 font-mono text-xs font-medium uppercase tracking-[0.16em]">
-                {name}
-              </h1>
+              {/* No name line here. The heading moved to the navigation's
+                  wordmark, where it is visible from every chapter rather than
+                  only the first, and printing it twice within one screen read
+                  as a duplicate rather than as emphasis. */}
 
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
