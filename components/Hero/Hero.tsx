@@ -69,9 +69,15 @@ export function Hero() {
                 ))}
               </ul>
 
-              {/* Literal rather than the WARM_INK token: Tailwind scans class
-                  strings, so an interpolated one never reaches the stylesheet. */}
-              <p className="mt-9 max-w-xl text-lg font-medium text-[#3d2318] dark:text-gray-300">
+              {/* The accent rule marks this line as the claim the section is
+                  making, rather than a caption under the role bars. It is a
+                  border rather than a pseudo-element so it grows with the text
+                  when the line wraps to three lines on a phone.
+
+                  Literals rather than the ACCENT and WARM_INK tokens: Tailwind
+                  scans class strings, so an interpolated one never reaches the
+                  stylesheet. */}
+              <p className="mt-9 max-w-xl border-l-4 border-[#f2540d] pl-5 text-lg font-medium text-[#3d2318] dark:text-gray-300">
                 {intro}
               </p>
 
