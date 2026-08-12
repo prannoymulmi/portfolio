@@ -63,11 +63,12 @@ describe('HeroPortrait', () => {
     expect(screen.getByRole('img')).toHaveAttribute('sizes');
   });
 
-  it('does not preload: the backdrop already holds that slot as the LCP element', () => {
+  it('preloads, because this element is the largest contentful paint', () => {
     render(<HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />);
-    // Two preloaded images in one viewport compete for early bandwidth, which
-    // is the LCP regression SC-008 forbids.
-    expect(screen.getByRole('img')).toHaveAttribute('data-preload', 'false');
+    // The plan assumed the backdrop would keep that role and left this off.
+    // Measurement disagreed: Chrome reports the portrait as LCP, and
+    // preloading it lands 196-208ms against 212-216ms without (SC-008).
+    expect(screen.getByRole('img')).toHaveAttribute('data-preload', 'true');
   });
 
   it('uses no inline style, so the fade stays a utility the stylesheet can see', () => {
