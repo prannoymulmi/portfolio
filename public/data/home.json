@@ -1,8 +1,8 @@
 {
   "name": "Prannoy Mulmi",
-  "intro": "I build scalable cloud systems, and I care about getting the security and the details right.",
+  "intro": "I build secure, scalable cloud systems, and I care about getting the security and the details right.",
   "bio": "9 years in, I've led teams, mentored engineers, and taken platforms from design into production. Backend architecture and security are where I do my best work.",
-  "imageSource": "/images/hero_pic.png",
+  "imageSource": "/images/hero_cutout.png",
   "roles": [
     "Software Engineer",
     "Security Advocate",

@@ -5,7 +5,7 @@ import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
 import { CvLink } from './CvLink';
 import { HeroDrift } from './HeroParallax';
-import { PlayerCard } from './PlayerCard';
+import { HeroPortrait } from './HeroPortrait';
 import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
 
@@ -23,7 +23,7 @@ export function Hero() {
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, intro, roles, card, bio, imageSource, cv } = home.data;
+  const { name, intro, roles, bio, imageSource, cv } = home.data;
 
   return (
     <>
@@ -42,6 +42,18 @@ export function Hero() {
                 which would let the card's fixed side rails push the column past
                 the viewport on narrow screens. */}
             <HeroDrift strength={24} className="min-w-0">
+              {/* The page's only h1. It used to sit on the player card's name
+                  banner, so removing the card without moving it here would
+                  have left the document with no heading at all and taken the
+                  owner's name out of the opening entirely (ADR 0018).
+
+                  Small and quiet above the role phrases: the roles are what
+                  the section leads on visually, but the name is what the
+                  document is about. */}
+              <h1 className="text-on-photo mb-4 font-mono text-xs font-medium uppercase tracking-[0.16em]">
+                {name}
+              </h1>
+
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
               <ul aria-label="What I do" className="space-y-3">
@@ -90,11 +102,14 @@ export function Hero() {
               </div>
             </HeroDrift>
 
-            {/* Portrait, framed as a player card — same metaphor the career
-                and skills sections already run on. Drifts further than the text
-                beside it, so the card reads as the nearer object. */}
-            <HeroDrift strength={56} className="min-w-0">
-              <PlayerCard name={name} card={card} imageSource={imageSource} />
+            {/* Drifts further than the text beside it, so the portrait reads
+                as the nearer object — but at half the card's old strength.
+                The card had a hard edge that could travel any distance without
+                giving itself away; this dissolves into the section, and a
+                gradient sliding against a pinned backdrop reads as a moving
+                seam. */}
+            <HeroDrift strength={28} className="min-w-0">
+              <HeroPortrait name={name} imageSource={imageSource} />
             </HeroDrift>
           </div>
         </div>
