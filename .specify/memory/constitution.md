@@ -1,4 +1,21 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.2.0 → 1.3.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — removes the hero player card from the
+    Visualisation entry and records the opening's portrait rule in its place
+    (ADR 0018). The football metaphor still governs the career and skills
+    chapters; it no longer reaches the opening.
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: this is the fourth amendment to Principle IV in three days. The previous
+report already flagged the pattern as worth watching; it is now worth acting on.
+Principle IV has become a ledger of every visual decision the site has made,
+which is not what a fixed technology stack is for. A future amendment should
+consider whether design commitments belong in it at all, or whether the ADR
+index is the better home for them with Principle IV naming only the stack.
+
+--- previous ---
 Version change: 1.1.0 → 1.2.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — admits `react-icons` for brand marks,
@@ -89,8 +106,12 @@ constitution amendment:
   annotation marks over text (ADR 0005, ADR 0009). If a need matches none of those three
   domains, none of these libraries is the answer; a fourth requires an amendment.
 - **Visualisation**: SVG football pitch rendered in-browser; no canvas unless SVG is
-  demonstrably insufficient. The football metaphor extends to the hero player card
-  (ADR 0004, ADR 0013).
+  demonstrably insufficient. The football metaphor governs the career and skills
+  chapters (ADR 0004). It does NOT reach the opening, which leads with a
+  background-removed portrait of the site's owner (ADR 0018). Any image composited
+  onto the page surface MUST carry its own alpha channel with colour-corrected
+  edges, rather than relying on a CSS mask or blend mode to hide a background
+  baked into the pixels — neither can, and both fail differently in each theme.
 - **Surface**: one pinned photograph behind the whole story, served through the image
   optimizer — never as a CSS `background-image`, which bypasses it. Chapters carry a
   translucent scrim, never an opaque background. Body copy over it uses the `text-on-photo`
@@ -181,4 +202,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.2.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-10
+**Version**: 1.3.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-12
