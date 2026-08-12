@@ -1,9 +1,22 @@
 # ADR 0013: The hero is a football player card over a sunset photo
 
-- **Status**: Accepted, extended by [ADR 0015](0015-photograph-as-page-surface.md)
+- **Status**: Superseded in part by [ADR 0018](0018-the-opening-leaves-the-player-card.md),
+  extended by [ADR 0015](0015-photograph-as-page-surface.md)
 - **Date**: 2026-08-10
 - **Extends**: [ADR 0004](0004-football-pitch-metaphor.md) — carries the
   football metaphor into the hero, which previously sat outside it.
+
+> **Supersession note, 2026-08-12**: the player card described below no longer
+> exists. The opening now leads with a background-removed portrait, per
+> [ADR 0018](0018-the-opening-leaves-the-player-card.md), which supersedes the
+> card, its stat rules and its palette. What survives from this record: the
+> photographic backdrop, and the reasoning about why any figure shown beside a
+> person is a claim — that argument is why the card's self-ratings were deleted
+> rather than moved somewhere else.
+>
+> The text below is left exactly as written. The constraints it weighed were
+> real at the time, and the alternatives it rejected are still the reason the
+> surviving parts look the way they do.
 
 > **Extension note**: the backdrop introduced here now sits behind the whole
 > story, pinned and served through the image optimizer, per
