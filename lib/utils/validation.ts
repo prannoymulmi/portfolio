@@ -19,41 +19,6 @@ export const SkillsFileSchema = z.object({
   skills: z.array(SkillCategorySchema).min(1).max(8),
 });
 
-export const PlayerStatSchema = z.object({
-  label: z.string().min(2).max(24),
-  // Years in that area, so it shares the bound with yearsExperience below.
-  value: z.number().int().min(0).max(60),
-});
-
-export const SoftSkillSchema = z.object({
-  label: z.string().min(2).max(18),
-  // Whole steps only. Finer resolution would claim a precision that a
-  // self-assessment doesn't have, and the bar can't draw it anyway.
-  level: z.number().int().min(1).max(5),
-});
-
-export const PlayerCardSchema = z.object({
-  title: z.string().min(3).max(40),
-  yearsExperience: z.number().int().min(0).max(60),
-  // Half steps only — the star row can't render finer than that.
-  rating: z
-    .number()
-    .min(0)
-    .max(5)
-    .refine((n) => n * 2 === Math.round(n * 2), 'rating must be in half steps'),
-  countries: z
-    .array(z.enum(['DE', 'NP']))
-    .min(1)
-    .max(3),
-  // Three reads well on the card; more than four and the pills get cramped.
-  stats: z.array(PlayerStatSchema).min(1).max(4),
-  // Small type under the name banner. Capped at roughly two printed lines —
-  // past that it pushes the bars beside it out of alignment.
-  blurb: z.string().min(40).max(150),
-  // Three bars fit the strip beside the blurb; a fourth halves the row height.
-  softSkills: z.array(SoftSkillSchema).min(1).max(3),
-});
-
 export const CvLinkSchema = z.object({
   // Two characters is the floor for something a visitor can see and hit; forty
   // is where a link stops being a link and starts being a sentence, which would
@@ -77,7 +42,6 @@ export const HomeSchema = z.object({
   // Short phrases ("AI enthusiast"), all rendered together and annotated.
   // At least 2 so the mark sequence has something to vary across.
   roles: z.array(z.string().min(3).max(40)).min(2).max(5),
-  card: PlayerCardSchema,
   // Optional: absent means the opening renders no CV link, which is a valid
   // state rather than an error — the address is supplied separately.
   cv: CvLinkSchema.optional(),
