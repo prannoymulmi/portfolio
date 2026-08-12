@@ -41,14 +41,14 @@ describe('CareerPitch', () => {
 
   it('opens on the most recent chapter, not the oldest', () => {
     render(<CareerPitch experiences={experiences} />);
-    expect(screen.getByText('Immowelt GmbH')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Immowelt GmbH' })).toBeInTheDocument();
   });
 
   it('shows a chapter in full when its player is passed to', () => {
     render(<CareerPitch experiences={experiences} />);
     fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
 
-    expect(screen.getByText('Novomind AG')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
     expect(screen.getByText('Junior Full Stack Developer')).toBeInTheDocument();
     expect(screen.getByText('01/2016 – 07/2018')).toBeInTheDocument();
     expect(screen.getByText(/first integration tests/i)).toBeInTheDocument();
@@ -57,11 +57,12 @@ describe('CareerPitch', () => {
   it('lets chapters be visited in any order, not just forwards', () => {
     render(<CareerPitch experiences={experiences} />);
     fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
-    expect(screen.getByText('Novomind AG')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /pass to.*Otto/i }));
-    expect(screen.getByText('Otto GmbH & Co KG')).toBeInTheDocument();
-    expect(screen.queryByText('Novomind AG')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Otto GmbH & Co KG' })).toBeInTheDocument();
+    // The company still appears in the jump-to strip; only the open chapter changed.
+    expect(screen.queryByRole('heading', { name: 'Novomind AG' })).not.toBeInTheDocument();
   });
 
   it('numbers the chapters oldest-first, whatever order the data arrives in', () => {
@@ -79,19 +80,19 @@ describe('CareerPitch', () => {
 
       fireEvent.click(screen.getByRole('button', { name: /play in order/i }));
       // Starts the walk from the beginning rather than from wherever it sat.
-      expect(screen.getByText('Novomind AG')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
 
       act(() => {
         jest.advanceTimersByTime(2600);
       });
-      expect(screen.getByText('Otto GmbH & Co KG')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Otto GmbH & Co KG' })).toBeInTheDocument();
 
       fireEvent.click(screen.getByRole('button', { name: /pause/i }));
       act(() => {
         jest.advanceTimersByTime(2600 * 3);
       });
       // Held where it was paused.
-      expect(screen.getByText('Otto GmbH & Co KG')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Otto GmbH & Co KG' })).toBeInTheDocument();
     } finally {
       jest.useRealTimers();
     }

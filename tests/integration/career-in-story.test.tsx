@@ -37,7 +37,7 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 describe('Career journey embedded in the story', () => {
   it('opens on the most recent chapter', async () => {
     render(<CareerJourneyLazy />);
-    expect(await screen.findByText('Acme Corp')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Acme Corp' })).toBeInTheDocument();
   });
 
   it('passes to another chapter when its player is clicked', async () => {
@@ -46,7 +46,7 @@ describe('Career journey embedded in the story', () => {
     const olderPlayer = await screen.findByRole('button', { name: /pass to.*Older Company/i });
     fireEvent.click(olderPlayer);
 
-    expect(screen.getByText('Older Company')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Older Company' })).toBeInTheDocument();
     expect(screen.getByText(/built the first api/i)).toBeInTheDocument();
   });
 
@@ -60,7 +60,7 @@ describe('Career journey embedded in the story', () => {
     // no players to pass to, and nothing to press play on.
     expect(screen.queryByRole('button', { name: /pass to/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /play in order/i })).not.toBeInTheDocument();
-    expect(screen.getByText('Acme Corp')).toBeInTheDocument();
-    expect(screen.getByText('Older Company')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Acme Corp' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Older Company' })).toBeInTheDocument();
   });
 });

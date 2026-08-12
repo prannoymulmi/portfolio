@@ -34,24 +34,17 @@ export function TimelineToggle({ isInteractive, onChange }: TimelineToggleProps)
   }
 
   return (
+    // Same translucent, mono, orange-accented language as the chapter it sits
+    // above — an opaque white pill here was the one thing still sitting on top
+    // of the photograph rather than in it.
     <button
       onClick={handleToggle}
-      className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+      className="text-on-photo flex items-center gap-2 rounded-full border border-gray-400/50 bg-white/40 px-4 py-2 font-mono text-xs transition-colors hover:border-[#f2540d] dark:bg-gray-800/40"
       aria-label={`Switch to ${isInteractive ? 'timeline' : 'interactive'} view`}
     >
-      {isInteractive ? (
-        <>
-          <span>⚽ Interactive</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">/</span>
-          <span className="text-gray-500 dark:text-gray-400">Timeline</span>
-        </>
-      ) : (
-        <>
-          <span className="text-gray-500 dark:text-gray-400">Interactive</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">/</span>
-          <span>📋 Timeline</span>
-        </>
-      )}
+      <span className={isInteractive ? 'text-[#f2540d]' : 'opacity-60'}>Pitch</span>
+      <span className="opacity-40">/</span>
+      <span className={isInteractive ? 'opacity-60' : 'text-[#f2540d]'}>Timeline</span>
     </button>
   );
 }
