@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
-import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EmailLink } from './EmailLink';
 import { SocialIcons } from './SocialIcons';
@@ -155,13 +154,12 @@ export function StoryProgressNav() {
           </ul>
         </nav>
         {/* The only persistent chrome left after the nav bar was removed, so
-            the theme control, the profile links and the address live here to
-            stay reachable from anywhere. shrink-0 keeps them put while the
-            chapter list scrolls beside them. */}
+            the profile links and the address live here to stay reachable from
+            anywhere. shrink-0 keeps them put while the chapter list scrolls
+            beside them. */}
         <div className="flex shrink-0 items-center gap-1">
           <SocialIcons />
           {social.data?.email && <EmailLink email={social.data.email} />}
-          <ThemeToggle />
         </div>
       </div>
       {/* Sits along the bar's own bottom edge now that the bar no longer spans

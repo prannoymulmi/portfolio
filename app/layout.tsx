@@ -4,7 +4,6 @@ import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { Footer } from '@/components/Navigation/Footer';
-import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 import { StructuredData } from '@/components/Common/StructuredData';
 import './globals.css';
@@ -58,9 +57,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      // next-themes sets the theme class here before React hydrates, so the
-      // server and client markup legitimately differ on this element.
-      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
       <head>
@@ -78,17 +74,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           Skip to main content
         </a>
-        <ThemeProvider>
-          <ErrorBoundary>
-            <ContentProvider>
-              <StoryProgressNav />
-              <main id="main-content" className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </ContentProvider>
-          </ErrorBoundary>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ContentProvider>
+            <StoryProgressNav />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </ContentProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
