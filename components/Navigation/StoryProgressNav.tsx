@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
@@ -40,6 +40,26 @@ export function StoryProgressNav() {
   // Falls back to the wordmark alone if content has not landed, so the bar
   // never renders a heading with nothing in it.
   const name = home.data?.name ?? '';
+
+  // The edge fade marks chapters scrolled out of sight, so it may only appear
+  // when there are some. Right-aligning the list put the last chapter flush
+  // against the fade at widths where everything already fitted, leaving
+  // "Contact" permanently half-faded on a desktop. No CSS selector can ask
+  // whether an element overflows, so it is measured.
+  const chapters = useRef<HTMLElement>(null);
+  const [chaptersOverflow, setChaptersOverflow] = useState(false);
+
+  useEffect(() => {
+    const element = chapters.current;
+    if (!element) return;
+
+    const measure = () => setChaptersOverflow(element.scrollWidth > element.clientWidth + 1);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     // Floating rather than flush: inset from all three edges so the bar reads
@@ -84,8 +104,11 @@ export function StoryProgressNav() {
             the fade. The cue is decorative, so losing it during keyboard
             traversal costs nothing. */}
         <nav
+          ref={chapters}
           aria-label="Story sections"
-          className="mask-r-from-85% mask-r-to-100% focus-within:mask-none min-w-0 flex-1 overflow-x-auto"
+          className={`min-w-0 flex-1 overflow-x-auto ${
+            chaptersOverflow ? 'mask-r-from-85% mask-r-to-100% focus-within:mask-none' : ''
+          }`}
         >
           {/* ml-auto rather than justify-end: the list is w-max inside a
               scrolling block, so an auto margin right-aligns it when there is
