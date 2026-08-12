@@ -183,12 +183,12 @@ describe('StoryProgressNav', () => {
       expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest', inline: 'center' });
     });
 
-    it('keeps the controls out of the scrolling region, so they never scroll away', () => {
+    it('keeps the controls out of the scrolling region, so they never scroll away', async () => {
       renderNav();
       const list = screen.getByRole('navigation', { name: /story sections/i });
-      const themeToggle = screen.getByRole('button');
+      const emailLink = await screen.findByRole('link', { name: /email/i });
 
-      expect(list.contains(themeToggle)).toBe(false);
+      expect(list.contains(emailLink)).toBe(false);
     });
 
     it('still conveys reading progress after the reshape', () => {
@@ -217,11 +217,10 @@ describe('StoryProgressNav', () => {
     try {
       renderNav();
 
-      // The chapter links and the theme toggle are the nav's job; social is not.
+      // The chapter links are the nav's job; social is not.
       await waitFor(() => {
         expect(screen.getByRole('link', { name: 'Skills' })).toBeInTheDocument();
       });
-      expect(screen.getByRole('button')).toBeInTheDocument();
       expect(screen.queryByRole('link', { name: /GitHub/i })).not.toBeInTheDocument();
     } finally {
       global.fetch = realFetch;

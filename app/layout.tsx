@@ -65,8 +65,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+        {/* One value, not a pair keyed to prefers-color-scheme: the dark design
+            is behind the experiment flag, so a visitor whose OS is dark still
+            gets the light page and would otherwise see dark browser chrome
+            framing it. */}
+        <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
         {/* The photograph the whole story sits on. */}

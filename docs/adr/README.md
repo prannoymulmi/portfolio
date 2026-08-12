@@ -19,7 +19,7 @@ were on the table at the time.
 | [0008](0008-file-based-seo-conventions.md) | File-based `sitemap.ts` / `robots.ts` | Accepted — route list amended by [0012](0012-single-page-story.md) |
 | [0009](0009-rough-notation-third-animation-library.md) | RoughJS (via rough-notation) as a third animation library | Accepted |
 | [0010](0010-next-themes-for-theme-state.md) | next-themes for theme state | Accepted |
-| [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted |
+| [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted — precedence amended by [0019](0019-dark-mode-behind-an-experiment-flag.md) |
 | [0012](0012-single-page-story.md) | One scrolling story instead of per-page routes | Accepted |
 | [0013](0013-hero-player-card.md) | The hero is a football player card over a sunset photo | Superseded in part by [0018](0018-the-opening-leaves-the-player-card.md) — extended by [0015](0015-photograph-as-page-surface.md) |
 | [0014](0014-icon-set-dependency.md) | An icon set as a dependency | Accepted |
@@ -27,6 +27,7 @@ were on the table at the time.
 | [0016](0016-about-folds-into-the-opening.md) | The About chapter folds into the opening | Accepted |
 | [0017](0017-one-content-source-and-an-unhosted-cv.md) | One content source, and a CV the site does not host | Accepted — amends [0001](0001-json-files-over-cms.md) |
 | [0018](0018-the-opening-leaves-the-player-card.md) | The opening leaves the player card for a cut-out portrait | Accepted — supersedes [0013](0013-hero-player-card.md) in part |
+| [0019](0019-dark-mode-behind-an-experiment-flag.md) | Dark mode ships behind an experiment flag | Accepted — amends [0011](0011-class-based-dark-mode.md) in part |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at

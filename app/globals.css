@@ -7,6 +7,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* Scrollbars and form controls are painted by the browser, which follows the
+     OS unless told otherwise. Bound to the same class as everything else below
+     so they can't sit dark on a light page — the dark design is behind the
+     experiment flag, so light is what an OS-dark visitor actually gets. */
+  color-scheme: light;
+
   --background: #ffffff;
   --foreground: #171717;
   --primary: #0284c7;
@@ -41,6 +47,8 @@
 /* Keyed off the same class as the `dark` variant above, so the custom
    properties and the utilities can never disagree about the theme. */
 .dark {
+  color-scheme: dark;
+
   --background: #0a0a0a;
   --foreground: #ededed;
   --border: #374151;
