@@ -27,7 +27,7 @@ export function ProjectGallery() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Featured Projects</h2>
-        <p className="text-on-photo mt-2">
+        <p className="mt-2 text-on-photo">
           Case studies showcasing problem-solving, technical decisions, and measurable impact
         </p>
       </div>

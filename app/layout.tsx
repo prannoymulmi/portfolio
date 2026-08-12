@@ -1,9 +1,10 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { Footer } from '@/components/Navigation/Footer';
+import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 import { StructuredData } from '@/components/Common/StructuredData';
 import './globals.css';
@@ -48,15 +49,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  // The site has one theme (docs/adr/0019-one-theme.md). Both of these pin a
-  // browser-level signal that no stylesheet controls: without `colorScheme`,
-  // scrollbars and form controls the browser draws itself would still follow
-  // the OS and go dark on a light page. Not redundant — do not remove.
-  colorScheme: 'light',
-  themeColor: '#ffffff',
-};
-
 type RootLayoutProps = {
   children: React.ReactNode;
 };
@@ -66,9 +58,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      // next-themes sets the theme class here before React hydrates, so the
+      // server and client markup legitimately differ on this element.
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-gray-900">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+      </head>
+      <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
         {/* The photograph the whole story sits on. */}
         <Backdrop />
         <StructuredData />
@@ -78,15 +78,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           Skip to main content
         </a>
-        <ErrorBoundary>
-          <ContentProvider>
-            <StoryProgressNav />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </ContentProvider>
-        </ErrorBoundary>
+        <ThemeProvider>
+          <ErrorBoundary>
+            <ContentProvider>
+              <StoryProgressNav />
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </ContentProvider>
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   );

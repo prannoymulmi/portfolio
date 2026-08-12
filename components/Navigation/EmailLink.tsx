@@ -27,7 +27,7 @@ export function EmailLink({ email }: EmailLinkProps) {
       // The glyph is hidden from assistive tech, so the name has to be stated:
       // a link whose only content is a drawing is announced as nothing at all.
       aria-label={`Email ${email}`}
-      className="flex items-center rounded p-1.5 text-[#111c38] transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="flex items-center rounded p-1.5 text-[#111c38] transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100 dark:hover:text-blue-400"
     >
       <svg
         aria-hidden="true"

@@ -29,7 +29,7 @@ export function Hero() {
     <>
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
-      <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 sm:px-6 lg:px-8">
+      <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-7xl">
           {/* The portrait takes the larger share. Trimmed to its bounding box
               the image is wider relative to its height, so its column — not its
@@ -86,7 +86,7 @@ export function Hero() {
                   Literals rather than the ACCENT and WARM_INK tokens: Tailwind
                   scans class strings, so an interpolated one never reaches the
                   stylesheet. */}
-              <p className="mt-9 max-w-xl border-l-4 border-[#f2540d] pl-5 text-lg font-medium text-[#3d2318]">
+              <p className="mt-9 max-w-xl border-l-4 border-[#f2540d] pl-5 text-lg font-medium text-[#3d2318] dark:text-gray-300">
                 {intro}
               </p>
 

@@ -19,7 +19,7 @@ export function Backdrop() {
       aria-hidden="true"
       // `fixed inset-0` rather than `background-attachment: fixed`, which is
       // unreliable and janky on iOS Safari.
-      className="pointer-events-none fixed inset-0 -z-10"
+      className="pointer-events-none fixed inset-0 -z-10 opacity-100 dark:opacity-20"
     >
       <Image
         src="/images/normal.jpg"
