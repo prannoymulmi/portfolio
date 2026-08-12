@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero/Hero';
-import { SkillsFormation } from '@/components/Skills/SkillsFormation';
+import { ThreeSystems } from '@/components/Work/ThreeSystems';
+import { ChapterGradientOverlay } from '@/components/Common/ChapterGradientOverlay';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ProjectGalleryLazy } from '@/components/Projects/ProjectGalleryLazy';
@@ -28,13 +29,21 @@ export default function Home() {
         <Hero />
       </section>
 
+      {/* id stays "skills" though the chapter no longer is: the footer, the
+          progress nav and any external link all point at /#skills, and
+          renaming the anchor would break them for a cosmetic gain. */}
       <section
         id="skills"
-        aria-label="Skills"
-        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
+        aria-label="Selected work"
+        className="chapter-scrim relative isolate px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-6xl">
-          <SkillsFormation />
+        {/* Full-bleed, so the wash has no left/right edge to read as a panel. */}
+        <ChapterGradientOverlay
+          src="/images/mesh-soft.png"
+          opacityClassName="opacity-25 dark:opacity-0"
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <ThreeSystems />
         </div>
       </section>
 

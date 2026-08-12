@@ -50,16 +50,6 @@ export function HeroSkeleton() {
   );
 }
 
-export function SkillsSkeleton() {
-  return (
-    <div className="grid grid-cols-1 gap-6 p-8 md:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <SkeletonLoader key={i} type="skill" />
-      ))}
-    </div>
-  );
-}
-
 export function CareerSkeleton() {
   return (
     <div className="space-y-6 p-8">

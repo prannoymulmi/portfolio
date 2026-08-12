@@ -14,7 +14,9 @@ import { SocialIcons } from './SocialIcons';
 // scroll-progress bar plus a compact set of anchor links to every section.
 const STORY_SECTIONS = [
   { id: 'hero', label: 'Introduction' },
-  { id: 'skills', label: 'Skills' },
+  // id stays 'skills' after the chapter became the work showcase — external
+  // links and the footer both target /#skills. Only the label moved.
+  { id: 'skills', label: 'Selected Work' },
   { id: 'career', label: 'Career Journey' },
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },

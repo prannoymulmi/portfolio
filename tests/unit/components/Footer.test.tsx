@@ -28,7 +28,9 @@ describe('Footer', () => {
   it('points Quick Links at in-page story anchors, not the removed standalone pages', () => {
     renderFooter();
     expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/#projects');
-    expect(screen.getByRole('link', { name: 'Skills' })).toHaveAttribute('href', '/#skills');
+    // Label is 'Selected Work' since the chapter became the work showcase; the
+    // /#skills anchor is deliberately unchanged so existing links still land.
+    expect(screen.getByRole('link', { name: 'Selected Work' })).toHaveAttribute('href', '/#skills');
     expect(screen.getByRole('link', { name: 'Career' })).toHaveAttribute('href', '/#career');
   });
 

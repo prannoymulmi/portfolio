@@ -32,22 +32,6 @@ export interface Home {
   cv?: CvLink;
 }
 
-export interface Skill {
-  title: string;
-  icon?: string;
-  category: string;
-}
-
-export interface SkillCategory {
-  title: string;
-  items: Skill[];
-}
-
-export interface SkillsFile {
-  intro?: string;
-  skills: SkillCategory[];
-}
-
 export interface Experience {
   id?: string;
   title: string;
@@ -94,6 +78,21 @@ export interface Project {
   image?: string;
   links: ProjectLink[];
   tags: string[];
+  /**
+   * The three fields below exist for the "three systems" showcase chapter. All
+   * optional, and absence is meaningful: the showcase omits the corresponding
+   * element entirely rather than rendering a placeholder, because a made-up
+   * year or role on a piece of professional evidence is worse than a missing
+   * one. The projects gallery ignores them.
+   */
+  year?: string;
+  role?: string;
+  /**
+   * One headline figure. Must be traceable to a number already stated in this
+   * project's own `bodyText` — the showcase presents it as a claim about real
+   * work, so it is not a place to introduce a figure nothing else supports.
+   */
+  metric?: string;
 }
 
 export interface ProjectsFile {
