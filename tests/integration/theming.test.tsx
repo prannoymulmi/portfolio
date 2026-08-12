@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
@@ -8,6 +8,10 @@ import { ThemeToggle } from '@/components/Common/ThemeToggle';
  * against the real next-themes provider, not a mock — the precedence and
  * persistence rules are the library's behaviour, so mocking it would test
  * nothing.
+ *
+ * The contract is now gated: the dark design only exists for a visitor who
+ * asked for it with `?experiment=true`, so every guarantee below is stated
+ * relative to the flag.
  */
 
 function setSystemPrefersDark(prefersDark: boolean) {
@@ -26,6 +30,10 @@ function setSystemPrefersDark(prefersDark: boolean) {
   });
 }
 
+function visit(search: string) {
+  window.history.replaceState({}, '', `/${search}`);
+}
+
 const renderToggle = () =>
   render(
     <ThemeProvider>
@@ -38,14 +46,17 @@ describe('Theme contract', () => {
     window.localStorage.clear();
     document.documentElement.className = '';
     setSystemPrefersDark(false);
+    visit('?experiment=true');
   });
 
-  it('T5: opens matching the system preference when nothing is stored', async () => {
+  afterEach(() => visit(''));
+
+  it('T5: opens light regardless of the system preference', async () => {
     setSystemPrefersDark(true);
     renderToggle();
 
     await screen.findByRole('button');
-    expect(document.documentElement).toHaveClass('dark');
+    expect(document.documentElement).not.toHaveClass('dark');
   });
 
   it('T3: restores an explicitly stored choice on mount', async () => {
@@ -54,16 +65,6 @@ describe('Theme contract', () => {
 
     await screen.findByRole('button');
     expect(document.documentElement).toHaveClass('dark');
-  });
-
-  it('precedence: an explicit choice outranks the system preference', async () => {
-    // System says dark, stored choice says light — light must win.
-    setSystemPrefersDark(true);
-    window.localStorage.setItem('theme', 'light');
-    renderToggle();
-
-    await screen.findByRole('button');
-    expect(document.documentElement).not.toHaveClass('dark');
   });
 
   it('T2: activating the control switches the theme and stores it', async () => {
@@ -76,5 +77,22 @@ describe('Theme contract', () => {
 
     expect(document.documentElement).toHaveClass('dark');
     expect(window.localStorage.getItem('theme')).toBe('dark');
+  });
+
+  describe('without the experiment flag', () => {
+    beforeEach(() => visit(''));
+
+    it('offers no control at all', async () => {
+      renderToggle();
+      expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    });
+
+    it('resets a stored dark choice, so nobody is stranded without the toggle', async () => {
+      window.localStorage.setItem('theme', 'dark');
+      renderToggle();
+
+      await waitFor(() => expect(window.localStorage.getItem('theme')).toBe('light'));
+      expect(document.documentElement).not.toHaveClass('dark');
+    });
   });
 });

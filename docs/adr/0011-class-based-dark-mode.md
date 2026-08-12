@@ -6,6 +6,13 @@
   ADR 0006 otherwise stands — Tailwind v4 with `@theme inline` remains the
   styling approach; only the trigger for `dark` changes.
 
+> **Amended 2026-08-12 by [ADR 0019](0019-dark-mode-behind-an-experiment-flag.md).**
+> The class mechanism below is unchanged and still how dark mode works. What no
+> longer holds is the precedence: the OS preference is not consulted at all any
+> more, and the toggle that sets the class only exists under `?experiment=true`.
+> The "Negative" note about first-time visitors depending on JavaScript to
+> resolve the OS setting is moot — there is nothing to resolve.
+
 ## Context
 
 Appearance was driven entirely by `prefers-color-scheme`, in two places:

@@ -8,8 +8,30 @@ jest.mock('next-themes', () => ({
   useTheme: () => ({ theme: 'light', resolvedTheme: 'light', setTheme }),
 }));
 
+/** The flag is read off the real URL, so the tests navigate rather than mock. */
+function visit(search: string) {
+  window.history.replaceState({}, '', `/${search}`);
+}
+
 describe('ThemeToggle', () => {
-  beforeEach(() => setTheme.mockClear());
+  beforeEach(() => {
+    setTheme.mockClear();
+    visit('?experiment=true');
+  });
+
+  afterEach(() => visit(''));
+
+  it('renders nothing without the experiment flag', () => {
+    visit('');
+    const { container } = render(<ThemeToggle />);
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('stays hidden for a flag set to anything but true', () => {
+    visit('?experiment=1');
+    const { container } = render(<ThemeToggle />);
+    expect(container).toBeEmptyDOMElement();
+  });
 
   it('T1: renders a button with an accessible label describing the action', async () => {
     render(<ThemeToggle />);

@@ -1,4 +1,24 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.3.0 → 1.4.0
+Modified principles:
+  - IV. Technology Stack (Theming) — the dark design goes behind the
+    `?experiment=true` flag (ADR 0019). The `next-themes` rule is untouched; what
+    is added is that the toggle only renders under the flag, that `light` is the
+    default, and that the OS preference is no longer consulted at all. The
+    general rule underneath it — no theme a visitor did not ask for and cannot
+    leave — is what the entry is really for.
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: fifth amendment to Principle IV, and the 1.3.0 report's observation that
+it "has become a ledger of every visual decision the site has made" still
+stands. This one is three lines rather than a restructure, deliberately: the
+alternative on the table was deleting the second theme outright, and that
+version of this amendment removed two entries and forbade `dark:` by fiat. It
+was reverted. Constitution changes that foreclose an option should be the ones
+that wait for a finished design, not the ones that arrive with it unfinished.
+
+--- previous ---
 Version change: 1.2.0 → 1.3.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — removes the hero player card from the
@@ -99,7 +119,10 @@ constitution amendment:
   the `.dark` class through `@custom-variant`, never to `prefers-color-scheme`
   (ADR 0006, ADR 0011). No CSS-in-JS.
 - **Theming**: `next-themes` owns theme state and applies the class before first paint.
-  No hand-rolled theme hook (ADR 0010).
+  No hand-rolled theme hook (ADR 0010). The dark design is unfinished and ships behind
+  the `?experiment=true` flag: the toggle renders only under it, the default is `light`,
+  and the OS preference is not consulted (ADR 0019). Nothing may serve a theme a visitor
+  did not explicitly ask for and cannot leave.
 - **Animation**: exactly three libraries, each with one domain and no overlap —
   GSAP + ScrollTrigger for scroll-sequenced and timeline motion; Framer Motion for
   component entrance, exit, and interaction motion; `rough-notation` for hand-drawn
@@ -202,4 +225,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.3.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-12
+**Version**: 1.4.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-12
