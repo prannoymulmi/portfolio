@@ -14,7 +14,7 @@ pinned. Correct the two calls to action so they share one box model, and
 introduce a single stored email address surfaced in the navigation and the
 Contact chapter.
 
-The blend itself is already solved: `public/images/hero_cutout.png` carries a
+The blend itself is already solved: `public/images/hero_portrait.png` carries a
 real alpha channel with colour-decontaminated edges (feature 006 clarification
 session), so no per-theme image treatment is needed. What remains is layout,
 masking, box-model correction, a small content change, deletion of the card and
@@ -138,7 +138,7 @@ public/
 │   ├── home.json                   # MODIFIED — "secure" restored, card removed
 │   └── social.json                 # MODIFIED — email field added
 └── images/
-    ├── hero_cutout.png             # ADDED (already committed)
+    ├── hero_portrait.png             # ADDED (already committed)
     └── hero_pic.png                # RETAINED as regeneration source
 
 tests/unit/components/

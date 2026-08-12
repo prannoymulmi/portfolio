@@ -92,7 +92,7 @@ utility applied — never the appearance. These must be looked at:
 - [ ] Five widths — 375, 768, 1024, 1440, 2560.
 
 If a halo appears, the cause is almost certainly a *different* asset being
-rendered, not a CSS problem: `hero_cutout.png` has decontaminated edges,
+rendered, not a CSS problem: `hero_portrait.png` has decontaminated edges,
 `hero_pic.png` has an opaque grey rectangle. Check `imageSource` first.
 
 ### 3b. Button geometry (SC-003, 0px tolerance)

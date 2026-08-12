@@ -30,7 +30,7 @@ names rather than the reference's invented ones.
 
 ### Session 2026-08-12
 
-- Q: How should the portrait be separated from the grey studio background in `hero_pic.png`? → A: Remove it. A background-removed derivative with a real alpha channel was produced and committed as `public/images/hero_cutout.png`, so the portrait blends with whatever sits behind it in any theme.
+- Q: How should the portrait be separated from the grey studio background in `hero_pic.png`? → A: Remove it. A background-removed derivative with a real alpha channel was produced and committed as `public/images/hero_portrait.png`, so the portrait blends with whatever sits behind it in any theme.
 - Q: Where should the email address be stored in the content files? → A: As an `email` field sitting beside the existing `social` array in `social.json`, not as an entry inside that array.
 - Q: How should the floating navigation handle 375px, where its contents are roughly 2.2x the available width? → A: The section links scroll horizontally inside the bar with a fade at the edge; the profile, email and theme controls stay pinned. No menu, no shortened labels.
 - Q: How should the portrait be framed once the layout stacks on mobile? → A: Constrained to roughly 300px tall and anchored to the top of the image, so it shows head and shoulders rather than the full torso.
@@ -160,7 +160,7 @@ is present as visible text.
 
 - **FR-001**: The opening MUST NOT render the player card or any of its parts — job title bar, year-count pills, star rating, self-rated skill bars, certification badge, or country flags.
 - **FR-002**: The opening MUST render a single large portrait of the site's owner, positioned on the right at viewports 1024px and wider.
-- **FR-003**: The portrait MUST render from a background-removed derivative of `hero_pic` that carries an alpha channel, committed as `public/images/hero_cutout.png`. The original `hero_pic.png` MUST be retained as the source of that derivative.
+- **FR-003**: The portrait MUST render from a background-removed derivative of `hero_pic` that carries an alpha channel, committed as `public/images/hero_portrait.png`. The original `hero_pic.png` MUST be retained as the source of that derivative.
 - **FR-004**: No part of the source image's grey studio background may be visible, at any viewport size, in either theme.
 - **FR-004a**: The portrait's silhouette MUST NOT show a light halo or colour fringe against the dark theme's surface.
 - **FR-004b**: The portrait MUST NOT read as a rectangle: its lower edge MUST dissolve into the section rather than ending on a visible horizontal crop line.
@@ -239,7 +239,7 @@ is present as visible text.
 - The card's year counts, star rating and soft-skill ratings are deleted rather than relocated. The career and skills chapters already carry their own data and are unaffected.
 - The portrait's blend is carried by the asset's alpha channel rather than by per-theme styling, which is what makes the light and dark requirement almost free: transparent is transparent against any surface. Remaining styling is the lower-edge dissolve and any optional rim light.
 - The cut-out asset is committed to the repository and served through the image optimiser like every other image, never as a CSS background. Its alpha survives the optimiser's WebP/AVIF conversion.
-- Both `hero_pic.png` (source) and `hero_cutout.png` (derivative) live in `public/images/`. Only the derivative is rendered; the source is kept so the cut-out can be regenerated if the treatment changes.
+- Both `hero_pic.png` (source) and `hero_portrait.png` (derivative) live in `public/images/`. Only the derivative is rendered; the source is kept so the cut-out can be regenerated if the treatment changes.
 - The email is a plain address link. No contact form, no spam obfuscation, no send-from-page behaviour is in scope.
 - The Contact chapter gains the address only. A fuller Contact chapter is a separate piece of work.
 - The existing loading, error and reduced-motion behaviours carry over unchanged.

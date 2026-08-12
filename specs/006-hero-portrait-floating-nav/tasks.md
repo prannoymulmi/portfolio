@@ -38,7 +38,7 @@ Read before starting. Both come from [data-model.md](data-model.md):
 **Purpose**: Establish the baseline that later phases are measured against.
 
 - [X] T001 Run `npx jest` from the repository root and confirm the documented baseline of 17 suites / 99 tests passing; record any pre-existing failure before changing code
-- [X] T002 Confirm `public/images/hero_cutout.png` exists with an alpha channel via `sips -g hasAlpha public/images/hero_cutout.png` (expect `hasAlpha: yes`)
+- [X] T002 Confirm `public/images/hero_portrait.png` exists with an alpha channel via `sips -g hasAlpha public/images/hero_portrait.png` (expect `hasAlpha: yes`)
 
 ---
 
@@ -68,11 +68,11 @@ Read before starting. Both come from [data-model.md](data-model.md):
 > Write these first and confirm they fail before implementing.
 
 - [X] T007 [P] [US1] Create `tests/unit/components/HeroPortrait.test.tsx` asserting the contract in contracts/content-schemas.md — returns `null` without `imageSource`, renders exactly one image, non-empty `alt` naming the subject, a bottom-mask utility class present, an explicit `sizes`, and **no** `preload`
-- [X] T008 [US1] Rewrite `tests/unit/components/Hero.test.tsx` — delete the card assertions (job title, year-count stats, blurb, soft-skill meters, AWS mark, country flags) and replace with: no `<figure>` in the section, portrait renders from `hero_cutout.png`, and text content precedes the portrait in DOM order with no `order-*` utility doing the reordering
+- [X] T008 [US1] Rewrite `tests/unit/components/Hero.test.tsx` — delete the card assertions (job title, year-count stats, blurb, soft-skill meters, AWS mark, country flags) and replace with: no `<figure>` in the section, portrait renders from `hero_portrait.png`, and text content precedes the portrait in DOM order with no `order-*` utility doing the reordering
 
 ### Implementation for User Story 1
 
-- [X] T009 [P] [US1] In `public/data/home.json`, restore "secure" to `intro` so it reads "I build secure, scalable cloud systems, and I care about getting the security and the details right." and repoint `imageSource` to `/images/hero_cutout.png` (leave the `card` object in place — Phase 7 removes it)
+- [X] T009 [P] [US1] In `public/data/home.json`, restore "secure" to `intro` so it reads "I build secure, scalable cloud systems, and I care about getting the security and the details right." and repoint `imageSource` to `/images/hero_portrait.png` (leave the `card` object in place — Phase 7 removes it)
 - [X] T010 [P] [US1] Create `components/Hero/HeroPortrait.tsx` per the contract: `next/image`, `mask-b-from-60% mask-b-to-100%` for the lower dissolve, `object-top` with a height cap below `lg` for the ~300px head-and-shoulders framing (FR-005a), explicit `sizes`, no `preload` (research.md R2, R8)
 - [X] T011 [US1] Update `components/Hero/Hero.tsx` — stop destructuring `card`, drop the `PlayerCard` import, render `HeroPortrait` in that slot, and lower the portrait's `HeroDrift` strength from 56 to 28 per FR-006a (depends on T010)
 - [X] T012 [US1] Correct the `imageSource` doc comment in `lib/types/portfolio.ts`, which currently promises a placeholder fallback that Phase 7 deletes; absent now means a text-only opening
