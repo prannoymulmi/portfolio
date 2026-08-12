@@ -73,6 +73,34 @@ describe('CareerPitch', () => {
     expect(screen.getByRole('button', { name: /chapter 3.*Immowelt/i })).toBeInTheDocument();
   });
 
+  it('breaks a same-year tie by month, not by array position', () => {
+    // Both start in 2018. Otto is listed first in this fixture but starts
+    // seven months after Novomind, so year alone would tie and a stable sort
+    // would wrongly keep Otto ahead — month is what breaks the tie correctly.
+    const sameYear: Experience[] = [
+      {
+        id: 'otto',
+        title: 'Junior Backend Developer',
+        subtitle: 'Otto GmbH & Co KG',
+        workType: 'Full-time',
+        workDescription: ['Migrated services onto AWS.'],
+        dateText: '08/2018 – 10/2020',
+      },
+      {
+        id: 'novomind',
+        title: 'Junior Full Stack Developer',
+        subtitle: 'Novomind AG',
+        workType: 'Working student',
+        workDescription: ['Built the frontend build pipeline.'],
+        dateText: '01/2018 – 08/2018',
+      },
+    ];
+
+    render(<CareerPitch experiences={sameYear} />);
+    expect(screen.getByRole('button', { name: /chapter 1.*Novomind/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /chapter 2.*Otto/i })).toBeInTheDocument();
+  });
+
   it('walks the chapters in order when the play is run, and stops when paused', () => {
     jest.useFakeTimers();
     try {

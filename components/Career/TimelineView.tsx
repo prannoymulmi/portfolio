@@ -39,7 +39,7 @@ export function TimelineView({ experiences }: TimelineViewProps) {
 
           <div>
             <h3 className="text-xl font-semibold tracking-tight">{experience.subtitle}</h3>
-            <p className="mt-1 font-mono text-xs text-[#f2540d]">{experience.title}</p>
+            <p className="mt-1 text-sm font-medium text-[#f2540d]">{experience.title}</p>
 
             {experience.workDescription && experience.workDescription.length > 0 && (
               <ul className="mt-4 space-y-2">
@@ -60,7 +60,7 @@ export function TimelineView({ experiences }: TimelineViewProps) {
                 {experience.technologies.map((tech) => (
                   <li
                     key={tech}
-                    className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 font-mono text-xs"
+                    className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
                   >
                     {tech}
                   </li>

@@ -29,14 +29,14 @@ export function SystemCard({ project }: SystemCardProps) {
 
       <div>
         <h3 className="text-2xl font-semibold tracking-tight">{title}</h3>
-        {role && <p className="mt-1 font-mono text-xs text-[#f2540d]">{role}</p>}
+        {role && <p className="mt-1 text-sm font-medium text-[#f2540d]">{role}</p>}
         <p className="text-on-photo mt-4 max-w-xl leading-relaxed">{bodyText}</p>
 
         <ul aria-label={`Technologies used on ${title}`} className="mt-5 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <li
               key={tag}
-              className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 font-mono text-xs"
+              className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
             >
               {tag}
             </li>

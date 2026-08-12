@@ -62,7 +62,7 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
             {project.tags.slice(0, 3).map((tag) => (
               <li
                 key={tag}
-                className="text-on-photo rounded-full border border-gray-400/50 px-2.5 py-0.5 font-mono text-xs"
+                className="text-on-photo rounded-full border border-gray-400/50 px-2.5 py-0.5 text-xs font-medium"
               >
                 {tag}
               </li>
@@ -81,7 +81,7 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
               <Link
                 key={link.route}
                 href={link.route}
-                className="text-on-photo rounded-full border border-gray-400/60 px-3 py-1 font-mono text-xs transition-colors hover:border-[#f2540d]"
+                className="text-on-photo rounded-full border border-gray-400/60 px-3 py-1 text-xs font-medium transition-colors hover:border-[#f2540d]"
                 target={link.route.startsWith('http') ? '_blank' : undefined}
                 rel={link.route.startsWith('http') ? 'noopener noreferrer' : undefined}
                 // The card is itself a button; a link inside it must not also
