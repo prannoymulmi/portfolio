@@ -176,24 +176,24 @@ fully readable and static.
 
 ### Tests for User Story 3
 
-- [ ] T026 [P] [US3] Write `tests/unit/components/PrincipleBand.test.tsx`: assert the statement and
+- [X] T026 [P] [US3] Write `tests/unit/components/PrincipleBand.test.tsx`: assert the statement and
       supporting line render, the background transform output is non-zero with motion allowed, and
       collapses to zero under `prefers-reduced-motion` — mirroring
       `tests/unit/components/HeroParallax.test.tsx`'s mocking pattern (test MUST fail until T029)
 
 ### Implementation for User Story 3
 
-- [ ] T027 [P] [US3] Create `public/data/principle.json` with a real `statement` and `supporting`
+- [X] T027 [P] [US3] Create `public/data/principle.json` with a real `statement` and `supporting`
       line per [data-model.md](./data-model.md)
-- [ ] T028 [US3] Add the `PrincipleFile` type to `lib/types/portfolio.ts`, `PrincipleFileSchema` to
+- [X] T028 [US3] Add the `PrincipleFile` type to `lib/types/portfolio.ts`, `PrincipleFileSchema` to
       `lib/utils/validation.ts`, and register the loader + context field in
       `components/Common/ContentProvider.tsx` (depends on T027)
-- [ ] T029 [US3] Create `components/EngineeringPrinciple/PrincipleBand.tsx`: pinned section rendering
+- [X] T029 [US3] Create `components/EngineeringPrinciple/PrincipleBand.tsx`: pinned section rendering
       the statement and supporting line, with background and text on two different scroll-linked
       transform magnitudes via the same `useScroll`/`useTransform` + read-before-first-paint
       reduced-motion pattern `HeroDrift` uses, and `ChapterGradientOverlay` (`mesh-soft-flip.png`)
       (depends on T026, T028, T004)
-- [ ] T030 [US3] Mount `<PrincipleBand />` as its own section in `app/page.tsx` between two existing
+- [X] T030 [US3] Mount `<PrincipleBand />` as its own section in `app/page.tsx` between two existing
       chapters. Decide deliberately whether it gets a `STORY_SECTIONS` nav entry in
       `components/Navigation/StoryProgressNav.tsx` — a quote band arguably is not a chapter; if it
       is skipped, note why in a comment so a later reader does not "fix" the omission (depends on T029)
@@ -206,24 +206,26 @@ fully readable and static.
 
 **Purpose**: Governance, guardrails, and the performance floor
 
-- [ ] T031 Write `docs/adr/0020-<slug>.md` recording: the Skills→three-systems swap and removal of
+- [X] T031 Write `docs/adr/0020-<slug>.md` recording: the Skills→three-systems swap and removal of
       the skills content path, the `Project` schema extension, and — stated generally, not only for
       this feature — the rule that decorative gradients layer as low-opacity images inside a
       chapter's scrim and never replace the pinned photographic surface (ADR 0015). This closes the
       gap left when feature 007 introduced that technique without recording it. **Required by
       Principle VI in the same PR as this change** (see plan.md Constitution Check)
-- [ ] T032 Add `docs/adr/0020-<slug>.md` to the index in `docs/adr/README.md` with its status
+- [X] T032 Add `docs/adr/0020-<slug>.md` to the index in `docs/adr/README.md` with its status
       (depends on T031)
-- [ ] T033 [P] Extend `tests/integration/backdrop-coverage.test.tsx` to cover the new/reworked
+- [X] T033 [P] Extend `tests/integration/backdrop-coverage.test.tsx` to cover the new/reworked
       chapters: still no `bg-gradient-to-br`, no opaque chapter backgrounds, scrim count still
       matches, and `components/Common/Backdrop.tsx` still untouched
-- [ ] T034 [P] Run `npm run lint` and `npx tsc --noEmit`; fix anything the deletions in T012/T013/
+- [X] T034 [P] Run `npm run lint` and `npx tsc --noEmit`; fix anything the deletions in T012/T013/
       T022 left dangling (unused imports, orphaned types)
-- [ ] T035 Run the full suite (`npx jest`) and confirm every pre-existing test still passes
+- [X] T035 Run the full suite (`npx jest`) and confirm every pre-existing test still passes
       alongside the new ones (depends on T015, T024, T033, T034)
 - [ ] T036 Run `npm run build && npm run start`, then Lighthouse against the production build;
-      confirm performance ≥90 (constitution floor, spec SC-005)
-- [ ] T037 Run [quickstart.md](./quickstart.md) end-to-end — all automated steps plus the ten manual
+      confirm performance ≥90 (constitution floor, spec SC-005) — **NOT RUN**: no Lighthouse
+      runner in this environment. Production build succeeds and no dependency was added (GSAP
+      usage in fact decreased), but the score itself needs a human to measure.
+- [X] T037 Run [quickstart.md](./quickstart.md) end-to-end — all automated steps plus the ten manual
       visual checks, especially step 10 (surface untouched) and step 9 (reduced motion)
 
 ---

@@ -50,3 +50,25 @@ describe('backdrop coverage across the story', () => {
     expect(scrimCount).toBe(sectionCount - 1);
   });
 });
+
+// specs/008-career-work-showcase added decorative gradient washes to three
+// chapters. ADR 0020 states the rule they follow: a low-opacity image inside
+// the chapter's own scrim, never a background utility that paints over the
+// shared photograph.
+describe('chapter gradient washes overlay the surface rather than replacing it', () => {
+  const overlaySource = fs.readFileSync(
+    path.join(process.cwd(), 'components', 'Common', 'ChapterGradientOverlay.tsx'),
+    'utf-8',
+  );
+
+  it('renders the wash as an optimized image, not a CSS background', () => {
+    expect(overlaySource).toMatch(/from 'next\/image'/);
+    expect(overlaySource).not.toMatch(/backgroundImage|bg-\[url\(/);
+  });
+
+  it('gives every wash on the page a dark-appearance cutoff', () => {
+    const overlays = pageSource.match(/opacityClassName="[^"]*"/g) ?? [];
+    expect(overlays.length).toBeGreaterThan(0);
+    overlays.forEach((overlay) => expect(overlay).toContain('dark:opacity-0'));
+  });
+});
