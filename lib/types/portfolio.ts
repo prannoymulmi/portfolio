@@ -53,7 +53,11 @@ export interface Home {
    * which was retired in feature 004.
    */
   bio: string;
-  /** Portrait for the player card; falls back to a placeholder when absent. */
+  /**
+   * Background-removed portrait shown in the opening. Absent renders no
+   * portrait at all and the opening falls back to text — there is no
+   * placeholder graphic (ADR 0018).
+   */
   imageSource?: string;
   /** Figures shown on the hero's player card. */
   card: PlayerCard;

@@ -66,15 +66,14 @@ describe('Hero Component', () => {
     const precedes = (first: Element, second: Element) =>
       Boolean(first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING);
 
-    it('puts the pitch and both calls to action ahead of the player card', async () => {
-      const { container } = renderHero();
+    it('puts the pitch and both calls to action ahead of the portrait', async () => {
+      renderHero();
       await screen.findByText(/Prannoy Mulmi/i);
 
-      // The card is the only <figure> in the section.
-      const card = container.querySelector('figure');
-      expect(card).not.toBeNull();
+      const portrait = screen.getByRole('img', { name: /prannoy mulmi/i });
 
       const ahead = [
+        screen.getByRole('heading', { level: 1 }),
         screen.getByRole('list', { name: /what i do/i }),
         screen.getByText(/scalable cloud systems/i),
         screen.getByRole('link', { name: /View Work/i }),
@@ -82,7 +81,7 @@ describe('Hero Component', () => {
       ];
 
       for (const element of ahead) {
-        expect(precedes(element, card!)).toBe(true);
+        expect(precedes(element, portrait)).toBe(true);
       }
     });
 
@@ -121,6 +120,60 @@ describe('Hero Component', () => {
     expect(await screen.findByText(/scalable cloud systems/i)).toBeInTheDocument();
   });
 
+  it('says it builds secure systems, not merely scalable ones', async () => {
+    renderHero();
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    // The word was missing from the shipped line while the design it was taken
+    // from carried it, which is the whole of FR-008.
+    expect(raw.intro).toMatch(/I build secure, scalable cloud systems/i);
+    expect(await screen.findByText(new RegExp(raw.intro.slice(0, 40), 'i'))).toBeInTheDocument();
+  });
+
+  it('carries the owner name as the page heading', async () => {
+    renderHero();
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    // This h1 used to live on the player card's name banner, and it was the
+    // only one on the whole page. Deleting the card without moving it would
+    // have left the document with no heading and no owner name in the opening.
+    const heading = await screen.findByRole('heading', { level: 1 });
+    expect(heading).toHaveTextContent(raw.name);
+    expect(document.querySelectorAll('h1')).toHaveLength(1);
+  });
+
+  it('shows the portrait from content and no player card', async () => {
+    renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    const portrait = screen.getByRole('img', { name: /prannoy mulmi/i });
+    // next/image rewrites src through the optimizer, so the content path
+    // arrives URL-encoded inside the query string rather than verbatim.
+    expect(portrait.getAttribute('src')).toContain(encodeURIComponent(raw.imageSource));
+    // The cut-out, not the studio original — the grey background is baked into
+    // hero_pic.png and no CSS can reach it (research.md R2).
+    expect(raw.imageSource).toBe('/images/hero_cutout.png');
+  });
+
+  it('no longer renders the player card or any of its parts', async () => {
+    const { container } = renderHero();
+    await screen.findByText(/Prannoy Mulmi/i);
+
+    expect(container.querySelector('figure')).toBeNull();
+    expect(screen.queryAllByRole('meter')).toHaveLength(0);
+    expect(screen.queryByText(/self-rated/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: /amazon web services/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: /germany/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: /nepal/i })).not.toBeInTheDocument();
+  });
+
   it('has View Work CTA button linking to the projects section', async () => {
     renderHero();
     const viewWorkButton = await screen.findByRole('link', { name: /View Work/i });
@@ -144,71 +197,6 @@ describe('Hero Component', () => {
   // outright: the portrait is editable content, and swapping it out — or
   // taking it away again — shouldn't fail this test, only move which half of
   // it runs.
-  it('shows the portrait named in home.json, or the placeholder without one', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-
-    if (raw.imageSource) {
-      const portrait = screen.getByRole('img', { name: /prannoy mulmi, portrait/i });
-      // next/image rewrites src through the optimizer, so the content path
-      // arrives URL-encoded inside the query string rather than verbatim.
-      expect(portrait.getAttribute('src')).toContain(encodeURIComponent(raw.imageSource));
-    } else {
-      expect(screen.getByRole('img', { name: /profile photo coming soon/i })).toBeInTheDocument();
-    }
-  });
-
-  it('prints the job title across the top of the player card', async () => {
-    renderHero();
-    expect(await screen.findByText(/Senior Software Engineer/i)).toBeInTheDocument();
-  });
-
-  it('reads every card stat as a count of years, not a 0-100 score', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-    for (const stat of raw.card.stats) {
-      expect(stat.value).toBeLessThanOrEqual(raw.card.yearsExperience);
-      const label = screen.getByText(stat.label);
-      // Each pill sits directly above its figure inside the same list item.
-      expect(label.closest('li')).toHaveTextContent(String(stat.value));
-    }
-  });
-
-  it('prints the scouting line in small type under the name banner', async () => {
-    renderHero();
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-    expect(await screen.findByText(raw.card.blurb)).toBeInTheDocument();
-  });
-
-  it('draws a bar per soft skill, each reading as a self-rating out of 5', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
-
-    const meters = screen.getAllByRole('meter');
-    expect(meters).toHaveLength(raw.card.softSkills.length);
-
-    for (const skill of raw.card.softSkills) {
-      const meter = screen.getByRole('meter', { name: skill.label });
-      expect(meter).toHaveAttribute('aria-valuenow', String(skill.level));
-      expect(meter).toHaveAttribute('aria-valuemax', '5');
-    }
-  });
-
-  it('labels the bars as self-rated, so they do not read as measurements', async () => {
-    renderHero();
-    expect(await screen.findByText(/self-rated/i)).toBeInTheDocument();
-  });
 
   it('links to the CV address the shipped content carries', async () => {
     renderHero();
@@ -226,23 +214,5 @@ describe('Hero Component', () => {
     // Opening a tab is announced in the accessible name, not just implied by
     // target — the assertion belongs here because the address is now real.
     expect(link).toHaveAccessibleName(/opens in a new tab/i);
-  });
-
-  it('shows an AWS mark on the card', async () => {
-    renderHero();
-    expect(await screen.findByRole('img', { name: /amazon web services/i })).toBeInTheDocument();
-  });
-
-  it('shows a flag for each country on the card', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    expect(screen.getByRole('img', { name: /germany/i })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /nepal/i })).toBeInTheDocument();
-  });
-
-  it('no longer shows the Core Expertise card — the Skills chapter covers it', async () => {
-    renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
-    expect(screen.queryByText(/Core Expertise/i)).not.toBeInTheDocument();
   });
 });
