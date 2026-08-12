@@ -36,13 +36,13 @@ describe('Hero Component', () => {
 
   it('renders hero section', async () => {
     renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
+    await screen.findByRole('list', { name: /what i do/i });
     expect(document.querySelector('section')).toBeInTheDocument();
   });
 
-  it('displays portfolio owner name when content loads', async () => {
+  it('names the owner in the portrait, the only place the opening still says it', async () => {
     renderHero();
-    const nameElement = await screen.findByText(/Prannoy Mulmi/i);
+    const nameElement = await screen.findByRole('list', { name: /what i do/i });
     expect(nameElement).toBeInTheDocument();
   });
 
@@ -68,12 +68,11 @@ describe('Hero Component', () => {
 
     it('puts the pitch and both calls to action ahead of the portrait', async () => {
       renderHero();
-      await screen.findByText(/Prannoy Mulmi/i);
+      await screen.findByRole('list', { name: /what i do/i });
 
       const portrait = screen.getByRole('img', { name: /prannoy mulmi/i });
 
       const ahead = [
-        screen.getByRole('heading', { level: 1 }),
         screen.getByRole('list', { name: /what i do/i }),
         screen.getByText(/scalable cloud systems/i),
         screen.getByRole('link', { name: /View Work/i }),
@@ -87,7 +86,7 @@ describe('Hero Component', () => {
 
     it('leaves the visual order to the DOM, with no order-* utility to invert it', async () => {
       const { container } = renderHero();
-      await screen.findByText(/Prannoy Mulmi/i);
+      await screen.findByRole('list', { name: /what i do/i });
 
       const grid = container.querySelector('.grid');
       expect(grid).not.toBeNull();
@@ -132,23 +131,19 @@ describe('Hero Component', () => {
     expect(await screen.findByText(new RegExp(raw.intro.slice(0, 40), 'i'))).toBeInTheDocument();
   });
 
-  it('carries the owner name as the page heading', async () => {
+  it('leaves the page heading to the navigation wordmark', async () => {
     renderHero();
-    const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
-    );
+    await screen.findByRole('list', { name: /what i do/i });
 
-    // This h1 used to live on the player card's name banner, and it was the
-    // only one on the whole page. Deleting the card without moving it would
-    // have left the document with no heading and no owner name in the opening.
-    const heading = await screen.findByRole('heading', { level: 1 });
-    expect(heading).toHaveTextContent(raw.name);
-    expect(document.querySelectorAll('h1')).toHaveLength(1);
+    // Printing the name here as well as in the persistent bar read as a
+    // duplicate within one screen rather than as emphasis, so the opening
+    // carries no heading of its own.
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
   });
 
   it('shows the portrait from content and no player card', async () => {
     renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
+    await screen.findByRole('list', { name: /what i do/i });
     const raw = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
     );
@@ -164,7 +159,7 @@ describe('Hero Component', () => {
 
   it('no longer renders the player card or any of its parts', async () => {
     const { container } = renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
+    await screen.findByRole('list', { name: /what i do/i });
 
     expect(container.querySelector('figure')).toBeNull();
     expect(screen.queryAllByRole('meter')).toHaveLength(0);
@@ -188,7 +183,7 @@ describe('Hero Component', () => {
 
   it('applies a gradient background to the introduction', async () => {
     renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
+    await screen.findByRole('list', { name: /what i do/i });
     const section = document.querySelector('section');
     expect(section?.className).toMatch(/bg-gradient-to-/);
   });
@@ -200,7 +195,7 @@ describe('Hero Component', () => {
 
   it('links to the CV address the shipped content carries', async () => {
     renderHero();
-    await screen.findByText(/Prannoy Mulmi/i);
+    await screen.findByRole('list', { name: /what i do/i });
     // Read the address from content rather than a copy of it, for the same
     // reason the roles test does: the CV lives on someone else's host (ADR
     // 0017) and the owner may repoint or relabel it without touching code.
