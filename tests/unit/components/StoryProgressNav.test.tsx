@@ -21,6 +21,23 @@ const renderNav = () =>
     </ContentProvider>,
   );
 
+/**
+ * jsdom does no layout, so nothing ever overflows and the edge fade stays off —
+ * which is the correct behaviour, but means the fade has to be provoked to be
+ * tested at all. Forcing scrollWidth past clientWidth is the smallest way to
+ * stand in for a narrow viewport.
+ */
+function withOverflowingChapters<T>(run: () => T): T {
+  const scroll = jest.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(900);
+  const client = jest.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(160);
+  try {
+    return run();
+  } finally {
+    scroll.mockRestore();
+    client.mockRestore();
+  }
+}
+
 describe('StoryProgressNav', () => {
   // The loader caches per session; without this the failure case below is
   // served the content an earlier test already fetched.
@@ -123,20 +140,33 @@ describe('StoryProgressNav', () => {
       expect(list.className).toMatch(/overflow-x-auto/);
     });
 
-    it('marks the edge where more links exist, so overflow does not read as clipping', () => {
+    it('marks the edge only when chapters are actually out of sight', () => {
+      withOverflowingChapters(() => {
+        renderNav();
+        const list = screen.getByRole('navigation', { name: /story sections/i });
+        // FR-016b.
+        expect(list.className).toMatch(/mask-r-from/);
+      });
+    });
+
+    it('shows no edge fade when every chapter already fits', () => {
       renderNav();
       const list = screen.getByRole('navigation', { name: /story sections/i });
-      // FR-016b.
-      expect(list.className).toMatch(/mask-r-from/);
+
+      // The list is right-aligned, so an unconditional fade left the last
+      // chapter permanently half-faded on a desktop where nothing was hidden.
+      expect(list.className).not.toMatch(/mask-r-from/);
     });
 
     it('drops the edge fade while anything inside has focus', () => {
-      renderNav();
-      const list = screen.getByRole('navigation', { name: /story sections/i });
-      // A mask fades by position and cannot be told to spare one child, so the
-      // fade is removed outright during keyboard traversal rather than having
-      // a focused link land underneath it (FR-016c).
-      expect(list.className).toMatch(/focus-within:mask-none/);
+      withOverflowingChapters(() => {
+        renderNav();
+        const list = screen.getByRole('navigation', { name: /story sections/i });
+        // A mask fades by position and cannot be told to spare one child, so the
+        // fade is removed outright during keyboard traversal rather than having
+        // a focused link land underneath it (FR-016c).
+        expect(list.className).toMatch(/focus-within:mask-none/);
+      });
     });
 
     it('scrolls a focused link fully into view itself', () => {
