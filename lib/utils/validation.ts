@@ -188,6 +188,16 @@ export const SocialSchema = z.object({
 
 export const SocialFileSchema = z.object({
   social: z.array(SocialSchema).min(1).max(5),
+  // A sibling of the list, deliberately not a member of it: the footer renders
+  // every entry in `social`, and the address is not wanted there. Structure
+  // keeps it out, rather than a filter that a later edit could drop.
+  //
+  // `.email()` rather than the `.url()` used by SocialSchema.href above —
+  // `.url()` accepts "mailto:x@y.z" and rejects a bare address, which is the
+  // opposite of what this field holds. The plain address is stored because the
+  // Contact chapter shows it as text; the places that need a link compose the
+  // `mailto:` themselves.
+  email: z.string().email(),
 });
 
 // Validation function with error handling

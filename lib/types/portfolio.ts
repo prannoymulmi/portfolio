@@ -177,6 +177,15 @@ export interface Social {
 
 export interface SocialFile {
   social: Social[];
+  /**
+   * Contact address, stored plain rather than as a `mailto:` URI — the Contact
+   * chapter shows it as readable text, and the link is composed where needed.
+   *
+   * Required, not optional: the navigation control and the Contact chapter both
+   * depend on it, so an absent value would silently empty a chapter and drop a
+   * control with nothing reporting it.
+   */
+  email: string;
 }
 
 // Content state for loading/error handling
