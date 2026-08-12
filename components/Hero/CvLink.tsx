@@ -13,16 +13,15 @@ interface CvLinkProps {
  * is already looking.
  *
  * That subordinate role is carried by the typeface rather than by size alone.
- * The buttons are Geist Sans at 18px semibold; the player card beside them is
- * where figures live. Setting this in mono micro-caps borrows the card's data
- * voice, so the line reads as a record *about* the player — the team sheet
- * behind the card — rather than a third thing being asked of the visitor.
- * Same reason the glyph is a ruled sheet and not a download tray.
+ * The buttons are Geist Sans at 18px semibold; setting this in mono micro-caps
+ * gives it a records voice instead, so the line reads as a document *about*
+ * the person rather than a third thing being asked of the visitor. Same reason
+ * the glyph is a ruled sheet and not a download tray.
  *
- * The size and tracking are the card's scouting line exactly (PlayerCard.tsx),
- * not a value near it: a second almost-identical letterspacing would read as
- * drift rather than as the same voice. Weight drops to medium because this
- * sits as dark type on the sunset rather than reversed out of the card's navy.
+ * The size and tracking match the name line at the top of the opening, not a
+ * value near it: a second almost-identical letterspacing would read as drift
+ * rather than as the same voice. (Both were the player card's scouting line
+ * before the card was removed — see ADR 0018.)
  *
  * The document lives on someone else's host; this is only a pointer to it
  * (ADR 0017). That also rules out the `download` attribute, which browsers
