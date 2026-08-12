@@ -30,13 +30,17 @@ export function Hero() {
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
       <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-6xl">
-          {/* Even columns. Giving the portrait a wider share was tried and
-              reverted: the portrait is sized by its height cap, not by the
-              column, so the extra width did nothing for it while the narrower
-              text column wrapped "Software Engineer." onto two lines and broke
-              the one-phrase-per-bar rhythm the role marks depend on. */}
-          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
+        <div className="mx-auto w-full max-w-7xl">
+          {/* The portrait takes the larger share. Trimmed to its bounding box
+              the image is wider relative to its height, so its column — not its
+              height cap — became the binding constraint; widening the container
+              to 7xl and tilting the split is what lets the cap engage again.
+
+              1.15 rather than more: the text column still has to hold "Software
+              Engineer." on one line, and the role marks lose their rhythm the
+              moment a phrase wraps. At this split it sits at 573px against the
+              548px it had before, so it has gained room rather than lost it. */}
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
             {/* Introduction. Source order is the reading order at every width:
                 stacked on narrow screens the pitch and its two buttons come
                 first, and the card follows. No order-* utility, because those
