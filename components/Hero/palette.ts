@@ -35,6 +35,17 @@ export const CREAM = '#fff5ec';
  */
 
 /**
+ * The rule beside the tagline. Sampled from the reference design rather than
+ * picked: #f2540d, a brighter orange than EMBER, which is what lets a 4px line
+ * read as an accent against the sunset instead of disappearing into it.
+ *
+ * Mirrored as a literal in a Tailwind class for the same reason as WARM_INK
+ * below — class strings are scanned as text, so an interpolated one never
+ * reaches the stylesheet.
+ */
+export const ACCENT = '#f2540d';
+
+/**
  * Body copy over the photo — warm near-black, not a neutral grey.
  * Mirrored as a literal in Tailwind classes, which are scanned as text and so
  * can't be built from this constant.

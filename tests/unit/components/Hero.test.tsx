@@ -131,6 +131,19 @@ describe('Hero Component', () => {
     expect(await screen.findByText(new RegExp(raw.intro.slice(0, 40), 'i'))).toBeInTheDocument();
   });
 
+  it('marks the tagline with the accent rule', async () => {
+    renderHero();
+    const raw = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+    );
+
+    const tagline = await screen.findByText(new RegExp(raw.intro.slice(0, 40), 'i'));
+    // A left border rather than a pseudo-element, so it grows with the text
+    // when the line wraps on a narrow screen.
+    expect(tagline.className).toMatch(/border-l-4/);
+    expect(tagline.className).toMatch(/border-\[#f2540d\]/);
+  });
+
   it('leaves the page heading to the navigation wordmark', async () => {
     renderHero();
     await screen.findByRole('list', { name: /what i do/i });
