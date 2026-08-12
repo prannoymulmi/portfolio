@@ -1,0 +1,52 @@
+{
+  "model": "sonnet",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date +'%Y-%m-%d %H:%M:%S')] Session started | Model: ${CLAUDE_MODEL:-sonnet} | Effort: ${CLAUDE_EFFORT_LEVEL:-medium} | Thinking: ${CLAUDE_THINKING:-off} | Fast: ${CLAUDE_FAST_MODE:-off}\" >> ~/.claude/projects/portfolio-sessions.log 2>/dev/null || true",
+            "statusMessage": "Session started"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "speckit-specify|speckit-plan|speckit-tasks",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -qE '(speckit-specify|speckit-plan|speckit-tasks|/plan )' <<< \"$CLAUDE_PROMPT\" && echo '{\"systemMessage\": \"💡 Tip: This planning task is best handled by Opus. Switch with /model opus, then run your command.\"}' || true",
+            "statusMessage": "Checking task type..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"systemMessage\": \"⚡ Quick lookup task detected. Consider /model haiku for faster, cheaper responses on simple reads.\"}' || true",
+            "statusMessage": "Checking task complexity..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Edit"
+    ],
+    "defaultMode": "default"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "jq -r '\"🤖 Model: \\(.model // \"sonnet\") | Effort: \\(.effortLevel // \"medium\")\\(.alwaysThinkingEnabled and \" | 🧠 Thinking\" or \"\")\\(.fastMode and \" | ⚡ Fast\" or \"\")\"' 2>/dev/null || echo '🤖 Model: sonnet | Effort: medium'",
+    "refreshInterval": 5
+  }
+}
