@@ -3,51 +3,9 @@
   "intro": "I build secure, scalable cloud systems, and I care about getting the security and the details right.",
   "bio": "9 years in, I've led teams, mentored engineers, and taken platforms from design into production. Backend architecture and security are where I do my best work.",
   "imageSource": "/images/hero_cutout.png",
-  "roles": [
-    "Software Engineer",
-    "Security Advocate",
-    "AI enthusiast"
-  ],
+  "roles": ["Software Engineer", "Security Advocate", "AI enthusiast"],
   "cv": {
     "label": "View CV",
     "href": "https://drive.google.com/file/d/1TEiyG768RlXBEEH4sLLyTIHihJuMpmVc/view?usp=sharing"
-  },
-  "card": {
-    "title": "Senior Software Engineer",
-    "yearsExperience": 9,
-    "rating": 4.5,
-    "countries": [
-      "DE",
-      "NP"
-    ],
-    "stats": [
-      {
-        "label": "Backend",
-        "value": 9
-      },
-      {
-        "label": "Cloud",
-        "value": 6
-      },
-      {
-        "label": "Security",
-        "value": 4
-      }
-    ],
-    "blurb": "Owns systems end to end, from the whiteboard to the on-call rota, and brings the rest of the team along with it.",
-    "softSkills": [
-      {
-        "label": "Mentoring",
-        "level": 5
-      },
-      {
-        "label": "Communication",
-        "level": 4
-      },
-      {
-        "label": "Leadership",
-        "level": 4
-      }
-    ]
   }
 }
