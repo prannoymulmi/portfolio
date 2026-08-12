@@ -31,6 +31,11 @@ export function Hero() {
           saturated corner while leaving the sunset itself visible. */}
       <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl">
+          {/* Even columns. Giving the portrait a wider share was tried and
+              reverted: the portrait is sized by its height cap, not by the
+              column, so the extra width did nothing for it while the narrower
+              text column wrapped "Software Engineer." onto two lines and broke
+              the one-phrase-per-bar rhythm the role marks depend on. */}
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
             {/* Introduction. Source order is the reading order at every width:
                 stacked on narrow screens the pitch and its two buttons come
