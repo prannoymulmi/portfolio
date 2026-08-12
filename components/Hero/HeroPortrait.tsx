@@ -62,9 +62,17 @@ export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
       // Without this the optimizer assumes 100vw and ships a far larger file
       // than a half-width column needs.
       sizes="(min-width: 1024px) 45vw, 60vw"
-      // Deliberately not preloaded: Backdrop.tsx documents itself as the
-      // largest contentful paint element and already holds that slot, and two
-      // preloaded images in one viewport compete for early bandwidth.
+      // Preloaded because this element *is* the largest contentful paint —
+      // measured, against an earlier assumption that the backdrop would keep
+      // that role. It does not: at 1440x900 this covers 272,580px² against the
+      // backdrop's contribution, and Chrome reports it as the LCP element.
+      //
+      // Preloading it alongside the backdrop was the specific risk raised when
+      // this was left off, so it was measured rather than argued: four runs
+      // each, cache disabled. With preload 196/208/208/196ms; without
+      // 216/216/212/216ms. The ranges do not overlap. Baseline on main, where
+      // the card's portrait was LCP, was 348ms.
+      preload
     />
   );
 }
