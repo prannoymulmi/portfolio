@@ -14,6 +14,47 @@ const DRIFT_OVER = 500;
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
+export interface GradientLayerConfig {
+  /** Filename under public/images/. */
+  src: string;
+  /** Pixels of drift travel, same unit and clamp as HeroDrift's strength. */
+  strength: number;
+  /**
+   * Full literal Tailwind classes for opacity and any positional offset.
+   * Written out rather than composed from a numeric prop: Tailwind scans
+   * class strings as literal text, so an interpolated `opacity-${n}` never
+   * reaches the stylesheet (constitution, Technology & Quality Constraints).
+   */
+  className: string;
+}
+
+/**
+ * The four gradient layers behind the Hero's foreground content, furthest
+ * back to nearest. Order is also DOM/stacking order — later entries paint
+ * over earlier ones — so this array is the single place that decides depth.
+ *
+ * Strengths stay below the role bars' 24 and the portrait's 28 (see Hero.tsx)
+ * so these always read as farther away than the foreground content they sit
+ * behind, never competing with it for the "nearest" reading.
+ */
+/**
+ * dark:opacity-0 on every layer: three of the four source images are pale
+ * washes (mean relative luminance 0.84-0.93, measured on a 32x18 sample grid,
+ * the same method ADR 0015 used for the photograph). Layered over the
+ * near-black dark-appearance scrim at these opacities, they lighten it enough
+ * to drop text-on-photo's gray-100 contrast below AA — the exact failure mode
+ * ADR 0015 held the photograph itself to 20% to avoid. Dark appearance is
+ * also still unfinished and gated behind ?experiment=true (ADR 0019), so
+ * turning the wash off there rather than re-deriving four more opacity floors
+ * is the proportionate fix.
+ */
+export const GRADIENT_LAYERS: GradientLayerConfig[] = [
+  { src: '/images/gradient-hero.png', strength: 8, className: 'opacity-40 dark:opacity-0' },
+  { src: '/images/mesh-soft.png', strength: 14, className: 'opacity-35 dark:opacity-0' },
+  { src: '/images/mesh-soft-flip.png', strength: 18, className: 'opacity-30 dark:opacity-0' },
+  { src: '/images/gradient-text.png', strength: 22, className: 'opacity-25 dark:opacity-0' },
+];
+
 interface HeroDriftProps {
   children: ReactNode;
   /** Pixels of travel across DRIFT_OVER, clamped to MAX_DRIFT. */

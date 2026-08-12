@@ -6,6 +6,28 @@ import path from 'node:path';
 // matters is the class names the chapters carry, not their runtime output.
 const pageSource = fs.readFileSync(path.join(process.cwd(), 'app', 'page.tsx'), 'utf-8');
 
+const backdropSource = fs.readFileSync(
+  path.join(process.cwd(), 'components', 'Common', 'Backdrop.tsx'),
+  'utf-8',
+);
+
+// ADR 0015 rejected parallaxing the pinned backdrop: motion that reads as
+// depth against one section's boundary reads as a drifting seam once seven
+// chapters scroll over it. specs/007-parallax-gradient-scroll moved its
+// gradient layers into the Hero foreground for exactly this reason — this
+// guards against a future change quietly reopening that decision.
+describe('backdrop stays pinned, not parallaxed', () => {
+  it('keeps the backdrop fixed, with no scroll-linked transform', () => {
+    expect(backdropSource).toMatch(/\bfixed\b/);
+    expect(backdropSource).not.toMatch(/useScroll|useTransform|ScrollTrigger/);
+  });
+
+  it('renders exactly one Image element — no gradient layer added to the pinned surface', () => {
+    const imageTags = backdropSource.match(/<Image\b/g) ?? [];
+    expect(imageTags).toHaveLength(1);
+  });
+});
+
 describe('backdrop coverage across the story', () => {
   it('gives no chapter a gradient background of its own', () => {
     expect(pageSource).not.toMatch(/bg-gradient-to-br/);
