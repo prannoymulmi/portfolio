@@ -31,54 +31,45 @@ export function EducationSection() {
         </p>
       </div>
 
-      {/* Timeline */}
-      <div className="space-y-6">
+      {/* Rows on the open surface, matching the work showcase and the career
+          timeline. The qualification is the heading and the institution the
+          line under it — the reverse of what the cards did, which buried the
+          awarding body in small grey text. */}
+      <div className="divide-y divide-gray-400/40 border-t border-gray-400/40">
         {educationList.map((item, idx) => (
-          <article
-            key={idx}
-            className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800"
-          >
-            <div className="mb-3 flex items-start justify-between gap-4">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  {item.cardTitle}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{item.cardSubtitle}</p>
-              </div>
-              {item.icon && <div className="text-4xl">{item.icon.src}</div>}
+          <article key={idx} className="grid gap-6 py-10 md:grid-cols-[1fr_14rem] md:items-start">
+            <div>
+              <h3 className="text-xl font-semibold tracking-tight">{item.cardTitle}</h3>
+              <p className="mt-1 font-mono text-xs text-[#f2540d]">{item.cardSubtitle}</p>
+
+              {item.cardDetailedText && (
+                <p className="text-on-photo mt-4 max-w-xl text-sm leading-relaxed">
+                  {item.cardDetailedText}
+                </p>
+              )}
+
+              {item.url && (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-on-photo mt-5 inline-block rounded-full border border-gray-400/60 px-4 py-1.5 font-mono text-xs transition-colors hover:border-[#f2540d]"
+                >
+                  Learn more ↗
+                </a>
+              )}
             </div>
 
-            {/* Additional details */}
-            {item.cardDetailedText && (
-              <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                {item.cardDetailedText}
-              </p>
-            )}
-
-            {/* Media */}
-            {item.media && (
-              <div className="relative mt-4 h-48 w-full overflow-hidden rounded-lg">
-                {item.media.type === 'IMAGE' && (
-                  <Image
-                    src={item.media.source.url}
-                    alt={item.media.name}
-                    fill
-                    className="object-cover"
-                  />
-                )}
+            {item.media?.type === 'IMAGE' && (
+              <div className="chapter-panel relative h-32 w-full overflow-hidden rounded-xl">
+                <Image
+                  src={item.media.source.url}
+                  alt={item.media.name}
+                  fill
+                  sizes="(min-width: 768px) 14rem, 100vw"
+                  className="object-contain p-3"
+                />
               </div>
-            )}
-
-            {/* URL link */}
-            {item.url && (
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
-              >
-                Learn More
-              </a>
             )}
           </article>
         ))}

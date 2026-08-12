@@ -47,7 +47,7 @@ export function SystemCard({ project }: SystemCardProps) {
       {/* The headline figure, given its own column so it reads as the result
           rather than as another tag. */}
       {metric && (
-        <span className="rounded-xl bg-white/40 px-4 py-3 text-center font-mono text-sm text-[#3d2318] md:text-right dark:bg-gray-800/40 dark:text-gray-200">
+        <span className="chapter-panel text-on-photo rounded-xl px-4 py-3 text-center font-mono text-sm md:text-right">
           {metric}
         </span>
       )}

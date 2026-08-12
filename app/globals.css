@@ -29,6 +29,12 @@
      chapters used to use. See specs/004-photo-background-hero-merge/research.md */
   --scrim: rgb(255 255 255 / 0.42);
 
+  /* A panel is a lift off the scrim, not a lid over it: the photograph still
+     reads through at 0.42, which is the whole reason chapters stopped
+     painting opaque cards. */
+  --panel: rgb(255 255 255 / 0.42);
+  --panel-border: rgb(107 114 128 / 0.4);
+
   /* Body copy sitting on the scrim. gray-900 measures 5.79:1 against the bare
      photo at its darkest; gray-700 measures 3.37:1 and fails AA. */
   --on-photo: #111827;
@@ -58,6 +64,9 @@
      ~10:1 against --on-photo. The scrim here is for evenness over that
      detail, not to rescue contrast. */
   --scrim: rgb(10 10 10 / 0.55);
+
+  --panel: rgb(31 41 55 / 0.42);
+  --panel-border: rgb(156 163 175 / 0.28);
   --on-photo: #f3f4f6;
 }
 
@@ -69,6 +78,16 @@
 
 @utility text-on-photo {
   color: var(--on-photo);
+}
+
+/* The one surface a chapter may raise above the scrim. Every chapter that
+   used to paint `bg-white dark:bg-gray-800` cards uses this instead — an
+   opaque card hides the photograph the whole story sits on (ADR 0015), and
+   six chapters each inventing their own card was why the page read as a
+   stack of unrelated widgets. */
+@utility chapter-panel {
+  background-color: var(--panel);
+  border: 1px solid var(--panel-border);
 }
 
 html {
