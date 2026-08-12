@@ -21,16 +21,22 @@ were on the table at the time.
 | [0010](0010-next-themes-for-theme-state.md) | next-themes for theme state | Accepted |
 | [0011](0011-class-based-dark-mode.md) | Class-based dark mode over the OS media query | Accepted |
 | [0012](0012-single-page-story.md) | One scrolling story instead of per-page routes | Accepted |
-| [0013](0013-hero-player-card.md) | The hero is a football player card over a sunset photo | Accepted — extended by [0015](0015-photograph-as-page-surface.md) |
+| [0013](0013-hero-player-card.md) | The hero is a football player card over a sunset photo | Superseded in part by [0018](0018-the-opening-leaves-the-player-card.md) — extended by [0015](0015-photograph-as-page-surface.md) |
 | [0014](0014-icon-set-dependency.md) | An icon set as a dependency | Accepted |
 | [0015](0015-photograph-as-page-surface.md) | The photograph is the page surface | Accepted |
 | [0016](0016-about-folds-into-the-opening.md) | The About chapter folds into the opening | Accepted |
 | [0017](0017-one-content-source-and-an-unhosted-cv.md) | One content source, and a CV the site does not host | Accepted — amends [0001](0001-json-files-over-cms.md) |
+| [0018](0018-the-opening-leaves-the-player-card.md) | The opening leaves the player card for a cut-out portrait | Accepted — supersedes [0013](0013-hero-player-card.md) in part |
 
-Nothing here is fully superseded yet. Where a later ADR overturned part of an
+Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
 the top pointing at the replacement — the trade-offs it weighed are still the
 reason the surviving parts look the way they do.
+
+[0013](0013-hero-player-card.md) is the furthest along: the player card it
+specified is gone, but its backdrop survives and its argument about figures
+beside a person is why the card's self-ratings were deleted outright rather
+than relocated.
 
 ## Writing a new ADR
 
