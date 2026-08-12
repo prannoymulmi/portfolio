@@ -11,6 +11,11 @@ interface EmailLinkProps {
  * generic glyph, not a trademark being used to link to its owner, so it does
  * not qualify for that exception.
  *
+ * Ink navy rather than a mid grey. These sit on a translucent pill with the
+ * photograph showing through, where a grey glyph loses its edges against the
+ * lighter parts of the image; the reference design draws them near-black for
+ * the same reason.
+ *
  * The address arrives plain and the `mailto:` is composed here, because the
  * Contact chapter shows the same value as readable text and would otherwise
  * have to strip the scheme back off.
@@ -22,7 +27,7 @@ export function EmailLink({ email }: EmailLinkProps) {
       // The glyph is hidden from assistive tech, so the name has to be stated:
       // a link whose only content is a drawing is announced as nothing at all.
       aria-label={`Email ${email}`}
-      className="flex items-center rounded p-1.5 text-gray-600 transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+      className="flex items-center rounded p-1.5 text-[#111c38] transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100 dark:hover:text-blue-400"
     >
       <svg
         aria-hidden="true"

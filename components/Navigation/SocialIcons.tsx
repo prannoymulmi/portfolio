@@ -21,6 +21,11 @@ const GLYPHS: Record<string, IconType> = {
 /**
  * The two profile links, small, in the persistent nav.
  *
+ * Ink navy rather than a mid grey. These sit on a translucent pill with the
+ * photograph showing through, where a grey glyph loses its edges against the
+ * lighter parts of the image; the reference design draws them near-black for
+ * the same reason.
+ *
  * Lives here rather than in a chapter so they are reachable in one click from
  * any scroll position — the About chapter that used to hold them is gone.
  */
@@ -44,7 +49,7 @@ export function SocialIcons() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={link.network}
-              className="flex items-center rounded p-1.5 text-gray-600 transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+              className="flex items-center rounded p-1.5 text-[#111c38] transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100 dark:hover:text-blue-400"
             >
               {Glyph ? (
                 <Glyph aria-hidden="true" className="h-5 w-5" />
