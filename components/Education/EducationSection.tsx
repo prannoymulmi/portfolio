@@ -40,7 +40,7 @@ export function EducationSection() {
           <article key={idx} className="grid gap-6 py-10 md:grid-cols-[1fr_14rem] md:items-start">
             <div>
               <h3 className="text-xl font-semibold tracking-tight">{item.cardTitle}</h3>
-              <p className="mt-1 font-mono text-xs text-[#f2540d]">{item.cardSubtitle}</p>
+              <p className="mt-1 text-sm font-medium text-[#f2540d]">{item.cardSubtitle}</p>
 
               {item.cardDetailedText && (
                 <p className="text-on-photo mt-4 max-w-xl text-sm leading-relaxed">
@@ -53,7 +53,7 @@ export function EducationSection() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-on-photo mt-5 inline-block rounded-full border border-gray-400/60 px-4 py-1.5 font-mono text-xs transition-colors hover:border-[#f2540d]"
+                  className="text-on-photo mt-5 inline-block rounded-full border border-gray-400/60 px-4 py-1.5 text-xs font-medium transition-colors hover:border-[#f2540d]"
                 >
                   Learn more ↗
                 </a>

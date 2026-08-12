@@ -52,7 +52,7 @@ export function PrincipleCategory({
             <div className="space-y-4 p-5">
               {category.principles.map((principle, idx) => (
                 <div key={idx}>
-                  <p className="font-mono text-xs text-[#f2540d]">{principle.title}</p>
+                  <p className="text-sm font-medium text-[#f2540d]">{principle.title}</p>
                   <p className="text-on-photo mt-1 text-sm leading-relaxed">
                     {principle.description}
                   </p>

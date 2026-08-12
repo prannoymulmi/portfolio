@@ -99,7 +99,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
             if (!playing && index >= chapters.length - 1) setIndex(0);
             setPlaying(!playing);
           }}
-          className="text-on-photo rounded-full border border-gray-400/60 px-4 py-2 font-mono text-xs transition-colors hover:border-[#f2540d]"
+          className="text-on-photo rounded-full border border-gray-400/60 px-4 py-2 text-sm font-medium transition-colors hover:border-[#f2540d]"
         >
           {playing ? '❚❚ Pause the play' : '▶ Play in order'}
         </button>
@@ -117,7 +117,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                 type="button"
                 onClick={() => goTo(chapterIndex)}
                 aria-current={isActive ? 'step' : undefined}
-                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-xs transition-colors ${
+                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
                   isActive
                     ? 'border-[#f2540d] bg-[#f2540d]/10 text-[#f2540d]'
                     : played
@@ -125,7 +125,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                       : 'text-on-photo border-gray-400/40 opacity-70 hover:border-[#f2540d]/40 hover:opacity-100'
                 }`}
               >
-                <span className="opacity-60">{chapter.order}</span>
+                <span className="font-mono text-xs opacity-60">{chapter.order}</span>
                 {chapter.company}
               </button>
             </li>

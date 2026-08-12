@@ -24,7 +24,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
       </p>
 
       <h3 className="mt-4 text-2xl font-semibold tracking-tight">{company}</h3>
-      <p className="mt-1 font-mono text-xs text-[#f2540d]">{role}</p>
+      <p className="mt-1 text-sm font-medium text-[#f2540d]">{role}</p>
       <p className="text-on-photo mt-1 font-mono text-xs">{years}</p>
 
       {achievements.length > 0 && (
@@ -48,7 +48,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
             {tech.map((item) => (
               <li
                 key={item}
-                className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 font-mono text-xs"
+                className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
               >
                 {item}
               </li>

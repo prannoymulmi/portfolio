@@ -37,15 +37,24 @@ const FORMATION = [
 ] as const;
 
 /**
- * Last four digits in the string, treated as the start year — `dateText` is
- * free-form ("11/2020 – Present", "08/2018 – 10/2020"), so this reads the
- * first year it finds rather than trying to parse a date. Anything with no
- * year at all sorts last, which puts "Present"-style current roles at the end
- * where they belong.
+ * A sortable MM/YYYY start date, as year*12+month — `dateText` is free-form
+ * ("11/2020 – 03/2025", "08/2018 – 10/2020"), so this reads the leading
+ * MM/YYYY rather than trying to parse a date range.
+ *
+ * Year alone is not enough: two chapters starting in the same year but
+ * different months (Novomind 01/2018, Otto 08/2018) tied at "2018", and a
+ * stable sort left them in whatever order the JSON happened to list them —
+ * Otto ahead of Novomind, seven months out of order. Month is the fix, not
+ * just a nicety.
+ *
+ * Anything with no leading MM/YYYY sorts last, which puts "Present"-style
+ * current roles at the end where they belong.
  */
-function startYear(dateText: string): number {
-  const match = dateText.match(/\d{4}/);
-  return match ? Number(match[0]) : Number.MAX_SAFE_INTEGER;
+function startSortKey(dateText: string): number {
+  const match = dateText.match(/(\d{1,2})\/(\d{4})/);
+  if (!match) return Number.MAX_SAFE_INTEGER;
+  const [, month, year] = match;
+  return Number(year) * 12 + Number(month);
 }
 
 /**
@@ -57,13 +66,13 @@ function startYear(dateText: string): number {
  * the year is what the format actually supports.
  */
 export function byMostRecentFirst(experiences: Experience[]): Experience[] {
-  return [...experiences].sort((a, b) => startYear(b.dateText) - startYear(a.dateText));
+  return [...experiences].sort((a, b) => startSortKey(b.dateText) - startSortKey(a.dateText));
 }
 
 /** Career chapters, oldest first, each with its pitch position. */
 export function toChapters(experiences: Experience[]): CareerChapter[] {
   return [...experiences]
-    .sort((a, b) => startYear(a.dateText) - startYear(b.dateText))
+    .sort((a, b) => startSortKey(a.dateText) - startSortKey(b.dateText))
     .map((experience, index) => {
       const slot = FORMATION[index % FORMATION.length];
       return {
