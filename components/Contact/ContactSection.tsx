@@ -19,7 +19,7 @@ export function ContactSection() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Contact</h2>
+      <h2 className="text-3xl font-bold text-gray-900">Contact</h2>
 
       {/* A failed content fetch leaves the heading in place rather than an
           empty chapter or a thrown error — the same shape SocialIcons uses. */}
@@ -27,7 +27,7 @@ export function ContactSection() {
         <p className="text-on-photo">
           <a
             href={`mailto:${email}`}
-            className="underline decoration-1 underline-offset-4 transition-colors hover:text-[#93280f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
+            className="underline decoration-1 underline-offset-4 transition-colors hover:text-[#93280f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2"
           >
             {email}
           </a>

@@ -36,19 +36,19 @@ export function TimelineToggle({ isInteractive, onChange }: TimelineToggleProps)
   return (
     <button
       onClick={handleToggle}
-      className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+      className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
       aria-label={`Switch to ${isInteractive ? 'timeline' : 'interactive'} view`}
     >
       {isInteractive ? (
         <>
           <span>⚽ Interactive</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">/</span>
-          <span className="text-gray-500 dark:text-gray-400">Timeline</span>
+          <span className="text-sm text-gray-500">/</span>
+          <span className="text-gray-500">Timeline</span>
         </>
       ) : (
         <>
-          <span className="text-gray-500 dark:text-gray-400">Interactive</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">/</span>
+          <span className="text-gray-500">Interactive</span>
+          <span className="text-sm text-gray-500">/</span>
           <span>📋 Timeline</span>
         </>
       )}

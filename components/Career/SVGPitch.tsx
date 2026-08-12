@@ -37,12 +37,7 @@ export function SVGPitch({ children, className = '' }: SVGPitchProps) {
         aria-label="Football pitch for career timeline"
       >
         {/* Pitch background (grass green) */}
-        <rect
-          width={pitchDimensions.width}
-          height={pitchDimensions.height}
-          fill="#2d5016"
-          className="dark:fill-green-900"
-        />
+        <rect width={pitchDimensions.width} height={pitchDimensions.height} fill="#2d5016" />
 
         {/* Pitch border */}
         <rect
@@ -126,12 +121,7 @@ export function SVGPitch({ children, className = '' }: SVGPitchProps) {
         />
 
         {/* Left goal line circle */}
-        <circle
-          cx="0"
-          cy={centerY}
-          r={pitchDimensions.centerSpotRadius}
-          fill="white"
-        />
+        <circle cx="0" cy={centerY} r={pitchDimensions.centerSpotRadius} fill="white" />
 
         {/* Right goal line circle */}
         <circle

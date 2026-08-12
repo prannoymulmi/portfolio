@@ -13,7 +13,7 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
 
   return (
     <article
-      className="group rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+      className="group rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
       role="region"
       aria-label={`Career milestone at ${experience.title}`}
     >
@@ -25,13 +25,13 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h3 className="font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+            <h3 className="font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
               {experience.title}
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{experience.subtitle}</p>
+            <p className="text-sm text-gray-600">{experience.subtitle}</p>
           </div>
           <div className="shrink-0">
-            <span className="inline-block whitespace-nowrap rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-900 dark:bg-blue-900 dark:text-blue-100">
+            <span className="inline-block whitespace-nowrap rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-900">
               {experience.workType}
             </span>
           </div>
@@ -39,10 +39,7 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
       </button>
 
       {/* Date badge */}
-      <time
-        dateTime={experience.dateText}
-        className="mt-2 block text-xs text-gray-500 dark:text-gray-500"
-      >
+      <time dateTime={experience.dateText} className="mt-2 block text-xs text-gray-500">
         {experience.dateText}
       </time>
 
@@ -50,19 +47,16 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
       {isExpanded && (
         <div
           id={`milestone-details-${index}`}
-          className="mt-4 space-y-3 border-t border-gray-200 pt-4 dark:border-gray-700"
+          className="mt-4 space-y-3 border-t border-gray-200 pt-4"
         >
           {/* Achievements */}
           {experience.workDescription && experience.workDescription.length > 0 && (
             <div>
-              <h4 className="mb-2 font-medium text-gray-900 dark:text-white">Achievements:</h4>
+              <h4 className="mb-2 font-medium text-gray-900">Achievements:</h4>
               <ul className="space-y-1">
                 {experience.workDescription.map((desc, idx) => (
-                  <li
-                    key={idx}
-                    className="flex gap-2 text-sm text-gray-700 dark:text-gray-300"
-                  >
-                    <span className="shrink-0 text-blue-600 dark:text-blue-400">✓</span>
+                  <li key={idx} className="flex gap-2 text-sm text-gray-700">
+                    <span className="shrink-0 text-blue-600">✓</span>
                     <span>{desc}</span>
                   </li>
                 ))}
@@ -73,12 +67,12 @@ export function MilestoneCard({ experience, index }: MilestoneCardProps) {
           {/* Technologies */}
           {experience.technologies && experience.technologies.length > 0 && (
             <div>
-              <h4 className="mb-2 font-medium text-gray-900 dark:text-white">Technologies:</h4>
+              <h4 className="mb-2 font-medium text-gray-900">Technologies:</h4>
               <div className="flex flex-wrap gap-2">
                 {experience.technologies.map((tech, idx) => (
                   <span
                     key={idx}
-                    className="rounded-full bg-gray-200 px-2.5 py-1 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                    className="rounded-full bg-gray-200 px-2.5 py-1 text-xs font-medium text-gray-800"
                   >
                     {tech}
                   </span>

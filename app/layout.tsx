@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
@@ -48,6 +48,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  // The site has one theme (docs/adr/0019-one-theme.md). Both of these pin a
+  // browser-level signal that no stylesheet controls: without `colorScheme`,
+  // scrollbars and form controls the browser draws itself would still follow
+  // the OS and go dark on a light page. Not redundant — do not remove.
+  colorScheme: 'light',
+  themeColor: '#ffffff',
+};
+
 type RootLayoutProps = {
   children: React.ReactNode;
 };
@@ -59,12 +68,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-      </head>
-      <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <body className="flex min-h-full flex-col bg-white text-gray-900">
         {/* The photograph the whole story sits on. */}
         <Backdrop />
         <StructuredData />

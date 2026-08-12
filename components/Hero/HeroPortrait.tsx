@@ -24,9 +24,8 @@ interface HeroPortraitProps {
  *
  * The edge pixels were colour-corrected when the asset was made. Raw
  * segmentation leaves partially-transparent pixels holding a subject/backdrop
- * blend, which reads as a light halo on a dark surface — invisible in light
- * mode, obvious in dark. If a halo ever appears here, suspect the wrong file
- * before suspecting this CSS.
+ * blend, which reads as a halo against the photograph. If a halo ever appears
+ * here, suspect the wrong file before suspecting this CSS.
  *
  * The asset is trimmed to the subject's own bounding box. The studio frame
  * carried 340px of empty space above his head — 22% of its height — so the

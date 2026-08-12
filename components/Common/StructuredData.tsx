@@ -6,10 +6,7 @@ const personSchema = {
   name: 'Prannoy Mulmi',
   url: SITE_URL,
   jobTitle: 'Senior Software Engineer',
-  sameAs: [
-    'https://linkedin.com/in/prannoy-mulmi',
-    'https://github.com/prannoymulmi',
-  ],
+  sameAs: ['https://linkedin.com/in/prannoy-mulmi', 'https://github.com/prannoymulmi'],
   knowsAbout: [
     'Cloud Architecture',
     'Backend Development',
