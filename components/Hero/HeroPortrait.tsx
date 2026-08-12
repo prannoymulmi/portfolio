@@ -28,8 +28,16 @@ interface HeroPortraitProps {
  * mode, obvious in dark. If a halo ever appears here, suspect the wrong file
  * before suspecting this CSS.
  *
- * The frame crops the subject mid-torso at the bottom, so that edge is faded
- * into the section rather than left as a horizontal cut line.
+ * Two edges of the frame cut through the subject rather than through empty
+ * space, so both are faded. Measured on the asset, as mean alpha along each
+ * one-pixel edge: bottom 0.445 (the photograph crops mid-torso) and right
+ * 0.183 (it clips his upper arm). The left edge is 0.000 and needs nothing.
+ * The right one is easy to miss — it is a narrow sliver, invisible until the
+ * portrait sits mid-page rather than against the viewport edge — so it is
+ * recorded here rather than left to be rediscovered.
+ *
+ * The two masks compose because Tailwind emits `mask-composite: intersect`;
+ * without that the second would cancel the first.
  */
 export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
   if (!imageSource) return null;
@@ -50,7 +58,7 @@ export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
       // measured at 200px wide against the 300px cap, on a 375px viewport.
       // No width bound is needed, and adding one would imply the height cap
       // could not be trusted.
-      className="mask-b-from-60% mask-b-to-100% mx-auto max-h-[300px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:max-h-[640px]"
+      className="mask-b-from-60% mask-b-to-100% mask-r-from-88% mask-r-to-100% mx-auto max-h-[300px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:max-h-[640px]"
       // Without this the optimizer assumes 100vw and ships a far larger file
       // than a half-width column needs.
       sizes="(min-width: 1024px) 45vw, 60vw"

@@ -33,14 +33,18 @@ describe('HeroPortrait', () => {
     expect(portrait.getAttribute('alt')).not.toBe('');
   });
 
-  it('dissolves its lower edge rather than ending on a crop line', () => {
+  it('dissolves both clipped edges rather than ending on a crop line', () => {
     const { container } = render(
       <HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />,
     );
 
-    // The asset is transparent around the subject, so the hard edge left is
-    // the bottom, where the photograph crops mid-torso (FR-004b).
+    // Two edges of the frame cut through the subject rather than empty space:
+    // the bottom crops mid-torso (mean alpha 0.445) and the right clips his
+    // upper arm (0.183). Both need fading; the left (0.000) does not. The
+    // right one was missed on the first pass and only showed once the portrait
+    // sat mid-page (FR-004b).
     expect(container.querySelector('[class*="mask-b-from"]')).not.toBeNull();
+    expect(container.querySelector('[class*="mask-r-from"]')).not.toBeNull();
   });
 
   it('caps its height below lg so it does not eat a phone viewport', () => {
