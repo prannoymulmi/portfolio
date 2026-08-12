@@ -50,9 +50,13 @@ export default function Home() {
       <section
         id="career"
         aria-label="Career Journey"
-        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
+        className="chapter-scrim relative isolate px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-4xl">
+        <ChapterGradientOverlay
+          src="/images/mesh-soft.png"
+          opacityClassName="opacity-25 dark:opacity-0"
+        />
+        <div className="relative mx-auto max-w-6xl">
           <CareerJourneyLazy />
         </div>
       </section>
