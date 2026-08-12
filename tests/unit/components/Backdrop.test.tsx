@@ -46,13 +46,14 @@ describe('Backdrop', () => {
     expect(screen.getByRole('img', { hidden: true })).toHaveAttribute('data-preload', 'true');
   });
 
-  it('dims the photo in dark mode rather than dropping it', () => {
+  it('shows the photo at full strength — it is the page surface, not a texture', () => {
     const { container } = render(<Backdrop />);
     const className = (container.firstElementChild as HTMLElement).className;
 
-    // Present in both appearances, weaker in dark: the measured ceiling before
-    // body text falls below AA is ~41%.
-    expect(className).toMatch(/dark:opacity-(1[0-9]|2[0-2])\b/);
+    // The dark theme dimmed this to 20%, which is what made removing it worth
+    // doing (ADR 0019). Nothing may reintroduce an opacity here: the scrim on
+    // each chapter is what carries contrast, per ADR 0015.
+    expect(className).not.toMatch(/\bopacity-/);
   });
 
   it('hides the decorative layer from assistive technology', () => {

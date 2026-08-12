@@ -101,7 +101,7 @@ export function SkillsFormation() {
     <section className="space-y-8 py-12">
       <div>
         <h2 className="text-3xl font-bold">Skills Formation</h2>
-        <p className="mt-2 text-on-photo">
+        <p className="text-on-photo mt-2">
           {isResponsive
             ? 'Skills organized by expertise area'
             : 'Click on any position to view skill details'}
@@ -115,20 +115,14 @@ export function SkillsFormation() {
             <button
               key={idx}
               onClick={() => setSelectedSkillIndex(idx)}
-              className="w-full rounded-lg border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+              className="w-full rounded-lg border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:shadow-md"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    {skillPos.title}
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {skillPos.category}
-                  </p>
+                  <p className="font-semibold text-gray-900">{skillPos.title}</p>
+                  <p className="text-sm text-gray-600">{skillPos.category}</p>
                 </div>
-                {selectedSkillIndex === idx && (
-                  <span className="text-blue-600 dark:text-blue-400">✓</span>
-                )}
+                {selectedSkillIndex === idx && <span className="text-blue-600">✓</span>}
               </div>
             </button>
           ))}
@@ -137,7 +131,7 @@ export function SkillsFormation() {
         // Desktop: SVG pitch formation
         <div className="flex gap-8">
           {/* Pitch with skill positions */}
-          <div className="flex-1 rounded-lg border border-gray-300 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-950">
+          <div className="flex-1 rounded-lg border border-gray-300 bg-gray-50 p-4">
             <div className="aspect-video">
               <SVGPitch>
                 {skillPositions.map((skillPos, idx) => (
@@ -171,7 +165,7 @@ export function SkillsFormation() {
 
       {/* Mobile detail panel */}
       {isResponsive && selectedSkill && (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <SkillCard
             skillName={selectedSkill.title}
             category={selectedSkill.category}

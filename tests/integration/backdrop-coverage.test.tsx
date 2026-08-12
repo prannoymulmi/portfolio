@@ -14,7 +14,9 @@ describe('backdrop coverage across the story', () => {
   it('gives no chapter an opaque background of its own', () => {
     // Opaque backgrounds hide the photo. Translucent scrims are the whole point,
     // so only bare bg-white / bg-gray-NNN with no alpha suffix are a failure.
-    const opaqueBackgrounds = pageSource.match(/className="[^"]*\bbg-(white|gray-\d{2,3})(?![/\w-])/g);
+    const opaqueBackgrounds = pageSource.match(
+      /className="[^"]*\bbg-(white|gray-\d{2,3})(?![/\w-])/g,
+    );
     expect(opaqueBackgrounds).toBeNull();
   });
 

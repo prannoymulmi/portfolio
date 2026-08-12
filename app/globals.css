@@ -1,10 +1,19 @@
 @import 'tailwindcss';
 
-/* Drive `dark:` utilities from a class instead of the OS media query, so an
-   explicit visitor choice can outrank the system setting. `:where()` keeps
-   specificity at zero so the variant can't outrank unrelated utilities.
-   See docs/adr/0011-class-based-dark-mode.md */
-@custom-variant dark (&:where(.dark, .dark *));
+/* Tailwind v4 detects source files by scanning the project, and that sweep
+   reaches the markdown in specs/ and docs/. A class name merely *quoted* in a
+   spec therefore compiles into the real stylesheet — removing dark mode left
+   eight `dark:` rules in the production CSS, generated entirely from prose
+   describing their removal. Neither directory ships any markup.
+   See docs/adr/0019-one-theme.md */
+@source not "../specs";
+@source not "../docs";
+
+/* The site has one theme (docs/adr/0019-one-theme.md). Do not reintroduce a
+   `dark:` utility here or in a component: Tailwind v4 ships a built-in `dark`
+   variant bound to `prefers-color-scheme`, so with no `@custom-variant` line
+   overriding it, the first `dark:` class written anywhere silently restores an
+   OS-driven dark mode. */
 
 :root {
   --background: #ffffff;
@@ -36,21 +45,6 @@
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-/* Keyed off the same class as the `dark` variant above, so the custom
-   properties and the utilities can never disagree about the theme. */
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --border: #374151;
-
-  /* Dark mode already holds the backdrop at low opacity, so the composite
-     behind text measures ~0.046 even under the photo's brightest region —
-     ~10:1 against --on-photo. The scrim here is for evenness over that
-     detail, not to rescue contrast. */
-  --scrim: rgb(10 10 10 / 0.55);
-  --on-photo: #f3f4f6;
 }
 
 /* Registered as utilities so they compose with variants and stay sorted by
