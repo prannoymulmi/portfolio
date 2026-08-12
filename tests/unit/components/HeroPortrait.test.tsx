@@ -21,12 +21,12 @@ describe('HeroPortrait', () => {
   });
 
   it('renders exactly one image', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />);
+    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     expect(screen.getAllByRole('img')).toHaveLength(1);
   });
 
   it('names the subject in the alt text, because a person is content and not decoration', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />);
+    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     const portrait = screen.getByRole('img');
 
     expect(portrait).toHaveAccessibleName(new RegExp(NAME, 'i'));
@@ -35,7 +35,7 @@ describe('HeroPortrait', () => {
 
   it('dissolves both clipped edges rather than ending on a crop line', () => {
     const { container } = render(
-      <HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />,
+      <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
 
     // Two edges of the frame cut through the subject rather than empty space:
@@ -49,7 +49,7 @@ describe('HeroPortrait', () => {
 
   it('caps its height below lg so it does not eat a phone viewport', () => {
     const { container } = render(
-      <HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />,
+      <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
     const html = container.innerHTML;
 
@@ -59,12 +59,12 @@ describe('HeroPortrait', () => {
   });
 
   it('passes an explicit sizes, so the optimizer is not left assuming 100vw', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />);
+    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     expect(screen.getByRole('img')).toHaveAttribute('sizes');
   });
 
   it('preloads, because this element is the largest contentful paint', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />);
+    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     // The plan assumed the backdrop would keep that role and left this off.
     // Measurement disagreed: Chrome reports the portrait as LCP, and
     // preloading it lands 196-208ms against 212-216ms without (SC-008).
@@ -73,7 +73,7 @@ describe('HeroPortrait', () => {
 
   it('uses no inline style, so the fade stays a utility the stylesheet can see', () => {
     const { container } = render(
-      <HeroPortrait name={NAME} imageSource="/images/hero_cutout.png" />,
+      <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
     for (const node of Array.from(container.querySelectorAll('*'))) {
       expect(node.getAttribute('style')).toBeNull();
