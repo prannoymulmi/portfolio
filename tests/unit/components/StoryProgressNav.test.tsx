@@ -86,6 +86,29 @@ describe('StoryProgressNav', () => {
       expect(list.className).toMatch(/mask-r-from/);
     });
 
+    it('drops the edge fade while anything inside has focus', () => {
+      renderNav();
+      const list = screen.getByRole('navigation', { name: /story sections/i });
+      // A mask fades by position and cannot be told to spare one child, so the
+      // fade is removed outright during keyboard traversal rather than having
+      // a focused link land underneath it (FR-016c).
+      expect(list.className).toMatch(/focus-within:mask-none/);
+    });
+
+    it('scrolls a focused link fully into view itself', () => {
+      renderNav();
+      const link = screen.getByRole('link', { name: 'Career Journey' });
+      const scrollIntoView = jest.fn();
+      Object.defineProperty(link, 'scrollIntoView', { value: scrollIntoView, writable: true });
+
+      link.focus();
+
+      // Chrome does not scroll a *partially* visible focused child on its own.
+      // Measured at 375px: "Career Journey" sat 89px outside the scroller and
+      // scrollLeft never moved, so the component has to ask explicitly.
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest', inline: 'center' });
+    });
+
     it('keeps the controls out of the scrolling region, so they never scroll away', () => {
       renderNav();
       const list = screen.getByRole('navigation', { name: /story sections/i });
