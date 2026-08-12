@@ -58,10 +58,15 @@ export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
       // measured at 200px wide against the 300px cap, on a 375px viewport.
       // No width bound is needed, and adding one would imply the height cap
       // could not be trusted.
-      className="mask-b-from-60% mask-b-to-100% mask-r-from-88% mask-r-to-100% mx-auto max-h-[300px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:max-h-[640px]"
+      //
+      // From lg the cap is a fraction of the viewport rather than a fixed
+      // pixel height, so the portrait keeps its share of the opening on a
+      // laptop and a large display alike instead of shrinking into the corner
+      // of the second.
+      className="mask-b-from-60% mask-b-to-100% mask-r-from-88% mask-r-to-100% mx-auto max-h-[360px] w-auto object-contain object-top lg:mx-0 lg:ml-auto lg:max-h-[86vh]"
       // Without this the optimizer assumes 100vw and ships a far larger file
       // than a half-width column needs.
-      sizes="(min-width: 1024px) 45vw, 60vw"
+      sizes="(min-width: 1024px) 55vw, 70vw"
       // Preloaded because this element *is* the largest contentful paint —
       // measured, against an earlier assumption that the backdrop would keep
       // that role. It does not: at 1440x900 this covers 272,580px² against the
