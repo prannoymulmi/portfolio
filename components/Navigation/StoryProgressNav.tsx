@@ -47,16 +47,30 @@ export function StoryProgressNav() {
             available width, so the chapters scroll inside the bar while the
             controls stay pinned. The right-edge mask makes that overflow read
             as intentional rather than as a clipped word.
- */}
+
+            The mask is dropped entirely while anything inside has focus. A
+            mask fades by position and cannot be told to spare one child, so a
+            keyboard user would otherwise land on a focus ring drawn underneath
+            the fade. The cue is decorative, so losing it during keyboard
+            traversal costs nothing. */}
         <nav
           aria-label="Story sections"
-          className="mask-r-from-85% mask-r-to-100% min-w-0 flex-1 overflow-x-auto"
+          className="mask-r-from-85% mask-r-to-100% focus-within:mask-none min-w-0 flex-1 overflow-x-auto"
         >
           <ul className="flex w-max gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
             {STORY_SECTIONS.map((section) => (
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
+                  // Chrome will not scroll a *partially* visible focused child
+                  // into view — measured by tabbing through at 375px, where
+                  // "Career Journey" sat 89px outside the scroller and the
+                  // container's scrollLeft never moved. `inline: 'center'`
+                  // asks explicitly rather than relying on the default
+                  // 'nearest', which is the behaviour that skips.
+                  onFocus={(event) =>
+                    event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'center' })
+                  }
                   className="whitespace-nowrap hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:text-blue-400"
                 >
                   {section.label}
