@@ -4,6 +4,7 @@ import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
 import { CvLink } from './CvLink';
+import { HeroGradientLayers } from './HeroGradientLayers';
 import { HeroDrift } from './HeroParallax';
 import { HeroPortrait } from './HeroPortrait';
 import { CREAM, EMBER, INK, TEAL } from './palette';
@@ -30,6 +31,9 @@ export function Hero() {
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
       <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
+        {/* First in source order, so it paints behind the scrim and every
+            foreground element below without needing a z-index of its own. */}
+        <HeroGradientLayers />
         <div className="mx-auto w-full max-w-7xl">
           {/* The portrait takes the larger share. Trimmed to its bounding box
               the image is wider relative to its height, so its column — not its
