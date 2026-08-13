@@ -19,7 +19,7 @@ export function ContactSection() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Contact</h2>
+      <h2 className="text-3xl font-bold text-foreground dark:text-white">Contact</h2>
 
       {/* A failed content fetch leaves the heading in place rather than an
           empty chapter or a thrown error — the same shape SocialIcons uses. */}
