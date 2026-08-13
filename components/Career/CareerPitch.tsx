@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import type { Experience } from '@/lib/types/portfolio';
+import { prefersReducedMotion } from '@/lib/utils/animations';
 import { SVGPitch, PITCH_HEIGHT } from './SVGPitch';
 import { ChapterDetail } from './ChapterDetail';
 import { toChapters } from './chapters';
@@ -31,6 +33,14 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
   const chapters = toChapters(experiences);
   const [index, setIndex] = useState(() => Math.max(0, chapters.length - 1));
   const [playing, setPlaying] = useState(false);
+  // Read once via lazy initializer (`window` isn't available during SSR),
+  // matching the convention in StoryProgressNav/HamburgerMenu — no new
+  // detection path per component (Constitution quality constraints).
+  const [reducedMotion] = useState(() => typeof window !== 'undefined' && prefersReducedMotion());
+  // Tracks which player currently holds *keyboard* focus, so the drawn focus
+  // ring appears only for keyboard users — the browser's own focus ring is
+  // suppressed outright below (research R4).
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const active = chapters[index];
   const previous = index > 0 ? chapters[index - 1] : null;
@@ -164,6 +174,25 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
               />
             )}
 
+            {/* One small ball, always present, animated to the active player's
+                position. Framer Motion interpolates from wherever it already
+                is on the next render, so a mid-flight selection retargets the
+                same element rather than queueing a second animation — no
+                "previous position" needs to be tracked (research R1, FR-004).
+                Visibly smaller than a player dot (r 2.8/3.4) so it never
+                reads as another player. Decorative: excluded from the
+                accessible tree and from pointer events. */}
+            <motion.circle
+              data-testid="pitch-ball"
+              r={1.4}
+              fill="#ffffff"
+              stroke="#f65600"
+              strokeWidth="0.3"
+              className="pointer-events-none"
+              animate={{ cx: active.x, cy: toPitchY(active.y) }}
+              transition={{ duration: reducedMotion ? 0 : 0.5, ease: 'easeOut' }}
+            />
+
             {chapters.map((chapter, chapterIndex) => {
               const isActive = chapterIndex === index;
               const played = chapterIndex <= index;
@@ -175,7 +204,12 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                   tabIndex={0}
                   aria-pressed={isActive}
                   aria-label={`Chapter ${chapter.order}: pass to ${chapter.position} — ${chapter.company}, ${chapter.role}`}
-                  className="cursor-pointer"
+                  // `outline-none` (not only `focus-visible:outline-none`) is
+                  // what removes the browser-default ring that a click leaves
+                  // behind — a click also sets DOM focus on a tabIndex={0}
+                  // element, so `focus-visible:` alone would not catch it
+                  // (FR-001, research R4).
+                  className="focus:outline-none cursor-pointer"
                   onClick={() => goTo(chapterIndex)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' || event.key === ' ') {
@@ -183,7 +217,29 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                       goTo(chapterIndex);
                     }
                   }}
+                  onFocus={(event) => {
+                    // Only a keyboard-focused player gets the drawn ring — a
+                    // pointer click also focuses the element, and that case
+                    // must stay ring-free (FR-001).
+                    if (event.currentTarget.matches(':focus-visible')) {
+                      setFocusedIndex(chapterIndex);
+                    }
+                  }}
+                  onBlur={() => setFocusedIndex((current) => (current === chapterIndex ? null : current))}
                 >
+                  {/* Deliberate keyboard-focus ring — stroked, outside the
+                      halo, distinct from the orange fill so it never reads as
+                      the halo itself (FR-001, research R4). */}
+                  {focusedIndex === chapterIndex && (
+                    <circle
+                      cx={chapter.x}
+                      cy={cy}
+                      r="6.4"
+                      fill="none"
+                      stroke="#ffffff"
+                      strokeWidth="0.4"
+                    />
+                  )}
                   {/* Halo on the active player only — the pitch is dark, so a
                       glow reads where a heavier outline would just thicken. */}
                   {isActive && (
@@ -213,6 +269,39 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                   >
                     {chapter.order}
                   </text>
+                  {/* Abbreviation directly beneath the number, then the
+                      shortened company name beneath that — identifies every
+                      player without a click (FR-005). Same active/played/
+                      unplayed contrast treatment as the number, so legibility
+                      degrades together rather than the label going invisible
+                      on a dimmed player. Spacing check: FORMATION's x/y are
+                      spaced at least 6 units apart on the x-axis within a row
+                      and 20+ on the y-axis between rows, which at this font
+                      size keeps the two label lines clear of a neighbour's
+                      dot and text (FR-006, research R6). */}
+                  <text
+                    x={chapter.x}
+                    y={cy + 3.4}
+                    textAnchor="middle"
+                    dominantBaseline="hanging"
+                    fontSize="1.6"
+                    fontWeight="600"
+                    fill={isActive ? '#f65600' : played ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)'}
+                    className="pointer-events-none select-none"
+                  >
+                    {chapter.abbreviation}
+                  </text>
+                  <text
+                    x={chapter.x}
+                    y={cy + 6.5}
+                    textAnchor="middle"
+                    dominantBaseline="hanging"
+                    fontSize="2.2"
+                    fill={isActive ? 'rgba(255,255,255,0.95)' : played ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)'}
+                    className="pointer-events-none select-none"
+                  >
+                    {chapter.displayName}
+                  </text>
                 </g>
               );
             })}
@@ -221,6 +310,13 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
 
         <ChapterDetail chapter={active} />
       </div>
+
+      {/* Static, site-authored — not derived from chapter data (FR-007, spec
+          Assumptions). One line, distinct from the panel and the controls
+          above. */}
+      <p className="text-on-photo text-xs opacity-70">
+        Tip: players can be clicked to open that chapter, or use ‹ › to step through them.
+      </p>
     </div>
   );
 }

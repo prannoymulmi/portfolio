@@ -1,6 +1,39 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { Experience } from '@/lib/types/portfolio';
+import { prefersReducedMotion } from '@/lib/utils/animations';
+
+jest.mock('@/lib/utils/animations', () => ({
+  prefersReducedMotion: jest.fn(() => false),
+}));
+
+// Strips the motion-only props rather than spreading them onto the SVG node
+// (transition isn't a valid DOM attribute). `animate`'s cx/cy are spread
+// directly, since jsdom has no real animation loop — the ball just renders at
+// its target position. `transition`'s duration is exposed as a data
+// attribute purely so tests can assert reduced-motion collapses it to zero.
+jest.mock('framer-motion', () => {
+  const React = jest.requireActual('react');
+  return {
+    motion: {
+      circle: React.forwardRef(
+        (
+          { animate, transition, initial, ...rest }: Record<string, unknown>,
+          ref: React.Ref<SVGCircleElement>,
+        ) => (
+          <circle
+            ref={ref}
+            {...rest}
+            {...((animate as Record<string, unknown>) ?? {})}
+            data-transition-duration={
+              (transition as { duration?: number } | undefined)?.duration ?? ''
+            }
+          />
+        ),
+      ),
+    },
+  };
+});
 
 import { CareerPitch } from '@/components/Career/CareerPitch';
 
@@ -129,5 +162,106 @@ describe('CareerPitch', () => {
   it('renders nothing rather than an empty pitch when there are no chapters', () => {
     const { container } = render(<CareerPitch experiences={[]} />);
     expect(container).toBeEmptyDOMElement();
+  });
+
+  describe('the travelling ball (US1)', () => {
+    afterEach(() => {
+      (prefersReducedMotion as jest.Mock).mockReturnValue(false);
+    });
+
+    it('renders exactly one ball marker, at mount and after selecting a different chapter', () => {
+      render(<CareerPitch experiences={experiences} />);
+      expect(screen.getAllByTestId('pitch-ball')).toHaveLength(1);
+
+      fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
+      expect(screen.getAllByTestId('pitch-ball')).toHaveLength(1);
+    });
+
+    it('is decorative — no role, no aria-label, ignored by pointer events', () => {
+      render(<CareerPitch experiences={experiences} />);
+      const ball = screen.getByTestId('pitch-ball');
+      expect(ball).not.toHaveAttribute('role');
+      expect(ball).not.toHaveAttribute('aria-label');
+      expect(ball).toHaveClass('pointer-events-none');
+    });
+
+    it('switches the active chapter synchronously on click, without waiting on the ball animation', () => {
+      jest.useFakeTimers();
+      try {
+        render(<CareerPitch experiences={experiences} />);
+        fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
+        // No timer advance at all — if the panel only updated once the ball
+        // settled, this heading would not be here yet.
+        expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('collapses the ball travel to a zero-duration transition under prefers-reduced-motion', () => {
+      (prefersReducedMotion as jest.Mock).mockReturnValue(true);
+      render(<CareerPitch experiences={experiences} />);
+
+      fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
+
+      const ball = screen.getByTestId('pitch-ball');
+      expect(ball).toHaveAttribute('data-transition-duration', '0');
+    });
+
+    it('keeps every player keyboard-operable and labelled after the focus rework', () => {
+      render(<CareerPitch experiences={experiences} />);
+      const player = screen.getByRole('button', { name: /pass to.*Novomind/i });
+
+      expect(player).toHaveAttribute('tabindex', '0');
+      expect(player).toHaveAttribute('aria-label', expect.stringContaining('Novomind'));
+
+      fireEvent.keyDown(player, { key: 'Enter' });
+      expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
+
+      const otto = screen.getByRole('button', { name: /pass to.*Otto/i });
+      fireEvent.keyDown(otto, { key: ' ' });
+      expect(screen.getByRole('heading', { name: 'Otto GmbH & Co KG' })).toBeInTheDocument();
+    });
+  });
+
+  describe('naming every player on the field (US2)', () => {
+    it('shows every player\'s number, abbreviation, and shortened display name without any interaction', () => {
+      render(<CareerPitch experiences={experiences} />);
+
+      // Novomind AG -> displayName "Novomind", abbreviation "NOVO".
+      expect(screen.getByText('NOVO')).toBeInTheDocument();
+      expect(screen.getByText('Novomind')).toBeInTheDocument();
+      // Otto GmbH & Co KG -> displayName "Otto", abbreviation "OTTO".
+      expect(screen.getByText('OTTO')).toBeInTheDocument();
+      expect(screen.getByText('Otto')).toBeInTheDocument();
+      // Immowelt GmbH -> displayName "Immowelt", abbreviation "IMMO".
+      expect(screen.getByText('IMMO')).toBeInTheDocument();
+      expect(screen.getByText('Immowelt')).toBeInTheDocument();
+    });
+
+    it('labels the field with the shortened displayName while the pill list and panel keep the full company name', () => {
+      render(<CareerPitch experiences={experiences} />);
+
+      // Full name still appears exactly once — in the pill list / panel
+      // heading — never as the on-pitch label, which uses the short form.
+      expect(screen.getByText('Otto GmbH & Co KG')).toBeInTheDocument();
+      expect(screen.queryByText('Otto GmbH & Co KG', { selector: 'text' })).not.toBeInTheDocument();
+    });
+
+    it('keeps the on-pitch number, abbreviation, and name labels out of pointer events and out of the tab order', () => {
+      const { container } = render(<CareerPitch experiences={experiences} />);
+      const labelTexts = container.querySelectorAll('svg text');
+      labelTexts.forEach((label) => {
+        expect(label).toHaveClass('pointer-events-none');
+        expect(label).not.toHaveAttribute('tabindex');
+      });
+    });
+  });
+
+  describe('the how-to-use tip (US4)', () => {
+    it('shows a single tip line below the pitch, without any interaction, mentioning players are clickable', () => {
+      render(<CareerPitch experiences={experiences} />);
+      expect(screen.getByText(/players.*click/i)).toBeInTheDocument();
+    });
   });
 });
