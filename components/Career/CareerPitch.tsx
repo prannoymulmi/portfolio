@@ -74,18 +74,18 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
             type="button"
             aria-label="Previous chapter"
             onClick={() => goTo(index - 1)}
-            className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/60 dark:hover:bg-gray-700/60"
+            className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-background/60 dark:hover:bg-gray-700/60"
           >
             ‹
           </button>
-          <span className="text-on-photo px-2 font-mono text-xs whitespace-nowrap">
+          <span className="text-on-photo font-mono-ui px-2 text-xs whitespace-nowrap">
             Chapter {active.order} / {chapters.length}
           </span>
           <button
             type="button"
             aria-label="Next chapter"
             onClick={() => goTo(index + 1)}
-            className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/60 dark:hover:bg-gray-700/60"
+            className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-background/60 dark:hover:bg-gray-700/60"
           >
             ›
           </button>
@@ -99,7 +99,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
             if (!playing && index >= chapters.length - 1) setIndex(0);
             setPlaying(!playing);
           }}
-          className="text-on-photo rounded-full border border-gray-400/60 px-4 py-2 text-sm font-medium transition-colors hover:border-[#f2540d]"
+          className="text-on-photo rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary"
         >
           {playing ? '❚❚ Pause the play' : '▶ Play in order'}
         </button>
@@ -119,13 +119,13 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                 aria-current={isActive ? 'step' : undefined}
                 className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'border-[#f2540d] bg-[#f2540d]/10 text-[#f2540d]'
+                    ? 'border-primary bg-primary/10 text-primary'
                     : played
-                      ? 'text-on-photo border-gray-400/60 hover:border-[#f2540d]/60'
-                      : 'text-on-photo border-gray-400/40 opacity-70 hover:border-[#f2540d]/40 hover:opacity-100'
+                      ? 'text-on-photo border-border hover:border-primary/60'
+                      : 'text-on-photo border-border opacity-70 hover:border-primary/40 hover:opacity-100'
                 }`}
               >
-                <span className="font-mono text-xs opacity-60">{chapter.order}</span>
+                <span className="font-mono-ui text-xs opacity-60">{chapter.order}</span>
                 {chapter.company}
               </button>
             </li>
@@ -134,7 +134,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
       </ol>
 
       <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-start">
-        <div className="aspect-[100/64] w-full overflow-hidden rounded-2xl border border-gray-400/30 shadow-sm">
+        <div className="aspect-[100/64] w-full overflow-hidden rounded-2xl border border-border shadow-sm">
           <SVGPitch className="h-full w-full">
             {/* The whole route, faint, so the shape of the career is visible
                 before any chapter is opened. */}
@@ -147,14 +147,17 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
               strokeDasharray="1.2 1.6"
               strokeLinecap="round"
             />
-            {/* The pass that arrived at the current chapter. */}
+            {/* The pass that arrived at the current chapter. Literal hex, not a
+                Tailwind class: SVG presentation attributes don't reliably
+                resolve CSS custom properties, so this mirrors --primary's
+                sRGB value directly (specs/009-typography-color-refresh). */}
             {previous && (
               <line
                 x1={previous.x}
                 y1={toPitchY(previous.y)}
                 x2={active.x}
                 y2={toPitchY(active.y)}
-                stroke="#f2540d"
+                stroke="#f65600"
                 strokeOpacity="0.85"
                 strokeWidth="0.45"
                 strokeLinecap="round"
@@ -184,13 +187,13 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                   {/* Halo on the active player only — the pitch is dark, so a
                       glow reads where a heavier outline would just thicken. */}
                   {isActive && (
-                    <circle cx={chapter.x} cy={cy} r="5.4" fill="#f2540d" opacity="0.22" />
+                    <circle cx={chapter.x} cy={cy} r="5.4" fill="#f65600" opacity="0.22" />
                   )}
                   <circle
                     cx={chapter.x}
                     cy={cy}
                     r={isActive ? 3.4 : 2.8}
-                    fill={isActive ? '#f2540d' : played ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.28)'}
+                    fill={isActive ? '#f65600' : played ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.28)'}
                     stroke={isActive ? '#ffffff' : 'rgba(255,255,255,0.5)'}
                     strokeWidth="0.22"
                   />
@@ -201,7 +204,11 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                     dominantBaseline="central"
                     fontSize="2.2"
                     fontWeight="600"
-                    fill={isActive ? '#ffffff' : played ? '#12241d' : 'rgba(255,255,255,0.75)'}
+                    // The active label sits on the #f65600 (--primary) dot, so it
+                    // uses --foreground's hex, not white: research R1 measured
+                    // white/--primary-foreground at 3.26:1 against --primary,
+                    // which fails AA, while --foreground clears 4.83:1.
+                    fill={isActive ? '#35190a' : played ? '#12241d' : 'rgba(255,255,255,0.75)'}
                     className="pointer-events-none select-none"
                   >
                     {chapter.order}

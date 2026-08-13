@@ -19,21 +19,21 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
 
   return (
     <div className="chapter-panel rounded-2xl p-7">
-      <p className="font-mono text-xs tracking-widest text-[#f2540d] uppercase">
+      <p className="label-mono text-xs text-primary">
         Chapter {order} · {position}
       </p>
 
       <h3 className="mt-4 text-2xl font-semibold tracking-tight">{company}</h3>
-      <p className="mt-1 text-sm font-medium text-[#f2540d]">{role}</p>
-      <p className="text-on-photo mt-1 font-mono text-xs">{years}</p>
+      <p className="mt-1 text-sm font-medium text-primary">{role}</p>
+      <p className="text-on-photo font-mono-ui mt-1 text-xs">{years}</p>
 
       {achievements.length > 0 && (
         <div className="mt-6">
-          <p className="text-on-photo font-mono text-xs tracking-widest uppercase">What I did</p>
+          <p className="text-on-photo label-mono text-xs">What I did</p>
           <ul className="mt-3 space-y-2">
             {achievements.map((item) => (
               <li key={item} className="text-on-photo flex gap-3 text-sm">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f2540d]" />
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 {item}
               </li>
             ))}
@@ -43,12 +43,12 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
 
       {tech.length > 0 && (
         <div className="mt-6">
-          <p className="text-on-photo font-mono text-xs tracking-widest uppercase">Technologies</p>
+          <p className="text-on-photo label-mono text-xs">Technologies</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {tech.map((item) => (
               <li
                 key={item}
-                className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
+                className="text-on-photo rounded-full border border-border px-3 py-1 text-xs font-medium"
               >
                 {item}
               </li>

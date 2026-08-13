@@ -121,13 +121,13 @@ body copy, and accents use the new typefaces and colors, with none left on the o
       `font-mono-ui` if the element is label-styled — check current markup); update its contrast
       comment to reference the new `foreground`/photo-contrast numbers from research R1 instead
       of `gray-600`/`gray-700`.
-- [ ] T017 [P] [US1] `components/Career/CareerPitch.tsx`: replace `font-sans`/`font-mono` with
+- [X] T017 [P] [US1] `components/Career/CareerPitch.tsx`: replace `font-sans`/`font-mono` with
       `font-display`/`font-mono-ui`; replace the `hover:bg-white/60 dark:hover:bg-gray-700/60`
       light-mode hover fill with a `foreground`-derived tint; apply `label-mono` to player
       role/position labels.
-- [ ] T018 [P] [US1] `components/Career/TimelineView.tsx`: replace `font-sans`/`font-mono` with
+- [X] T018 [P] [US1] `components/Career/TimelineView.tsx`: replace `font-sans`/`font-mono` with
       `font-display`/`font-mono-ui`.
-- [ ] T019 [P] [US1] `components/Career/ChapterDetail.tsx`: replace `font-sans`/`font-mono` with
+- [X] T019 [P] [US1] `components/Career/ChapterDetail.tsx`: replace `font-sans`/`font-mono` with
       `font-display`/`font-mono-ui`; apply `label-mono` to the Company/Role/Years/Technologies/
       Achievements field labels.
 - [ ] T020 [P] [US1] `components/EngineeringPrinciple/PrincipleBand.tsx`: replace
