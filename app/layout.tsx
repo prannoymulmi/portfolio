@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
@@ -9,13 +9,20 @@ import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 import { StructuredData } from '@/components/Common/StructuredData';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+// next/font's own `variable` names deliberately differ from the Tailwind
+// theme keys (`--font-display` / `--font-mono-ui`, registered in
+// globals.css's `@theme inline`) — `@theme inline` resolves those keys via
+// `var(--font-space-grotesk)` etc. at each usage site, so the loader variable
+// and the theme key it feeds can't share a name without becoming circular.
+const fontDisplay = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const fontMonoUi = JetBrains_Mono({
+  variable: '--font-jetbrains-mono',
+  weight: ['400', '500'],
   subsets: ['latin'],
 });
 
@@ -61,7 +68,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       // next-themes sets the theme class here before React hydrates, so the
       // server and client markup legitimately differ on this element.
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${fontDisplay.variable} ${fontMonoUi.variable} h-full scroll-smooth antialiased`}
     >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
