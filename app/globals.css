@@ -13,41 +13,59 @@
      experiment flag, so light is what an OS-dark visitor actually gets. */
   color-scheme: light;
 
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #0284c7;
-  --accent: #ec4899;
-  --border: #e5e7eb;
+  /* Warm-orange-on-cream palette (specs/009-typography-color-refresh). Values
+     as given; --primary-foreground and --muted-foreground are NOT the default
+     text color on every surface they'd seem to name — see the usage rules
+     below and specs/009-typography-color-refresh/research.md (R1), which
+     measured the pairings the names imply and found two that fail WCAG AA. */
+  --background: oklch(0.985 0.016 78);
+  --foreground: oklch(0.25 0.05 48);
+  --primary: oklch(0.66 0.22 48);
+  --primary-foreground: oklch(0.99 0.012 85);
+  --accent: oklch(0.78 0.17 68);
+  --muted-foreground: oklch(0.5 0.06 50);
+  --border: oklch(0.42 0.07 48 / 14%);
+  --card: oklch(0.995 0.01 80);
+  --ink-deep: oklch(0.975 0.03 72);
 
   /* The whole story sits on one photograph (docs/adr/0015). Chapters carry a
      scrim rather than a background of their own: enough to keep text legible
      over photographic detail, translucent enough that the photo still reads.
 
      0.42 is chosen, not guessed. The photo's darkest region measures 0.293
-     relative luminance; a 42% white scrim lifts a composite over it to ~0.61,
-     which clears 11:1 against --on-photo and still rescues the gray-700 the
-     chapters used to use. See specs/004-photo-background-hero-merge/research.md */
-  --scrim: rgb(255 255 255 / 0.42);
+     relative luminance; a 42% tint lifts a composite over it to ~0.58 with the
+     new --card value, which clears 9.77:1 against --on-photo (research R1).
+     See specs/004-photo-background-hero-merge/research.md for the original
+     method and specs/009-typography-color-refresh/research.md for the
+     re-measurement against this palette. */
+  --scrim: color-mix(in oklab, var(--card) 42%, transparent);
 
   /* A panel is a lift off the scrim, not a lid over it: the photograph still
      reads through at 0.42, which is the whole reason chapters stopped
      painting opaque cards. */
-  --panel: rgb(255 255 255 / 0.42);
-  --panel-border: rgb(107 114 128 / 0.4);
+  --panel: color-mix(in oklab, var(--card) 42%, transparent);
+  --panel-border: color-mix(in oklab, var(--foreground) 40%, transparent);
 
-  /* Body copy sitting on the scrim. gray-900 measures 5.79:1 against the bare
-     photo at its darkest; gray-700 measures 3.37:1 and fails AA. */
-  --on-photo: #111827;
+  /* Body copy sitting on the scrim. --foreground measures 5.30:1 against the
+     bare photo at its darkest (9.77:1 through the panel); --muted-foreground
+     measures 2.01:1 and fails AA — same failure mode gray-600/gray-700 had
+     under the old palette (ADR 0015). Referencing --foreground directly, not
+     a separate literal, keeps this from drifting out of sync with it. */
+  --on-photo: var(--foreground);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-ink-deep: var(--ink-deep);
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono-ui: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
 /* Keyed off the same class as the `dark` variant above, so the custom
@@ -88,6 +106,18 @@
 @utility chapter-panel {
   background-color: var(--panel);
   border: 1px solid var(--panel-border);
+}
+
+/* The shared mono treatment for uppercase labels, eyebrows, tags, and stat
+   captions (specs/009-typography-color-refresh, FR-002). One utility so every
+   chapter's labels read the same way instead of each inventing its own
+   uppercase/tracking combination. Font size and color are left to the
+   caller — this only fixes the typeface, case, and letter-spacing. */
+@utility label-mono {
+  font-family: var(--font-mono-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
 }
 
 html {
