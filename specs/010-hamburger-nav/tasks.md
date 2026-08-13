@@ -28,7 +28,7 @@ Single Next.js project. Component: `components/Navigation/`. Tests:
 **Purpose**: Confirm the environment is ready; no new dependencies are needed
 (Framer Motion and Tailwind are already installed — plan.md, research.md).
 
-- [ ] T001 Run `npm run type-check && npm run lint && npm run test` on the
+- [X] T001 Run `npm run type-check && npm run lint && npm run test` on the
       current branch to confirm a clean baseline before changes begin.
 
 ---
@@ -41,21 +41,21 @@ tested until this lands.
 
 **⚠️ CRITICAL**: Complete this phase before any user story work.
 
-- [ ] T002 [P] Create `components/Navigation/HamburgerMenu.tsx`: accepts a
+- [X] T002 [P] Create `components/Navigation/HamburgerMenu.tsx`: accepts a
       `sections: { id: string; label: string }[]` prop, renders a toggle
       button (closed by default, no menu-open behavior yet).
-- [ ] T003 [P] Create `tests/unit/components/HamburgerMenu.test.tsx` with the
+- [X] T003 [P] Create `tests/unit/components/HamburgerMenu.test.tsx` with the
       same `framer-motion` mock pattern used in
       `tests/unit/components/StoryProgressNav.test.tsx`, and one test
       asserting the toggle button renders with the seven `STORY_SECTIONS`
       passed in.
-- [ ] T004 Update `components/Navigation/StoryProgressNav.tsx`: replace the
+- [X] T004 Update `components/Navigation/StoryProgressNav.tsx`: replace the
       inline `<nav aria-label="Story sections">` link list (and its overflow
       measurement/mask logic) with
       `<HamburgerMenu sections={STORY_SECTIONS} />`, rendered in the same
       controls area as `SocialIcons`, `EmailLink`, and `ThemeToggle`. Depends
       on T002.
-- [ ] T005 Update `tests/unit/components/StoryProgressNav.test.tsx`: remove
+- [X] T005 Update `tests/unit/components/StoryProgressNav.test.tsx`: remove
       the tests tied to the retired inline scrolling list — "scrolls the
       section links inside itself...", "marks the edge only when...",
       "shows no edge fade...", "drops the edge fade...", "scrolls a focused

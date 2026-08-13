@@ -1,17 +1,20 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EmailLink } from './EmailLink';
+import { HamburgerMenu } from './HamburgerMenu';
 import { SocialIcons } from './SocialIcons';
 
 // The story has no page-to-page nav bar, but visitors still need a way to
 // jump between chapters (and keyboard/screen-reader users need a way to
 // skip ahead) without scrolling through everything. This renders a thin
-// scroll-progress bar plus a compact set of anchor links to every section.
+// scroll-progress bar; the section links themselves live inside the
+// hamburger menu (HamburgerMenu) rather than inline, so the bar stays
+// minimal at every width (spec 010-hamburger-nav).
 const STORY_SECTIONS = [
   { id: 'hero', label: 'Introduction' },
   // id stays 'skills' after the chapter became the work showcase — external
@@ -42,26 +45,6 @@ export function StoryProgressNav() {
   // Falls back to the wordmark alone if content has not landed, so the bar
   // never renders a heading with nothing in it.
   const name = home.data?.name ?? '';
-
-  // The edge fade marks chapters scrolled out of sight, so it may only appear
-  // when there are some. Right-aligning the list put the last chapter flush
-  // against the fade at widths where everything already fitted, leaving
-  // "Contact" permanently half-faded on a desktop. No CSS selector can ask
-  // whether an element overflows, so it is measured.
-  const chapters = useRef<HTMLElement>(null);
-  const [chaptersOverflow, setChaptersOverflow] = useState(false);
-
-  useEffect(() => {
-    const element = chapters.current;
-    if (!element) return;
-
-    const measure = () => setChaptersOverflow(element.scrollWidth > element.clientWidth + 1);
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     // Floating rather than flush: inset from all three edges so the bar reads
@@ -113,54 +96,14 @@ export function StoryProgressNav() {
           </a>
         </h1>
 
-        {/* At 375px the labels and controls together run roughly 2.2x the
-            available width, so the chapters scroll inside the bar while the
-            controls stay pinned. The right-edge mask makes that overflow read
-            as intentional rather than as a clipped word.
-
-            The mask is dropped entirely while anything inside has focus. A
-            mask fades by position and cannot be told to spare one child, so a
-            keyboard user would otherwise land on a focus ring drawn underneath
-            the fade. The cue is decorative, so losing it during keyboard
-            traversal costs nothing. */}
-        <nav
-          ref={chapters}
-          aria-label="Story sections"
-          className={`min-w-0 flex-1 overflow-x-auto ${
-            chaptersOverflow ? 'mask-r-from-85% mask-r-to-100% focus-within:mask-none' : ''
-          }`}
-        >
-          {/* ml-auto rather than justify-end: the list is w-max inside a
-              scrolling block, so an auto margin right-aligns it when there is
-              room and collapses to nothing when there is not, leaving the
-              scroll to start at the first chapter. */}
-          <ul className="ml-auto flex w-max gap-4 text-sm font-medium text-foreground dark:text-gray-200">
-            {STORY_SECTIONS.map((section) => (
-              <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  // Chrome will not scroll a *partially* visible focused child
-                  // into view — measured by tabbing through at 375px, where
-                  // "Career Journey" sat 89px outside the scroller and the
-                  // container's scrollLeft never moved. `inline: 'center'`
-                  // asks explicitly rather than relying on the default
-                  // 'nearest', which is the behaviour that skips.
-                  onFocus={(event) =>
-                    event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'center' })
-                  }
-                  className="whitespace-nowrap hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:text-blue-400"
-                >
-                  {section.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {/* The only persistent chrome left after the nav bar was removed, so
-            the theme control, the profile links and the address live here to
-            stay reachable from anywhere. shrink-0 keeps them put while the
-            chapter list scrolls beside them. */}
+        {/* Pushes the controls to the bar's right edge — the chapter list used
+            to live here and stretch between the two, but it now lives inside
+            the hamburger menu instead (spec 010-hamburger-nav). */}
+        <div className="flex-1" />
+        {/* The persistent chrome: menu toggle, profile links, address, and
+            theme control, all reachable from anywhere in the story. */}
         <div className="flex shrink-0 items-center gap-1">
+          <HamburgerMenu sections={STORY_SECTIONS} />
           <SocialIcons />
           {social.data?.email && <EmailLink email={social.data.email} />}
           <ThemeToggle />
