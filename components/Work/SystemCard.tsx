@@ -21,7 +21,7 @@ export function SystemCard({ project }: SystemCardProps) {
       {/* Left rail: the year, when the content has one. */}
       <div>
         {year && (
-          <span data-testid="system-year" className="text-on-photo font-mono text-sm">
+          <span data-testid="system-year" className="text-on-photo font-mono-ui text-sm">
             {year}
           </span>
         )}
@@ -29,14 +29,14 @@ export function SystemCard({ project }: SystemCardProps) {
 
       <div>
         <h3 className="text-2xl font-semibold tracking-tight">{title}</h3>
-        {role && <p className="mt-1 text-sm font-medium text-[#f2540d]">{role}</p>}
+        {role && <p className="mt-1 text-sm font-medium text-primary">{role}</p>}
         <p className="text-on-photo mt-4 max-w-xl leading-relaxed">{bodyText}</p>
 
         <ul aria-label={`Technologies used on ${title}`} className="mt-5 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <li
               key={tag}
-              className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
+              className="text-on-photo label-mono rounded-full border border-border px-3 py-1 text-xs"
             >
               {tag}
             </li>
@@ -47,7 +47,7 @@ export function SystemCard({ project }: SystemCardProps) {
       {/* The headline figure, given its own column so it reads as the result
           rather than as another tag. */}
       {metric && (
-        <span className="chapter-panel text-on-photo rounded-xl px-4 py-3 text-center font-mono text-sm md:text-right">
+        <span className="chapter-panel text-on-photo font-mono-ui rounded-xl px-4 py-3 text-center text-sm md:text-right">
           {metric}
         </span>
       )}

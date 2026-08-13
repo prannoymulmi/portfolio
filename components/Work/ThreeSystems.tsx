@@ -40,7 +40,7 @@ export function ThreeSystems() {
         Three systems I&rsquo;d happily defend in a design review
       </h2>
 
-      <div className="mt-10 divide-y divide-gray-400/40 border-t border-gray-400/40">
+      <div className="mt-10 divide-y divide-border border-t border-border">
         {systems.map((project) => (
           <SystemCard key={project.title} project={project} />
         ))}

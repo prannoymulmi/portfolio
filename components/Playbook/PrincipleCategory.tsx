@@ -20,7 +20,7 @@ export function PrincipleCategory({
       {/* Header */}
       <button
         onClick={onToggle}
-        className="w-full p-5 text-left transition-colors hover:bg-white/25 dark:hover:bg-gray-700/25"
+        className="w-full p-5 text-left transition-colors hover:bg-background/25 dark:hover:bg-gray-700/25"
         aria-expanded={isExpanded}
         aria-controls={`principles-${category.name}`}
       >
@@ -47,12 +47,12 @@ export function PrincipleCategory({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-gray-400/40"
+            className="border-t border-border"
           >
             <div className="space-y-4 p-5">
               {category.principles.map((principle, idx) => (
                 <div key={idx}>
-                  <p className="text-sm font-medium text-[#f2540d]">{principle.title}</p>
+                  <p className="text-sm font-medium text-primary">{principle.title}</p>
                   <p className="text-on-photo mt-1 text-sm leading-relaxed">
                     {principle.description}
                   </p>

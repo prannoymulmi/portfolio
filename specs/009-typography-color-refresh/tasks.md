@@ -130,16 +130,16 @@ body copy, and accents use the new typefaces and colors, with none left on the o
 - [X] T019 [P] [US1] `components/Career/ChapterDetail.tsx`: replace `font-sans`/`font-mono` with
       `font-display`/`font-mono-ui`; apply `label-mono` to the Company/Role/Years/Technologies/
       Achievements field labels.
-- [ ] T020 [P] [US1] `components/EngineeringPrinciple/PrincipleBand.tsx`: replace
+- [X] T020 [P] [US1] `components/EngineeringPrinciple/PrincipleBand.tsx`: replace
       `font-sans`/`font-mono` with `font-display`/`font-mono-ui`.
-- [ ] T021 [P] [US1] `components/Work/ThreeSystems.tsx` and `components/Work/SystemCard.tsx`:
+- [X] T021 [P] [US1] `components/Work/ThreeSystems.tsx` and `components/Work/SystemCard.tsx`:
       replace `font-sans`/`font-mono` with `font-display`/`font-mono-ui`; apply `label-mono` to
       the year/role/metric badge labels.
-- [ ] T022 [P] [US1] `components/Projects/ProjectCard.tsx`: replace `font-sans`/`font-mono` with
+- [X] T022 [P] [US1] `components/Projects/ProjectCard.tsx`: replace `font-sans`/`font-mono` with
       `font-display`/`font-mono-ui`; apply `label-mono` to tag/year labels.
-- [ ] T023 [P] [US1] `components/Education/EducationSection.tsx`: apply `font-display` to
+- [X] T023 [P] [US1] `components/Education/EducationSection.tsx`: apply `font-display` to
       headings/body and `label-mono` to date/institution labels, per FR-002.
-- [ ] T024 [P] [US1] `components/Playbook/PlaybookGrid.tsx` and
+- [X] T024 [P] [US1] `components/Playbook/PlaybookGrid.tsx` and
       `components/Playbook/PrincipleCategory.tsx`: replace the `hover:bg-white/25
       dark:hover:bg-gray-700/25` light-mode hover fill with a `foreground`-derived tint; apply
       `font-display`/`label-mono` typography to headings and pillar labels.
