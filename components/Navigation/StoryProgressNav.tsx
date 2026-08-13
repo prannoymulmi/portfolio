@@ -170,7 +170,7 @@ export function StoryProgressNav() {
           the viewport. Same spring and same reduced-motion branch as before —
           only where it is drawn has changed. */}
       <motion.div
-        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-[#f2540d]"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-primary"
         style={{ scaleX }}
         aria-hidden="true"
       />

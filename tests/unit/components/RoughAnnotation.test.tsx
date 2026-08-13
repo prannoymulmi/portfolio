@@ -90,7 +90,7 @@ describe('RoughAnnotation', () => {
     await waitFor(() =>
       expect(annotate).toHaveBeenCalledWith(
         expect.anything(),
-        expect.objectContaining({ color: '#2563eb' }),
+        expect.objectContaining({ color: '#f65600' }),
       ),
     );
   });

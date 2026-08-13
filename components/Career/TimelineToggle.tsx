@@ -39,12 +39,12 @@ export function TimelineToggle({ isInteractive, onChange }: TimelineToggleProps)
     // of the photograph rather than in it.
     <button
       onClick={handleToggle}
-      className="chapter-panel text-on-photo flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:border-[#f2540d]"
+      className="chapter-panel text-on-photo flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:border-primary"
       aria-label={`Switch to ${isInteractive ? 'timeline' : 'interactive'} view`}
     >
-      <span className={isInteractive ? 'text-[#f2540d]' : 'opacity-60'}>Pitch</span>
+      <span className={isInteractive ? 'text-primary' : 'opacity-60'}>Pitch</span>
       <span className="opacity-40">/</span>
-      <span className={isInteractive ? 'opacity-60' : 'text-[#f2540d]'}>Timeline</span>
+      <span className={isInteractive ? 'opacity-60' : 'text-primary'}>Timeline</span>
     </button>
   );
 }

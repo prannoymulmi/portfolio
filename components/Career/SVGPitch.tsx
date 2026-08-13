@@ -53,9 +53,12 @@ export function SVGPitch({ children, className = '' }: SVGPitchProps) {
             <stop offset="0%" stopColor="#12241d" />
             <stop offset="100%" stopColor="#0a1712" />
           </linearGradient>
+          {/* --primary's sRGB value (specs/009-typography-color-refresh), not a
+              literal pick — SVG presentation attributes don't reliably resolve
+              CSS custom properties. */}
           <radialGradient id="pitch-bloom" cx="50%" cy="45%" r="60%">
-            <stop offset="0%" stopColor="#f2540d" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#f2540d" stopOpacity="0" />
+            <stop offset="0%" stopColor="#f65600" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#f65600" stopOpacity="0" />
           </radialGradient>
         </defs>
 

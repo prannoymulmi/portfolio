@@ -164,12 +164,17 @@ and the primary/accent hues respectively, with no chapter using an ad hoc varian
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Sweep every uppercase label/eyebrow/tag across all 8 chapters and site nav
+- [X] T026 [US2] Sweep every uppercase label/eyebrow/tag across all 8 chapters and site nav
       (files touched in T005–T025) and confirm each uses the shared `label-mono` utility from
       T004 rather than a locally-styled mono/uppercase combination; fix any outlier found.
-- [ ] T027 [US2] Sweep every primary CTA, active/hover state, and highlighted metric/badge across
+      Found none beyond what T005–T025 already covered.
+- [X] T027 [US2] Sweep every primary CTA, active/hover state, and highlighted metric/badge across
       all 8 chapters and confirm each resolves to `primary` or `accent` (not a leftover
-      `blue-*`, `gray-*`, or component-local hex value); normalize any outlier found.
+      `blue-*`, `gray-*`, or component-local hex value); normalize any outlier found. Found and
+      fixed 4 files the T005–T025 file list missed entirely: `SVGPitch.tsx` (gradient bloom),
+      `TimelineToggle.tsx`, `StoryProgressNav.tsx` (progress-bar fill), and
+      `RoughAnnotation.tsx`'s default stroke color (a latent blue-600 default with no current
+      caller relying on it, but a trap for a future one).
 
 **Checkpoint**: User Stories 1 and 2 both work independently — the site is cohesive and its
 label/accent language is consistent everywhere.
