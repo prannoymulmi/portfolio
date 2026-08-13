@@ -22,7 +22,7 @@ export function TimelineView({ experiences }: TimelineViewProps) {
   }
 
   return (
-    <div className="divide-y divide-gray-400/40 border-t border-gray-400/40">
+    <div className="divide-y divide-border border-t border-border">
       {experiences.map((experience, index) => (
         <article
           key={experience.id || index}
@@ -31,21 +31,21 @@ export function TimelineView({ experiences }: TimelineViewProps) {
           {/* Dates in their own rail, so the column reads as a timeline
               without needing a drawn line and a row of dots to say so. */}
           <div className="flex flex-col gap-2">
-            <span className="text-on-photo font-mono text-sm">{experience.dateText}</span>
-            <span className="text-on-photo w-fit rounded-full border border-gray-400/50 px-2.5 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase">
+            <span className="text-on-photo font-mono-ui text-sm">{experience.dateText}</span>
+            <span className="text-on-photo label-mono w-fit rounded-full border border-border px-2.5 py-0.5 text-[0.65rem]">
               {experience.workType}
             </span>
           </div>
 
           <div>
             <h3 className="text-xl font-semibold tracking-tight">{experience.subtitle}</h3>
-            <p className="mt-1 text-sm font-medium text-[#f2540d]">{experience.title}</p>
+            <p className="mt-1 text-sm font-medium text-primary">{experience.title}</p>
 
             {experience.workDescription && experience.workDescription.length > 0 && (
               <ul className="mt-4 space-y-2">
                 {experience.workDescription.map((description) => (
                   <li key={description} className="text-on-photo flex gap-3 text-sm">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f2540d]" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     {description}
                   </li>
                 ))}
@@ -60,7 +60,7 @@ export function TimelineView({ experiences }: TimelineViewProps) {
                 {experience.technologies.map((tech) => (
                   <li
                     key={tech}
-                    className="text-on-photo rounded-full border border-gray-400/50 px-3 py-1 text-xs font-medium"
+                    className="text-on-photo rounded-full border border-border px-3 py-1 text-xs font-medium"
                   >
                     {tech}
                   </li>
