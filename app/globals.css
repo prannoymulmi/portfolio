@@ -127,6 +127,12 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+  /* Space Grotesk is the document default (FR-001/FR-002) — set once here
+     rather than tagging every heading and paragraph with `font-display`
+     individually, which is exactly the kind of per-component drift FR-002
+     exists to prevent. `font-mono-ui`/`label-mono` opt specific elements
+     (labels, eyebrows, tags) out of it explicitly. */
+  font-family: var(--font-display);
 }
 
 @supports (font-variant-numeric: tabular-nums) {

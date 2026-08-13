@@ -57,6 +57,16 @@ story task can start until this phase is complete.
 
 **Checkpoint**: Token system and fonts are live. Every chapter task below can now proceed.
 
+**Implementation correction (discovered during T014)**: removing the old `--font-sans`/
+`--font-mono` → Geist mapping in T004 left Tailwind's *built-in* system-font stack as the
+default for any element with no explicit font class — nearly every heading and paragraph in
+the codebase. Rather than tagging each one with `font-display` individually (the plan below
+does this piecemeal in several tasks), `app/globals.css`'s `body` rule now sets
+`font-family: var(--font-display)` as the site-wide default. Tasks below that say "apply
+`font-display` to X" are satisfied by inheritance and don't need a literal class added unless
+noted otherwise; only `font-mono-ui`/`label-mono` still need explicit classes, since those
+opt an element *out* of the default.
+
 ---
 
 ## Phase 3: User Story 1 - A cohesive, intentional visual identity site-wide (Priority: P1) 🎯 MVP
@@ -101,13 +111,13 @@ body copy, and accents use the new typefaces and colors, with none left on the o
       gradient stops (`from-gray-200 via-gray-100 to-gray-200`) with tones derived from
       `--background`/`--card` so the skeleton matches the new cream palette (leave the `dark:`
       stops unchanged).
-- [ ] T014 [P] [US1] `components/Hero/Hero.tsx`: replace the light-mode gradient stops
+- [X] T014 [P] [US1] `components/Hero/Hero.tsx`: replace the light-mode gradient stops
       (`from-white/55 via-white/25`) with equivalent stops derived from `--background`, and apply
       `font-display` to the headline.
-- [ ] T015 [P] [US1] `components/Hero/ValueProp.tsx`: replace the hard-coded `#3d2318` (CTA
+- [X] T015 [P] [US1] `components/Hero/ValueProp.tsx`: replace the hard-coded `#3d2318` (CTA
       border and text) with `foreground`; apply `font-display` to the headline and `label-mono`
       (T004) to the mono accent label; keep the stats row on `font-mono-ui` for figures.
-- [ ] T016 [P] [US1] `components/Hero/CvLink.tsx`: replace `font-sans` with `font-display` (or
+- [X] T016 [P] [US1] `components/Hero/CvLink.tsx`: replace `font-sans` with `font-display` (or
       `font-mono-ui` if the element is label-styled — check current markup); update its contrast
       comment to reference the new `foreground`/photo-contrast numbers from research R1 instead
       of `gray-600`/`gray-700`.

@@ -3,10 +3,11 @@
 import Link from 'next/link';
 
 /**
- * Colours are the hero palette written out as literals — Tailwind scans class
- * strings, so they can't be interpolated from ./palette.ts. Ink on the sunset
- * in light mode; in dark mode the page goes near-black, so the primary flips
- * to the photo's orange to stay the brightest thing in the section.
+ * Light-mode colours are the site's design tokens (specs/009-typography-color-refresh);
+ * dark-mode colours stay the hero palette written out as literals — Tailwind scans class
+ * strings, so they can't be interpolated from ./palette.ts. In dark mode the page goes
+ * near-black, so the primary flips to the photo's orange to stay the brightest thing in
+ * the section.
  *
  * The two buttons are kept to one box on purpose. The primary carries a
  * transparent border it does not visually need, because the secondary's
@@ -27,7 +28,9 @@ export function ValueProp() {
       {/* View Work Button */}
       <Link
         href="/#projects"
-        className="inline-flex items-center justify-center rounded-lg border-2 border-transparent bg-[#111c38] px-8 py-4 text-lg font-semibold text-[#fff5ec] transition-all hover:bg-[#1d2f5c] hover:shadow-lg active:scale-95 dark:bg-[#ffa62b] dark:text-[#1a1005] dark:hover:bg-[#ffb851]"
+        // Text on the primary fill uses `foreground`, not `primary-foreground`
+        // (research R1 — primary-foreground measures 3.26:1 against primary).
+        className="inline-flex items-center justify-center rounded-lg border-2 border-transparent bg-primary px-8 py-4 text-lg font-semibold text-foreground transition-all hover:opacity-90 hover:shadow-lg active:scale-95 dark:bg-[#ffa62b] dark:text-[#1a1005] dark:hover:bg-[#ffb851]"
       >
         {/* A folder of work, matching the leading position of the play glyph
             on the button beside it. */}
@@ -64,7 +67,7 @@ export function ValueProp() {
       {/* Play Career Button */}
       <Link
         href="/#career"
-        className="inline-flex items-center justify-center rounded-lg border-2 border-[#3d2318]/35 px-8 py-4 text-lg font-semibold text-[#3d2318] transition-all hover:border-[#3d2318]/60 hover:bg-white/55 active:scale-95 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800"
+        className="inline-flex items-center justify-center rounded-lg border-2 border-foreground/35 px-8 py-4 text-lg font-semibold text-foreground transition-all hover:border-foreground/60 hover:bg-background/55 active:scale-95 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800"
       >
         <svg
           aria-hidden="true"

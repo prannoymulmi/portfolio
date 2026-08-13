@@ -29,10 +29,12 @@ interface CvLinkProps {
  * decision, not ours.
  *
  * Resting colour comes from `text-on-photo` rather than a grey: the backdrop's
- * darkest region measures 0.293 relative luminance, which puts gray-600 and
- * gray-700 below WCAG AA against it (ADR 0015). Hover moves to the section's
- * ember/sunglow accent — the two hues already spent on the focus ring below,
- * so hovering introduces no colour the hero does not already use.
+ * darkest region measures 0.293 relative luminance, and `--on-photo` resolves
+ * to `--foreground`, which measures 5.30:1 against it — `--muted-foreground`
+ * would measure 2.01:1 and fail (specs/009-typography-color-refresh,
+ * research R1). Hover moves to the section's ember/sunglow accent — the two
+ * hues already spent on the focus ring below, so hovering introduces no
+ * colour the hero does not already use.
  */
 export function CvLink({ cv }: CvLinkProps) {
   if (!cv) return null;
@@ -46,7 +48,7 @@ export function CvLink({ cv }: CvLinkProps) {
       // say where it goes, because a link that opens a tab without warning is
       // a surprise for anyone who cannot see the new tab appear.
       aria-label={`${cv.label} (opens in a new tab)`}
-      className="text-on-photo decoration-current/30 inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
+      className="text-on-photo decoration-current/30 font-mono-ui inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
     >
       {/* A ruled team sheet, not a download tray: nothing is fetched here, and
           the page it points at is a record rather than a file transfer. */}

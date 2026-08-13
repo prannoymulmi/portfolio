@@ -30,7 +30,7 @@ export function Hero() {
     <>
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
-      <section className="relative flex min-h-screen items-center bg-gradient-to-r from-white/55 via-white/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
+      <section className="relative flex min-h-screen items-center bg-gradient-to-r from-background/55 via-background/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8">
         {/* First in source order, so it paints behind the scrim and every
             foreground element below without needing a z-index of its own. */}
         <HeroGradientLayers />
@@ -95,10 +95,11 @@ export function Hero() {
                   border rather than a pseudo-element so it grows with the text
                   when the line wraps to three lines on a phone.
 
-                  Literals rather than the ACCENT and WARM_INK tokens: Tailwind
-                  scans class strings, so an interpolated one never reaches the
-                  stylesheet. */}
-              <p className="mt-9 max-w-xl border-l-4 border-[#f2540d] pl-5 text-lg font-medium text-[#3d2318] dark:text-gray-300">
+                  border-primary/text-foreground rather than the old ACCENT/
+                  WARM_INK literals — both are now real design tokens
+                  (specs/009-typography-color-refresh), not one-off hex only
+                  Tailwind's arbitrary-value syntax could reach. */}
+              <p className="mt-9 max-w-xl border-l-4 border-primary pl-5 text-lg font-medium text-foreground dark:text-gray-300">
                 {intro}
               </p>
 
