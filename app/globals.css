@@ -52,6 +52,12 @@
      under the old palette (ADR 0015). Referencing --foreground directly, not
      a separate literal, keeps this from drifting out of sync with it. */
   --on-photo: var(--foreground);
+
+  /* Elevation for the one or two elements per page that need to lift off the
+     scrim rather than just sit on it (specs/009-typography-color-refresh). */
+  --shadow-elevated: 0 26px 60px -26px oklch(0.55 0.15 50 / 35%);
+  --shadow-glow: 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent),
+    0 18px 50px -20px color-mix(in oklab, var(--primary) 45%, transparent);
 }
 
 @theme inline {
@@ -118,6 +124,26 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 500;
+}
+
+@utility shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* A warm foreground-to-primary-to-accent sweep for the one emphasised phrase
+   in a heading (currently just Contact's "Let's talk."). Named
+   text-gradient-accent, not text-gradient: gradient-text.png (an unrelated
+   decorative overlay image, see ChapterGradientOverlay) already owns that
+   name in this codebase. */
+@utility text-gradient-accent {
+  background-image: linear-gradient(100deg, var(--foreground) 10%, var(--primary) 55%, var(--accent) 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 html {

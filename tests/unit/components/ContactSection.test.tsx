@@ -74,8 +74,11 @@ describe('ContactSection', () => {
 
     try {
       renderContact();
+      // "Contact" is the eyebrow label above the heading, not the heading's
+      // own text (specs/009-typography-color-refresh matched the reference
+      // design's copy, "Got a gnarly system? Let's talk.").
       await waitFor(() => {
-        expect(screen.getByRole('heading', { name: /contact/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /got a gnarly system/i })).toBeInTheDocument();
       });
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
     } finally {

@@ -36,9 +36,12 @@ export function ThreeSystems() {
   // per-chapter background ADR 0015 replaced with one shared photograph.
   return (
     <section className="space-y-8 py-12">
-      <h2 className="max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
-        Three systems I&rsquo;d happily defend in a design review
-      </h2>
+      <div>
+        <p className="label-mono text-primary">Selected work</p>
+        <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
+          Three systems I&rsquo;d happily defend in a design review
+        </h2>
+      </div>
 
       <div className="mt-10 divide-y divide-border border-t border-border">
         {systems.map((project) => (
