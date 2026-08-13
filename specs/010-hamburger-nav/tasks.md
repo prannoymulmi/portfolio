@@ -115,33 +115,33 @@ click one, confirm the page jumps to that anchor and the menu closes.
 
 ### Tests for User Story 2
 
-- [ ] T009 [P] [US2] Add test to
+- [X] T009 [P] [US2] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: activating the toggle
       renders all seven links, in order, each with the correct label and
       `href="#<id>"` (FR-002, FR-003).
-- [ ] T010 [P] [US2] Add test to
+- [X] T010 [P] [US2] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: clicking a link closes
       the menu (FR-004).
-- [ ] T011 [P] [US2] Add test to
+- [X] T011 [P] [US2] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: re-activating the
       toggle, pressing Escape, and a `pointerdown` outside the panel each
       close the menu without navigating (FR-005).
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Implement open/closed state and the `AnimatePresence`/
+- [X] T012 [US2] Implement open/closed state and the `AnimatePresence`/
       `motion.div` menu panel rendering `sections` as links in
       `components/Navigation/HamburgerMenu.tsx`. Depends on T002.
-- [ ] T013 [US2] Implement close-on-link-select in
+- [X] T013 [US2] Implement close-on-link-select in
       `components/Navigation/HamburgerMenu.tsx`. Depends on T012.
-- [ ] T014 [US2] Implement close-on-outside-click via a `document`
+- [X] T014 [US2] Implement close-on-outside-click via a `document`
       `pointerdown` listener (checking target against panel/toggle refs with
       `.contains()`), attached only while open, in
       `components/Navigation/HamburgerMenu.tsx`. Depends on T012.
-- [ ] T015 [US2] Implement close-on-Escape via a `document` `keydown`
+- [X] T015 [US2] Implement close-on-Escape via a `document` `keydown`
       listener, attached only while open, in
       `components/Navigation/HamburgerMenu.tsx`. Depends on T012.
-- [ ] T016 [US2] Branch open/close motion on `prefersReducedMotion()` from
+- [X] T016 [US2] Branch open/close motion on `prefersReducedMotion()` from
       `lib/utils/animations.ts` (instant show/hide instead of the Framer
       Motion transition) in `components/Navigation/HamburgerMenu.tsx`.
       Depends on T012.
