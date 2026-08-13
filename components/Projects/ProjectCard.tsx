@@ -16,14 +16,14 @@ interface ProjectCardProps {
  *
  * Translucent rather than an opaque white card: the photograph is the surface
  * of the whole story (ADR 0015), and a solid card punches a hole in it. The
- * accent is the site's ember rather than the framework blue this carried
- * before — blue appeared nowhere else on the page.
+ * accent is `--primary` (specs/009-typography-color-refresh) rather than the
+ * framework blue this carried before — blue appeared nowhere else on the page.
  */
 export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps) {
   return (
     <article
       className={`group chapter-panel cursor-pointer overflow-hidden rounded-2xl transition-colors ${
-        isSelected ? 'border-[#f2540d]' : 'hover:border-[#f2540d]/60'
+        isSelected ? 'border-primary' : 'hover:border-primary/60'
       }`}
       onClick={onSelect}
       role="button"
@@ -49,7 +49,7 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
       )}
 
       <div className="p-5">
-        <h3 className="font-semibold tracking-tight transition-colors group-hover:text-[#f2540d]">
+        <h3 className="font-semibold tracking-tight transition-colors group-hover:text-primary">
           {project.title}
         </h3>
 
@@ -62,13 +62,13 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
             {project.tags.slice(0, 3).map((tag) => (
               <li
                 key={tag}
-                className="text-on-photo rounded-full border border-gray-400/50 px-2.5 py-0.5 text-xs font-medium"
+                className="text-on-photo label-mono rounded-full border border-border px-2.5 py-0.5 text-xs"
               >
                 {tag}
               </li>
             ))}
             {project.tags.length > 3 && (
-              <li className="text-on-photo self-center font-mono text-xs opacity-70">
+              <li className="text-on-photo font-mono-ui self-center text-xs opacity-70">
                 +{project.tags.length - 3}
               </li>
             )}
@@ -81,7 +81,7 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
               <Link
                 key={link.route}
                 href={link.route}
-                className="text-on-photo rounded-full border border-gray-400/60 px-3 py-1 text-xs font-medium transition-colors hover:border-[#f2540d]"
+                className="text-on-photo rounded-full border border-border px-3 py-1 text-xs font-medium transition-colors hover:border-primary"
                 target={link.route.startsWith('http') ? '_blank' : undefined}
                 rel={link.route.startsWith('http') ? 'noopener noreferrer' : undefined}
                 // The card is itself a button; a link inside it must not also

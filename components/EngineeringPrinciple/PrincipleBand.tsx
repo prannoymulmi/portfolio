@@ -77,7 +77,7 @@ export function PrincipleBand() {
       <div className="mx-auto max-w-4xl text-center">
         <motion.p
           style={{ y: statementY, willChange: 'transform' }}
-          className="font-mono text-xs tracking-widest text-[#f2540d] uppercase"
+          className="label-mono text-xs text-primary"
         >
           Engineering principle
         </motion.p>
