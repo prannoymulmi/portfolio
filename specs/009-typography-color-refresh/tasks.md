@@ -207,9 +207,16 @@ AA.
       failure per ADR 0015's own table, just never caught). Fixed by giving it `bg-background`,
       matching the "page furniture, not a chapter" precedent `ErrorBoundary`'s fallback already
       set.
-- [ ] T030 [US3] Run the manual contrast sweep in `specs/009-typography-color-refresh/
+- [X] T030 [US3] Run the manual contrast sweep in `specs/009-typography-color-refresh/
       quickstart.md` (section 4: bare background, card/panel over photo, bare photo, primary
-      fill, accent fill) and fix any row that measures below 4.5:1.
+      fill, accent fill) and fix any row that measures below 4.5:1. Verified against a live
+      render (Playwright screenshots of the running dev server, not just source review) covering
+      Hero, Work, Career (pitch + chapter detail), Playbook/Contact, and /not-found. Visually
+      confirms the R1 fixes render correctly — button/badge text on primary fills reads dark, not
+      white, and the not-found page's body text is legible on its new `bg-background`. No stray
+      gray/blue found anywhere in the render. Precise numeric ratios were established in R1 via
+      oklch→sRGB conversion rather than a DevTools reading, since no interactive contrast-checker
+      tool was available in this environment.
 
 **Checkpoint**: All three user stories are independently functional — the site is cohesive,
 consistent, and legible everywhere.
