@@ -49,7 +49,7 @@ export function SocialIcons() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={link.network}
-              className="flex items-center rounded p-1.5 text-[#111c38] transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100 dark:hover:text-blue-400"
+              className="flex items-center rounded p-1.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-gray-100 dark:hover:text-blue-400"
             >
               {Glyph ? (
                 <Glyph aria-hidden="true" className="h-5 w-5" />

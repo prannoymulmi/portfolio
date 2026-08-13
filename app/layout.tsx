@@ -78,13 +78,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
             framing it. */}
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <body className="flex min-h-full flex-col bg-background text-foreground dark:bg-gray-900 dark:text-gray-100">
         {/* The photograph the whole story sits on. */}
         <Backdrop />
         <StructuredData />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          // Text on the primary fill uses `foreground`, not `primary-foreground` —
+          // research R1 (specs/009-typography-color-refresh) measured
+          // primary-foreground at 3.26:1 against primary, which fails AA.
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
         >
           Skip to main content
         </a>

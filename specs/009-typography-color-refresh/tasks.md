@@ -69,35 +69,35 @@ body copy, and accents use the new typefaces and colors, with none left on the o
 
 ### Implementation for User Story 1
 
-- [ ] T005 [P] [US1] `app/layout.tsx`: change the body's light-mode classes `bg-white
+- [X] T005 [P] [US1] `app/layout.tsx`: change the body's light-mode classes `bg-white
       text-gray-900` to `bg-background text-foreground` (leave `dark:bg-gray-900
       dark:text-gray-100` unchanged, FR-007); change the skip-link's `bg-blue-600`/
       `ring-blue-500` to `bg-primary`/`ring-primary`.
-- [ ] T006 [P] [US1] `app/not-found.tsx`: replace `text-gray-900`, `text-gray-600`, and
+- [X] T006 [P] [US1] `app/not-found.tsx`: replace `text-gray-900`, `text-gray-600`, and
       `bg-blue-600`/`hover:bg-blue-700`/`ring-blue-500` (light-mode classes only) with
       `text-foreground`, `text-muted-foreground`, and `bg-primary`/`hover:bg-primary`/
       `ring-primary`.
-- [ ] T007 [P] [US1] `components/Navigation/Footer.tsx`: replace `border-gray-200`,
+- [X] T007 [P] [US1] `components/Navigation/Footer.tsx`: replace `border-gray-200`,
       `text-gray-900`, `text-gray-600`, `text-gray-700`, and `hover:text-blue-600` (light-mode
       classes only) with `border-border`, `text-foreground`, `text-muted-foreground`, and
       `hover:text-primary`.
-- [ ] T008 [P] [US1] `components/Navigation/StoryProgressNav.tsx`: replace the hard-coded
+- [X] T008 [P] [US1] `components/Navigation/StoryProgressNav.tsx`: replace the hard-coded
       `text-[#111c38]` and `ring-blue-500` with `text-foreground` and `ring-primary`; apply the
       `label-mono` utility (T004) to the chapter-name labels.
-- [ ] T009 [P] [US1] `components/Navigation/SocialIcons.tsx`: replace the hard-coded
+- [X] T009 [P] [US1] `components/Navigation/SocialIcons.tsx`: replace the hard-coded
       `text-[#111c38]` and `hover:text-blue-600`/`ring-blue-500` with `text-foreground` and
       `hover:text-primary`/`ring-primary`.
-- [ ] T010 [P] [US1] `components/Navigation/EmailLink.tsx`: replace the hard-coded
+- [X] T010 [P] [US1] `components/Navigation/EmailLink.tsx`: replace the hard-coded
       `text-[#111c38]` and `hover:text-blue-600`/`ring-blue-500` with `text-foreground` and
       `hover:text-primary`/`ring-primary`.
-- [ ] T011 [P] [US1] `components/Common/ThemeToggle.tsx`: replace `bg-gray-200`,
+- [X] T011 [P] [US1] `components/Common/ThemeToggle.tsx`: replace `bg-gray-200`,
       `text-gray-900`, `hover:bg-gray-300`, and `ring-blue-500` (light-mode classes only) with
       `bg-card`, `text-foreground`, a `foreground`-derived hover tint, and `ring-primary`.
-- [ ] T012 [P] [US1] `components/Common/ErrorBoundary.tsx`: replace `bg-white`, `text-gray-900`,
+- [X] T012 [P] [US1] `components/Common/ErrorBoundary.tsx`: replace `bg-white`, `text-gray-900`,
       `text-gray-600`, and `bg-blue-600`/`hover:bg-blue-700`/`ring-blue-500` (light-mode classes
       only) with `bg-background`, `text-foreground`, `text-muted-foreground`, and
       `bg-primary`/`hover:bg-primary`/`ring-primary`.
-- [ ] T013 [P] [US1] `components/Common/LoadingState.tsx`: replace the light-mode shimmer
+- [X] T013 [P] [US1] `components/Common/LoadingState.tsx`: replace the light-mode shimmer
       gradient stops (`from-gray-200 via-gray-100 to-gray-200`) with tones derived from
       `--background`/`--card` so the skeleton matches the new cream palette (leave the `dark:`
       stops unchanged).

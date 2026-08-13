@@ -9,17 +9,19 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <section className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
-      <p className="text-6xl font-bold text-blue-600 dark:text-blue-400">404</p>
-      <h1 className="mt-4 text-3xl font-bold text-gray-900 dark:text-white">
+      <p className="font-display text-6xl font-bold text-primary dark:text-blue-400">404</p>
+      <h1 className="font-display mt-4 text-3xl font-bold text-foreground dark:text-white">
         Off the pitch
       </h1>
-      <p className="mt-3 max-w-md text-gray-600 dark:text-gray-400">
+      <p className="mt-3 max-w-md text-muted-foreground dark:text-gray-400">
         We couldn&apos;t find the page you were looking for. It may have been moved or never
         existed.
       </p>
       <Link
         href="/"
-        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+        // Text on the primary fill uses `foreground`, not `primary-foreground`
+        // (research R1 — primary-foreground measures 3.26:1 against primary).
+        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-foreground shadow-sm transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-900"
       >
         Return to home
       </Link>
