@@ -112,12 +112,11 @@ export function Hero() {
                 {/* Under the two buttons, not beside them: it is somewhere to
                     go, not a third thing being asked of the visitor.
 
-                    Centred to sit on the buttons' axis at both widths — the row
-                    above is justify-center from sm up, and below that the two
-                    buttons stretch full width with their labels centred. Left
-                    aligned, this line reads as loose text under the cluster
-                    rather than as part of it. */}
-                <div className="mt-5 flex justify-center">
+                    Left-aligned, matching the buttons above and the bio/intro
+                    text above those — the whole column reads as one left edge
+                    now, rather than the buttons/CV row centering within a
+                    wider box than the max-w-xl text sits in. */}
+                <div className="mt-5 flex justify-start">
                   <CvLink cv={cv} />
                 </div>
               </div>

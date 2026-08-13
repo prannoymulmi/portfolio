@@ -24,7 +24,7 @@ import Link from 'next/link';
  */
 export function ValueProp() {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6">
+    <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
       {/* View Work Button */}
       <Link
         href="/#projects"
