@@ -163,28 +163,28 @@ returns focus to the toggle.
 
 ### Tests for User Story 3
 
-- [ ] T017 [P] [US3] Add test to
+- [X] T017 [P] [US3] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: pressing Enter or Space
       on the focused toggle opens the menu and moves focus to the first link
       (FR-007).
-- [ ] T018 [P] [US3] Add test to
+- [X] T018 [P] [US3] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: closing the menu (via
       Escape, outside click, or re-activating the toggle) returns focus to
       the toggle button (FR-007).
-- [ ] T019 [P] [US3] Add test to
+- [X] T019 [P] [US3] Add test to
       `tests/unit/components/HamburgerMenu.test.tsx`: the toggle exposes
       `aria-expanded` reflecting open/closed state and an accessible name
       identifying it as a menu control (FR-006).
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Add `aria-expanded`, `aria-haspopup`, and `aria-label` to the
+- [X] T020 [US3] Add `aria-expanded`, `aria-haspopup`, and `aria-label` to the
       toggle button in `components/Navigation/HamburgerMenu.tsx`. Depends on
       T012.
-- [ ] T021 [US3] Move focus to the first menu link on open (`useEffect` keyed
+- [X] T021 [US3] Move focus to the first menu link on open (`useEffect` keyed
       on the open flag, using a ref on the first link) in
       `components/Navigation/HamburgerMenu.tsx`. Depends on T012.
-- [ ] T022 [US3] Return focus to the toggle button ref whenever the menu
+- [X] T022 [US3] Return focus to the toggle button ref whenever the menu
       closes, from any close path (link select, outside click, Escape,
       re-activation) in `components/Navigation/HamburgerMenu.tsx`. Depends on
       T013, T014, T015.
