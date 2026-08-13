@@ -99,7 +99,7 @@ export function StoryProgressNav() {
         <h1 className="shrink-0 text-sm">
           <a
             href="#hero"
-            className="flex items-center gap-3 rounded text-[#111c38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-100"
+            className="flex items-center gap-3 rounded text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-gray-100"
           >
             {/* Hidden from assistive tech only once the name is there to
                 announce instead. Content loads client-side, so hiding it
@@ -134,7 +134,7 @@ export function StoryProgressNav() {
               scrolling block, so an auto margin right-aligns it when there is
               room and collapses to nothing when there is not, leaving the
               scroll to start at the first chapter. */}
-          <ul className="ml-auto flex w-max gap-4 text-sm font-medium text-[#111c38] dark:text-gray-200">
+          <ul className="ml-auto flex w-max gap-4 text-sm font-medium text-foreground dark:text-gray-200">
             {STORY_SECTIONS.map((section) => (
               <li key={section.id}>
                 <a
@@ -148,7 +148,7 @@ export function StoryProgressNav() {
                   onFocus={(event) =>
                     event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'center' })
                   }
-                  className="whitespace-nowrap hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:text-blue-400"
+                  className="whitespace-nowrap hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:text-blue-400"
                 >
                   {section.label}
                 </a>

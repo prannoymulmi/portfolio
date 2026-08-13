@@ -9,27 +9,29 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-gray-200 bg-white py-12 dark:border-gray-700 dark:bg-gray-900">
+    <footer className="border-t border-border bg-background py-12 dark:border-gray-700 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">Prannoy Mulmi</p>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p className="font-display text-lg font-bold text-foreground dark:text-white">
+              Prannoy Mulmi
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground dark:text-gray-400">
               Senior Software Engineer & Cloud Architect
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <p className="text-sm font-semibold uppercase text-gray-500 dark:text-gray-400">
+            <p className="label-mono text-xs text-muted-foreground dark:text-gray-400">
               Quick Links
             </p>
             <div className="mt-3 space-y-2">
               <div>
                 <Link
                   href="/#projects"
-                  className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Projects
                 </Link>
@@ -37,7 +39,7 @@ export function Footer() {
               <div>
                 <Link
                   href="/#skills"
-                  className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Selected Work
                 </Link>
@@ -45,7 +47,7 @@ export function Footer() {
               <div>
                 <Link
                   href="/#career"
-                  className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Career
                 </Link>
@@ -55,9 +57,7 @@ export function Footer() {
 
           {/* Social Links */}
           <div>
-            <p className="text-sm font-semibold uppercase text-gray-500 dark:text-gray-400">
-              Connect
-            </p>
+            <p className="label-mono text-xs text-muted-foreground dark:text-gray-400">Connect</p>
             <div className="mt-3 space-y-2">
               {social.data?.social?.map((link, idx) => (
                 <div key={idx}>
@@ -65,7 +65,7 @@ export function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                    className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                   >
                     {link.network}
                   </a>
@@ -76,8 +76,8 @@ export function Footer() {
         </div>
 
         {/* Bottom section */}
-        <div className="mt-8 border-t border-gray-200 pt-8 dark:border-gray-700">
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-8 border-t border-border pt-8 dark:border-gray-700">
+          <p className="text-center text-sm text-muted-foreground dark:text-gray-400">
             © {currentYear} Prannoy Mulmi. All rights reserved.
           </p>
         </div>
