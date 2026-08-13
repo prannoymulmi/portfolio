@@ -8,7 +8,12 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
+    // Opaque, like ErrorBoundary's fallback — this is page furniture, not a
+    // chapter, so it isn't bound by ADR 0015's "no opaque background" rule.
+    // Without it, `text-muted-foreground` below sits directly on the pinned
+    // photo and measures 2.01:1 (research R1) — the same failure the old
+    // `text-gray-600` had here per ADR 0015's own contrast table.
+    <section className="bg-background flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center">
       <p className="font-display text-6xl font-bold text-primary dark:text-blue-400">404</p>
       <h1 className="font-display mt-4 text-3xl font-bold text-foreground dark:text-white">
         Off the pitch

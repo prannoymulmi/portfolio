@@ -193,13 +193,20 @@ AA.
 
 ### Implementation for User Story 3
 
-- [ ] T028 [US3] Grep all touched components for `primary-foreground`/`text-primary-foreground`
+- [X] T028 [US3] Grep all touched components for `primary-foreground`/`text-primary-foreground`
       used as text color on a `bg-primary`/`bg-accent` fill (buttons, badges, highlighted
       metrics) and replace with `foreground`, per research R1's measured 3.26:1 / 2.01:1
-      failures.
-- [ ] T029 [US3] Grep all touched components for `muted-foreground`/`text-muted-foreground` used
+      failures. Zero violations found — T005–T025 applied the corrected pairing at write time,
+      so every remaining `primary-foreground` match is a comment documenting the fix, not a
+      class.
+- [X] T029 [US3] Grep all touched components for `muted-foreground`/`text-muted-foreground` used
       on the bare photo/scrim (i.e. outside `bg-background` or an opaque card) and replace with
-      `foreground`, per research R1's measured 2.01:1 / 3.70:1 failures.
+      `foreground`, per research R1's measured 2.01:1 / 3.70:1 failures. Found one real violation:
+      `app/not-found.tsx`'s `<section>` had no background, so it sat directly on the pinned photo
+      via the root `Backdrop` — a pre-existing bug (the old `text-gray-600` had the identical
+      failure per ADR 0015's own table, just never caught). Fixed by giving it `bg-background`,
+      matching the "page furniture, not a chapter" precedent `ErrorBoundary`'s fallback already
+      set.
 - [ ] T030 [US3] Run the manual contrast sweep in `specs/009-typography-color-refresh/
       quickstart.md` (section 4: bare background, card/panel over photo, bare photo, primary
       fill, accent fill) and fix any row that measures below 4.5:1.
