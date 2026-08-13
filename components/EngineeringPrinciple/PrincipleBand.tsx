@@ -63,13 +63,21 @@ export function PrincipleBand() {
     >
       {/* Overscanned past the section on both edges: the wash travels
           WASH_TRAVEL px, and an exactly-sized layer runs out and shows a hard
-          seam at whichever edge it moved away from. */}
+          seam at whichever edge it moved away from.
+
+          parallax-mid.jpg, not mesh-soft-flip.png: a wider-range wash (0.18-0.93
+          relative luminance on a 32x18 grid, mean 0.54, vs. the pale mesh
+          sources' 0.84-0.93) sampled specifically under where the quote sits
+          (0.28-0.90 in that region). At opacity-35 the worst case there —
+          composited over the pinned photo's own darkest sampled region —
+          still clears 5.23:1 against text-on-photo's foreground text, so the
+          floor from specs/004-photo-background-hero-merge/research.md holds. */}
       <motion.div
         style={{ y: washY, willChange: 'transform' }}
         className="absolute inset-x-0 -inset-y-32 -z-10"
       >
         <ChapterGradientOverlay
-          src="/images/mesh-soft-flip.png"
+          src="/images/parallax-mid.jpg"
           opacityClassName="opacity-35 dark:opacity-0"
         />
       </motion.div>
