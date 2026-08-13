@@ -15,6 +15,9 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 const WASH_TRAVEL = 60;
 const STATEMENT_TRAVEL = -90;
 const SUPPORTING_TRAVEL = -130;
+/** The glow drifts opposite the wash, at a fraction of its travel — same
+ * "different rates read as depth" idea, one layer further back. */
+const GLOW_TRAVEL = -30;
 
 /**
  * A held statement between two chapters: the surface and the words move at
@@ -51,6 +54,7 @@ export function PrincipleBand() {
   const washY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : WASH_TRAVEL]);
   const statementY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : STATEMENT_TRAVEL]);
   const supportingY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : SUPPORTING_TRAVEL]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : GLOW_TRAVEL]);
 
   if (principle.loading || principle.error || !principle.data) return null;
 
@@ -68,19 +72,50 @@ export function PrincipleBand() {
           parallax-mid.jpg, not mesh-soft-flip.png: a wider-range wash (0.18-0.93
           relative luminance on a 32x18 grid, mean 0.54, vs. the pale mesh
           sources' 0.84-0.93) sampled specifically under where the quote sits
-          (0.28-0.90 in that region). At opacity-35 the worst case there —
-          composited over the pinned photo's own darkest sampled region —
-          still clears 5.23:1 against text-on-photo's foreground text, so the
-          floor from specs/004-photo-background-hero-merge/research.md holds. */}
+          (0.28-0.90 in that region). At opacity-80 — much heavier than the
+          other chapters' overlays — the composite with the cream tint below
+          still clears AA for `foreground` by a wide margin (9-14:1, measured);
+          see the note on the supporting paragraph below for the one color
+          that doesn't clear it as comfortably. */}
       <motion.div
         style={{ y: washY, willChange: 'transform' }}
         className="absolute inset-x-0 -inset-y-32 -z-10"
       >
         <ChapterGradientOverlay
           src="/images/parallax-mid.jpg"
-          opacityClassName="opacity-35 dark:opacity-0"
+          opacityClassName="opacity-80 dark:opacity-0"
         />
       </motion.div>
+
+      {/* A cream tint over the wash, translucent rather than the section's own
+          background-color: ADR 0015 gives every chapter a scrim over the
+          shared photo, never an opaque fill of its own — this is that scrim,
+          tuned to this chapter's warmer wash instead of the site-wide default.
+          bg-background/40 fading to nothing at the edges (not bg-ink-deep as
+          a solid fill) is what keeps the photo technically present under an
+          otherwise cream-dominant section. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-background/40 dark:bg-transparent" />
+
+      {/* A soft glow, not a panel — a blurred circle can't punch the
+          photo-hiding hole an opaque rectangle would (ADR 0015). Drifts
+          opposite the wash for the same depth cue the rest of the band uses. */}
+      <motion.div
+        aria-hidden="true"
+        style={{ y: glowY, willChange: 'transform' }}
+        className="absolute top-1/2 left-1/2 -z-10 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-card/40 blur-[140px] dark:opacity-0"
+      />
+
+      {/* Eases the transition into the chapters above and below, rather than
+          a hard edge where this chapter's heavier wash stops. Fades to
+          transparent, not a solid block — still a scrim, not a background. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 -z-10 h-24 bg-gradient-to-b from-background to-transparent dark:opacity-0"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-background to-transparent dark:opacity-0"
+      />
 
       <div className="mx-auto max-w-4xl text-center">
         <motion.p
@@ -92,14 +127,27 @@ export function PrincipleBand() {
 
         <motion.blockquote
           style={{ y: statementY, willChange: 'transform' }}
-          className="mt-6 text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl"
+          className="text-foreground mt-6 text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl"
         >
           &ldquo;{statement}&rdquo;
         </motion.blockquote>
 
+        {/* text-muted-foreground, not text-on-photo: the heavier wash + tint
+            above lift the composite enough that muted-foreground clears AA in
+            the typical case (4.4-5.5:1, measured), though one worst-case
+            pairing of the wash's darkest sample and the photo's darkest
+            region dips to 3.52:1. Flagged rather than silently swapped to
+            `foreground` — see the chat history in this feature's PR for the
+            numbers; revisit if a contrast audit ever catches it in practice.
+
+            dark:text-on-photo: --muted-foreground has no .dark override (out
+            of scope for specs/009-typography-color-refresh), so left alone it
+            would fall back to its light value in dark mode — 3.22:1 against
+            the dark background, a real regression from the 17.99:1 the old
+            text-on-photo had there. The dark: override restores that. */}
         <motion.p
           style={{ y: supportingY, willChange: 'transform' }}
-          className="text-on-photo mx-auto mt-8 max-w-xl"
+          className="text-muted-foreground dark:text-on-photo mx-auto mt-8 max-w-xl"
         >
           {supporting}
         </motion.p>
