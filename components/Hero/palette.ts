@@ -35,19 +35,11 @@ export const CREAM = '#fff5ec';
  */
 
 /**
- * The rule beside the tagline. Sampled from the reference design rather than
- * picked: #f2540d, a brighter orange than EMBER, which is what lets a 4px line
- * read as an accent against the sunset instead of disappearing into it.
- *
- * Mirrored as a literal in a Tailwind class for the same reason as WARM_INK
- * below — class strings are scanned as text, so an interpolated one never
- * reaches the stylesheet.
+ * ACCENT (`#f2540d`, the rule beside the tagline) and WARM_INK (`#3d2318`,
+ * body copy over the photo) were removed here: both are now covered by real
+ * design tokens — `border-primary`/`text-foreground` — introduced by
+ * specs/009-typography-color-refresh, so the literal-duplication this file
+ * used to need for them no longer applies. INK/EMBER/TEAL/CREAM stay: they're
+ * a deliberate three-colour subsystem sampled from the backdrop photo for the
+ * role-highlight bars specifically, not general-purpose tokens.
  */
-export const ACCENT = '#f2540d';
-
-/**
- * Body copy over the photo — warm near-black, not a neutral grey.
- * Mirrored as a literal in Tailwind classes, which are scanned as text and so
- * can't be built from this constant.
- */
-export const WARM_INK = '#3d2318';

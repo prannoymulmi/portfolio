@@ -141,7 +141,9 @@ describe('Hero Component', () => {
     // A left border rather than a pseudo-element, so it grows with the text
     // when the line wraps on a narrow screen.
     expect(tagline.className).toMatch(/border-l-4/);
-    expect(tagline.className).toMatch(/border-\[#f2540d\]/);
+    // border-primary, not the old literal #f2540d — specs/009-typography-color-refresh
+    // moved this to a real design token.
+    expect(tagline.className).toMatch(/border-primary/);
   });
 
   it('leaves the page heading to the navigation wordmark', async () => {
