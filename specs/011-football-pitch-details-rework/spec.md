@@ -8,14 +8,25 @@
 
 **Input**: User description: "I want rework the football interactive part when I click the player it shows a blue selected ball I do not want that make it more smoother I want a ball to be passed a small one and name the companys names in the field. Make abbriviation under the number. Also add a tip under the pitch. Make the details page like in the showcase where the achivements Technologies What I built are there. Try to make it as compact as possible"
 
+## Clarifications
+
+### Session 2026-08-13
+
+- Q: Is the "blue selected ball" you want gone the browser's default focus outline that appears after a click, or the site's own orange active-player halo? → A: Neither is removed outright — the orange halo stays (it's wanted), but the browser's default blue/white focus outline that appears on first click must go, replaced with deliberate focus-visible styling that doesn't clash with the halo.
+- Q: Should the panel's "what I built" summary and technologies list be filled from new content fields (schema change + ADR), or derived/omitted from existing data? → A: Derive "what I built" from `workDescription`; for technologies, show the chapter's own `tech` list when present, and when a chapter has none, fall back to a fixed default list (AWS, Java, Terraform, TypeScript) styled the same as the showcase's tag pattern.
+- Q: Should the on-pitch company name show the full legal name, or a shortened display name with legal suffixes/parentheticals stripped? → A: Shortened display name — strip legal suffixes (GmbH, AG, & Co KG, etc.) and parentheticals; the abbreviation under the number is derived from that shortened name's first word.
+- Q: Now that the pitch shows company names directly, should the existing pill list below the controls stay or be retired? → A: Stays — it remains the only click-to-jump-to-any-chapter control, not just a label duplicate.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Selecting a chapter feels smooth, not like a UI state toggle (Priority: P1)
 
 A visitor clicks a different player on the pitch to open that career chapter.
-Instead of the current heavy highlight (solid halo + colour swap on the
-selected dot), the change reads as a small ball travelling across the pitch
-from the previously active player to the newly active one, then settling.
+The orange active-player halo stays — it reads well — but the browser's
+default focus outline that currently appears on first click (a blue/white
+ring on top of the halo) must go, replaced by a deliberate focus style that
+doesn't fight the halo. The change from one active player to the next reads
+as a small ball travelling across the pitch, then settling.
 
 **Why this priority**: This is the core complaint — the current selected
 state looks abrupt and disconnected from the football metaphor the rest of
@@ -29,16 +40,17 @@ itself.
 **Acceptance Scenarios**:
 
 1. **Given** the pitch with chapter 3 active, **When** the visitor clicks
-   chapter 5, **Then** a small ball animates from chapter 3's position to
-   chapter 5's position and chapter 5 becomes active once the animation
-   settles.
+   chapter 5, **Then** chapter 5 becomes the active chapter immediately (its
+   detail panel updates without waiting) while a small ball animates from
+   chapter 3's position to chapter 5's position and settles there.
 2. **Given** `prefers-reduced-motion` is enabled, **When** the visitor
    selects a different chapter, **Then** the active chapter updates
    immediately without the travelling-ball animation.
-3. **Given** any chapter is active, **When** the visitor inspects the player
-   dot, **Then** no blue (or other) solid highlight ring is present — the
-   distinction between active and inactive players is conveyed by the ball's
-   resting position, not a colour block.
+3. **Given** the visitor clicks a player, **When** the click completes,
+   **Then** no browser-default blue/white focus outline is visible on that
+   player — the orange halo remains the only "active" indicator, with a
+   deliberate focus-visible style (not the browser default) used for
+   keyboard focus.
 
 ---
 
@@ -88,11 +100,15 @@ visibly tighter vertical rhythm than the current panel.
 **Acceptance Scenarios**:
 
 1. **Given** a chapter is active, **When** its detail panel renders,
-   **Then** it shows a "What I built" summary, an achievements list, and a
-   technologies list, styled consistently with the showcase cards.
+   **Then** it shows a "What I built" summary (derived from the chapter's
+   existing work description), an achievements list, and a technologies
+   list, styled consistently with the showcase cards' tag pattern.
 2. **Given** the reworked panel, **When** compared to the current
    `ChapterDetail` panel, **Then** its vertical spacing is reduced (more
    compact) without truncating or hiding any achievement or technology tag.
+3. **Given** a chapter has no technologies recorded, **When** its detail
+   panel renders, **Then** the technologies list shows the default fallback
+   tags (AWS, Java, Terraform, TypeScript) instead of an empty section.
 
 ---
 
@@ -138,33 +154,44 @@ text appears below the pitch, distinct from the panel and controls.
 
 ### Functional Requirements
 
-- **FR-001**: The pitch MUST remove the current solid highlight/halo styling
-  used to mark the active player.
+- **FR-001**: The pitch MUST keep the existing orange active-player halo and
+  MUST eliminate the browser's default focus outline that currently appears
+  on the active player after a click, replacing it with a deliberate
+  focus-visible style reserved for keyboard focus.
 - **FR-002**: When the active chapter changes, the pitch MUST show a small
   ball travelling from the previously active player's position to the newly
   active player's position, then coming to rest there.
 - **FR-003**: The ball travel animation MUST be skipped (instant update) when
-  `prefers-reduced-motion` is enabled, consistent with existing motion
-  handling elsewhere in the section.
+  `prefers-reduced-motion` is enabled, consistent with the existing
+  `prefers-reduced-motion` handling used elsewhere on the site.
 - **FR-004**: A new selection made while a ball animation is in flight MUST
   redirect the animation to the new target rather than queuing multiple
   animations.
 - **FR-005**: Each player on the pitch MUST display, without interaction:
   its chronological order number, a short company abbreviation positioned
-  beneath that number, and the full company name as a label placed on the
-  field near the player.
+  beneath that number, and a shortened company display name (legal suffixes
+  such as "GmbH"/"AG"/"& Co KG" and parenthetical asides removed) as a label
+  placed on the field near the player.
 - **FR-006**: Company name and abbreviation labels MUST NOT overlap another
   player's number, abbreviation, or name label at any pitch size the layout
   supports.
+- **FR-013**: The company abbreviation MUST be derived from the shortened
+  display name's first word (capped at 4 characters, uppercased) — e.g.
+  "AViV GmbH (Formerly Immowelt GmbH)" → display name "AViV" → abbreviation
+  "AVIV"; "Otto GmbH & Co KG" → "Otto" → "OTTO".
 - **FR-007**: A single short tip line MUST render below the pitch, visible
   without interaction, describing that players are clickable.
 - **FR-008**: The chapter detail panel MUST be restructured to match the
-  Work showcase card's section pattern: a short "what I built" summary, an
-  achievements list, and a technologies list.
+  Work showcase card's section pattern: a short "what I built" summary
+  derived from the chapter's existing work description, an achievements
+  list, and a technologies list, styled like the showcase's tag pattern.
 - **FR-009**: The reworked chapter detail panel MUST use tighter vertical
   spacing than the current panel while still displaying every achievement
   and technology tag for the active chapter (no truncation or hiding of
   content).
+- **FR-012**: When a chapter has no recorded technologies, the technologies
+  list MUST show a fixed default set (AWS, Java, Terraform, TypeScript)
+  instead of rendering an empty section.
 - **FR-010**: All interactive player elements MUST retain accessible
   labelling (`aria-label`/`role`) and keyboard operability (Tab to focus,
   Enter/Space to select) after the rework.
@@ -174,9 +201,12 @@ text appears below the pitch, distinct from the panel and controls.
 ### Key Entities
 
 - **Career Chapter** (existing `CareerChapter`): company, role, years,
-  achievements, tech, pitch position. Gains a derived, short company
-  abbreviation for on-pitch display (e.g., first letters or a truncated
-  form of the company name).
+  achievements, tech, pitch position. Gains a derived shortened display name
+  (legal suffixes and parentheticals stripped from `company`), a derived
+  company abbreviation (that display name's first word, capped at 4
+  characters, uppercased), a "what I built" summary derived from the
+  underlying experience's work description, and — when `tech` is empty — a
+  fixed default technologies list (AWS, Java, Terraform, TypeScript).
 - **Ball Marker**: a visual element representing which chapter is active and
   animating between two pitch positions on selection change.
 
@@ -187,24 +217,24 @@ text appears below the pitch, distinct from the panel and controls.
 - **SC-001**: Visitors can identify which company a given player represents
   without clicking, for 100% of chapters, by reading the on-pitch
   abbreviation and/or company name.
-- **SC-002**: Selecting a new chapter produces one continuous, non-jarring
-  transition (the travelling ball) with no more than one visual state change
-  perceived per selection, replacing the previous instant highlight swap.
-- **SC-003**: The reworked chapter detail panel occupies visibly less
-  vertical space than the current panel for the same chapter content
-  (qualitative reduction, verified by side-by-side comparison), with zero
-  content omitted.
-- **SC-004**: A first-time visitor can state, after reading the tip alone,
-  that players on the pitch are clickable.
+- **SC-002**: Selecting a new chapter produces exactly one animated element
+  (the travelling ball) and zero instances of the browser-default focus
+  outline appearing on the newly active player.
+- **SC-003**: The reworked chapter detail panel's rendered height for the
+  chapter with the most content is no greater than the current panel's
+  rendered height for that same chapter, at the same viewport width, with
+  every achievement and technology tag still present.
+- **SC-004**: The tip text below the pitch states, in one line, that players
+  are clickable, without requiring any other interaction to read it.
 
 ## Assumptions
 
-- "Blue selected ball" refers to the current active-player halo/highlight
-  styling in `CareerPitch.tsx`; this spec treats "remove it" as "replace the
-  colour-block highlight with the travelling-ball motion," since the pitch
-  still needs some way to show which player is active.
-- Company abbreviations are derived automatically from the existing
-  `company` field (e.g., initials or a short truncation) rather than
+- The orange active-player halo (`CareerPitch.tsx`) is kept as-is; it is not
+  the "blue selected ball" being reported. That is the browser's default
+  focus outline, which currently renders on top of the halo after a click
+  because the project defines no focus-visible styling anywhere.
+- Company abbreviations and shortened display names are derived
+  automatically from the existing `company` field per FR-013, rather than
   requiring new content authoring in the chapter data.
 - "Showcase" refers to the existing Work section's `SystemCard` component
   and its section pattern (summary, tags, compact spacing); the detail panel
@@ -213,7 +243,8 @@ text appears below the pitch, distinct from the panel and controls.
 - The tip is static, site-authored text, not derived from chapter data or
   personalized per visitor.
 - The existing controls (prev/next, play, company pill list) above the pitch
-  are unaffected by this rework and remain as an alternative way to
-  navigate chapters.
+  are unaffected by this rework and remain — the pill list is confirmed to
+  stay as the only click-to-jump-to-any-chapter control, not retired despite
+  the pitch now also showing company names.
 - "Small ball" implies a visibly smaller marker than the current player
   dots, distinguishing it as a moving indicator rather than another player.
