@@ -117,7 +117,7 @@ export function PrincipleBand() {
         className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-background to-transparent dark:opacity-0"
       />
 
-      <div className="mx-auto max-w-4xl text-center">
+      <div className="mx-auto max-w-6xl text-center">
         <motion.p
           style={{ y: statementY, willChange: 'transform' }}
           className="label-mono text-xs text-primary"
@@ -130,10 +130,16 @@ export function PrincipleBand() {
             a bump from the previous text-3xl/4xl. font-semibold over the
             component's usual font-medium carries that size without going
             thin; leading-[1.05] keeps a 2-3 line quote reading as one
-            graphic block rather than a paragraph. */}
+            graphic block rather than a paragraph.
+
+            No text-balance: it deliberately narrows a block's measure to
+            even out line lengths, which is exactly what was capping this at
+            the same ~720px column regardless of how wide the max-w-6xl
+            parent above got. Dropping it lets the quote actually reflow into
+            the wider container instead of balance overriding it. */}
         <motion.blockquote
           style={{ y: statementY, willChange: 'transform' }}
-          className="text-foreground mt-6 text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
+          className="text-foreground mt-6 text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl"
         >
           &ldquo;{statement}&rdquo;
         </motion.blockquote>
