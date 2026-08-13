@@ -143,7 +143,7 @@ body copy, and accents use the new typefaces and colors, with none left on the o
       `components/Playbook/PrincipleCategory.tsx`: replace the `hover:bg-white/25
       dark:hover:bg-gray-700/25` light-mode hover fill with a `foreground`-derived tint; apply
       `font-display`/`label-mono` typography to headings and pillar labels.
-- [ ] T025 [P] [US1] `components/Contact/ContactSection.tsx`: replace `text-gray-900` with
+- [X] T025 [P] [US1] `components/Contact/ContactSection.tsx`: replace `text-gray-900` with
       `text-foreground`; apply `font-display` to the centered heading and `label-mono` to any
       eyebrow label; confirm the email/GitHub/LinkedIn buttons resolve to `bg-primary`/
       `text-primary`.
