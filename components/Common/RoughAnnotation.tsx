@@ -22,11 +22,16 @@ interface RoughAnnotationProps {
 }
 
 // `highlight` fills the box behind the glyphs, so its colour becomes the text's
-// effective background and must stay pale — a saturated blue-600 fill measured
-// 2.84:1 against the body text, well under WCAG AA. The outline marks (circle,
-// underline, box, bracket) don't sit behind glyphs, so they can be saturated.
+// effective background and must stay pale — a saturated fill measured 2.84:1
+// against the body text, well under WCAG AA, which is why FILL_COLOR stays a
+// pale yellow rather than a saturated tone. The outline marks (circle,
+// underline, box, bracket) don't sit behind glyphs, so they can be saturated —
+// STROKE_COLOR.light is `--primary`'s sRGB value (specs/009-typography-color-refresh),
+// not a literal Tailwind color, so its default matches the site if a future
+// caller omits the `color` override (today's only caller, Hero, always
+// supplies one).
 const FILL_COLOR = { light: '#fef08a', dark: '#1e3a8a' } as const;
-const STROKE_COLOR = { light: '#2563eb', dark: '#60a5fa' } as const;
+const STROKE_COLOR = { light: '#f65600', dark: '#60a5fa' } as const;
 
 function markColor(type: AnnotationType, isDark: boolean): string {
   const palette = type === 'highlight' ? FILL_COLOR : STROKE_COLOR;
