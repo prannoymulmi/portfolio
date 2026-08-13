@@ -97,6 +97,18 @@ describe('StoryProgressNav', () => {
       expect(screen.getByRole('button', { name: /open menu/i })).toBeInTheDocument();
     });
 
+    it('keeps the wordmark, toggle, and full icon group together in one render', async () => {
+      renderNav();
+
+      // FR-001, FR-010: nothing here is conditional on the others.
+      expect(
+        await screen.findByRole('heading', { level: 1, name: 'Prannoy Mulmi' }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /open menu/i })).toBeInTheDocument();
+      expect(await screen.findByRole('link', { name: /linkedin/i })).toBeInTheDocument();
+      expect(await screen.findByRole('link', { name: /email/i })).toBeInTheDocument();
+    });
+
     it('still conveys reading progress after the reshape', () => {
       const { container } = renderNav();
       // FR-015: the bar changed shape; the progress indicator survives it.
