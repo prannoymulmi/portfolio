@@ -80,20 +80,20 @@ chapter/section links render inline and the toggle + icon group are visible.
 
 ### Tests for User Story 1
 
-- [ ] T006 [P] [US1] Add test to
+- [X] T006 [P] [US1] Add test to
       `tests/unit/components/StoryProgressNav.test.tsx` asserting none of the
       seven section labels (Introduction, Selected Work, Career Journey,
       Education, Projects, Technical Playbook, Contact) resolve via
       `screen.queryByRole('link', { name: ... })` while the menu is closed
       (FR-001).
-- [ ] T007 [P] [US1] Add test to
+- [X] T007 [P] [US1] Add test to
       `tests/unit/components/StoryProgressNav.test.tsx` asserting the
       wordmark heading, the hamburger toggle, and the social/email/theme
       controls are all present together in one render (FR-001, FR-010).
 
 ### Implementation for User Story 1
 
-- [ ] T008 [US1] Style the closed-state toggle button in
+- [X] T008 [US1] Style the closed-state toggle button in
       `components/Navigation/HamburgerMenu.tsx` to match the bar's existing
       glass/icon visual language (size, hover, focus-visible ring, `dark:`
       variants), consistent with `SocialIcons.tsx`'s icon styling. Depends on
