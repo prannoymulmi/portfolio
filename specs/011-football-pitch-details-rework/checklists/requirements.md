@@ -31,5 +31,11 @@
 
 ## Notes
 
-- All items pass on first draft; no spec updates required before
-  `/speckit-clarify` or `/speckit-plan`.
+- Initial draft's checked items were premature: an architect review found the
+  "blue selected ball" premise, the missing `technologies`/summary data, the
+  full-name-vs-overlap contradiction, and the undefined abbreviation rule all
+  needed resolution before the checklist could honestly pass.
+- `/speckit-clarify` (2026-08-13) resolved all four via user Q&A — see
+  `## Clarifications` in spec.md — and non-blocking wording issues (FR-003's
+  false premise, US1's animation-blocks-panel contradiction, unmeasurable
+  SC-002/003/004) were corrected directly. All items now pass for real.
