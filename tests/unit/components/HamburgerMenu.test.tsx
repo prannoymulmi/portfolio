@@ -100,6 +100,40 @@ describe('HamburgerMenu', () => {
     });
   });
 
+  describe('keyboard and screen reader support', () => {
+    it('moves focus to the first link on open (FR-007)', () => {
+      // A native <button> converts an Enter/Space keypress into a click
+      // event itself (browser default action) — the same handler this fires
+      // is what a real Enter/Space activation reaches, so a click event here
+      // stands in for keyboard activation.
+      render(<HamburgerMenu sections={SECTIONS} />);
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+
+      expect(document.activeElement).toBe(screen.getByRole('link', { name: 'Introduction' }));
+    });
+
+    it('returns focus to the toggle when the menu closes (FR-007)', () => {
+      render(<HamburgerMenu sections={SECTIONS} />);
+      const toggle = screen.getByRole('button', { name: /open menu/i });
+      fireEvent.click(toggle);
+      fireEvent.keyDown(document, { key: 'Escape' });
+
+      expect(document.activeElement).toBe(toggle);
+    });
+
+    it('exposes aria-expanded and an accessible menu-toggle name (FR-006)', () => {
+      render(<HamburgerMenu sections={SECTIONS} />);
+      const toggle = screen.getByRole('button', { name: /open menu/i });
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+
+      fireEvent.click(toggle);
+      expect(screen.getByRole('button', { name: /close menu/i })).toHaveAttribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+  });
+
   describe('reduced motion', () => {
     it('still opens and closes when prefers-reduced-motion is set (Edge Cases)', () => {
       (prefersReducedMotion as jest.Mock).mockReturnValue(true);
