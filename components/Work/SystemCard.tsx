@@ -45,9 +45,15 @@ export function SystemCard({ project }: SystemCardProps) {
       </div>
 
       {/* The headline figure, given its own column so it reads as the result
-          rather than as another tag. */}
+          rather than as another tag.
+
+          Warm-tinted, not the reference's bg-secondary/text-accent: --accent
+          as small text measures ~1.98:1 against this card/photo composite —
+          nowhere near AA. bg-primary/10 + border-primary/30 gets the same
+          "highlighted stat" pop the reference has, with text-on-photo (not
+          the accent hue) carrying the actual number so it stays legible. */}
       {metric && (
-        <span className="chapter-panel text-on-photo font-mono-ui rounded-xl px-4 py-3 text-center text-sm md:text-right">
+        <span className="text-on-photo font-mono-ui rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-center text-sm font-semibold md:text-right">
           {metric}
         </span>
       )}

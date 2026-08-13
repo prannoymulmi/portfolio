@@ -107,16 +107,22 @@ export function Hero() {
                   without pushing the card off the first screen. */}
               <p className="text-on-photo mt-4 max-w-xl">{bio}</p>
 
-              <div className="mt-8">
+              {/* sm:w-fit shrinks this wrapper to ValueProp's own rendered
+                  width (the button pair, side by side from sm up) rather than
+                  the full text column — so CvLink's justify-center below
+                  centers it under the two buttons specifically, not under the
+                  wider bio/intro text above. The wrapper itself stays flush
+                  with that text's left edge (no margin, default block
+                  position), so the button pair is still left-aligned; only
+                  the CV link's centering point moves. Below sm, ValueProp's
+                  buttons stack full-width, so there's no "under the pair"
+                  distinct from "under the column" — w-fit only applies at
+                  sm+. */}
+              <div className="mt-8 sm:w-fit">
                 <ValueProp />
                 {/* Under the two buttons, not beside them: it is somewhere to
-                    go, not a third thing being asked of the visitor.
-
-                    Left-aligned, matching the buttons above and the bio/intro
-                    text above those — the whole column reads as one left edge
-                    now, rather than the buttons/CV row centering within a
-                    wider box than the max-w-xl text sits in. */}
-                <div className="mt-5 flex justify-start">
+                    go, not a third thing being asked of the visitor. */}
+                <div className="mt-5 flex justify-center">
                   <CvLink cv={cv} />
                 </div>
               </div>
