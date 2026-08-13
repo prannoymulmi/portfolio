@@ -4,9 +4,16 @@ export interface CareerChapter {
   id: string;
   /** Chronological chapter number, 1 = earliest. */
   order: number;
+  /** Full, unshortened name — shown in the detail panel and the pill list. */
   company: string;
+  /** Shortened company name for the pitch label, where space is tight (FR-005). */
+  displayName: string;
+  /** displayName's first word, capped at 4 characters, uppercased (FR-013). */
+  abbreviation: string;
   role: string;
   years: string;
+  /** First work-description line, read as a short "what I built" summary (FR-008). */
+  builtSummary: string;
   achievements: string[];
   tech: string[];
   /** Football position this chapter occupies, from the formation below. */
@@ -14,6 +21,68 @@ export interface CareerChapter {
   /** Percent coordinates on the pitch. */
   x: number;
   y: number;
+}
+
+/**
+ * No entry in `experiences.json` records `technologies` today, so this is the
+ * common case, not a rare edge (FR-012, spec clarification 2). A code
+ * constant rather than a content-file field: it is site-wide authored copy
+ * with no per-chapter variance, and adding it to the JSON would mean a Zod
+ * schema change (Constitution Principle IV, content rule).
+ */
+export const DEFAULT_TECH = ['AWS', 'Java', 'Terraform', 'TypeScript'];
+
+/**
+ * Legal-form tokens stripped from the end of a company name, repeatedly,
+ * case-insensitively — "Otto GmbH & Co KG" needs four passes (KG, Co, &,
+ * GmbH) before it reaches "Otto" (data-model.md §2).
+ */
+const LEGAL_FORM_SUFFIXES = [
+  'GmbH',
+  'mbH',
+  'AG',
+  'SE',
+  'KG',
+  'Co',
+  '&',
+  'Ltd.',
+  'Ltd',
+  'Limited',
+  'Inc.',
+  'Inc',
+  'LLC',
+  'BV',
+  'NV',
+];
+
+/**
+ * Shortens a company's full legal name for on-pitch display (FR-005, FR-013):
+ * strips parentheticals, then repeatedly strips a trailing legal-form token,
+ * then collapses whitespace. Falls back to the trimmed original if stripping
+ * would otherwise leave nothing — the pitch always needs a name to show.
+ */
+export function toDisplayName(company: string): string {
+  let name = company.replace(/\([^)]*\)/g, '');
+
+  let stripped = true;
+  while (stripped) {
+    stripped = false;
+    for (const suffix of LEGAL_FORM_SUFFIXES) {
+      const pattern = new RegExp(`\\s+${suffix.replace('&', '&')}\\s*$`, 'i');
+      if (pattern.test(name)) {
+        name = name.replace(pattern, '');
+        stripped = true;
+      }
+    }
+  }
+
+  name = name.replace(/\s+/g, ' ').trim();
+  return name.length > 0 ? name : company.trim();
+}
+
+/** displayName's first word, capped at 4 characters, uppercased (FR-013). */
+export function toAbbreviation(displayName: string): string {
+  return displayName.split(/\s+/)[0].slice(0, 4).toUpperCase();
 }
 
 /**
@@ -75,14 +144,24 @@ export function toChapters(experiences: Experience[]): CareerChapter[] {
     .sort((a, b) => startSortKey(a.dateText) - startSortKey(b.dateText))
     .map((experience, index) => {
       const slot = FORMATION[index % FORMATION.length];
+      const displayName = toDisplayName(experience.subtitle);
+      const workDescription = experience.workDescription ?? [];
       return {
         id: experience.id ?? `${experience.subtitle}-${experience.dateText}`,
         order: index + 1,
         company: experience.subtitle,
+        displayName,
+        abbreviation: toAbbreviation(displayName),
         role: experience.title,
         years: experience.dateText,
-        achievements: experience.workDescription ?? [],
-        tech: experience.technologies ?? [],
+        // First line reads as the "what I built" summary; the rest stay as
+        // achievements, so every authored line still renders exactly once
+        // (FR-008, FR-009) rather than the summary duplicating the list.
+        builtSummary: workDescription[0] ?? '',
+        achievements: workDescription.slice(1),
+        tech: experience.technologies && experience.technologies.length > 0
+          ? experience.technologies
+          : DEFAULT_TECH,
         position: slot.position,
         x: slot.x,
         y: slot.y,
