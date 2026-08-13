@@ -8,6 +8,13 @@
 
 **Input**: User description: "I am not happy with the fonts and colors of how they look. Fonts: Load Space Grotesk (400, 500, 600, 700) for headings and body, and JetBrains Mono (400, 500) for labels and mono text. Use CSS variables --font-display and --font-mono-ui. Color palette (warm orange on cream): Background oklch(0.985 0.016 78), Foreground oklch(0.25 0.05 48), Primary oklch(0.66 0.22 48), Primary-foreground oklch(0.99 0.012 85), Accent oklch(0.78 0.17 68), Muted-foreground oklch(0.5 0.06 50), Border oklch(0.42 0.07 48 / 14%), Card oklch(0.995 0.01 80), Ink-deep oklch(0.975 0.03 72). Restyle every chapter (Hero, Work, Career Match, Parallax Band, Craft/skills, Contact) to this type and color system, keeping the site's existing pinned-photo surface, layout, and interactive behavior unchanged."
 
+## Clarifications
+
+### Session 2026-08-13
+
+- Q: Should the restyle also apply to the Education and Projects sections, which the live site renders but the brief never named? → A: Yes — all 8 rendered chapters, including Education and Projects, get the new type/color system.
+- Q: Should the WCAG AA contrast requirement (FR-006) also cover text sitting on solid primary/accent fills (buttons, badges), not just body copy over the background, card, and photo scrim? → A: Yes — the same 4.5:1 AA bar extends to text on solid primary/accent fills, in addition to the three surfaces already named.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A cohesive, intentional visual identity site-wide (Priority: P1)
@@ -52,6 +59,7 @@ A visitor with normal or low vision can read every piece of text on the page —
 
 1. **Given** body copy on the bare background, **When** measured, **Then** it meets at least 4.5:1 contrast against that background.
 2. **Given** body copy on a chapter's card/panel surface over the pinned photograph, **When** measured, **Then** it meets at least 4.5:1 contrast against the composited surface.
+3. **Given** a button, badge, or highlighted metric filled with the primary or accent color, **When** measured, **Then** its text meets at least 4.5:1 contrast against that fill.
 
 ---
 
@@ -72,18 +80,18 @@ A visitor with normal or low vision can read every piece of text on the page —
 - **FR-003**: The background, foreground, primary, primary-foreground, accent, muted-foreground, border, and card colors MUST be updated to the specified warm-orange-on-cream values across every chapter.
 - **FR-004**: The site's existing surface rule — one pinned photograph behind the story, chapters carrying a translucent scrim/panel rather than an opaque background — MUST be preserved; the new card tone is applied as a panel tint, not a solid fill.
 - **FR-005**: Primary calls-to-action, active/hover states, and highlighted metrics MUST consistently use the new primary and accent colors across all chapters.
-- **FR-006**: Body copy, labels, and captions MUST meet WCAG AA contrast (4.5:1 for normal text) against every surface they can appear on: the bare background, the card/panel tint, and the photo scrim.
+- **FR-006**: Body copy, labels, and captions MUST meet WCAG AA contrast (4.5:1 for normal text) against every surface they can appear on: the bare background, the card/panel tint, and the photo scrim. Text sitting on a solid primary or accent fill (buttons, badges, highlighted metrics) MUST meet the same 4.5:1 bar.
 - **FR-007**: The existing experimental dark theme (behind `?experiment=true`) MUST continue to function without regression; its token values are not redefined by this restyle.
 - **FR-008**: Font loading MUST NOT produce invisible text, and MUST NOT cause a noticeable layout shift once the fonts finish loading; a system-font fallback stack MUST render in the interim.
-- **FR-009**: The restyle MUST apply to every existing chapter of the single-page story (hero, work, career, parallax band, skills, contact, navigation) without adding, removing, reordering, or changing the behavior of any chapter or interaction.
+- **FR-009**: The restyle MUST apply to every existing chapter of the single-page story — hero, work, career, the parallax principle band, education, projects, the skills/playbook chapter, contact, and navigation — without adding, removing, reordering, or changing the behavior of any chapter or interaction.
 - **FR-010**: Existing interactive behaviors (career pitch player selection, timeline, scroll-triggered motion, annotations) MUST be restyled visually but MUST remain functionally unchanged.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: Every chapter of the site, from hero through contact, visually presents the new typefaces and colors — zero chapters remain on the previous typeface or color set.
-- **SC-002**: All body and label text measures at least 4.5:1 contrast against every surface it appears on (bare background, card/panel, photo scrim) in the default theme.
+- **SC-001**: Every chapter of the site — hero, work, career, the parallax principle band, education, projects, skills/playbook, and contact — visually presents the new typefaces and colors; zero chapters remain on the previous typeface or color set.
+- **SC-002**: All body, label, and UI-component text (including text on solid primary/accent fills like buttons and badges) measures at least 4.5:1 contrast against the surface it appears on (bare background, card/panel, photo scrim, or the fill color itself) in the default theme.
 - **SC-003**: On a fresh page load, visitors see styled, visible text without a noticeable flash of invisible or unstyled text, and font loading does not produce a layout shift a visitor would notice.
 - **SC-004**: Labels, eyebrows, and tags across all chapters consistently use the mono treatment; a visual sweep of the page finds no chapter using an inconsistent label style.
 - **SC-005**: All existing interactive features (career player selection, timeline playback, scroll-triggered animation) behave identically before and after the restyle.
@@ -91,7 +99,7 @@ A visitor with normal or low vision can read every piece of text on the page —
 ## Assumptions
 
 - The palette and fonts in this request come from a separate, gitignored visual reference prototype (not part of this repository); only its color values and typefaces are being adopted, not its opaque-card/gradient-background surface system or its page structure.
-- The section names in the request (Hero, Work, Career Match, Parallax Band, Craft, Contact) map onto the current site's existing chapters (Hero, Work, Career/Pitch, Parallax Band, the skills chapter, Contact); no new chapters, features, or interactions are introduced by this restyle.
+- The section names in the request (Hero, Work, Career Match, Parallax Band, Craft, Contact) map onto the current site's existing chapters (Hero, Work, Career/Pitch, the parallax principle band, the skills/playbook chapter, Contact). The live page also renders an Education and a Projects chapter that the request didn't name individually; per clarification, both are in scope and restyled along with the rest. No new chapters, features, or interactions are introduced by this restyle.
 - Dark-mode token values are out of scope: the request specifies light-theme values only, and the dark theme is already unfinished and gated behind an experiment flag.
 - The new `--card` value is applied as a panel tint over the pinned photograph, consistent with the site's existing translucent-surface rule, rather than as an opaque fill.
 - Standard font-loading practice (a swap-in strategy plus a system-font fallback stack) is used to avoid invisible text during font load.

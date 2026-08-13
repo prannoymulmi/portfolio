@@ -34,3 +34,4 @@
 - The specific oklch color values and font-family names appear in the spec because the user supplied them as literal input; they are treated as given design values, not as an implementation prescription (no CSS mechanism, file, or class name is specified).
 - The one significant scope decision — whether to keep the pinned-photo/scrim surface or adopt the reference's opaque-card surfaces — was resolved with the user before drafting (see Assumptions) rather than left as a [NEEDS CLARIFICATION] marker.
 - Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`.
+- 2026-08-13 clarification session: resolved chapter-coverage scope (Education/Projects in scope) and contrast scope (primary/accent fills held to the same 4.5:1 bar). All items were already passing; re-validation made no state changes.
