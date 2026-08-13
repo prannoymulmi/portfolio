@@ -149,4 +149,39 @@ describe('HamburgerMenu', () => {
       }
     });
   });
+
+  describe('edge cases', () => {
+    it('closes the menu when the viewport resizes past a breakpoint', () => {
+      render(<HamburgerMenu sections={SECTIONS} />);
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+      expect(screen.getByRole('link', { name: 'Career Journey' })).toBeInTheDocument();
+
+      fireEvent(window, new Event('resize'));
+
+      expect(screen.queryByRole('link', { name: 'Career Journey' })).not.toBeInTheDocument();
+    });
+
+    it('wraps Tab from the last link back to the first, keeping focus inside the open menu', () => {
+      render(<HamburgerMenu sections={SECTIONS} />);
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+
+      const links = screen.getAllByRole('link');
+      const last = links[links.length - 1];
+      last.focus();
+
+      fireEvent.keyDown(screen.getByRole('navigation', { name: /story sections/i }), {
+        key: 'Tab',
+      });
+
+      expect(document.activeElement).toBe(links[0]);
+    });
+
+    it('renders a working, empty menu when sections have not loaded yet', () => {
+      render(<HamburgerMenu sections={[]} />);
+      const toggle = screen.getByRole('button', { name: /open menu/i });
+
+      expect(() => fireEvent.click(toggle)).not.toThrow();
+      expect(screen.queryAllByRole('link')).toHaveLength(0);
+    });
+  });
 });
