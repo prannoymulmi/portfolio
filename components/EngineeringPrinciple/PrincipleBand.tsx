@@ -125,9 +125,15 @@ export function PrincipleBand() {
           Engineering principle
         </motion.p>
 
+        {/* Display-scale, not heading-scale: a "held statement between two
+            chapters" earns the same order of size Hero's role bars use, not
+            a bump from the previous text-3xl/4xl. font-semibold over the
+            component's usual font-medium carries that size without going
+            thin; leading-[1.05] keeps a 2-3 line quote reading as one
+            graphic block rather than a paragraph. */}
         <motion.blockquote
           style={{ y: statementY, willChange: 'transform' }}
-          className="text-foreground mt-6 text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl"
+          className="text-foreground mt-6 text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
         >
           &ldquo;{statement}&rdquo;
         </motion.blockquote>
@@ -147,7 +153,7 @@ export function PrincipleBand() {
             text-on-photo had there. The dark: override restores that. */}
         <motion.p
           style={{ y: supportingY, willChange: 'transform' }}
-          className="text-muted-foreground dark:text-on-photo mx-auto mt-8 max-w-xl"
+          className="text-muted-foreground dark:text-on-photo mx-auto mt-8 max-w-xl text-sm sm:text-base"
         >
           {supporting}
         </motion.p>
