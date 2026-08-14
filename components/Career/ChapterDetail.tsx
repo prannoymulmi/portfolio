@@ -22,8 +22,10 @@ interface ChapterDetailProps {
  *
  * Each section label carries a small `aria-hidden` emoji mark — no icon
  * library involved, so Principle IV's `react-icons`-in-`SocialIcons.tsx`-only
- * restriction stays intact. The date moved out of the header into its own
- * line at the foot of the panel, alongside its own mark.
+ * restriction stays intact. The date sits directly beneath the role line,
+ * ahead of "What I built" — a visitor scanning the panel should know *when*
+ * before reading *what* (specs/012-mobile-layout-fixes), rather than finding
+ * the date only after scrolling past the achievements and technologies.
  *
  * Replaces the previous design's stack of MilestoneCards, where every chapter
  * was on screen at once behind its own expand/collapse toggle. One panel tied
@@ -39,12 +41,21 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
 
   return (
     <div className="chapter-panel rounded-2xl p-5">
-      <p className="label-mono text-xs text-primary">
+      <p className="label-mono text-primary text-xs">
         Chapter {order} · {position}
       </p>
 
       <h3 className="mt-2 text-2xl font-semibold tracking-tight">{company}</h3>
-      <p className="mt-1 text-sm font-medium text-primary">{role}</p>
+      <p className="text-primary mt-1 text-sm font-medium">{role}</p>
+
+      {/* Date sits here, right after the role and ahead of every detail
+          section, so the visitor reads *when* before *what*
+          (specs/012-mobile-layout-fixes). It used to sit at the foot of the
+          panel, after achievements and technologies. */}
+      <p className="text-on-photo font-mono-ui mt-3 flex items-center gap-1.5 text-xs opacity-70">
+        <span aria-hidden="true">📅</span>
+        <span>{years}</span>
+      </p>
 
       {builtSummary && (
         <div className="mt-3">
@@ -65,7 +76,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
           <ul className="mt-1 space-y-1">
             {achievements.map((item) => (
               <li key={item} className="text-on-photo flex gap-2 text-sm leading-snug">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span className="bg-primary mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" />
                 {item}
               </li>
             ))}
@@ -82,21 +93,13 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
           {techTags.map((item) => (
             <li
               key={item}
-              className="text-on-photo label-mono rounded-full border border-border px-2.5 py-0.5 text-xs"
+              className="text-on-photo label-mono border-border rounded-full border px-2.5 py-0.5 text-xs"
             >
               {item}
             </li>
           ))}
         </ul>
       </div>
-
-      {/* Date moved down here, out of the header — the header now reads as
-          "what chapter, what position", and the date reads as a footer fact
-          alongside the rest of the chapter's specifics. */}
-      <p className="text-on-photo font-mono-ui mt-3 flex items-center gap-1.5 text-xs opacity-70">
-        <span aria-hidden="true">📅</span>
-        <span>{years}</span>
-      </p>
     </div>
   );
 }
