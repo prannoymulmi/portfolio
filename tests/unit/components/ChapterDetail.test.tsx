@@ -12,7 +12,8 @@ const baseChapter: CareerChapter = {
   abbreviation: 'AVIV',
   role: 'Senior Software Engineer',
   years: '11/2020 – 03/2025',
-  builtSummary: 'Effectively coded software changes and alterations based on specific design specifications.',
+  builtSummary:
+    'Effectively coded software changes and alterations based on specific design specifications.',
   achievements: [
     'Collaborated to create strategic initiatives to design, code, and test solutions.',
     'Architecture of Cloud based solutions in Amazon Web Services using different IaC tools.',
@@ -67,5 +68,35 @@ describe('ChapterDetail', () => {
       screen.getByRole('heading', { name: /^AViV GmbH \(Formerly Immowelt GmbH\)/ }),
     ).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'AViV' })).not.toBeInTheDocument();
+  });
+
+  // specs/012-mobile-layout-fixes: the visitor should read *when* before
+  // *what* — the date moves from the foot of the panel to just above "What I
+  // built". jsdom has no layout engine, so this is read as document order
+  // (text-content index), not geometry.
+  it('renders the date before the "What I built" summary', () => {
+    const { container } = render(<ChapterDetail chapter={baseChapter} />);
+
+    const text = container.textContent ?? '';
+    const dateIndex = text.indexOf(baseChapter.years);
+    const builtIndex = text.indexOf('What I built');
+
+    expect(dateIndex).toBeGreaterThan(-1);
+    expect(builtIndex).toBeGreaterThan(-1);
+    expect(dateIndex).toBeLessThan(builtIndex);
+  });
+
+  it('still renders the date ahead of the remaining detail sections when there is no "What I built" summary (FR-012)', () => {
+    const { container } = render(<ChapterDetail chapter={{ ...baseChapter, builtSummary: '' }} />);
+
+    expect(screen.queryByText('What I built')).not.toBeInTheDocument();
+
+    const text = container.textContent ?? '';
+    const dateIndex = text.indexOf(baseChapter.years);
+    const achievementsIndex = text.indexOf('Achievements');
+
+    expect(dateIndex).toBeGreaterThan(-1);
+    expect(achievementsIndex).toBeGreaterThan(-1);
+    expect(dateIndex).toBeLessThan(achievementsIndex);
   });
 });
