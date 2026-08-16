@@ -42,6 +42,7 @@
         "Prepared unit test cases and reviewed test results.",
         "Participated in agile SCRUM meetings."
       ],
+      "technologies": ["AWS", "Terraform", "Java", "Spring Boot", "Docker"],
       "dateText": "08/2018 – 10/2020"
     },
     {
@@ -54,6 +55,7 @@
         "Build projects using maven and develop backend modules using java spring, spring IOC, spring MVC, spring data JPA, Hibernate etc.",
         "Follow an object-oriented design and design patterns in the project code base"
       ],
+      "technologies": ["Java", "Spring", "Hibernate", "JavaScript", "Webpack", "Maven"],
       "dateText": "01/2018 – 08/2018"
     },
     {
@@ -65,6 +67,7 @@
         "Make the existing webapp into android, IOS mobile app using Cordova and optimize them.",
         "Provided effective troubleshooting and remediation for web applications."
       ],
+      "technologies": ["Angular.js", "JavaScript", "Cordova", "CSS"],
       "dateText": "03/2017 – 12/2017"
     },
     {
@@ -76,6 +79,7 @@
         "Maintained brand standards under company guidelines.",
         "Workflow tools included: HTML, CSS, React.JS, Cordova, Node.js and Git."
       ],
+      "technologies": ["HTML5", "CSS3", "JavaScript", "React.js", "Node.js"],
       "dateText": "04/2016 – 02/2017"
     }
   ]
