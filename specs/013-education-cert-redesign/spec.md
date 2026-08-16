@@ -8,6 +8,14 @@
 
 **Input**: User description: "I want to make the education and certification section more meaningful. The text Distinction and 1.9 Grade look really off. I want to make them look better using frontend design to make it more modern"
 
+## Clarifications
+
+### Session 2026-08-16
+
+- Q: What exact wording should the numeric grade badge use so a visitor unfamiliar with the German grading scale reads "1.9" as a strong result rather than a bare, ambiguous number? → A: `1.9 / 5.0` (superseded later this session — see below).
+- Q: Should the grade badge use an accent/highlight color that visually signals "achievement," or the same neutral tone already used for the "Learn more" pill elsewhere in the section? → A: Same neutral border/pill tone already used for the "Learn more" link in the row.
+- Q: Should the badge show "Good" or "Very Good" for the 1.9 grade, replacing the earlier `1.9 / 5.0` treatment? → A: "Good" — matches the 1.6–2.5 German grading band that 1.9 falls into. The badge shows the English qualitative label derived from that band, not the numeric scale.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Grade/classification reads as an achievement, not stray text (Priority: P1)
@@ -21,7 +29,7 @@ A visitor scanning the Education & Certifications section currently sees "Distin
 **Acceptance Scenarios**:
 
 1. **Given** an education entry with a `cardDetailedText` value (e.g., "Distinction"), **When** the section renders, **Then** the value appears as a styled badge/label distinct from body text, not as an unstyled paragraph.
-2. **Given** an education entry with a numeric grade value (e.g., "1.9"), **When** the section renders, **Then** the value is presented with enough context that a visitor unfamiliar with the grading scale can tell it denotes a strong result, not a raw/low score.
+2. **Given** an education entry with a numeric grade value (e.g., "1.9"), **When** the section renders, **Then** the badge shows the English qualitative label ("Good") derived from the German grading band, not the bare number.
 
 ---
 
@@ -66,17 +74,18 @@ A visitor viewing the site in either the default light theme or the experimental
 ### Functional Requirements
 
 - **FR-001**: The system MUST render an education entry's grade/classification value (currently the `cardDetailedText` field) as a visually distinct badge/label element, not as plain paragraph text.
-- **FR-002**: The badge MUST use the site's existing design tokens (color, border, radius) rather than introducing new arbitrary colors or one-off styling.
+- **FR-002**: The badge MUST reuse the same neutral border/pill tone already used for the row's "Learn more" link (existing design tokens: color, border, radius) rather than introducing a new accent color or one-off styling.
 - **FR-003**: The badge's text MUST meet WCAG AA contrast against the pinned photographic background in both the default theme and the `?experiment=true` theme, using only existing `dark:` utilities.
 - **FR-004**: Entries with no grade/classification value MUST render with no badge and no leftover empty space or broken alignment.
-- **FR-005**: The badge MUST display the exact value already present in `education.json` (`cardDetailedText`) — this change is presentational only and MUST NOT alter, rename, or add fields to the underlying data file.
-- **FR-006**: For a numeric grade value (e.g., "1.9"), the rendered treatment MUST include enough label context (e.g., a short qualifier or accompanying text) that the value is not misread as a bare, out-of-context number.
+- **FR-005**: The badge's source value MUST be the `cardDetailedText` field already present in `education.json`, displayed as-is except where FR-006's numeric-to-label mapping applies — this change is presentational only and MUST NOT alter, rename, or add fields to the underlying data file.
+- **FR-006**: For a numeric grade value (e.g., "1.9"), the rendered treatment MUST show its English qualitative equivalent (e.g., "Good") derived from the standard German university grading bands (1.0–1.5 "Very Good", 1.6–2.5 "Good", 2.6–3.5 "Satisfactory", 3.6–4.0 "Sufficient"), rather than the bare number.
 - **FR-007**: The badge MUST remain fully legible and correctly laid out at mobile viewport widths, without text overflow or wrapping that breaks the badge shape.
 - **FR-008**: Any entrance motion added to the badge (optional) MUST go through the site's existing Framer Motion or `rough-notation` usage and MUST respect `prefers-reduced-motion` via the existing helpers — no new animation library or bespoke detection path.
 
 ### Key Entities *(include if feature involves data)*
 
 - **Education Entry**: An item in `education.json` representing either a degree or a certification. Relevant existing attributes: `cardTitle` (qualification name), `cardSubtitle` (institution), `cardDetailedText` (optional grade/classification, e.g., "Distinction" or "1.9"), `media`/`icon` (optional image). No new attributes are introduced by this feature.
+- **Grade Band Mapping**: A fixed, presentation-only lookup from a numeric German grade to its English qualitative label (1.0–1.5 → "Very Good", 1.6–2.5 → "Good", 2.6–3.5 → "Satisfactory", 3.6–4.0 → "Sufficient"), used only to render `cardDetailedText` values that are numeric. Non-numeric values (e.g., "Distinction") are displayed as-is. Not stored in `education.json`.
 
 ## Success Criteria *(mandatory)*
 
@@ -84,7 +93,7 @@ A visitor viewing the site in either the default light theme or the experimental
 
 - **SC-001**: 100% of education entries carrying a grade/classification value display it as a styled badge rather than plain paragraph text.
 - **SC-002**: The badge passes a WCAG AA contrast check against the photographic background in both supported themes.
-- **SC-003**: A visitor unfamiliar with the German grading scale can correctly identify "1.9" as a strong academic result without leaving the page, based on the label/qualifier shown alongside it.
+- **SC-003**: A visitor unfamiliar with the German grading scale can correctly identify "1.9" as a strong academic result without leaving the page, based on the English qualitative label ("Good") shown in place of the raw number.
 - **SC-004**: The section's Lighthouse performance score remains ≥ 90 on production builds after the change (no regression from the existing baseline).
 - **SC-005**: The four education/certification entries read as one visually consistent set when viewed together, with no entry appearing unstyled or inconsistent relative to the others.
 
@@ -92,6 +101,5 @@ A visitor viewing the site in either the default light theme or the experimental
 
 - Scope is limited to the visual presentation of the existing `cardDetailedText` value and the section's overall visual consistency; it does not add new data fields, new entries, or restructure the section's layout (single-column row list) established in the prior redesign.
 - "More modern" is interpreted as: a styled badge/pill treatment for the grade value, using the site's existing token system — not a wholesale layout change (e.g., not switching back to a card grid or timeline component).
-- The numeric grade clarification (FR-006) is satisfied with a short inline qualifier (e.g., a label preceding the value) rather than a tooltip, footnote, or external link, keeping the fix simple per the KISS principle.
 - No new dependency, animation library, or content-storage mechanism is required; this is a Tailwind-only styling change to `components/Education/EducationSection.tsx`, so no ADR is expected to be triggered.
 - Certification entries (AWS badges) are unaffected beyond the general consistency pass in User Story 2 — they already have their own `media` badge image and "Learn more" link, which are out of scope for this change.

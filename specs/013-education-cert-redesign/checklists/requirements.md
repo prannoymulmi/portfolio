@@ -31,8 +31,11 @@
 
 ## Notes
 
-- Scope, badge-vs-tooltip treatment, and certification-entry handling were resolved
-  as documented assumptions in spec.md rather than open clarification questions,
-  since KISS-consistent defaults exist for each (badge styling via existing tokens,
-  no new layout, inline qualifier over tooltip).
+- Scope and certification-entry handling were resolved as documented assumptions
+  in spec.md rather than open clarification questions, since KISS-consistent
+  defaults exist for each (no new layout, no new dependency).
+- Numeric grade wording (FR-006) and badge color treatment (FR-002) were resolved
+  via `/speckit-clarify` on 2026-08-16 — see spec.md Clarifications section. The
+  numeric-grade wording was revised later the same session to an English
+  qualitative label ("Good") in place of the initial `1.9 / 5.0` scale treatment.
 - All items pass; ready for `/speckit-plan`.
