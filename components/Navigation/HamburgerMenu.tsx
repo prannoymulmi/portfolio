@@ -108,6 +108,18 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
   const panelRef = useRef<HTMLElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
+  // `document` exists on the client the instant this component mounts, but not
+  // during SSR — checking `typeof document` directly would make the portal
+  // appear on the client's very first render while the server rendered none,
+  // which is a hydration mismatch, not just a superficial console warning.
+  // Deferring to an effect means the first client render matches the server
+  // (no portal), and the portal mounts only once hydration has finished.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
   // Read once via lazy initializer — `window` isn't available during SSR —
   // matching the same helper and pattern StoryProgressNav already uses for
   // its own motion, rather than a second detection path (Constitution
@@ -173,7 +185,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
           {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
         </svg>
       </button>
-      {typeof document !== 'undefined' &&
+      {mounted &&
         createPortal(
           <>
             {/* Dimmed backdrop behind the panel. Always mounted (rather than
