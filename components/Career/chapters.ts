@@ -24,11 +24,10 @@ export interface CareerChapter {
 }
 
 /**
- * No entry in `experiences.json` records `technologies` today, so this is the
- * common case, not a rare edge (FR-012, spec clarification 2). A code
- * constant rather than a content-file field: it is site-wide authored copy
- * with no per-chapter variance, and adding it to the JSON would mean a Zod
- * schema change (Constitution Principle IV, content rule).
+ * Fallback tech list for any entry in `experiences.json` that omits its own
+ * `technologies` array (FR-012, spec clarification 2). Most chapters still
+ * rely on this default; entries with a role-specific stack (e.g. Statista,
+ * AViV) set `technologies` explicitly and take precedence over it below.
  */
 export const DEFAULT_TECH = ['AWS', 'Java', 'Terraform', 'TypeScript'];
 

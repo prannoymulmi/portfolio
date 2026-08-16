@@ -2,17 +2,33 @@
   "experiences": [
     {
       "title": "Senior Software Engineer",
+      "subtitle": "Statista GmbH",
+      "workType": "Full-time",
+      "workDescription": [
+        "Improved and maintained Auth0-based authentication systems within an IAM platform using AWS CDK, TypeScript, Node.js and Docker.",
+        "Reduced deployment time by streamlining CI/CD pipelines and automating infrastructure delivery.",
+        "Improved system traceability by enhancing metrics and observability across authentication services.",
+        "Strengthened secret management by migrating to AWS Secrets Manager, enabling seamless secret rotation.",
+        "Supported customers in resolving authentication-related issues, ensuring reliable access to systems.",
+        "Conducted threat modeling for major features to identify and mitigate security risks early in design."
+      ],
+      "technologies": ["AWS", "CDK", "TypeScript", "Node.js", "Docker", "Auth0"],
+      "dateText": "04/2026 – Present"
+    },
+    {
+      "title": "Senior Software Engineer",
       "subtitle": "AViV GmbH (Formerly Immowelt GmbH) ",
       "workType": "Full-time",
       "workDescription": [
         "Effectively coded software changes and alterations based on specific design specifications.",
-        "Collaborated to create strategic initiatives to design, code, and test solutions.",
+        "Conducted threat modeling and collaborated on strategic initiatives to design, code and test major features.",
         "Architecture of Cloud based solutions in Amazon Web Services using different IaC tools, i.e. Terraform, Cloudformation and CDK",
         "Contributed in reducing to 10% AWS costs using different metrics.",
         "Migrated on premises servers and database (Postgres SQL) into AWS.",
-        "Implemented and deployed different micro services using AWS services utilizing the Domain- Driven Design."
+        "Implemented and deployed Auth0-based authentication services and other microservices using Domain-Driven Design."
       ],
-      "dateText": "11/2020 – 03/2025"
+      "technologies": ["AWS", "Java", "Terraform", "TypeScript", "Auth0"],
+      "dateText": "11/2020 – 03/2026"
     },
     {
       "title": "Junior Backend Developer",
