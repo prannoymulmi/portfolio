@@ -28,42 +28,44 @@
       "metric": "1M+ active users"
     },
     {
-      "title": "AWS Migration & Cost Optimization",
-      "bodyText": "Led technical delivery of large-scale database and system migrations onto AWS, moving on-premises servers and PostgreSQL databases while safeguarding data integrity and minimizing downtime. Directed cloud architecture using Terraform, CloudFormation, and CDK, and contributed to a 10% reduction in AWS costs through targeted optimization. Coordinated across teams to integrate legacy systems and resolve complex technical challenges along the way.",
+      "title": "Security & Risk Management Analysis",
+      "bodyText": "Produced qualitative and quantitative risk assessments for a cyber-threat case study, pairing a structured risk register with quantitative modelling to make loss exposure defensible in numbers, not judgement. Built Monte Carlo simulations in Python to turn threat likelihood and impact into probability-of-loss exceedance curves, then applied TOPSIS decision analysis to rank mitigations — quantifying risk before designing controls around it.",
       "tags": [
-        "AWS",
-        "Terraform",
-        "CloudFormation",
-        "CDK",
-        "PostgreSQL"
+        "Risk Management",
+        "Python",
+        "Monte Carlo Simulation",
+        "TOPSIS",
+        "Security",
+        "Jupyter"
       ],
       "links": [
         {
-          "text": "AVIV Germany",
-          "route": "https://www.aviv-group.com"
+          "text": "View on GitHub",
+          "route": "https://github.com/prannoymulmi/Security-and-Risk-Management"
         }
       ],
-      "role": "Technical project lead",
-      "metric": "10% AWS cost reduction"
+      "role": "Risk Analyst",
+      "metric": "Monte Carlo + TOPSIS risk models"
     },
     {
-      "title": "Logistics Microservices Platform",
-      "bodyText": "Designed and built microservices in a distributed system for outbound logistics at OTTO, Germany's largest online retailer for fashion, lifestyle, and home & living. Extended core Java-based projects within the Logistic Service team, and set up unit, CDC, integration, and functional test suites to keep the distributed system reliable. Managed infrastructure as code with Terraform and practiced DevOps on AWS as part of a Scrum team, shipping continuously to production.",
+      "title": "This Portfolio, Spec-Driven",
+      "bodyText": "Designed and built this site end-to-end using spec-driven development: every feature starts as a written spec and plan before a line of code is touched. Architecturally significant decisions are captured as ADRs (21 and counting) in docs/adr — from choosing JSON content over a CMS to the single-page story structure — keeping the reasoning behind the codebase as legible as the code itself. Built on Next.js 16, React 19, and TypeScript in strict mode, with content validated at runtime by Zod.",
       "tags": [
-        "Java",
-        "AWS",
-        "Terraform",
-        "Microservices",
-        "Scrum"
+        "Next.js",
+        "TypeScript",
+        "Spec-Driven Development",
+        "ADRs",
+        "Tailwind CSS",
+        "Zod"
       ],
       "links": [
         {
-          "text": "OTTO GmbH",
-          "route": "https://www.otto.de"
+          "text": "View on GitHub",
+          "route": "https://github.com/prannoymulmi/portfolio"
         }
       ],
-      "role": "Junior Backend Developer",
-      "metric": "Germany's largest online retailer"
+      "role": "Sole engineer",
+      "metric": "21 ADRs documenting every major decision"
     }
   ]
 }
