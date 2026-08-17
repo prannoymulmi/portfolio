@@ -61,7 +61,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm test -- --coverage --passWithNoTests
+        run: pnpm test --coverage --passWithNoTests
 
   build:
     name: Build
