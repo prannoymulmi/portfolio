@@ -87,14 +87,11 @@ steps 1, 2, 4, 5).
 - [X] T008 [US1] Push and confirm the GitHub Actions CI run passes end-to-end
       (install, type-check, lint, test) using the updated workflow (depends on
       T006; SC-004; quickstart.md step 4)
-- [ ] T009 [US1] Confirm the next Vercel production deploy builds successfully
+- [X] T009 [US1] Confirm the next Vercel production deploy builds successfully
       using the updated `installCommand` (depends on T007; SC-004; quickstart.md
-      step 5) — **blocked**: GitHub's Deployments API shows no Vercel record for
-      any commit past 0740f26 (14:58, well before this feature's pushes), and no
-      commit status/check-run for the Vercel integration exists on the latest
-      commit either — consistent with the GitHub↔Vercel integration issue the
-      site owner already flagged ("github PR is broken"). Cannot verify from
-      here; needs a manual check of the Vercel dashboard.
+      step 5) — confirmed by the site owner directly in the Vercel dashboard
+      (GitHub's Deployments API never reflected it — the integration issue noted
+      above — so this could only be confirmed manually, not from here).
 
 **Checkpoint**: pnpm is the install path everywhere — local, CI, and production —
 and every existing script/pipeline behaves the same as it did under npm.
