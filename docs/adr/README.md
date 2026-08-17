@@ -15,7 +15,7 @@ were on the table at the time.
 | [0004](0004-football-pitch-metaphor.md) | Football pitch metaphor for career + skills | Accepted — extended by [0013](0013-hero-player-card.md) |
 | [0005](0005-gsap-and-framer-motion.md) | GSAP for scroll-driven, Framer for component motion | Accepted — amended by [0009](0009-rough-notation-third-animation-library.md) |
 | [0006](0006-tailwind-v4.md) | Tailwind CSS v4 with `@theme inline` | Accepted — dark-mode trigger superseded by [0011](0011-class-based-dark-mode.md) |
-| [0007](0007-react-19-legacy-peer-deps.md) | React 19 with `--legacy-peer-deps` | Accepted |
+| [0007](0007-react-19-legacy-peer-deps.md) | React 19 with `--legacy-peer-deps` | Accepted — install-command guidance superseded by [0022](0022-migrate-to-pnpm.md) |
 | [0008](0008-file-based-seo-conventions.md) | File-based `sitemap.ts` / `robots.ts` | Accepted — route list amended by [0012](0012-single-page-story.md) |
 | [0009](0009-rough-notation-third-animation-library.md) | RoughJS (via rough-notation) as a third animation library | Accepted |
 | [0010](0010-next-themes-for-theme-state.md) | next-themes for theme state | Accepted |
@@ -30,6 +30,7 @@ were on the table at the time.
 | [0019](0019-dark-mode-behind-an-experiment-flag.md) | Dark mode ships behind an experiment flag | Accepted — amends [0011](0011-class-based-dark-mode.md) in part |
 | [0020](0020-work-showcase-replaces-skills-formation.md) | The work showcase replaces the skills formation, and gradients overlay the surface | Accepted — amends [0004](0004-football-pitch-metaphor.md) in part, extends [0015](0015-photograph-as-page-surface.md) |
 | [0021](0021-technical-playbook-chapter-removed.md) | The Technical Playbook chapter is removed | Accepted — amends [0012](0012-single-page-story.md) |
+| [0022](0022-migrate-to-pnpm.md) | Migrate to pnpm | Accepted — supersedes [0007](0007-react-19-legacy-peer-deps.md)'s install-command guidance |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at

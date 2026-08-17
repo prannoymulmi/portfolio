@@ -3,6 +3,13 @@
 - **Status**: Accepted
 - **Date**: 2026-08-09
 
+> **2026-08-17**: The install-command guidance below (`--legacy-peer-deps` in
+> local, CI, and `vercel.json` commands) is superseded by
+> [ADR 0022](0022-migrate-to-pnpm.md), which moves the project from npm to pnpm.
+> pnpm does not require the flag — its `strict-peer-dependencies` setting
+> defaults to `false`. The rest of this record — the React 19 / Next.js 16
+> decision and its rationale — still stands.
+
 ## Context
 
 Next.js 16 ships against React 19. Several dev-only dependencies

@@ -1,4 +1,30 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.4.0 → 1.5.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — the Deployment bullet's install
+    command changes from npm with `--legacy-peer-deps` to pnpm (`pnpm install`,
+    version-pinned via `package.json`'s `packageManager` field). This is a
+    substitution, not an extension: Governance requires an ADR and an amendment
+    together for any Principle IV change, and both land in this batch of work
+    (ADR 0022). ADR 0007 is not rewritten or deleted — its record of the
+    underlying React 19 peer-dependency decision still stands, and it gains a
+    dated note pointing at ADR 0022 for the install-command specifics, per
+    Principle VI's own no-rewrite rule. ADR 0022 supersedes ADR 0007's
+    install-command guidance only, not its React 19 decision.
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: this is a package-manager swap (npm → pnpm), not a stack or framework
+change — motivated by pnpm's shared content-addressable store (smaller
+`node_modules` per install, larger savings across every pnpm project sharing
+the same machine) and by keeping tooling current. No dependency versions
+changed and no runtime behavior of the deployed site is affected; this is
+purely which tool installs the same dependency tree. Done directly on `main`
+per this feature's pre-approved no-branch/no-PR deviation (spec Assumptions,
+015-pnpm-migration) — "same PR" in the Governance rule below is satisfied here
+by "same batch of commits on `main`."
+
+--- previous ---
 Version change: 1.3.0 → 1.4.0
 Modified principles:
   - IV. Technology Stack (Theming) — the dark design goes behind the
@@ -144,8 +170,10 @@ constitution amendment:
   only in `components/Navigation/SocialIcons.tsx`. Not a general-purpose icon set for the
   rest of the UI (ADR 0014).
 - **Deployment**: GitHub → Vercel (automatic preview + production deploys on push).
-  Installs use `--legacy-peer-deps` in every environment until the blocking peer ranges
-  are published (ADR 0007).
+  Installs use pnpm (`pnpm install`, pinned via `package.json`'s `packageManager`
+  field) in every environment — local, CI, and Vercel (ADR 0022, which supersedes
+  ADR 0007's `--legacy-peer-deps`/npm install-command guidance specifically; ADR
+  0007's record of the underlying React 19 peer-dependency decision stands).
 
 **Rationale**: A fixed stack eliminates decision fatigue, keeps dependencies coherent,
 and ensures all tooling choices have been made deliberately upfront. Naming the ADR
@@ -225,4 +253,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.4.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-12
+**Version**: 1.5.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-17
