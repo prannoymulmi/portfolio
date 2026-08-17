@@ -11,7 +11,7 @@ describe('Story page (/)', () => {
       </ContentProvider>,
     );
 
-  it('renders all 7 story sections in narrative order', () => {
+  it('renders all 6 story sections in narrative order', () => {
     const { container } = renderStory();
     const sectionIds = Array.from(container.querySelectorAll('section[id]')).map(
       (section) => section.id,
@@ -23,7 +23,6 @@ describe('Story page (/)', () => {
       'career',
       'education',
       'projects',
-      'playbook',
       'contact',
     ]);
   });

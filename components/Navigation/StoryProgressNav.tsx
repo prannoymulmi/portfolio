@@ -23,7 +23,6 @@ const STORY_SECTIONS = [
   { id: 'career', label: 'Career Journey' },
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
-  { id: 'playbook', label: 'Technical Playbook' },
   { id: 'contact', label: 'Contact' },
 ];
 

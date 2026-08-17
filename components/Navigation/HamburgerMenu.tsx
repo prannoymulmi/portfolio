@@ -48,12 +48,6 @@ const SECTION_ICON_PATHS: Record<string, React.ReactNode> = {
     </>
   ),
   projects: <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" />,
-  playbook: (
-    <>
-      <polyline points="8 6 3 12 8 18" />
-      <polyline points="16 6 21 12 16 18" />
-    </>
-  ),
   contact: (
     <>
       <rect x="3" y="5" width="18" height="14" rx="2" />

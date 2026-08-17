@@ -43,7 +43,9 @@ const nextConfig: NextConfig = {
       { source: '/career', destination: '/#career', permanent: true },
       { source: '/education', destination: '/#education', permanent: true },
       { source: '/projects', destination: '/#projects', permanent: true },
-      { source: '/playbook', destination: '/#playbook', permanent: true },
+      // The Technical Playbook chapter was removed and its anchor no longer
+      // exists; pointing at it would silently strand the visitor at the top.
+      { source: '/playbook', destination: '/', permanent: true },
       // The About chapter folded into the hero, so its anchor no longer
       // exists; pointing at it would silently strand the visitor at the top.
       { source: '/about', destination: '/', permanent: true },

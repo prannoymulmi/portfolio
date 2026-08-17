@@ -7,7 +7,6 @@ import {
   ExperiencesFileSchema,
   EducationFileSchema,
   ProjectsFileSchema,
-  PlaybookFileSchema,
   EngineeringPrincipleFileSchema,
   RoutesFileSchema,
   SocialFileSchema,
@@ -17,7 +16,6 @@ import type {
   ExperiencesFile,
   EducationFile,
   ProjectsFile,
-  PlaybookFile,
   EngineeringPrincipleFile,
   RoutesFile,
   SocialFile,
@@ -29,7 +27,6 @@ interface ContentContextType {
   experiences: ContentState<ExperiencesFile>;
   education: ContentState<EducationFile>;
   projects: ContentState<ProjectsFile>;
-  playbook: ContentState<PlaybookFile>;
   principle: ContentState<EngineeringPrincipleFile>;
   routes: ContentState<RoutesFile>;
   social: ContentState<SocialFile>;
@@ -42,7 +39,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const experiences = useContentLoader('experiences.json', ExperiencesFileSchema);
   const education = useContentLoader('education.json', EducationFileSchema);
   const projects = useContentLoader('projects.json', ProjectsFileSchema);
-  const playbook = useContentLoader('playbook.json', PlaybookFileSchema);
   const principle = useContentLoader('principle.json', EngineeringPrincipleFileSchema);
   const routes = useContentLoader('routes.json', RoutesFileSchema);
   const social = useContentLoader('social.json', SocialFileSchema);
@@ -52,7 +48,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     experiences,
     education,
     projects,
-    playbook,
     principle,
     routes,
     social,

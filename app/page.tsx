@@ -6,7 +6,6 @@ import { PrincipleBand } from '@/components/EngineeringPrinciple/PrincipleBand';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ProjectGalleryLazy } from '@/components/Projects/ProjectGalleryLazy';
-import { PlaybookGrid } from '@/components/Playbook/PlaybookGrid';
 import { ContactSection } from '@/components/Contact/ContactSection';
 
 export const metadata: Metadata = {
@@ -84,16 +83,6 @@ export default function Home() {
       >
         <div className="mx-auto max-w-6xl">
           <ProjectGalleryLazy />
-        </div>
-      </section>
-
-      <section
-        id="playbook"
-        aria-label="Technical Playbook"
-        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
-      >
-        <div className="mx-auto max-w-4xl">
-          <PlaybookGrid />
         </div>
       </section>
 

@@ -91,27 +91,6 @@ export const EngineeringPrincipleFileSchema = z.object({
   supporting: z.string().min(20).max(300),
 });
 
-export const PrincipleSchema = z.object({
-  title: z.string().min(5).max(50),
-  description: z.string().min(20).max(200),
-});
-
-export const PlaybookCategorySchema = z.object({
-  name: z.enum([
-    'Architecture',
-    'Cloud',
-    'Security',
-    'Backend',
-    'DevOps',
-    'Engineering Principles',
-  ]),
-  principles: z.array(PrincipleSchema).min(3).max(5),
-});
-
-export const PlaybookFileSchema = z.object({
-  categories: z.array(PlaybookCategorySchema).length(6),
-});
-
 export const RouteSchema = z.object({
   component: z.string(),
   path: z.string().startsWith('/'),

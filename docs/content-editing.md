@@ -23,7 +23,6 @@ browser console — check there first when something disappears.
 | `experiences.json` | Career journey milestones | `ExperiencesFile` |
 | `education.json` | Education & certifications | `EducationFile` |
 | `projects.json` | Project gallery | `ProjectsFile` |
-| `playbook.json` | Technical playbook grid | `PlaybookFile` |
 | `navbar.json` | Top nav links | `NavbarConfig` |
 | `social.json` | Social links (footer + about page) | `SocialFile` |
 | `routes.json` | Reserved / not currently rendered | `RoutesFile` |

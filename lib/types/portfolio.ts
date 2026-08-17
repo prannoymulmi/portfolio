@@ -99,25 +99,8 @@ export interface ProjectsFile {
   projects: Project[];
 }
 
-export interface Principle {
-  title: string;
-  description: string;
-}
-
-export interface PlaybookCategory {
-  name: string;
-  principles: Principle[];
-}
-
-export interface PlaybookFile {
-  categories: PlaybookCategory[];
-}
-
 /**
- * The single statement carried by the engineering-principle band. Named
- * EngineeringPrinciple, not Principle: `Principle` is already the playbook's
- * title/description pair, and two different shapes under one name is how a
- * schema gets applied to the wrong file.
+ * The single statement carried by the engineering-principle band.
  */
 export interface EngineeringPrincipleFile {
   statement: string;
