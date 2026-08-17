@@ -6,8 +6,8 @@ Solo-maintained portfolio, but the conventions below keep future-me
 ## Local setup
 
 ```bash
-npm install --legacy-peer-deps    # React 19 peer-dep flag — see ADR 0007
-npm run dev
+pnpm install    # pnpm handles the React 19 peer-dep mismatch by default — see ADR 0022
+pnpm run dev
 ```
 
 ## Before opening a PR
@@ -15,10 +15,10 @@ npm run dev
 Run everything CI runs, locally:
 
 ```bash
-npm run type-check
-npm run lint
-npm test
-npm run build
+pnpm run type-check
+pnpm run lint
+pnpm test
+pnpm run build
 ```
 
 All four must pass. CI will re-run them, but catching issues locally
@@ -74,7 +74,7 @@ Not a code change — edit the relevant JSON file in `public/data/` and
 open a PR. See [docs/content-editing.md](docs/content-editing.md) for
 the field-by-field reference.
 
-Run `npm run validate:json` before pushing so a bad edit fails locally
+Run `pnpm run validate:json` before pushing so a bad edit fails locally
 instead of at build time.
 
 ## Testing conventions

@@ -10,23 +10,23 @@ and is validated at runtime with Zod.
 ## Quickstart
 
 ```bash
-# Requires Node 22.x (matches CI). React 19 forces the legacy peer-dep flag —
-# see docs/adr/0007 for rationale.
-npm install --legacy-peer-deps
-npm run dev             # http://localhost:3000
+# Requires Node 22.x (matches CI). pnpm is pinned via package.json's
+# packageManager field — see docs/adr/0022 for rationale.
+pnpm install
+pnpm run dev             # http://localhost:3000
 ```
 
 ## Common tasks
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Turbopack dev server with fast refresh |
-| `npm run build` | Production build (also prerenders sitemap.xml + robots.txt) |
-| `npm start` | Serve the production build locally |
-| `npm run type-check` | `tsc --noEmit`, strict mode |
-| `npm run lint` | ESLint 9 flat config with Next.js + React Hooks rules |
-| `npm test` | Jest + React Testing Library |
-| `npm run validate:json` | Validate `public/data/*.json` against Zod schemas |
+| `pnpm run dev` | Turbopack dev server with fast refresh |
+| `pnpm run build` | Production build (also prerenders sitemap.xml + robots.txt) |
+| `pnpm start` | Serve the production build locally |
+| `pnpm run type-check` | `tsc --noEmit`, strict mode |
+| `pnpm run lint` | ESLint 9 flat config with Next.js + React Hooks rules |
+| `pnpm test` | Jest + React Testing Library |
+| `pnpm run validate:json` | Validate `public/data/*.json` against Zod schemas |
 
 ## Editing content
 
@@ -47,6 +47,7 @@ Highlights:
 - [ADR 0003](docs/adr/0003-client-content-loading-with-zod.md) — Client-side loading + Zod validation
 - [ADR 0004](docs/adr/0004-football-pitch-metaphor.md) — Football pitch metaphor
 - [ADR 0007](docs/adr/0007-react-19-legacy-peer-deps.md) — React 19 with `--legacy-peer-deps`
+- [ADR 0022](docs/adr/0022-migrate-to-pnpm.md) — Migrate to pnpm
 
 ## Project layout
 
@@ -78,7 +79,7 @@ tests/                   # Jest unit + integration
 ## Deployment
 
 - **Platform**: Vercel (see [vercel.json](vercel.json) — pins install
-  command to `--legacy-peer-deps`).
+  command to `pnpm install`).
 - **Domain**: Porkbun-registered, DNS pointed at Vercel via A record
   (`76.76.21.21`) or CNAME to `cname.vercel-dns.com` for subdomains.
 - **Env vars** (Vercel dashboard, Production scope):
