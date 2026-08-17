@@ -10,14 +10,14 @@ jest.mock('next/image', () => ({
   ),
 }));
 
-const mockProjects: { data: { projects: Project[] } | null; loading: boolean; error: Error | null } = {
+const mockSystems: { data: { projects: Project[] } | null; loading: boolean; error: Error | null } = {
   loading: false,
   error: null,
   data: { projects: [] },
 };
 
 jest.mock('@/components/Common/ContentProvider', () => ({
-  useContent: () => ({ projects: mockProjects }),
+  useContent: () => ({ systems: mockSystems }),
 }));
 
 import { ThreeSystems } from '@/components/Work/ThreeSystems';
@@ -33,9 +33,9 @@ function project(overrides: Partial<Project> & { title: string }): Project {
 
 describe('ThreeSystems', () => {
   beforeEach(() => {
-    mockProjects.loading = false;
-    mockProjects.error = null;
-    mockProjects.data = {
+    mockSystems.loading = false;
+    mockSystems.error = null;
+    mockSystems.data = {
       projects: [
         project({ title: 'Cloud Migration Platform', role: 'Tech lead', metric: '99.99% uptime' }),
         project({ title: 'Real-Time Analytics Dashboard', metric: '10M+ events daily' }),
@@ -52,7 +52,7 @@ describe('ThreeSystems', () => {
   });
 
   it('shows at most three, even when the content file carries more', () => {
-    mockProjects.data!.projects.push(project({ title: 'A Fourth System Nobody Asked For' }));
+    mockSystems.data!.projects.push(project({ title: 'A Fourth System Nobody Asked For' }));
     render(<ThreeSystems />);
     expect(screen.queryByText('A Fourth System Nobody Asked For')).not.toBeInTheDocument();
   });
@@ -78,7 +78,7 @@ describe('ThreeSystems', () => {
   });
 
   it('shows the year when the data does have one', () => {
-    mockProjects.data!.projects[0] = project({ title: 'Cloud Migration Platform', year: '2025' });
+    mockSystems.data!.projects[0] = project({ title: 'Cloud Migration Platform', year: '2025' });
     render(<ThreeSystems />);
     expect(screen.getByText('2025')).toBeInTheDocument();
   });
@@ -93,16 +93,16 @@ describe('ThreeSystems', () => {
   });
 
   it('renders nothing but a skeleton while content is loading', () => {
-    mockProjects.loading = true;
-    mockProjects.data = null;
+    mockSystems.loading = true;
+    mockSystems.data = null;
     render(<ThreeSystems />);
     expect(screen.queryByText('Cloud Migration Platform')).not.toBeInTheDocument();
   });
 
   it('reports a failure rather than an empty section when content cannot load', () => {
-    mockProjects.loading = false;
-    mockProjects.error = new Error('boom');
-    mockProjects.data = null;
+    mockSystems.loading = false;
+    mockSystems.error = new Error('boom');
+    mockSystems.data = null;
     render(<ThreeSystems />);
     expect(screen.getByText(/failed to load/i)).toBeInTheDocument();
   });

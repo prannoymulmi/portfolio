@@ -21,14 +21,14 @@ const SYSTEM_COUNT = 3;
  * left open, which is what was built with them and what it did in production.
  */
 export function ThreeSystems() {
-  const { projects } = useContent();
+  const { systems } = useContent();
 
-  if (projects.loading) return <ProjectsSkeleton />;
-  if (projects.error || !projects.data) {
+  if (systems.loading) return <ProjectsSkeleton />;
+  if (systems.error || !systems.data) {
     return <p className="text-center text-red-600">Failed to load systems</p>;
   }
 
-  const systems = projects.data.projects.slice(0, SYSTEM_COUNT);
+  const threeSystems = systems.data.projects.slice(0, SYSTEM_COUNT);
 
   // The chapter's gradient wash is mounted by app/page.tsx, on the full-bleed
   // <section>. Rendering it here would inset it to this content column, and a
@@ -44,7 +44,7 @@ export function ThreeSystems() {
       </div>
 
       <div className="mt-10 divide-y divide-border border-t border-border">
-        {systems.map((project) => (
+        {threeSystems.map((project) => (
           <SystemCard key={project.title} project={project} />
         ))}
       </div>
