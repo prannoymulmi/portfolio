@@ -30,7 +30,7 @@ npm run dev             # http://localhost:3000
 
 ## Editing content
 
-All copy — bio, roles, skills, jobs, projects, playbook — lives in
+All copy — bio, roles, skills, jobs, projects — lives in
 `public/data/*.json`. Edit the file, refresh the page. No rebuild
 needed. See [docs/content-editing.md](docs/content-editing.md) for the
 schema reference and common gotchas.
@@ -63,7 +63,6 @@ components/
   Common/                # ContentProvider, ErrorBoundary, LoadingState, ...
   Hero/                  # Hero section + parallax
   Navigation/            # Navbar, Footer
-  Playbook/              # Principle cards
   Projects/              # Project gallery + cards
   Skills/                # 4-3-3 formation on the pitch
 lib/

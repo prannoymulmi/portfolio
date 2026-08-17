@@ -89,7 +89,6 @@ describe('StoryProgressNav', () => {
         'Career Journey',
         'Education',
         'Projects',
-        'Technical Playbook',
         'Contact',
       ]) {
         expect(screen.queryByRole('link', { name: label })).not.toBeInTheDocument();

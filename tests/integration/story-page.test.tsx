@@ -11,21 +11,13 @@ describe('Story page (/)', () => {
       </ContentProvider>,
     );
 
-  it('renders all 7 story sections in narrative order', () => {
+  it('renders all 6 story sections in narrative order', () => {
     const { container } = renderStory();
     const sectionIds = Array.from(container.querySelectorAll('section[id]')).map(
       (section) => section.id,
     );
 
-    expect(sectionIds).toEqual([
-      'hero',
-      'skills',
-      'career',
-      'education',
-      'projects',
-      'playbook',
-      'contact',
-    ]);
+    expect(sectionIds).toEqual(['hero', 'skills', 'career', 'education', 'projects', 'contact']);
   });
 
   it('renders no persistent navigation bar', () => {

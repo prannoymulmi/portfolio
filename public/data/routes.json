@@ -26,11 +26,6 @@
       "headerTitle": "Projects"
     },
     {
-      "component": "pages/playbook",
-      "path": "/playbook",
-      "headerTitle": "Technical Playbook"
-    },
-    {
       "component": "pages/about",
       "path": "/about",
       "headerTitle": "About"
