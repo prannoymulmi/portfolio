@@ -25,7 +25,14 @@ export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps)
       className={`group chapter-panel cursor-pointer overflow-hidden rounded-2xl transition-colors ${
         isSelected ? 'border-primary' : 'hover:border-primary/60'
       }`}
-      onClick={onSelect}
+      onClick={(e) => {
+        // Explicit focus rather than relying on default click-to-focus
+        // behaviour (inconsistent across browsers for non-form elements):
+        // the detail modal returns focus here on close (FR-005), so this
+        // element must reliably be the one holding focus when it opens.
+        e.currentTarget.focus();
+        onSelect();
+      }}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
