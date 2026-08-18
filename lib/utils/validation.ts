@@ -70,6 +70,10 @@ export const ProjectLinkSchema = z.object({
 });
 
 export const ProjectSchema = z.object({
+  // Stable anchor/highlight target (components/Hero/Hero.tsx,
+  // components/Projects/ProjectGallery.tsx) — optional because most
+  // projects have no reason to be linked to from elsewhere on the page.
+  id: z.string().optional(),
   title: z.string().min(10).max(100),
   bodyText: z.string().min(100).max(500),
   image: z.string().optional(),

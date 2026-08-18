@@ -7,7 +7,12 @@ import type { Project } from '@/lib/types/portfolio';
 
 interface ProjectCardProps {
   project: Project;
+  projectId: string;
   isSelected: boolean;
+  /** True for the ~4s the hero's "Built with Claude Code" pill has just
+   * pointed a visitor at this card — see `.project-card-highlight` in
+   * globals.css and the hash-driven effect in ProjectGallery. */
+  isHighlighted: boolean;
   onSelect: () => void;
 }
 
@@ -19,12 +24,16 @@ interface ProjectCardProps {
  * accent is `--primary` (specs/009-typography-color-refresh) rather than the
  * framework blue this carried before — blue appeared nowhere else on the page.
  */
-export function ProjectCard({ project, isSelected, onSelect }: ProjectCardProps) {
+export function ProjectCard({ project, projectId, isSelected, isHighlighted, onSelect }: ProjectCardProps) {
   return (
     <article
-      className={`group chapter-panel cursor-pointer overflow-hidden rounded-2xl transition-colors ${
+      // Anchor target for the hero's `/#project-<id>` link — the browser's
+      // own `scroll-behavior: smooth` (globals.css) carries the scroll, no
+      // manual scrollIntoView needed.
+      id={`project-${projectId}`}
+      className={`group chapter-panel scroll-mt-24 cursor-pointer overflow-hidden rounded-2xl transition-colors ${
         isSelected ? 'border-primary' : 'hover:border-primary/60'
-      }`}
+      } ${isHighlighted ? 'project-card-highlight' : ''}`}
       onClick={(e) => {
         // Explicit focus rather than relying on default click-to-focus
         // behaviour (inconsistent across browsers for non-form elements):

@@ -167,6 +167,56 @@ body {
   }
 }
 
+/* A registered custom property, so the browser interpolates the conic
+   gradient's start angle frame-by-frame instead of snapping between the two
+   keyframe values — an unregistered custom property can't be animated this
+   way (https://developer.mozilla.org/en-US/docs/Web/CSS/@property). */
+@property --highlight-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes highlight-ring-spin {
+  to {
+    --highlight-angle: 360deg;
+  }
+}
+
+/* The moving light the hero's "Built with Claude Code" pill points a visitor
+   at (components/Hero/Hero.tsx navigates to `/#project-<id>`): a conic
+   gradient masked down to just the card's own border ring — the
+   content-box/padding-box mask pair with `exclude` cuts the interior out,
+   leaving only a 2px sliver — so the highlight traces the card's rounded
+   edge without painting an opaque fill over the translucent panel (ADR
+   0015). `.project-card-highlight` is added and removed by
+   ProjectGallery's timeout, not left as a permanent card state. */
+.project-card-highlight {
+  position: relative;
+}
+
+.project-card-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--highlight-angle),
+    transparent 0deg,
+    var(--primary) 20deg,
+    var(--accent) 40deg,
+    transparent 70deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: highlight-ring-spin 1.4s linear 3;
+  pointer-events: none;
+}
+
 /* Disable animations if user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
