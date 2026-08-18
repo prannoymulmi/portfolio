@@ -1,9 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Hero } from '@/components/Hero/Hero';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { PROJECT_HIGHLIGHT_EVENT, PORTFOLIO_PROJECT_ID } from '@/lib/utils/projectHighlight';
 
 // Mock framer-motion to avoid animation issues in tests. className is forwarded:
 // the layout classes on the drifting columns are the subject of the reading-order
@@ -224,5 +225,47 @@ describe('Hero Component', () => {
     // Opening a tab is announced in the accessible name, not just implied by
     // target — the assertion belongs here because the address is now real.
     expect(link).toHaveAccessibleName(/opens in a new tab/i);
+  });
+
+  describe('"Built with Claude Code" credit pill', () => {
+    const getPill = () => screen.getByRole('link', { name: /built with claude code/i });
+
+    it('links to the targeted project card and dispatches the highlight event on every click, including repeats', async () => {
+      renderHero();
+      await screen.findByRole('list', { name: /what i do/i });
+      const pill = getPill();
+      expect(pill).toHaveAttribute('href', `/#project-${PORTFOLIO_PROJECT_ID}`);
+
+      const listener = jest.fn();
+      window.addEventListener(PROJECT_HIGHLIGHT_EVENT, listener);
+
+      fireEvent.click(pill);
+      fireEvent.click(pill);
+      fireEvent.click(pill);
+
+      // Every click dispatches — including consecutive clicks on the same
+      // target — because state that doesn't change (same id) still must not
+      // suppress the event; that suppression was the original bug.
+      expect(listener).toHaveBeenCalledTimes(3);
+      window.removeEventListener(PROJECT_HIGHLIGHT_EVENT, listener);
+    });
+
+    it('scrolls to the target card unconditionally on every click, not only when the router treats the URL as changed', async () => {
+      renderHero();
+      await screen.findByRole('list', { name: /what i do/i });
+      const pill = getPill();
+
+      const target = document.createElement('div');
+      target.id = `project-${PORTFOLIO_PROJECT_ID}`;
+      document.body.appendChild(target);
+      const scrollIntoView = jest.fn();
+      target.scrollIntoView = scrollIntoView;
+
+      fireEvent.click(pill);
+      fireEvent.click(pill);
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(2);
+      document.body.removeChild(target);
+    });
   });
 });

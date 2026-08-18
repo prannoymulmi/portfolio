@@ -18,12 +18,32 @@ export const PROJECT_HIGHLIGHT_EVENT = 'portfolio:highlight-project';
 
 export interface ProjectHighlightDetail {
   id: string;
+  /**
+   * Monotonically increasing per dispatch, never reused — this is what lets
+   * ProjectGallery tell two consecutive clicks on the *same* card apart.
+   * `id` alone can't: setting React state to a value it already holds is a
+   * no-op re-render, so a second click while the first card is still (or
+   * again) highlighted would otherwise never flip `highlightedId` and the
+   * CSS animation would never restart. See nextProjectHighlightToken().
+   */
+  token: number;
 }
 
 export function dispatchProjectHighlight(id: string): void {
   window.dispatchEvent(
-    new CustomEvent<ProjectHighlightDetail>(PROJECT_HIGHLIGHT_EVENT, { detail: { id } }),
+    new CustomEvent<ProjectHighlightDetail>(PROJECT_HIGHLIGHT_EVENT, {
+      detail: { id, token: nextProjectHighlightToken() },
+    }),
   );
+}
+
+// Shared by the dispatch above and ProjectGallery's own hash-on-load path,
+// so every highlight request — click or refreshed `/#project-<id>` link —
+// draws from the same counter and no two ever compare equal.
+let lastToken = 0;
+export function nextProjectHighlightToken(): number {
+  lastToken += 1;
+  return lastToken;
 }
 
 // The one project the hero's credit pill currently targets — kept here,

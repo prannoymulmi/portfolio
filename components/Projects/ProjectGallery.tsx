@@ -5,7 +5,11 @@ import { useContent } from '@/components/Common/ContentProvider';
 import { ProjectCard } from './ProjectCard';
 import { ProjectDetailModal } from './ProjectDetailModal';
 import { ProjectsSkeleton } from '@/components/Common/LoadingState';
-import { PROJECT_HIGHLIGHT_EVENT, type ProjectHighlightDetail } from '@/lib/utils/projectHighlight';
+import {
+  nextProjectHighlightToken,
+  PROJECT_HIGHLIGHT_EVENT,
+  type ProjectHighlightDetail,
+} from '@/lib/utils/projectHighlight';
 
 // Root of every per-project GitHub link already present in projects.json —
 // not a new value, just its profile-level prefix (research.md, data-model.md).
@@ -22,8 +26,11 @@ export function ProjectGallery() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   // The project the hero's "Built with Claude Code" pill just pointed a
   // visitor at (components/Hero/Hero.tsx), if any — cleared automatically
-  // once the border-light animation below has finished.
-  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+  // once the border-light animation below has finished. `token` changes on
+  // every highlight request, even repeats of the same `id`, so ProjectCard
+  // can force the CSS animation to restart rather than relying on `id`
+  // alone flipping React state (it doesn't, on a repeat click).
+  const [highlight, setHighlight] = useState<{ id: string; token: number } | null>(null);
   // Captures the card that opened the modal so focus can return to it on
   // close (FR-005), without inventing a second piece of state alongside
   // selectedProjectId (research.md).
@@ -39,24 +46,24 @@ export function ProjectGallery() {
 
     let timeoutId: number | undefined;
 
-    const highlight = (targetId: string) => {
+    const triggerHighlight = (targetId: string, token: number) => {
       const exists = projectList.some(
         (project, idx) => (project.id || idx.toString()) === targetId,
       );
       if (!exists) return;
 
-      setHighlightedId(targetId);
+      setHighlight({ id: targetId, token });
       window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(() => setHighlightedId(null), HIGHLIGHT_DURATION_MS);
+      timeoutId = window.setTimeout(() => setHighlight(null), HIGHLIGHT_DURATION_MS);
     };
 
     const onHighlightEvent = (event: Event) => {
       const detail = (event as CustomEvent<ProjectHighlightDetail>).detail;
-      if (detail?.id) highlight(detail.id);
+      if (detail?.id) triggerHighlight(detail.id, detail.token);
     };
 
     const hashMatch = window.location.hash.match(/^#project-(.+)$/);
-    if (hashMatch) highlight(decodeURIComponent(hashMatch[1]));
+    if (hashMatch) triggerHighlight(decodeURIComponent(hashMatch[1]), nextProjectHighlightToken());
 
     window.addEventListener(PROJECT_HIGHLIGHT_EVENT, onHighlightEvent);
     return () => {
@@ -118,7 +125,8 @@ export function ProjectGallery() {
               project={project}
               projectId={id}
               isSelected={selectedProjectId === id}
-              isHighlighted={highlightedId === id}
+              isHighlighted={highlight?.id === id}
+              highlightToken={highlight?.id === id ? highlight.token : null}
               onSelect={() => {
                 triggerRef.current = document.activeElement as HTMLElement;
                 setSelectedProjectId(id);

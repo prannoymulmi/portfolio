@@ -85,7 +85,18 @@ export function Hero() {
                   borrowed from the showcase/ reference's Hero (gitignored). */}
               <Link
                 href={`/#project-${PORTFOLIO_PROJECT_ID}`}
-                onClick={() => dispatchProjectHighlight(PORTFOLIO_PROJECT_ID)}
+                onClick={() => {
+                  dispatchProjectHighlight(PORTFOLIO_PROJECT_ID);
+                  // Next's router bails out of scrolling on a click whose
+                  // href matches the current URL (the common case here: the
+                  // hash from the first click is often still in the address
+                  // bar), so a second click that scrolled the page away in
+                  // the meantime would otherwise never scroll back. This
+                  // scrollIntoView runs unconditionally, every click,
+                  // whether or not the router decides the URL "changed".
+                  const target = document.getElementById(`project-${PORTFOLIO_PROJECT_ID}`);
+                  target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className="group mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:bg-primary/10"
               >
                 <span className="relative flex h-2 w-2">
