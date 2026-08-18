@@ -21,6 +21,7 @@ const STORY_SECTIONS = [
   // links and the footer both target /#skills. Only the label moved.
   { id: 'skills', label: 'Selected Work' },
   { id: 'career', label: 'Career Journey' },
+  { id: 'technologies', label: 'Technologies' },
   { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },

@@ -154,6 +154,55 @@ export interface SocialFile {
   email: string;
 }
 
+/**
+ * A technology the site owner has professionally used. Deliberately carries
+ * no duration, level, or role list — those are derived at render time from
+ * `experiences.json` by `lib/utils/techDuration.ts` (research R-001). Storing
+ * a hand-authored number here would be the exact untraceable claim ADR 0020
+ * removed the old skills formation for.
+ */
+export interface Technology {
+  /** Display name; unique across the file, and used as the selection key. */
+  name: string;
+  /** Must be a member of `TechnologiesFile.categories` — enforced cross-field
+   * by `TechnologiesFileSchema`'s `superRefine`, not by this entry's schema. */
+  category: string;
+  /**
+   * Literal strings as they appear in a role's `technologies` array in
+   * `experiences.json` (e.g. `"Spring"` vs `"Spring Boot"`). Matching is
+   * exact after trim, case-insensitive — no fuzzy or substring matching.
+   */
+  matches: string[];
+  /**
+   * Optional, additive override for when a matched role's *whole* dateText
+   * span overstates this technology's real start within that one role (e.g.
+   * threat modeling began partway through a still-ongoing role, not at its
+   * start). Keyed by the role's `subtitle` (employer), compared trimmed —
+   * `experiences.json` subtitles are not guaranteed to be trim-clean — with
+   * an `"MM/YYYY"` value. `buildUsage` clamps that one matched role's
+   * interval start to this month before unioning; every other role and every
+   * other technology is unaffected. Deliberately not a replacement for
+   * splitting a role in two: the career-chapter timeline stays one entry per
+   * real job, and this field only adjusts how much of that job's span counts
+   * toward one technology's duration (docs/adr/0023).
+   */
+  sinceByEmployer?: Record<string, string>;
+  /** Short prose on where/how it was used, consistent with the
+   * `workDescription` of the roles it matches. */
+  note: string;
+}
+
+export interface TechnologiesFile {
+  /** The chapter's supporting paragraph. */
+  intro: string;
+  /** The single Claude Code / spec-driven development sentence (FR-005). */
+  builtWithNote: string;
+  /** Display order of the category filter row. The component prepends its
+   * own "All" option; it is not stored here. */
+  categories: string[];
+  technologies: Technology[];
+}
+
 // Content state for loading/error handling
 export interface ContentState<T> {
   data: T | null;

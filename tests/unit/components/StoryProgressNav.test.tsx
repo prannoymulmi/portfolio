@@ -87,6 +87,7 @@ describe('StoryProgressNav', () => {
         'Introduction',
         'Selected Work',
         'Career Journey',
+        'Technologies',
         'Education',
         'Projects',
         'Contact',

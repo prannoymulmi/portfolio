@@ -4,6 +4,7 @@ import { ThreeSystems } from '@/components/Work/ThreeSystems';
 import { ChapterGradientOverlay } from '@/components/Common/ChapterGradientOverlay';
 import { PrincipleBand } from '@/components/EngineeringPrinciple/PrincipleBand';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
+import { TechnologiesChapter } from '@/components/Technologies/TechnologiesChapter';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ProjectGalleryLazy } from '@/components/Projects/ProjectGalleryLazy';
 import { ContactSection } from '@/components/Contact/ContactSection';
@@ -65,6 +66,20 @@ export default function Home() {
           a held statement between chapters, not a chapter. Listing it would
           promise a section with contents to navigate. */}
       <PrincipleBand />
+
+      {/* No ChapterGradientOverlay here (research R-008): only #skills and
+          #career carry the wash; this chapter joins the later, quieter group
+          (#education, #projects, #contact) so it does not read as the page's
+          most visually dominant chapter (FR-008). */}
+      <section
+        id="technologies"
+        aria-label="Technologies"
+        className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-6xl">
+          <TechnologiesChapter />
+        </div>
+      </section>
 
       <section
         id="education"
