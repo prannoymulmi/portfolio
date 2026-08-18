@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { HomeSchema } from '@/lib/utils/validation';
+import { HomeSchema, TechnologiesFileSchema } from '@/lib/utils/validation';
 
 const validHome = {
   name: 'Prannoy Mulmi',
@@ -87,5 +87,129 @@ describe('HomeSchema', () => {
   it('requires the intro statement', () => {
     const { intro: _intro, ...withoutIntro } = validHome;
     expect(HomeSchema.safeParse(withoutIntro).success).toBe(false);
+  });
+});
+
+describe('TechnologiesFileSchema', () => {
+  const validTechnologies = {
+    intro: 'Every technology below is tied to a real role and date range from the career history.',
+    builtWithNote:
+      'This site itself was designed and built with Claude Code, using spec-driven development.',
+    categories: ['Cloud & Infrastructure', 'Languages'],
+    technologies: [
+      {
+        name: 'AWS',
+        category: 'Cloud & Infrastructure',
+        matches: ['AWS'],
+        note: 'Architected cloud infrastructure across four roles, from Terraform to IAM at scale.',
+      },
+      {
+        name: 'TypeScript',
+        category: 'Languages',
+        matches: ['TypeScript'],
+        note: 'Primary language for authentication services and cloud tooling in recent senior roles.',
+      },
+      {
+        name: 'Java',
+        category: 'Languages',
+        matches: ['Java'],
+        note: 'Core backend language from junior backend roles through senior microservice work.',
+      },
+      {
+        name: 'JavaScript',
+        category: 'Languages',
+        matches: ['JavaScript'],
+        note: 'Used across frontend and full stack roles, from early prototypes to Angular and React.',
+      },
+    ],
+  };
+
+  it('accepts the real technologies.json shipped in public/data', () => {
+    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/technologies.json'), 'utf-8');
+    const result = TechnologiesFileSchema.safeParse(JSON.parse(raw));
+    if (!result.success) {
+      // Surface the Zod issues in the test failure output for a fast diagnosis.
+      console.error(result.error.issues);
+    }
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts a well-formed file', () => {
+    expect(TechnologiesFileSchema.safeParse(validTechnologies).success).toBe(true);
+  });
+
+  it('rejects a technology whose category is not a member of categories', () => {
+    const bad = {
+      ...validTechnologies,
+      technologies: [
+        ...validTechnologies.technologies,
+        { name: 'Rust', category: 'Systems', matches: ['Rust'], note: 'a'.repeat(50) },
+      ],
+    };
+    expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects an empty matches array', () => {
+    const bad = {
+      ...validTechnologies,
+      technologies: [
+        { name: 'Go', category: 'Languages', matches: [], note: 'a'.repeat(50) },
+        ...validTechnologies.technologies,
+      ],
+    };
+    expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects a duplicate technology name', () => {
+    const bad = {
+      ...validTechnologies,
+      technologies: [...validTechnologies.technologies, validTechnologies.technologies[0]],
+    };
+    expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+  });
+
+  it('rejects an out-of-range note', () => {
+    const bad = {
+      ...validTechnologies,
+      technologies: [
+        { ...validTechnologies.technologies[0], note: 'too short' },
+        ...validTechnologies.technologies.slice(1),
+      ],
+    };
+    expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+  });
+
+  describe('sinceByEmployer (docs/adr/0023)', () => {
+    it('accepts a technology with a well-formed sinceByEmployer override', () => {
+      const withSince = {
+        ...validTechnologies,
+        technologies: [
+          {
+            ...validTechnologies.technologies[0],
+            sinceByEmployer: { 'AViV GmbH (Formerly Immowelt GmbH)': '01/2024' },
+          },
+          ...validTechnologies.technologies.slice(1),
+        ],
+      };
+      expect(TechnologiesFileSchema.safeParse(withSince).success).toBe(true);
+    });
+
+    it('accepts a technology with no sinceByEmployer at all — it stays optional', () => {
+      expect(TechnologiesFileSchema.safeParse(validTechnologies).success).toBe(true);
+    });
+
+    it('rejects a sinceByEmployer value that is not MM/YYYY', () => {
+      const bad = {
+        ...validTechnologies,
+        technologies: [
+          {
+            ...validTechnologies.technologies[0],
+            sinceByEmployer: { 'AViV GmbH (Formerly Immowelt GmbH)': '2024-01' },
+          },
+          ...validTechnologies.technologies.slice(1),
+        ],
+      };
+      expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+    });
   });
 });
