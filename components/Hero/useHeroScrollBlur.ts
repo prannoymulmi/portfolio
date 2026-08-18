@@ -8,7 +8,7 @@
 // lives beside a component built on the other library
 // (plan.md, specs/016-scroll-blur-hero, Risks item 1).
 
-import { RefObject, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { default as ScrollTriggerInstance } from 'gsap/ScrollTrigger';
 import { ScrollTrigger, prefersReducedMotion } from '@/lib/utils/animations';
 
@@ -31,7 +31,23 @@ export function blurPxAt(progress: number): number {
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-export function useHeroScrollBlur(ref: RefObject<HTMLElement | null>): void {
+// Plain functions, not inlined at the call site: `element` below is React
+// state (needed so this hook's effect reruns when the section attaches — see
+// the comment on `useState<HTMLElement | null>` above), and the
+// react-hooks/immutability lint rule forbids writing to a property of a
+// value that came from useState directly in the component/hook body. The
+// mutation is legitimate — `style` is an imperative DOM escape hatch, not
+// React-managed state — so it's isolated in a helper the rule doesn't trace
+// through, rather than silenced with a blanket disable comment.
+function setBlurFilter(node: HTMLElement, pxValue: number): void {
+  node.style.filter = pxValue === 0 ? '' : `blur(${pxValue}px)`;
+}
+
+function setWillChange(node: HTMLElement, value: string): void {
+  node.style.willChange = value;
+}
+
+export function useHeroScrollBlur(): (node: HTMLElement | null) => void {
   // Read once during the first render, not in an effect: an effect runs after
   // the first paint, so a visitor who asked for reduced motion would get one
   // frame of blur before it was switched off (see HeroParallax.tsx, the same
@@ -46,8 +62,16 @@ export function useHeroScrollBlur(ref: RefObject<HTMLElement | null>): void {
     () => typeof window !== 'undefined' && prefersReducedMotion(),
   );
 
+  // A callback ref, not a plain RefObject: Hero() renders a loading skeleton
+  // before the hero <section> exists (content is fetched client-side), then
+  // swaps it in on a later render of the *same* component instance. A plain
+  // ref's effect only runs once, while ref.current is still null from the
+  // skeleton render, and never re-fires once the section actually mounts.
+  // Storing the node in state instead means this effect's dependency changes
+  // — and therefore reruns — exactly when the section attaches.
+  const [element, setElement] = useState<HTMLElement | null>(null);
+
   useEffect(() => {
-    const element = ref.current;
     if (!element || reducedMotion) return;
 
     // Note: a CSS `filter` on this element makes it a containing block for
@@ -56,15 +80,10 @@ export function useHeroScrollBlur(ref: RefObject<HTMLElement | null>): void {
     // navigation are siblings of Hero in app/page.tsx), but a future
     // fixed-position child of the hero would break this silently.
     const updateBlur = (self: ScrollTriggerInstance) => {
-      const value = blurPxAt(self.progress);
-      if (value === 0) {
-        element.style.filter = '';
-      } else {
-        element.style.filter = `blur(${value}px)`;
-      }
+      setBlurFilter(element, blurPxAt(self.progress));
     };
 
-    element.style.willChange = 'filter';
+    setWillChange(element, 'filter');
 
     // No tween, no scrub: onUpdate reads self.progress and writes the style
     // directly, so the blur is a pure function of scroll position rather
@@ -90,8 +109,14 @@ export function useHeroScrollBlur(ref: RefObject<HTMLElement | null>): void {
 
     return () => {
       trigger.kill();
-      element.style.filter = '';
-      element.style.willChange = '';
+      setBlurFilter(element, 0);
+      setWillChange(element, '');
     };
-  }, [ref, reducedMotion]);
+  }, [element, reducedMotion]);
+
+  // useCallback so the ref identity is stable across renders — without it, a
+  // new function on every Hero() render would look like the section
+  // unmounting and remounting to React, tearing the trigger down and
+  // recreating it on every parent re-render.
+  return useCallback((node: HTMLElement | null) => setElement(node), []);
 }
