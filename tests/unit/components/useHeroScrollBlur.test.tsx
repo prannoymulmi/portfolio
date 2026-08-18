@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { useState } from 'react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 // jsdom has no layout, so a real ScrollTrigger cannot compute progress. gsap
@@ -57,9 +57,30 @@ function setReducedMotion(reduced: boolean) {
 }
 
 function TestHero() {
-  const ref = useRef<HTMLElement>(null);
-  useHeroScrollBlur(ref);
-  return <section ref={ref} data-testid="hero" />;
+  const heroBlurRef = useHeroScrollBlur();
+  return <section ref={heroBlurRef} data-testid="hero" />;
+}
+
+// Mirrors Hero.tsx: the real component renders a loading skeleton (no
+// hero <section> at all) before swapping in the real markup on a later
+// render of the same component instance — the exact sequence that broke
+// the original RefObject-based version of this hook (the effect ran once
+// while the ref was still null and never re-fired once the section mounted).
+function TestHeroWithLoadingSkeleton() {
+  const heroBlurRef = useHeroScrollBlur();
+  const [loading, setLoading] = useState(true);
+
+  if (loading) {
+    return (
+      <div data-testid="skeleton">
+        <button type="button" onClick={() => setLoading(false)}>
+          finish loading
+        </button>
+      </div>
+    );
+  }
+
+  return <section ref={heroBlurRef} data-testid="hero" />;
 }
 
 describe('useHeroScrollBlur test harness', () => {
@@ -143,6 +164,23 @@ describe('useHeroScrollBlur ScrollTrigger wiring', () => {
 
     const [config] = mockCreate.mock.calls[0];
     expect(config.end).toBe('+=100%');
+  });
+
+  it('creates the ScrollTrigger once the hero section mounts, even when it is absent on the first render (loading skeleton regression)', () => {
+    const { getByRole, queryByTestId } = render(<TestHeroWithLoadingSkeleton />);
+
+    // No hero section yet — a RefObject-based version of this hook would
+    // already be past its one-shot effect at this point, with ref.current
+    // permanently null.
+    expect(queryByTestId('hero')).not.toBeInTheDocument();
+    expect(mockCreate).not.toHaveBeenCalled();
+
+    fireEvent.click(getByRole('button', { name: 'finish loading' }));
+
+    expect(queryByTestId('hero')).toBeInTheDocument();
+    expect(mockCreate).toHaveBeenCalledTimes(1);
+    const [config] = mockCreate.mock.calls[0];
+    expect(config.trigger).toBe(queryByTestId('hero'));
   });
 });
 

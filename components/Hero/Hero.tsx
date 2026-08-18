@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
@@ -22,8 +21,7 @@ const MARK_STAGGER_MS = 350;
 
 export function Hero() {
   const { home } = useContent();
-  const heroRef = useRef<HTMLElement>(null);
-  useHeroScrollBlur(heroRef);
+  const heroBlurRef = useHeroScrollBlur();
 
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
@@ -35,7 +33,7 @@ export function Hero() {
       {/* A scrim, not a fill: it lifts the left column clear of the photo's
           saturated corner while leaving the sunset itself visible. */}
       <section
-        ref={heroRef}
+        ref={heroBlurRef}
         className="relative flex min-h-screen items-center bg-gradient-to-r from-background/55 via-background/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8"
       >
         {/* First in source order, so it paints behind the scrim and every
