@@ -27,6 +27,7 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted={false}
+        highlightToken={null}
         onSelect={onSelect}
       />,
     );
@@ -42,6 +43,7 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted={false}
+        highlightToken={null}
         onSelect={onSelect}
       />,
     );
@@ -60,6 +62,7 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted={false}
+        highlightToken={null}
         onSelect={jest.fn()}
       />,
     );
@@ -75,6 +78,7 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted={false}
+        highlightToken={null}
         onSelect={jest.fn()}
       />,
     );
@@ -88,6 +92,7 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted
+        highlightToken={1}
         onSelect={jest.fn()}
       />,
     );
@@ -103,10 +108,78 @@ describe('ProjectCard', () => {
         projectId="auth0"
         isSelected={false}
         isHighlighted={false}
+        highlightToken={null}
         onSelect={jest.fn()}
       />,
     );
     const card = screen.getByRole('button', { name: /auth0 identity platform/i });
     expect(card.className).not.toMatch(/project-card-highlight/);
+  });
+
+  it('retriggers the highlight ring on a new token, even while still highlighted (repeat click on the same card)', () => {
+    const { rerender } = render(
+      <ProjectCard
+        project={testProject}
+        projectId="auth0"
+        isSelected={false}
+        isHighlighted
+        highlightToken={1}
+        onSelect={jest.fn()}
+      />,
+    );
+    const card = screen.getByRole('button', { name: /auth0 identity platform/i });
+    const removeSpy = jest.spyOn(card.classList, 'remove');
+    const addSpy = jest.spyOn(card.classList, 'add');
+
+    // Same `isHighlighted`, a new token — this is what a second click on
+    // the pill produces while the first highlight is still (or already
+    // was, but React hasn't cleared `isHighlighted` yet) in effect.
+    rerender(
+      <ProjectCard
+        project={testProject}
+        projectId="auth0"
+        isSelected={false}
+        isHighlighted
+        highlightToken={2}
+        onSelect={jest.fn()}
+      />,
+    );
+
+    expect(removeSpy).toHaveBeenCalledWith('project-card-highlight');
+    expect(addSpy).toHaveBeenCalledWith('project-card-highlight');
+    // Removed before it was re-added — not the other way round — so the
+    // browser sees an actual class removal to react to.
+    const removeOrder = removeSpy.mock.invocationCallOrder[0];
+    const addOrder = addSpy.mock.invocationCallOrder[addSpy.mock.invocationCallOrder.length - 1];
+    expect(removeOrder).toBeLessThan(addOrder);
+    expect(card.className).toMatch(/project-card-highlight/);
+  });
+
+  it('does not force a restart when the token is unchanged', () => {
+    const { rerender } = render(
+      <ProjectCard
+        project={testProject}
+        projectId="auth0"
+        isSelected={false}
+        isHighlighted
+        highlightToken={1}
+        onSelect={jest.fn()}
+      />,
+    );
+    const card = screen.getByRole('button', { name: /auth0 identity platform/i });
+    const removeSpy = jest.spyOn(card.classList, 'remove');
+
+    rerender(
+      <ProjectCard
+        project={testProject}
+        projectId="auth0"
+        isSelected={false}
+        isHighlighted
+        highlightToken={1}
+        onSelect={jest.fn()}
+      />,
+    );
+
+    expect(removeSpy).not.toHaveBeenCalledWith('project-card-highlight');
   });
 });

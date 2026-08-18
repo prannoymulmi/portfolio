@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Project } from '@/lib/types/portfolio';
@@ -13,6 +13,10 @@ interface ProjectCardProps {
    * pointed a visitor at this card — see `.project-card-highlight` in
    * globals.css and the hash-driven effect in ProjectGallery. */
   isHighlighted: boolean;
+  /** Changes on every highlight request, even repeats of the same card, so
+   * the animation can be forced to restart below — see the comment on the
+   * effect that reads it. */
+  highlightToken: number | null;
   onSelect: () => void;
 }
 
@@ -24,9 +28,42 @@ interface ProjectCardProps {
  * accent is `--primary` (specs/009-typography-color-refresh) rather than the
  * framework blue this carried before — blue appeared nowhere else on the page.
  */
-export function ProjectCard({ project, projectId, isSelected, isHighlighted, onSelect }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  projectId,
+  isSelected,
+  isHighlighted,
+  highlightToken,
+  onSelect,
+}: ProjectCardProps) {
+  const articleRef = useRef<HTMLElement | null>(null);
+
+  // `.project-card-highlight`'s ::before runs a fixed `animation: ... 3` —
+  // it plays three loops and then simply stops, it does not loop forever.
+  // Re-rendering with the class already applied (the common case when this
+  // card is clicked a second time before ProjectGallery's timeout has
+  // cleared it) does not touch the DOM at all, so the browser has no reason
+  // to restart a finished-or-still-running animation. Forcing a reflow
+  // between removing and re-adding the class — keyed off `highlightToken`,
+  // which changes on every request even for repeat clicks on this same
+  // card — is what makes each click retrigger the animation from its first
+  // frame, regardless of how the previous one ended.
+  useEffect(() => {
+    if (!isHighlighted || highlightToken === null) return;
+    const el = articleRef.current;
+    if (!el) return;
+
+    el.classList.remove('project-card-highlight');
+    // Reading a layout property flushes the removal above before the class
+    // goes back on, so the browser treats what follows as a fresh start
+    // rather than a no-op toggle.
+    void el.offsetWidth;
+    el.classList.add('project-card-highlight');
+  }, [isHighlighted, highlightToken]);
+
   return (
     <article
+      ref={articleRef}
       // Anchor target for the hero's `/#project-<id>` link — the browser's
       // own `scroll-behavior: smooth` (globals.css) carries the scroll, no
       // manual scrollIntoView needed.
