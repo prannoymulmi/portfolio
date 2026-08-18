@@ -49,14 +49,15 @@
     },
     {
       "title": "This Portfolio, Spec-Driven",
-      "bodyText": "Designed and built this site end-to-end using spec-driven development: every feature starts as a written spec and plan before a line of code is touched. Architecturally significant decisions are captured as ADRs (21 and counting) in docs/adr — from choosing JSON content over a CMS to the single-page story structure — keeping the reasoning behind the codebase as legible as the code itself. Built on Next.js 16, React 19, and TypeScript in strict mode, with content validated at runtime by Zod.",
+      "bodyText": "Designed and built this site end-to-end with Claude Code using spec-driven development: every feature starts as a written spec and plan before a line of code is touched. Architecturally significant decisions are captured as ADRs (23 and counting) in docs/adr — from choosing JSON content over a CMS to the single-page story structure. Built on Next.js 16, React 19, and TypeScript in strict mode, with content validated at runtime by Zod.",
       "tags": [
         "Next.js",
         "TypeScript",
         "Spec-Driven Development",
         "ADRs",
         "Tailwind CSS",
-        "Zod"
+        "Zod",
+        "Claude Code"
       ],
       "links": [
         {
