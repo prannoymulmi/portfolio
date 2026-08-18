@@ -101,8 +101,11 @@ duration unconnected to when it was actually used professionally.
 ### Edge Cases
 
 - What happens when a technology's duration cannot be traced to any dated
-  history? It MUST NOT display a fabricated duration; it is either left out of
-  this chapter or shown without a duration claim.
+  history, or traces to real history totalling under a year? It MUST NOT
+  display a fabricated or negligible duration; it is left out of this chapter
+  entirely rather than shown without a duration claim or with a "less than a
+  year" label — the chapter's claim is evidenced depth, not a complete
+  inventory of everything ever touched.
 - What happens when a category has only one technology after filtering? The
   filtered view still renders correctly with a single item, no broken layout.
 - What happens on a touch device where there is no hover state? Tapping a
