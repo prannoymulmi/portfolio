@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { parseDateText, buildUsage } from '@/lib/utils/techDuration';
+import type { TechnologiesFile, ExperiencesFile } from '@/lib/types/portfolio';
 
 /**
  * The site fetches its content from `/data/*.json`, which resolves from
@@ -61,5 +63,122 @@ describe('content sources', () => {
     const networks = social.map((link: { network: string }) => link.network.toLowerCase());
     expect(networks).not.toContain('email');
     expect(networks).not.toContain('mail');
+  });
+
+  // FR-006, research R-010: the featured "This Portfolio" entry must name
+  // Claude Code explicitly, without being reordered or resized relative to
+  // the other featured projects.
+  it('names Claude Code and spec-driven development in "This Portfolio, Spec-Driven"', () => {
+    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/projects.json'), 'utf-8');
+    const { projects } = JSON.parse(raw);
+
+    const index = projects.findIndex(
+      (project: { title: string }) => project.title === 'This Portfolio, Spec-Driven',
+    );
+
+    expect(index).toBeGreaterThanOrEqual(0);
+    // No elevation above the other featured projects — same position as
+    // before this feature (third of three).
+    expect(index).toBe(2);
+
+    const entry = projects[index];
+    expect(entry.bodyText).toMatch(/claude code/i);
+    expect(entry.bodyText).toMatch(/spec-driven/i);
+  });
+
+  // SC-004 guard: 100% of displayed technology durations must trace to a
+  // dated entry in experiences.json. Nothing in TechnologiesFileSchema can
+  // see across files, so the cross-file invariants live here (research R-002,
+  // R-004, data-model.md).
+  describe('technologies.json traces to experiences.json (SC-004)', () => {
+    const technologies = JSON.parse(
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/technologies.json'), 'utf-8'),
+    ).technologies as { name: string; matches: string[] }[];
+    const experiences = JSON.parse(
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/experiences.json'), 'utf-8'),
+    ).experiences as { title: string; technologies?: string[]; dateText: string }[];
+
+    const experienceTechs = new Set<string>();
+    experiences.forEach((role) =>
+      (role.technologies ?? []).forEach((t) => experienceTechs.add(t.trim().toLowerCase())),
+    );
+
+    it('has no orphaned alias — every matches[] string exists in experiences.json', () => {
+      const orphans: string[] = [];
+      technologies.forEach((tech) => {
+        tech.matches.forEach((match) => {
+          if (!experienceTechs.has(match.trim().toLowerCase())) {
+            orphans.push(`${tech.name}: "${match}"`);
+          }
+        });
+      });
+      expect(orphans).toEqual([]);
+    });
+
+    it('resolves every technology to at least one role', () => {
+      const unresolved = technologies.filter((tech) => {
+        const matchSet = new Set(tech.matches.map((m) => m.trim().toLowerCase()));
+        return !experiences.some((role) =>
+          (role.technologies ?? []).some((t) => matchSet.has(t.trim().toLowerCase())),
+        );
+      });
+      expect(unresolved.map((t) => t.name)).toEqual([]);
+    });
+
+    it('never lets two technologies claim the same source string', () => {
+      const seen = new Map<string, string>();
+      const collisions: string[] = [];
+      technologies.forEach((tech) => {
+        tech.matches.forEach((match) => {
+          const key = match.trim().toLowerCase();
+          if (seen.has(key) && seen.get(key) !== tech.name) {
+            collisions.push(`"${match}" claimed by both ${seen.get(key)} and ${tech.name}`);
+          }
+          seen.set(key, tech.name);
+        });
+      });
+      expect(collisions).toEqual([]);
+    });
+
+    it('parses every dateText in experiences.json', () => {
+      const unparseable = experiences
+        .filter((role) => parseDateText(role.dateText) === null)
+        .map((role) => `${role.title}: "${role.dateText}"`);
+      expect(unparseable).toEqual([]);
+    });
+  });
+
+  // docs/adr/0023 amendment: Threat Modeling's real duration must reflect
+  // only the AViV span from its sinceByEmployer date onward, plus the full
+  // Statista span — never the full 11/2020 AViV start.
+  it("clamps Threat Modeling's real duration to its sinceByEmployer date at AViV (docs/adr/0023)", () => {
+    const technologiesFile: TechnologiesFile = JSON.parse(
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/technologies.json'), 'utf-8'),
+    );
+    const experiencesFile: ExperiencesFile = JSON.parse(
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/experiences.json'), 'utf-8'),
+    );
+
+    const threatModelingEntry = technologiesFile.technologies.find(
+      (tech) => tech.name === 'Threat Modeling',
+    );
+    expect(threatModelingEntry?.sinceByEmployer).toBeDefined();
+
+    const usages = buildUsage(technologiesFile, experiencesFile.experiences);
+    const threatModeling = usages.find((usage) => usage.name === 'Threat Modeling');
+    expect(threatModeling).toBeDefined();
+    expect(threatModeling!.totalMonths).not.toBeNull();
+
+    // Expected: 01/2024 clamped-AViV-start unioned with Statista's full,
+    // adjacent-or-overlapping span through the current month — the same
+    // total a synthetic "01/2024 – Present" role would produce.
+    const sinceMonth = Object.values(threatModelingEntry!.sinceByEmployer!)[0];
+    const expected = parseDateText(`${sinceMonth} – Present`);
+    expect(threatModeling!.totalMonths).toBe(expected!.end - expected!.start);
+
+    // And explicitly not the full, unclamped AViV span (11/2020 onward),
+    // which would be a larger number than the clamped total above.
+    const fullAvivSpan = parseDateText('11/2020 – Present');
+    expect(threatModeling!.totalMonths).toBeLessThan(fullAvivSpan!.end - fullAvivSpan!.start);
   });
 });
