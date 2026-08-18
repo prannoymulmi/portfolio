@@ -227,8 +227,8 @@ describe('Hero Component', () => {
     expect(link).toHaveAccessibleName(/opens in a new tab/i);
   });
 
-  describe('"Built with Claude Code" credit pill', () => {
-    const getPill = () => screen.getByRole('link', { name: /built with claude code/i });
+  describe('"Built with Claude" credit pill', () => {
+    const getPill = () => screen.getByRole('link', { name: /built with claude/i });
 
     it('links to the targeted project card and dispatches the highlight event on every click, including repeats', async () => {
       renderHero();

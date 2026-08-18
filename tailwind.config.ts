@@ -26,11 +26,21 @@ const config: Config = {
       },
       animation: {
         shimmer: 'shimmer 2s infinite',
+        // The credit pill's typewriter cursor (CreditPillText.tsx). A CSS
+        // animation rather than a JS blink loop, so it disappears for free
+        // under `prefers-reduced-motion` via globals.css's blanket
+        // animation-duration override — no separate reduced-motion branch
+        // needed for the blink itself.
+        'blink-caret': 'blink-caret 1s steps(1) infinite',
       },
       keyframes: {
         shimmer: {
           '0%': { backgroundPosition: '-1000px 0' },
           '100%': { backgroundPosition: '1000px 0' },
+        },
+        'blink-caret': {
+          '0%, 49%': { opacity: '1' },
+          '50%, 100%': { opacity: '0' },
         },
       },
     },

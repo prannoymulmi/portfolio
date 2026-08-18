@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
+import { CreditPillText } from './CreditPillText';
 import { CvLink } from './CvLink';
 import { HeroGradientLayers } from './HeroGradientLayers';
 import { HeroDrift } from './HeroParallax';
@@ -24,6 +26,11 @@ const MARK_STAGGER_MS = 350;
 export function Hero() {
   const { home } = useContent();
   const heroBlurRef = useHeroScrollBlur();
+  // Bumped on every pointer-enter of the credit pill. CreditPillText runs
+  // its type-hold-revert cycle once automatically on mount (page load) and
+  // then again on each of these bumps, but only from rest, so re-hovering
+  // mid-cycle can neither restart nor extend it.
+  const [creditPillTriggerCue, setCreditPillTriggerCue] = useState(0);
 
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
@@ -36,7 +43,7 @@ export function Hero() {
           saturated corner while leaving the sunset itself visible. */}
       <section
         ref={heroBlurRef}
-        className="relative flex min-h-screen items-center bg-gradient-to-r from-background/55 via-background/25 to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8"
+        className="from-background/55 via-background/25 relative flex min-h-screen items-center bg-gradient-to-r to-transparent px-4 py-20 dark:from-gray-900/90 dark:via-gray-900/70 dark:to-gray-900/40 sm:px-6 lg:px-8"
       >
         {/* First in source order, so it paints behind the scrim and every
             foreground element below without needing a z-index of its own. */}
@@ -82,7 +89,14 @@ export function Hero() {
                   the CustomEvent (lib/utils/projectHighlight.ts) that
                   ProjectGallery turns into a moving-light border highlight
                   rather than just landing on top of the section. Pulsing dot
-                  borrowed from the showcase/ reference's Hero (gitignored). */}
+                  borrowed from the showcase/ reference's Hero (gitignored).
+                  The label (CreditPillText.tsx) is a fixed frame sized to
+                  "Built with Claude": the line types out past that width
+                  and scrolls inside it terminal-style, holds, then reverts —
+                  the pill's own size never changes. It runs on load and again
+                  on hover, always to completion.
+                  The `aria-label` below is the real, static accessible name
+                  so that animation is purely visual. */}
               <Link
                 href={`/#project-${PORTFOLIO_PROJECT_ID}`}
                 onClick={() => {
@@ -97,13 +111,15 @@ export function Hero() {
                   const target = document.getElementById(`project-${PORTFOLIO_PROJECT_ID}`);
                   target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                className="group mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:bg-primary/10"
+                onMouseEnter={() => setCreditPillTriggerCue((count) => count + 1)}
+                aria-label="Built with Claude — click to see how"
+                className="border-primary/20 bg-primary/5 text-primary hover:border-primary/40 hover:bg-primary/10 group mb-6 inline-flex w-fit items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium transition-colors"
               >
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                  <span className="bg-primary/60 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+                  <span className="bg-primary relative inline-flex h-2 w-2 rounded-full" />
                 </span>
-                Built with Claude Code · Spec-driven development
+                <CreditPillText triggerCue={creditPillTriggerCue} />
               </Link>
 
               {/* Stacked one per line, so the colour bars read as a vertical
@@ -137,7 +153,7 @@ export function Hero() {
                   WARM_INK literals — both are now real design tokens
                   (specs/009-typography-color-refresh), not one-off hex only
                   Tailwind's arbitrary-value syntax could reach. */}
-              <p className="mt-9 max-w-xl border-l-4 border-primary pl-5 text-lg font-medium text-foreground dark:text-gray-300">
+              <p className="border-primary text-foreground mt-9 max-w-xl border-l-4 pl-5 text-lg font-medium dark:text-gray-300">
                 {intro}
               </p>
 
