@@ -40,11 +40,20 @@ import { blurPxAt, MAX_BLUR_PX, useHeroScrollBlur } from '@/components/Hero/useH
 
 const mockCreate = ScrollTrigger.create as jest.Mock;
 
-function setReducedMotion(reduced: boolean) {
+// The hook reads two independent matchMedia queries (reduced-motion and the
+// `lg` desktop-layout breakpoint) — jsdom has no real matchMedia
+// implementation, so both are answered from here. desktopLayout defaults to
+// true because every pre-existing test in this file assumes a desktop
+// viewport (jsdom's default width already clears the 1024px breakpoint);
+// only the dedicated "below the desktop breakpoint" block below opts out.
+function setMediaQueries({
+  reducedMotion = false,
+  desktopLayout = true,
+}: { reducedMotion?: boolean; desktopLayout?: boolean } = {}) {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation((query: string) => ({
-      matches: reduced && query.includes('prefers-reduced-motion'),
+      matches: query.includes('prefers-reduced-motion') ? reducedMotion : desktopLayout,
       media: query,
       onchange: null,
       addListener: jest.fn(),
@@ -86,7 +95,7 @@ function TestHeroWithLoadingSkeleton() {
 describe('useHeroScrollBlur test harness', () => {
   beforeEach(() => {
     mockCreate.mockClear();
-    setReducedMotion(false);
+    setMediaQueries();
   });
 
   afterEach(() => {
@@ -125,7 +134,7 @@ describe('blurPxAt', () => {
 describe('useHeroScrollBlur ScrollTrigger wiring', () => {
   beforeEach(() => {
     mockCreate.mockClear();
-    setReducedMotion(false);
+    setMediaQueries();
   });
 
   afterEach(() => {
@@ -187,7 +196,7 @@ describe('useHeroScrollBlur ScrollTrigger wiring', () => {
 describe('useHeroScrollBlur under prefers-reduced-motion', () => {
   beforeEach(() => {
     mockCreate.mockClear();
-    setReducedMotion(true);
+    setMediaQueries({ reducedMotion: true });
   });
 
   afterEach(() => {
@@ -195,6 +204,30 @@ describe('useHeroScrollBlur under prefers-reduced-motion', () => {
   });
 
   it('creates no ScrollTrigger and writes no inline filter (FR-005, SC-004)', () => {
+    render(<TestHero />);
+
+    expect(mockCreate).not.toHaveBeenCalled();
+    const element = document.querySelector('[data-testid="hero"]') as HTMLElement;
+    expect(element.style.filter).toBe('');
+  });
+
+  it('unmounts without throwing, since there is no trigger to kill', () => {
+    const { unmount } = render(<TestHero />);
+    expect(() => unmount()).not.toThrow();
+  });
+});
+
+describe('useHeroScrollBlur below the desktop breakpoint', () => {
+  beforeEach(() => {
+    mockCreate.mockClear();
+    setMediaQueries({ desktopLayout: false });
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('creates no ScrollTrigger and writes no inline filter (stacked layout has no backdrop to sell the blur against)', () => {
     render(<TestHero />);
 
     expect(mockCreate).not.toHaveBeenCalled();
