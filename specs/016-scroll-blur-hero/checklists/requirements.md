@@ -31,7 +31,9 @@
 
 ## Notes
 
-- All items pass. No [NEEDS CLARIFICATION] markers were needed — reasonable defaults
-  (documented in Assumptions) covered scope, blur target, and cap distance without a
-  meaningful trade-off requiring user input.
+- All items pass. One clarification was asked and resolved on 2026-08-18 (blur
+  scope: hero foreground only, shared pinned background untouched — see spec's
+  Clarifications section). Remaining details (blur cap distance, coexistence
+  with the existing parallax effect) were covered by reasonable defaults in
+  Assumptions without a meaningful trade-off requiring user input.
 - Ready for `/speckit-plan`.

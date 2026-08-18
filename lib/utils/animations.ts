@@ -4,6 +4,11 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+// Re-exported so every consumer imports the plugin from this one registration
+// site rather than importing gsap/ScrollTrigger directly and re-registering it
+// (research R7, specs/016-scroll-blur-hero).
+export { ScrollTrigger };
+
 export interface ScrollTriggerConfig {
   trigger: string | HTMLElement;
   start?: string;

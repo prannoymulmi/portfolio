@@ -8,6 +8,12 @@
 
 **Input**: User description: "when I scroll from my hero page I want a blurring effect that slowing blurs more when I scroll down"
 
+## Clarifications
+
+### Session 2026-08-18
+
+- Q: When you scroll away from the hero, should the blur affect only the hero's own content and portrait (the shared page background stays sharp everywhere), or should it look like the background itself blurs behind the hero specifically, while staying sharp once you're below it? → A: Blur applies only to the hero's own foreground content (portrait, text, hero-local layers) — the shared pinned background stays sharp throughout.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Hero Progressively Blurs While Leaving It (Priority: P1)
@@ -69,7 +75,7 @@ A visitor with `prefers-reduced-motion` enabled sees the hero at a fixed, sharp 
 - **FR-001**: The hero section MUST render with zero blur when it is fully in view at the top of the page.
 - **FR-002**: The hero's blur amount MUST increase continuously and smoothly as the visitor scrolls down away from the top of the page, and decrease the same way when scrolling back up — the blur amount is always a direct function of current scroll position, not a one-time triggered animation.
 - **FR-003**: The blur MUST reach a fixed maximum amount once the visitor has scrolled a bounded distance past the hero, and MUST NOT continue increasing beyond that point regardless of how much further the visitor scrolls.
-- **FR-004**: Sections below the hero MUST NOT be blurred by this effect at any scroll position.
+- **FR-004**: Sections below the hero MUST NOT be blurred by this effect at any scroll position, and the shared pinned page background MUST remain sharp throughout — the blur applies only to the hero's own foreground content (portrait, text, hero-local decorative layers).
 - **FR-005**: When the visitor has `prefers-reduced-motion` enabled, the hero MUST remain unblurred at every scroll position.
 - **FR-006**: The blur effect MUST reflect the current scroll position immediately on page load or on navigation to an anchor, without an animated catch-up.
 - **FR-007**: The effect MUST remain smooth (no visible stutter or frame drops) during normal scrolling on supported devices.
@@ -91,7 +97,7 @@ A visitor with `prefers-reduced-motion` enabled sees the hero at a fixed, sharp 
 ## Assumptions
 
 - The "hero page" refers to the site's existing opening/hero section (the portrait-and-intro area at the top of the single-page story), not a separate route.
-- The blur applies to the hero section as a whole (its visual surface, including its background) rather than to individual pieces of hero content independently.
+- The blur applies to the hero's own foreground content (portrait, text, hero-local decorative layers) rather than to individual pieces of hero content independently; the shared pinned page background is untouched (see Clarifications).
 - A blur cap equal to roughly one viewport height of scroll distance is a reasonable default for "settling" — this can be tuned during implementation without changing the feature's intent.
 - The effect is purely visual (CSS blur intensity driven by scroll position) and does not change hero layout, spacing, or content.
 - This is additive to, and must coexist with, the existing parallax/gradient scroll motion already on the hero (see spec 007) rather than replacing it.
