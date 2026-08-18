@@ -1,20 +1,14 @@
 'use client';
 
 import { useContent } from '@/components/Common/ContentProvider';
+import { SocialGlyph } from '@/components/Navigation/SocialIcons';
 
 /**
  * The story's endpoint: an eyebrow, a big statement, and a button row —
  * matching the reference design's Contact section (showcase/, gitignored).
  *
- * Two deliberate departures from that reference:
+ * One deliberate departure from that reference:
  *
- * - No icons on the GitHub/LinkedIn buttons. The reference draws them with
- *   `lucide-react`; this project's icon set is `react-icons`, scoped by the
- *   constitution (Principle IV, ADR 0014) to `SocialIcons.tsx` alone, and
- *   `lucide-react` isn't part of the stack — adding it would be a new
- *   dependency requiring an ADR + amendment for two glyphs already drawn
- *   elsewhere on the page. Text-only pills carry the same button row without
- *   either.
  * - No local footer line ("Designed and built from scratch · 2026"). The
  *   site already has one, `components/Navigation/Footer.tsx`, mounted once
  *   in the root layout — a second one here would duplicate it.
@@ -75,6 +69,7 @@ export function ContactSection() {
               rel="noopener noreferrer"
               className="border-border inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm transition-colors hover:bg-card"
             >
+              <SocialGlyph network={link.network} className="h-4 w-4" />
               {link.network}
             </a>
           ))}
