@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
@@ -10,6 +11,7 @@ import { HeroPortrait } from './HeroPortrait';
 import { useHeroScrollBlur } from './useHeroScrollBlur';
 import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
+import { dispatchProjectHighlight, PORTFOLIO_PROJECT_ID } from '@/lib/utils/projectHighlight';
 
 /**
  * One colour per role — three roles, three colours, no arbitrary cycling.
@@ -72,6 +74,26 @@ export function Hero() {
                   wordmark, where it is visible from every chapter rather than
                   only the first, and printing it twice within one screen read
                   as a duplicate rather than as emphasis. */}
+
+              {/* Credit pill, pointing at the "This Portfolio, Spec-Driven"
+                  card specifically — `#project-portfolio-spec-driven` matches
+                  the `id` ProjectCard sets on that card (its `id` in
+                  public/data/projects.json), and the click also dispatches
+                  the CustomEvent (lib/utils/projectHighlight.ts) that
+                  ProjectGallery turns into a moving-light border highlight
+                  rather than just landing on top of the section. Pulsing dot
+                  borrowed from the showcase/ reference's Hero (gitignored). */}
+              <Link
+                href={`/#project-${PORTFOLIO_PROJECT_ID}`}
+                onClick={() => dispatchProjectHighlight(PORTFOLIO_PROJECT_ID)}
+                className="group mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:bg-primary/10"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                </span>
+                Built with Claude Code · Spec-driven development
+              </Link>
 
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
