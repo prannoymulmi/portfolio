@@ -10,6 +10,7 @@ import {
   EngineeringPrincipleFileSchema,
   RoutesFileSchema,
   SocialFileSchema,
+  TechnologiesFileSchema,
 } from '@/lib/utils/validation';
 import type {
   Home,
@@ -19,6 +20,7 @@ import type {
   EngineeringPrincipleFile,
   RoutesFile,
   SocialFile,
+  TechnologiesFile,
   ContentState,
 } from '@/lib/types/portfolio';
 
@@ -31,6 +33,7 @@ interface ContentContextType {
   principle: ContentState<EngineeringPrincipleFile>;
   routes: ContentState<RoutesFile>;
   social: ContentState<SocialFile>;
+  technologies: ContentState<TechnologiesFile>;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -44,6 +47,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const principle = useContentLoader('principle.json', EngineeringPrincipleFileSchema);
   const routes = useContentLoader('routes.json', RoutesFileSchema);
   const social = useContentLoader('social.json', SocialFileSchema);
+  const technologies = useContentLoader('technologies.json', TechnologiesFileSchema);
 
   const value: ContentContextType = {
     home,
@@ -54,6 +58,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     principle,
     routes,
     social,
+    technologies,
   };
 
   return <ContentContext.Provider value={value}>{children}</ContentContext.Provider>;

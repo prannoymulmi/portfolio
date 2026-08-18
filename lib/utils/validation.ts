@@ -137,6 +137,55 @@ export const SocialFileSchema = z.object({
   email: z.string().email(),
 });
 
+export const TechnologySchema = z.object({
+  name: z.string().min(1).max(24),
+  category: z.string(),
+  // Literal strings copied from experiences.json technologies[]. Cross-file
+  // orphan checking (every match must exist in experiences.json) is a test
+  // concern, not a Zod one — Zod cannot see across files.
+  matches: z.array(z.string()).min(1).max(6),
+  // Optional, additive: clamps one matched role's interval start forward when
+  // a technology began partway through an otherwise-matching role, rather
+  // than at that role's own start (docs/adr/0023). Keyed by the role's
+  // `subtitle` (compared trimmed by buildUsage — not enforced here, since Zod
+  // cannot see across files), valued `"MM/YYYY"`.
+  sinceByEmployer: z.record(z.string(), z.string().regex(/^\d{2}\/\d{4}$/)).optional(),
+  note: z.string().min(40).max(160),
+});
+
+export const TechnologiesFileSchema = z
+  .object({
+    intro: z.string().min(40).max(240),
+    builtWithNote: z.string().min(40).max(220),
+    categories: z.array(z.string().min(3).max(24)).min(2).max(8),
+    technologies: z.array(TechnologySchema).min(4).max(40),
+  })
+  // Cross-field rule: every technology's category must be a member of
+  // categories, and every name must be unique. Both span the whole file, so
+  // they live here rather than on TechnologySchema (data-model.md).
+  .superRefine((file, ctx) => {
+    const seenNames = new Set<string>();
+
+    file.technologies.forEach((tech, index) => {
+      if (!file.categories.includes(tech.category)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['technologies', index, 'category'],
+          message: `category "${tech.category}" is not a member of categories`,
+        });
+      }
+
+      if (seenNames.has(tech.name)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['technologies', index, 'name'],
+          message: `duplicate technology name "${tech.name}"`,
+        });
+      }
+      seenNames.add(tech.name);
+    });
+  });
+
 // Validation function with error handling
 export async function validateJSON<T>(
   data: unknown,
