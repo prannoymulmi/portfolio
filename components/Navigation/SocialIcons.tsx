@@ -19,6 +19,21 @@ const GLYPHS: Record<string, IconType> = {
 };
 
 /**
+ * Renders the glyph for a network name, or `null` if none matches.
+ *
+ * The one place outside this file that needs a `react-icons` glyph — the
+ * Contact section's GitHub/LinkedIn pills — imports this rather than
+ * `react-icons` itself, so the constitution's scoping of that dependency
+ * (Principle IV, ADR 0014) to this file still holds.
+ */
+export function SocialGlyph({ network, className }: { network: string; className?: string }) {
+  const Glyph = GLYPHS[network.toLowerCase()];
+  if (!Glyph) return null;
+
+  return <Glyph aria-hidden="true" className={className} />;
+}
+
+/**
  * The two profile links, small, in the persistent nav.
  *
  * Ink navy rather than a mid grey. These sit on a translucent pill with the
@@ -40,7 +55,7 @@ export function SocialIcons() {
   return (
     <ul className="flex items-center gap-2">
       {entries.map((link) => {
-        const Glyph = GLYPHS[link.network.toLowerCase()];
+        const hasGlyph = Boolean(GLYPHS[link.network.toLowerCase()]);
 
         return (
           <li key={link.href}>
@@ -51,8 +66,8 @@ export function SocialIcons() {
               aria-label={link.network}
               className="flex items-center rounded p-1.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-gray-100 dark:hover:text-blue-400"
             >
-              {Glyph ? (
-                <Glyph aria-hidden="true" className="h-5 w-5" />
+              {hasGlyph ? (
+                <SocialGlyph network={link.network} className="h-5 w-5" />
               ) : (
                 // A network with no glyph still has to be a usable link.
                 <span className="text-sm font-medium">{link.network}</span>
