@@ -12,7 +12,7 @@
         "Supported customers in resolving authentication-related issues, ensuring reliable access to systems.",
         "Conducted threat modeling for major features to identify and mitigate security risks early in design."
       ],
-      "technologies": ["AWS", "CDK", "TypeScript", "Node.js", "Docker", "Auth0"],
+      "technologies": ["AWS", "CDK", "TypeScript", "Node.js", "Docker", "Auth0", "JavaScript", "Datadog", "Threat Modeling"],
       "dateText": "04/2026 – Present"
     },
     {
@@ -27,7 +27,7 @@
         "Migrated on premises servers and database (Postgres SQL) into AWS.",
         "Implemented and deployed Auth0-based authentication services and other microservices using Domain-Driven Design."
       ],
-      "technologies": ["AWS", "Java", "Terraform", "TypeScript", "Auth0"],
+      "technologies": ["AWS", "Java", "Terraform", "TypeScript", "Auth0", "Node.js", "Docker", "JavaScript", "Spring Boot", "Datadog", "Threat Modeling"],
       "dateText": "11/2020 – 03/2026"
     },
     {
