@@ -31,6 +31,7 @@ were on the table at the time.
 | [0020](0020-work-showcase-replaces-skills-formation.md) | The work showcase replaces the skills formation, and gradients overlay the surface | Accepted — amends [0004](0004-football-pitch-metaphor.md) in part, extends [0015](0015-photograph-as-page-surface.md) |
 | [0021](0021-technical-playbook-chapter-removed.md) | The Technical Playbook chapter is removed | Accepted — amends [0012](0012-single-page-story.md) |
 | [0022](0022-migrate-to-pnpm.md) | Migrate to pnpm | Accepted — supersedes [0007](0007-react-19-legacy-peer-deps.md)'s install-command guidance |
+| [0023](0023-technologies-derive-from-experiences.md) | The Technologies chapter derives durations from `experiences.json` rather than storing them | Accepted — extends [0020](0020-work-showcase-replaces-skills-formation.md) |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
