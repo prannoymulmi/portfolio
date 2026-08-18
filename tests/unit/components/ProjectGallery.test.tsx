@@ -33,7 +33,11 @@ jest.mock('framer-motion', () => {
   };
 });
 
-const mockProjects: { data: { projects: Project[] } | null; loading: boolean; error: Error | null } = {
+const mockProjects: {
+  data: { projects: Project[] } | null;
+  loading: boolean;
+  error: Error | null;
+} = {
   loading: false,
   error: null,
   data: { projects: [] },
@@ -98,7 +102,17 @@ describe('ProjectGallery', () => {
     const dialogs = screen.getAllByRole('dialog');
     expect(dialogs).toHaveLength(1);
     expect(within(dialogs[0]).getByRole('heading', { name: 'Beta Project' })).toBeInTheDocument();
-    expect(within(dialogs[0]).queryByRole('heading', { name: 'Alpha Project' })).not.toBeInTheDocument();
+    expect(
+      within(dialogs[0]).queryByRole('heading', { name: 'Alpha Project' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('runs the same highlight ring when a card is opened from the gallery, not only from the hero pill', () => {
+    render(<ProjectGallery />);
+    fireEvent.click(screen.getByRole('button', { name: /alpha project/i }));
+
+    const frame = screen.getByRole('dialog').parentElement as HTMLElement;
+    expect(frame.className).toMatch(/project-card-highlight/);
   });
 
   it('closes the modal and returns focus to the triggering card', () => {
@@ -113,49 +127,63 @@ describe('ProjectGallery', () => {
 
   describe('hero pill highlight', () => {
     const alphaCard = () => screen.getByRole('button', { name: /alpha project/i });
+    // The ring rides the frame wrapping the dialog, not the dialog itself —
+    // the dialog scrolls its own overflow, which would carry the ring's
+    // ::before away with it. See ProjectDetailModal.
+    const ringFrame = () => screen.getByRole('dialog').parentElement as HTMLElement;
 
-    it('applies the highlight ring on a dispatched event (hero pill click)', () => {
+    it('opens the detail modal on a dispatched event (hero pill click)', () => {
       render(<ProjectGallery />);
       act(() => dispatchProjectHighlight('alpha'));
-      expect(alphaCard().className).toMatch(/project-card-highlight/);
+
+      const dialog = screen.getByRole('dialog');
+      expect(within(dialog).getByRole('heading', { name: 'Alpha Project' })).toBeInTheDocument();
     });
 
-    it('retriggers the ring on a second dispatch for the same card, even while the first highlight is still active', () => {
+    it('runs the highlight ring on the opened modal, not on the card in the grid', () => {
       render(<ProjectGallery />);
       act(() => dispatchProjectHighlight('alpha'));
-      const card = alphaCard();
-      expect(card.className).toMatch(/project-card-highlight/);
 
-      const removeSpy = jest.spyOn(card.classList, 'remove');
-      const addSpy = jest.spyOn(card.classList, 'add');
+      expect(ringFrame().className).toMatch(/project-card-highlight/);
+      expect(alphaCard().className).not.toMatch(/project-card-highlight/);
+    });
+
+    it('retriggers the ring on a second dispatch for the same project, even while the first highlight is still active', () => {
+      render(<ProjectGallery />);
+      act(() => dispatchProjectHighlight('alpha'));
+      const frame = ringFrame();
+      expect(frame.className).toMatch(/project-card-highlight/);
+
+      const removeSpy = jest.spyOn(frame.classList, 'remove');
+      const addSpy = jest.spyOn(frame.classList, 'add');
 
       // A second click on the same pill, before the first highlight has
       // cleared — this is exactly the "click again, nothing happens" bug:
-      // `highlightedId` alone wouldn't change here, so nothing would force
-      // the CSS animation to restart without the token forcing a reflow.
+      // the id alone wouldn't change here, so nothing would force the CSS
+      // animation to restart without the token forcing a reflow.
       act(() => dispatchProjectHighlight('alpha'));
 
       expect(removeSpy).toHaveBeenCalledWith('project-card-highlight');
       expect(addSpy).toHaveBeenCalledWith('project-card-highlight');
-      expect(card.className).toMatch(/project-card-highlight/);
+      expect(frame.className).toMatch(/project-card-highlight/);
     });
 
-    it('retriggers the ring after scrolling away and back (highlight cleared, then re-dispatched)', () => {
+    it('retriggers the ring after the first highlight has cleared and is re-dispatched', () => {
       jest.useFakeTimers();
       try {
         render(<ProjectGallery />);
         act(() => dispatchProjectHighlight('alpha'));
-        expect(alphaCard().className).toMatch(/project-card-highlight/);
+        expect(ringFrame().className).toMatch(/project-card-highlight/);
 
         // The highlight auto-clears once the CSS animation has had time to
-        // finish — simulating the visitor scrolling back up well after that.
+        // finish. The modal stays open — only the ring goes away.
         act(() => {
           jest.advanceTimersByTime(1400 * 3 + 1);
         });
-        expect(alphaCard().className).not.toMatch(/project-card-highlight/);
+        expect(ringFrame().className).not.toMatch(/project-card-highlight/);
 
         act(() => dispatchProjectHighlight('alpha'));
-        expect(alphaCard().className).toMatch(/project-card-highlight/);
+        expect(ringFrame().className).toMatch(/project-card-highlight/);
       } finally {
         jest.useRealTimers();
       }
@@ -164,10 +192,7 @@ describe('ProjectGallery', () => {
     it('ignores a dispatch for an id that is not in the current project list', () => {
       render(<ProjectGallery />);
       act(() => dispatchProjectHighlight('does-not-exist'));
-      expect(alphaCard().className).not.toMatch(/project-card-highlight/);
-      expect(screen.getByRole('button', { name: /beta project/i }).className).not.toMatch(
-        /project-card-highlight/,
-      );
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
   });
 });

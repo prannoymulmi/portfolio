@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Project } from '@/lib/types/portfolio';
@@ -9,14 +9,6 @@ interface ProjectCardProps {
   project: Project;
   projectId: string;
   isSelected: boolean;
-  /** True for the ~4s the hero's "Built with Claude Code" pill has just
-   * pointed a visitor at this card — see `.project-card-highlight` in
-   * globals.css and the hash-driven effect in ProjectGallery. */
-  isHighlighted: boolean;
-  /** Changes on every highlight request, even repeats of the same card, so
-   * the animation can be forced to restart below — see the comment on the
-   * effect that reads it. */
-  highlightToken: number | null;
   onSelect: () => void;
 }
 
@@ -28,49 +20,19 @@ interface ProjectCardProps {
  * accent is `--primary` (specs/009-typography-color-refresh) rather than the
  * framework blue this carried before — blue appeared nowhere else on the page.
  */
-export function ProjectCard({
-  project,
-  projectId,
-  isSelected,
-  isHighlighted,
-  highlightToken,
-  onSelect,
-}: ProjectCardProps) {
-  const articleRef = useRef<HTMLElement | null>(null);
-
-  // `.project-card-highlight`'s ::before runs a fixed `animation: ... 3` —
-  // it plays three loops and then simply stops, it does not loop forever.
-  // Re-rendering with the class already applied (the common case when this
-  // card is clicked a second time before ProjectGallery's timeout has
-  // cleared it) does not touch the DOM at all, so the browser has no reason
-  // to restart a finished-or-still-running animation. Forcing a reflow
-  // between removing and re-adding the class — keyed off `highlightToken`,
-  // which changes on every request even for repeat clicks on this same
-  // card — is what makes each click retrigger the animation from its first
-  // frame, regardless of how the previous one ended.
-  useEffect(() => {
-    if (!isHighlighted || highlightToken === null) return;
-    const el = articleRef.current;
-    if (!el) return;
-
-    el.classList.remove('project-card-highlight');
-    // Reading a layout property flushes the removal above before the class
-    // goes back on, so the browser treats what follows as a fresh start
-    // rather than a no-op toggle.
-    void el.offsetWidth;
-    el.classList.add('project-card-highlight');
-  }, [isHighlighted, highlightToken]);
-
+export function ProjectCard({ project, projectId, isSelected, onSelect }: ProjectCardProps) {
   return (
     <article
-      ref={articleRef}
       // Anchor target for the hero's `/#project-<id>` link — the browser's
       // own `scroll-behavior: smooth` (globals.css) carries the scroll, no
-      // manual scrollIntoView needed.
+      // manual scrollIntoView needed. The highlight ring the hero's credit
+      // pill triggers no longer lands here: it now runs on the detail modal
+      // that same pill opens (ProjectDetailModal), so the card itself has no
+      // highlight state left to carry.
       id={`project-${projectId}`}
-      className={`group chapter-panel scroll-mt-24 cursor-pointer overflow-hidden rounded-2xl transition-colors ${
+      className={`chapter-panel group cursor-pointer scroll-mt-24 overflow-hidden rounded-2xl transition-colors ${
         isSelected ? 'border-primary' : 'hover:border-primary/60'
-      } ${isHighlighted ? 'project-card-highlight' : ''}`}
+      }`}
       onClick={(e) => {
         // Explicit focus rather than relying on default click-to-focus
         // behaviour (inconsistent across browsers for non-form elements):
@@ -102,7 +64,7 @@ export function ProjectCard({
       )}
 
       <div className="p-5">
-        <h3 className="font-semibold tracking-tight transition-colors group-hover:text-primary">
+        <h3 className="group-hover:text-primary font-semibold tracking-tight transition-colors">
           {project.title}
         </h3>
 
@@ -115,7 +77,7 @@ export function ProjectCard({
             {project.tags.slice(0, 3).map((tag) => (
               <li
                 key={tag}
-                className="text-on-photo label-mono rounded-full border border-border px-2.5 py-0.5 text-xs"
+                className="text-on-photo label-mono border-border rounded-full border px-2.5 py-0.5 text-xs"
               >
                 {tag}
               </li>
@@ -134,7 +96,7 @@ export function ProjectCard({
               <Link
                 key={link.route}
                 href={link.route}
-                className="text-on-photo rounded-full border border-border px-3 py-1 text-xs font-medium transition-colors hover:border-primary"
+                className="text-on-photo border-border hover:border-primary rounded-full border px-3 py-1 text-xs font-medium transition-colors"
                 target={link.route.startsWith('http') ? '_blank' : undefined}
                 rel={link.route.startsWith('http') ? 'noopener noreferrer' : undefined}
                 // The card is itself a button; a link inside it must not also

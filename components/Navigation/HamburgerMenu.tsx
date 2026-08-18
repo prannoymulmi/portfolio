@@ -47,7 +47,18 @@ const SECTION_ICON_PATHS: Record<string, React.ReactNode> = {
       <path d="M12 6.5c2-1.5 5-2 9-1.5v14c-4-.5-7 0-9 1.5V6.5Z" />
     </>
   ),
-  projects: <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" />,
+  // A chip: the one glyph that reads as "the stack it runs on" without
+  // borrowing a brand mark, which ADR 0014 keeps out of everything but
+  // SocialIcons.tsx.
+  technologies: (
+    <>
+      <rect x="7" y="7" width="10" height="10" rx="1.5" />
+      <path d="M10 3v2M14 3v2M10 19v2M14 19v2M3 10h2M3 14h2M19 10h2M19 14h2" />
+    </>
+  ),
+  projects: (
+    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" />
+  ),
   contact: (
     <>
       <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -66,7 +77,7 @@ function SectionIcon({ id }: { id: string }) {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className="h-4 w-4 shrink-0 text-primary"
+      className="text-primary h-4 w-4 shrink-0"
       fill="none"
       stroke="currentColor"
       strokeWidth={1.75}
@@ -164,7 +175,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
         aria-controls="story-sections-menu"
         aria-label={open ? 'Close menu' : 'Open menu'}
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center rounded p-1.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-gray-100 dark:hover:text-blue-400"
+        className="text-foreground hover:text-primary focus-visible:ring-primary flex items-center rounded p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 dark:text-gray-100 dark:hover:text-blue-400"
       >
         <svg
           aria-hidden="true"
@@ -191,7 +202,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                 as the page's one "close menu" control. */}
             <div
               aria-hidden="true"
-              className={`fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm transition-opacity duration-300 dark:bg-black/60 ${
+              className={`bg-foreground/40 fixed inset-0 z-40 backdrop-blur-sm transition-opacity duration-300 dark:bg-black/60 ${
                 open ? 'opacity-100' : 'pointer-events-none opacity-0'
               }`}
             />
@@ -204,7 +215,11 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                   initial={reducedMotion ? false : { x: '100%' }}
                   animate={{ x: 0 }}
                   exit={reducedMotion ? undefined : { x: '100%' }}
-                  transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 320, damping: 32 }}
+                  transition={
+                    reducedMotion
+                      ? { duration: 0 }
+                      : { type: 'spring', stiffness: 320, damping: 32 }
+                  }
                   onKeyDown={(event: React.KeyboardEvent) => {
                     // Keeps focus inside the panel on Tab: without this,
                     // tabbing past the last link (or shift-tabbing past the
@@ -215,11 +230,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                     const first = focusable[0];
                     const last = focusable[focusable.length - 1];
 
-                    if (
-                      event.key === 'Tab' &&
-                      !event.shiftKey &&
-                      document.activeElement === last
-                    ) {
+                    if (event.key === 'Tab' && !event.shiftKey && document.activeElement === last) {
                       event.preventDefault();
                       first.focus();
                     } else if (
@@ -233,7 +244,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                   }}
                   className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col overflow-y-auto bg-[#fffaf4]/95 px-6 pb-8 pt-20 shadow-[0_10px_30px_-12px_rgb(17_28_56/0.45)] ring-1 ring-[#111c38]/10 backdrop-blur-xl dark:bg-[#0c101c]/95 dark:ring-white/10 sm:max-w-sm"
                 >
-                  <p className="label-mono text-xs text-foreground/50 dark:text-gray-400">
+                  <p className="label-mono text-foreground/50 text-xs dark:text-gray-400">
                     Jump to
                   </p>
                   <ul className="mt-2 flex flex-1 flex-col">
@@ -243,14 +254,14 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                           ref={index === 0 ? firstLinkRef : undefined}
                           href={`#${section.id}`}
                           onClick={close}
-                          className="group flex items-center gap-3 border-b border-foreground/10 py-4 text-base font-medium text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:-outline-offset-2 focus-visible:ring-primary dark:border-white/10 dark:text-gray-100 dark:hover:text-blue-400"
+                          className="border-foreground/10 text-foreground hover:text-primary focus-visible:ring-primary group flex items-center gap-3 border-b py-4 text-base font-medium transition-colors focus-visible:outline-none focus-visible:-outline-offset-2 focus-visible:ring-2 dark:border-white/10 dark:text-gray-100 dark:hover:text-blue-400"
                         >
                           <SectionIcon id={section.id} />
                           <span className="flex-1">{section.label}</span>
                           <svg
                             aria-hidden="true"
                             viewBox="0 0 24 24"
-                            className="h-4 w-4 shrink-0 text-foreground/40 transition-transform group-hover:translate-x-1 group-hover:text-primary"
+                            className="text-foreground/40 group-hover:text-primary h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth={1.75}

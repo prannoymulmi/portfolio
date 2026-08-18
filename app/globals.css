@@ -200,7 +200,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 2px;
+  padding: 3px;
   background: conic-gradient(
     from var(--highlight-angle),
     transparent 0deg,
