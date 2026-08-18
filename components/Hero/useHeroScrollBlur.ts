@@ -31,6 +31,16 @@ export function blurPxAt(progress: number): number {
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
+// Tailwind's `lg` breakpoint (1024px) — the width at which the hero's grid
+// switches from a stacked layout to the side-by-side portrait/text split
+// (see the `lg:grid-cols-[1fr_1.15fr]` container in Hero.tsx). Below it the
+// portrait sits above the text rather than beside it, so a blur creeping in
+// as the visitor scrolls past it reads as the photo itself degrading rather
+// than as a backdrop receding behind foreground text — there is no
+// foreground/background relationship to sell on that layout. The effect is
+// desktop-only for that reason, not as a performance concession.
+const DESKTOP_LAYOUT = '(min-width: 1024px)';
+
 // Plain functions, not inlined at the call site: `element` below is React
 // state (needed so this hook's effect reruns when the section attaches — see
 // the comment on `useState<HTMLElement | null>` above), and the
@@ -62,6 +72,16 @@ export function useHeroScrollBlur(): (node: HTMLElement | null) => void {
     () => typeof window !== 'undefined' && prefersReducedMotion(),
   );
 
+  // Same one-shot read as `reducedMotion` above, and the same reasoning: the
+  // effect below runs after first paint, so gating on a value read in an
+  // effect would let a mobile visitor see one frame of blur before it's
+  // switched off. A visitor who resizes across the breakpoint mid-session
+  // (rotating a tablet, say) keeps whatever this evaluated to on load,
+  // consistent with how the reduced-motion preference is already handled.
+  const [isDesktopLayout] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_LAYOUT).matches,
+  );
+
   // A callback ref, not a plain RefObject: Hero() renders a loading skeleton
   // before the hero <section> exists (content is fetched client-side), then
   // swaps it in on a later render of the *same* component instance. A plain
@@ -72,7 +92,7 @@ export function useHeroScrollBlur(): (node: HTMLElement | null) => void {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!element || reducedMotion) return;
+    if (!element || reducedMotion || !isDesktopLayout) return;
 
     // Note: a CSS `filter` on this element makes it a containing block for
     // any `position: fixed` descendant, which would silently re-parent that
@@ -112,7 +132,7 @@ export function useHeroScrollBlur(): (node: HTMLElement | null) => void {
       setBlurFilter(element, 0);
       setWillChange(element, '');
     };
-  }, [element, reducedMotion]);
+  }, [element, reducedMotion, isDesktopLayout]);
 
   // useCallback so the ref identity is stable across renders — without it, a
   // new function on every Hero() render would look like the section
