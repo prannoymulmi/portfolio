@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import type { Project } from '@/lib/types/portfolio';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -46,6 +47,7 @@ export function ProjectDetailModal({
   isHighlighted = false,
   highlightToken = null,
 }: ProjectDetailModalProps) {
+  const ui = useUi();
   const panelRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -182,7 +184,7 @@ export function ProjectDetailModal({
                   ref={closeButtonRef}
                   type="button"
                   onClick={onClose}
-                  aria-label="Close"
+                  aria-label={ui.projects.close}
                   className="text-on-photo hover:text-primary focus-visible:ring-primary shrink-0 rounded p-1 transition-colors focus-visible:outline-none focus-visible:ring-2"
                 >
                   <svg
@@ -229,7 +231,7 @@ export function ProjectDetailModal({
                   rel="noopener noreferrer"
                   className="bg-primary mt-6 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
                 >
-                  View on GitHub
+                  {ui.projects.viewOnGithub}
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"

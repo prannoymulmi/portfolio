@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
+import { useUi } from '@/components/Common/LocaleProvider';
 import { ProjectCard } from './ProjectCard';
 import { ProjectDetailModal } from './ProjectDetailModal';
 import { ProjectsSkeleton } from '@/components/Common/LoadingState';
@@ -23,6 +24,7 @@ const HIGHLIGHT_DURATION_MS = 1400 * 3;
 
 export function ProjectGallery() {
   const { projects } = useContent();
+  const ui = useUi();
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   // The project the hero's "Built with Claude" pill just pointed a visitor
   // at (components/Hero/Hero.tsx), if any — cleared automatically once the
@@ -102,7 +104,7 @@ export function ProjectGallery() {
   if (projects.error || !projects.data) {
     return (
       <section className="py-12">
-        <p className="text-center text-red-600">Failed to load projects</p>
+        <p className="text-center text-red-600">{ui.projects.failedToLoad}</p>
       </section>
     );
   }
@@ -124,19 +126,17 @@ export function ProjectGallery() {
     <section className="space-y-8 py-12">
       <div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h2 className="text-3xl font-bold">Featured Projects</h2>
+          <h2 className="text-3xl font-bold">{ui.projects.heading}</h2>
           <a
             href={GITHUB_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-on-photo/70 hover:text-primary text-sm transition-colors"
           >
-            More on GitHub ↗
+            {ui.projects.moreOnGithub}
           </a>
         </div>
-        <p className="text-on-photo mt-2">
-          Case studies showcasing problem-solving, technical decisions, and measurable impact
-        </p>
+        <p className="text-on-photo mt-2">{ui.projects.subheading}</p>
       </div>
 
       {/* Projects grid */}
