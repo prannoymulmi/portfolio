@@ -650,17 +650,24 @@ These tasks are deliberately small — inventing a throwaway third locale to
       open. **Scroll position preservation remains untested** — jsdom has no
       layout engine to assert against, so this stays a real, honestly-flagged
       gap for a human browser session before merge, not fabricated as covered.
-- [ ] T066 Split the work into Principle III-compliant commits before opening
-      the PR. Most tasks map to one commit. The three legitimate >5-file units
-      of work are: the `git mv` (T017), the string-extraction sweep, and the
-      German content drop (T044–T046) — each is one change by nature, and each
-      commit message must state what and why in
-      `<type>(<scope>): <what> — <why>` form.
-- [ ] T067 Open the single combined PR (plan.md Decision 4). The description
-      must call out: the constitution amendment v1.5.0 → v1.6.0 and ADR 0024;
-      that the German copy is **draft awaiting the owner's review** (T048); the
-      SC-004 review result from T059; and that SEO/metadata stay English-only
-      by decision, not by omission (T043).
+- [X] T066 Split the work into Principle III-compliant commits before opening
+      the PR. Done by the `release` agent as 32 commits (plus 2 follow-up
+      bookkeeping commits sweeping a stale staged deletion and the previously
+      uncommitted planning artifacts) on `feat/de-i18n-toggle`. This repo's
+      standing per-commit rule is a haiku (5-7-5 syllables), not the
+      constitution's `<type>(<scope>): <what> — <why>` prose form — the haiku
+      convention already governs every commit in this repo's history and was
+      followed here. The three >5-file units (the `git mv`, the string-
+      extraction sweep, and the German content drop) each landed as one
+      commit, matching this task's intent.
+- [X] T067 Open the single combined PR (plan.md Decision 4). Done — PR #27
+      (https://github.com/prannoymulmi/portfolio/pull/27), kept in **draft**.
+      Description covers: the constitution amendment v1.5.0 → v1.6.0 and ADR
+      0024; the German copy **draft awaiting the owner's review** (T048, still
+      unchecked above — a hard gate, not a formality); the SC-004 review
+      result from T059; SEO/metadata staying English-only by decision (T043);
+      the two known browser/screen-reader gaps (quickstart steps 2 and 11);
+      and the test count (54 suites / 402 tests, all green).
 
 ---
 
