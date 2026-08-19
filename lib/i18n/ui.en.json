@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu",
+    "storySections": "Story sections",
+    "jumpTo": "Jump to",
+    "emailLabel": "Email {email}",
+    "switchToLightMode": "Switch to light mode",
+    "switchToDarkMode": "Switch to dark mode",
+    "switchLocale": "Switch from {current} to {target}",
+    "sections": {
+      "hero": "Introduction",
+      "skills": "Selected Work",
+      "career": "Career Journey",
+      "technologies": "Technologies",
+      "education": "Education",
+      "projects": "Projects",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "creditPillBase": "Built with Claude",
+    "creditPillFull": "Built with Claude — click to see how",
+    "whatIDo": "What I do",
+    "viewWork": "View Work",
+    "playCareer": "Play Career",
+    "cvOpensInNewTab": "{label} (opens in a new tab)",
+    "portraitAlt": "{name}, portrait",
+    "location": "Hamburg, Germany"
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "heading": "Three systems I’d happily defend in a design review",
+    "failedToLoad": "Failed to load systems",
+    "technologiesUsedOn": "Technologies used on {title}",
+    "principleEyebrow": "Engineering principle"
+  },
+  "career": {
+    "eyebrow": "Career match",
+    "heading": "Pass the ball to see where I’ve played",
+    "interactiveDescription": "Every player is a chapter. Pass freely to explore, or run the build-up play to walk it in order, oldest to newest.",
+    "timelineDescription": "The same chapters, oldest to newest, as a plain list.",
+    "failedToLoad": "Failed to load career timeline",
+    "previousChapter": "Previous chapter",
+    "nextChapter": "Next chapter",
+    "chapterCounter": "Chapter {order} / {total}",
+    "pausePlay": "❚❚ Pause the play",
+    "playInOrder": "▶ Play in order",
+    "chapterAriaLabel": "Chapter {order}: pass to {position} — {company}, {role}",
+    "tip": "Tip: players can be clicked to open that chapter, or use ‹ › to step through them.",
+    "whatIBuilt": "What I built",
+    "achievements": "Achievements",
+    "technologies": "Technologies",
+    "chapterLabel": "Chapter {order} · {position}",
+    "technologiesUsedAt": "Technologies used at {company}",
+    "noExperienceData": "No experience data available",
+    "pitch": "Pitch",
+    "timeline": "Timeline",
+    "switchToTimelineView": "Switch to timeline view",
+    "switchToInteractiveView": "Switch to interactive view",
+    "present": "Present",
+    "positions": {
+      "goalkeeper": "Goalkeeper",
+      "centreBack": "Centre back",
+      "leftBack": "Left back",
+      "defensiveMidfield": "Defensive midfield",
+      "playmaker": "Playmaker",
+      "rightWing": "Right wing",
+      "striker": "Striker"
+    },
+    "workTypes": {
+      "Full-time": "Full-time",
+      "Part-time": "Part-time",
+      "Contract": "Contract",
+      "Freelance": "Freelance",
+      "Working student": "Working student"
+    }
+  },
+  "technologies": {
+    "label": "Technologies",
+    "headingLead": "What I’ve",
+    "headingAccent": "actually built",
+    "headingTail": "with",
+    "failedToLoad": "Failed to load technologies",
+    "allCategory": "All",
+    "whereItWasUsed": "Where it was used",
+    "levels": {
+      "dailyDriver": "Daily driver",
+      "production": "Production",
+      "workingKnowledge": "Working knowledge"
+    },
+    "units": {
+      "underOneYear": "< 1 yr",
+      "years": "{value} yrs"
+    }
+  },
+  "education": {
+    "heading": "Education & Certifications",
+    "subheading": "Formal education and professional certifications",
+    "failedToLoad": "Failed to load education",
+    "learnMore": "Learn more ↗",
+    "grades": {
+      "veryGood": "Very Good",
+      "good": "Good",
+      "satisfactory": "Satisfactory",
+      "sufficient": "Sufficient"
+    }
+  },
+  "projects": {
+    "heading": "Featured Projects",
+    "subheading": "Case studies showcasing problem-solving, technical decisions, and measurable impact",
+    "failedToLoad": "Failed to load projects",
+    "moreOnGithub": "More on GitHub ↗",
+    "close": "Close",
+    "viewOnGithub": "View on GitHub"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "headingLead": "Got a gnarly system?",
+    "headingAccent": "Let’s talk."
+  },
+  "footer": {
+    "tagline": "Senior Software Engineer & Cloud Architect",
+    "quickLinks": "Quick Links",
+    "connect": "Connect",
+    "projects": "Projects",
+    "selectedWork": "Selected Work",
+    "career": "Career",
+    "copyright": "© {year} {name}. All rights reserved."
+  },
+  "errors": {
+    "contentUnavailable": "Content unavailable",
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Try again",
+    "couldNotLoadSection": "We could not load this section. Please try again in a moment.",
+    "unexpectedError": "An unexpected error occurred."
+  },
+  "a11y": {
+    "skipToMainContent": "Skip to main content",
+    "landmarks": {
+      "hero": "Introduction",
+      "skills": "Selected work",
+      "career": "Career Journey",
+      "technologies": "Technologies",
+      "education": "Education",
+      "projects": "Projects",
+      "contact": "Contact"
+    }
+  }
+}
