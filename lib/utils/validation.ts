@@ -29,6 +29,13 @@ export const HomeSchema = z.object({
   // Optional: absent means the opening renders no CV link, which is a valid
   // state rather than an error — the address is supplied separately.
   cv: CvLinkSchema.optional(),
+  // Authored prose for the Contact chapter's closing line, not chrome —
+  // contracts/ui-dictionary.md §Scope rule (T039). Same length bounds as
+  // `intro`, the closest existing field in register. Optional so a locale
+  // missing it still renders the rest of the chapter (FR-006) — the section
+  // simply omits the paragraph rather than falling back to English text
+  // sourced from a different file.
+  contactNote: z.string().min(20).max(200).optional(),
 });
 
 export const ExperienceSchema = z.object({
