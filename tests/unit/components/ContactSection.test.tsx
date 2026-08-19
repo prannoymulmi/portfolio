@@ -2,15 +2,18 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ContactSection } from '@/components/Contact/ContactSection';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { clearContentCache } from '@/lib/hooks/useContentLoader';
 
 const ADDRESS = 'prannoy.mulmi@gmail.com';
 
 const renderContact = () =>
   render(
-    <ContentProvider>
-      <ContactSection />
-    </ContentProvider>,
+    <LocaleProvider>
+      <ContentProvider>
+        <ContactSection />
+      </ContentProvider>
+    </LocaleProvider>,
   );
 
 describe('ContactSection', () => {

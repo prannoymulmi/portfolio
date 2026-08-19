@@ -1,8 +1,14 @@
+import type { ReactElement } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ProjectDetailModal } from '@/components/Projects/ProjectDetailModal';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import type { Project } from '@/lib/types/portfolio';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 jest.mock('@/lib/utils/animations', () => ({
   prefersReducedMotion: jest.fn(() => false),
@@ -40,13 +46,13 @@ function project(overrides: Partial<Project> & { title: string }): Project {
 
 describe('ProjectDetailModal', () => {
   it('renders nothing when project is null', () => {
-    const { container } = render(<ProjectDetailModal project={null} onClose={jest.fn()} />);
+    const { container } = renderWithLocale(<ProjectDetailModal project={null} onClose={jest.fn()} />);
     expect(container).toBeEmptyDOMElement();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('renders a dialog with the project title when project is set', () => {
-    render(<ProjectDetailModal project={project({ title: 'Auth0 Platform' })} onClose={jest.fn()} />);
+    renderWithLocale(<ProjectDetailModal project={project({ title: 'Auth0 Platform' })} onClose={jest.fn()} />);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Auth0 Platform' })).toBeInTheDocument();
   });
@@ -55,7 +61,7 @@ describe('ProjectDetailModal', () => {
     it("renders the project's full bodyText verbatim, with no truncation (FR-002)", () => {
       const longText =
         'This is the complete, untruncated description text that should appear in full without any line-clamp styling cutting it off mid-sentence.';
-      render(<ProjectDetailModal project={project({ title: 'Full Text', bodyText: longText })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Full Text', bodyText: longText })} onClose={jest.fn()} />);
 
       const description = screen.getByText(longText);
       expect(description).toBeInTheDocument();
@@ -63,7 +69,7 @@ describe('ProjectDetailModal', () => {
     });
 
     it('renders role and metric when present', () => {
-      render(
+      renderWithLocale(
         <ProjectDetailModal
           project={project({ title: 'With Role', role: 'Tech lead', metric: '1M+ users' })}
           onClose={jest.fn()}
@@ -74,7 +80,7 @@ describe('ProjectDetailModal', () => {
     });
 
     it('omits role and metric entirely when absent, rather than an empty label', () => {
-      render(<ProjectDetailModal project={project({ title: 'No Role' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'No Role' })} onClose={jest.fn()} />);
       expect(screen.queryByText(/tech lead/i)).not.toBeInTheDocument();
     });
   });
@@ -82,21 +88,21 @@ describe('ProjectDetailModal', () => {
   describe('closing (FR-004, FR-005)', () => {
     it('calls onClose when the close button is clicked', () => {
       const onClose = jest.fn();
-      render(<ProjectDetailModal project={project({ title: 'Closeable' })} onClose={onClose} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Closeable' })} onClose={onClose} />);
       fireEvent.click(screen.getByRole('button', { name: /close/i }));
       expect(onClose).toHaveBeenCalled();
     });
 
     it('calls onClose on Escape', () => {
       const onClose = jest.fn();
-      render(<ProjectDetailModal project={project({ title: 'Escapable' })} onClose={onClose} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Escapable' })} onClose={onClose} />);
       fireEvent.keyDown(document, { key: 'Escape' });
       expect(onClose).toHaveBeenCalled();
     });
 
     it('calls onClose on a click outside the panel', () => {
       const onClose = jest.fn();
-      render(
+      renderWithLocale(
         <div>
           <div data-testid="outside" />
           <ProjectDetailModal project={project({ title: 'Outside Click' })} onClose={onClose} />
@@ -108,7 +114,7 @@ describe('ProjectDetailModal', () => {
 
     it('does not close when clicking inside the panel', () => {
       const onClose = jest.fn();
-      render(<ProjectDetailModal project={project({ title: 'Inside Click' })} onClose={onClose} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Inside Click' })} onClose={onClose} />);
       fireEvent.pointerDown(screen.getByRole('dialog'));
       expect(onClose).not.toHaveBeenCalled();
     });
@@ -116,12 +122,12 @@ describe('ProjectDetailModal', () => {
 
   describe('keyboard and focus', () => {
     it('moves focus to the close button on open', () => {
-      render(<ProjectDetailModal project={project({ title: 'Focus Me' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Focus Me' })} onClose={jest.fn()} />);
       expect(document.activeElement).toBe(screen.getByRole('button', { name: /close/i }));
     });
 
     it('traps Tab within the modal, wrapping from the last focusable element to the first', () => {
-      render(<ProjectDetailModal project={project({ title: 'Trap Me' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Trap Me' })} onClose={jest.fn()} />);
       const dialog = screen.getByRole('dialog');
       const focusable = dialog.querySelectorAll('a[href], button');
       const last = focusable[focusable.length - 1] as HTMLElement;
@@ -133,7 +139,7 @@ describe('ProjectDetailModal', () => {
     });
 
     it('wraps Shift+Tab from the first focusable element to the last', () => {
-      render(<ProjectDetailModal project={project({ title: 'Trap Me Back' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Trap Me Back' })} onClose={jest.fn()} />);
       const closeButton = screen.getByRole('button', { name: /close/i });
       closeButton.focus();
 
@@ -147,7 +153,7 @@ describe('ProjectDetailModal', () => {
 
   describe('GitHub link resolution (US2)', () => {
     it('links to the first links entry containing github.com (FR-003)', () => {
-      render(
+      renderWithLocale(
         <ProjectDetailModal
           project={project({
             title: 'GitHub Project',
@@ -166,7 +172,7 @@ describe('ProjectDetailModal', () => {
     });
 
     it('falls back to links[0] when no entry contains github.com', () => {
-      render(
+      renderWithLocale(
         <ProjectDetailModal
           project={project({
             title: 'No GitHub Project',
@@ -182,7 +188,7 @@ describe('ProjectDetailModal', () => {
     });
 
     it('opens the GitHub link in a new tab safely', () => {
-      render(<ProjectDetailModal project={project({ title: 'New Tab' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'New Tab' })} onClose={jest.fn()} />);
       const link = screen.getByRole('link', { name: /view on github/i });
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
@@ -194,7 +200,7 @@ describe('ProjectDetailModal', () => {
       (prefersReducedMotion as jest.Mock).mockReturnValue(true);
       try {
         const onClose = jest.fn();
-        render(<ProjectDetailModal project={project({ title: 'Reduced Motion' })} onClose={onClose} />);
+        renderWithLocale(<ProjectDetailModal project={project({ title: 'Reduced Motion' })} onClose={onClose} />);
         expect(screen.getByRole('dialog')).toBeInTheDocument();
 
         fireEvent.keyDown(document, { key: 'Escape' });
@@ -207,7 +213,7 @@ describe('ProjectDetailModal', () => {
 
   describe('edge cases', () => {
     it('stays present and reachable after a simulated viewport resize while open', () => {
-      render(<ProjectDetailModal project={project({ title: 'Resize Me' })} onClose={jest.fn()} />);
+      renderWithLocale(<ProjectDetailModal project={project({ title: 'Resize Me' })} onClose={jest.fn()} />);
       fireEvent(window, new Event('resize'));
 
       expect(screen.getByRole('dialog')).toBeInTheDocument();
