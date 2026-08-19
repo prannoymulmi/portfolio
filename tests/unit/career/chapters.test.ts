@@ -83,4 +83,25 @@ describe('toChapters field derivation', () => {
     const [chapter] = toChapters([baseExperience]);
     expect(chapter.company).toBe('Otto GmbH & Co KG');
   });
+
+  // research R-006, data-model.md §Derived-value keys: `position` is a
+  // CareerPosition key (mapped through ui.career.positions at render time),
+  // never an English literal like 'Goalkeeper'.
+  it('assigns the formation position as an invariant key, not an English literal', () => {
+    const [chapter] = toChapters([baseExperience]);
+    expect(chapter.position).toBe('goalkeeper');
+    expect(chapter.position).not.toBe('Goalkeeper');
+  });
+
+  it('cycles through the formation in order for successive chapters', () => {
+    const second: Experience = {
+      ...baseExperience,
+      id: 'test-2',
+      subtitle: 'Novomind AG',
+      dateText: '10/2020 – 01/2022',
+    };
+    const [first, secondChapter] = toChapters([baseExperience, second]);
+    expect(first.position).toBe('goalkeeper');
+    expect(secondChapter.position).toBe('centreBack');
+  });
 });

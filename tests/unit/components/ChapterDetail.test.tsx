@@ -1,8 +1,14 @@
+import type { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { CareerChapter } from '@/components/Career/chapters';
 import { DEFAULT_TECH } from '@/components/Career/chapters';
 import { ChapterDetail } from '@/components/Career/ChapterDetail';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 const baseChapter: CareerChapter = {
   id: 'aviv',
@@ -22,14 +28,14 @@ const baseChapter: CareerChapter = {
     'Implemented and deployed different micro services using AWS services.',
   ],
   tech: ['AWS', 'Terraform', 'PostgreSQL'],
-  position: 'Striker',
+  position: 'striker',
   x: 84,
   y: 46,
 };
 
 describe('ChapterDetail', () => {
   it('renders a "What I built" summary, an achievements list, and a technologies list', () => {
-    render(<ChapterDetail chapter={baseChapter} />);
+    renderWithLocale(<ChapterDetail chapter={baseChapter} />);
 
     expect(screen.getByText('What I built')).toBeInTheDocument();
     expect(screen.getByText(baseChapter.builtSummary)).toBeInTheDocument();
@@ -42,7 +48,7 @@ describe('ChapterDetail', () => {
   });
 
   it('accounts for every work-description line exactly once, none duplicated or missing', () => {
-    render(<ChapterDetail chapter={baseChapter} />);
+    renderWithLocale(<ChapterDetail chapter={baseChapter} />);
 
     // builtSummary + achievements together reconstruct the original six-line
     // workDescription for AViV — nothing truncated, nothing shown twice.
@@ -54,7 +60,7 @@ describe('ChapterDetail', () => {
   });
 
   it('shows the default fallback tags when the chapter records no technologies', () => {
-    render(<ChapterDetail chapter={{ ...baseChapter, tech: [] }} />);
+    renderWithLocale(<ChapterDetail chapter={{ ...baseChapter, tech: [] }} />);
 
     DEFAULT_TECH.forEach((tag) => {
       expect(screen.getByText(tag)).toBeInTheDocument();
@@ -62,7 +68,7 @@ describe('ChapterDetail', () => {
   });
 
   it('shows the full company name in the heading, not the shortened on-pitch display name', () => {
-    render(<ChapterDetail chapter={baseChapter} />);
+    renderWithLocale(<ChapterDetail chapter={baseChapter} />);
 
     expect(
       screen.getByRole('heading', { name: /^AViV GmbH \(Formerly Immowelt GmbH\)/ }),
@@ -75,7 +81,7 @@ describe('ChapterDetail', () => {
   // built". jsdom has no layout engine, so this is read as document order
   // (text-content index), not geometry.
   it('renders the date before the "What I built" summary', () => {
-    const { container } = render(<ChapterDetail chapter={baseChapter} />);
+    const { container } = renderWithLocale(<ChapterDetail chapter={baseChapter} />);
 
     const text = container.textContent ?? '';
     const dateIndex = text.indexOf(baseChapter.years);
@@ -87,7 +93,7 @@ describe('ChapterDetail', () => {
   });
 
   it('still renders the date ahead of the remaining detail sections when there is no "What I built" summary (FR-012)', () => {
-    const { container } = render(<ChapterDetail chapter={{ ...baseChapter, builtSummary: '' }} />);
+    const { container } = renderWithLocale(<ChapterDetail chapter={{ ...baseChapter, builtSummary: '' }} />);
 
     expect(screen.queryByText('What I built')).not.toBeInTheDocument();
 

@@ -1,8 +1,14 @@
+import type { ReactElement } from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { act } from 'react';
 import type { TechnologyUsage } from '@/lib/utils/techDuration';
 import { TechnologyList } from '@/components/Technologies/TechnologyList';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function withLocale(ui: ReactElement) {
+  return <LocaleProvider>{ui}</LocaleProvider>;
+}
 
 /**
  * Regression test for a real, reported bug: clicking a category filter could
@@ -77,7 +83,7 @@ function usage(name: string, category: string): TechnologyUsage {
     category,
     note: `Note for ${name}.`,
     totalMonths: 24,
-    level: 'Production',
+    level: 'production',
     isCurrent: false,
     roles: [],
   };
@@ -102,7 +108,7 @@ describe('TechnologyList — entrance animation survives category-filter remount
     const onSelect = jest.fn();
 
     const { rerender, container } = render(
-      <TechnologyList usages={[cloud, security]} activeTechName="AWS" onSelect={onSelect} />,
+      withLocale(<TechnologyList usages={[cloud, security]} activeTechName="AWS" onSelect={onSelect} />),
     );
 
     // The list scrolls into view — the one-time viewport trigger fires.
@@ -111,14 +117,18 @@ describe('TechnologyList — entrance animation survives category-filter remount
     });
 
     // Filter to a category that excludes "Threat Modeling" — its row unmounts.
-    rerender(<TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />);
+    rerender(withLocale(<TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />));
     expect(container.querySelector('button[aria-current]')).not.toBeNull();
     const rows = () => Array.from(container.querySelectorAll('li'));
     expect(rows().some((li) => li.textContent?.includes('Threat Modeling'))).toBe(false);
 
     // Filter to a different category that re-includes it — a brand-new
     // <motion.li> instance mounts for the exact same technology.
-    rerender(<TechnologyList usages={[security]} activeTechName="Threat Modeling" onSelect={onSelect} />);
+    rerender(
+      withLocale(
+        <TechnologyList usages={[security]} activeTechName="Threat Modeling" onSelect={onSelect} />,
+      ),
+    );
 
     const threatModelingRow = rows().find((li) => li.textContent?.includes('Threat Modeling'));
     expect(threatModelingRow).toBeDefined();
@@ -132,7 +142,7 @@ describe('TechnologyList — entrance animation survives category-filter remount
   it('never mounts a row with initial opacity 0 once the list has already entered view (a second, disjoint remount)', async () => {
     const onSelect = jest.fn();
     const { rerender, container } = render(
-      <TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />,
+      withLocale(<TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />),
     );
 
     await act(async () => {
@@ -141,8 +151,12 @@ describe('TechnologyList — entrance animation survives category-filter remount
 
     // Away, then back to a *third* distinct category — proves the fix isn't
     // a one-shot coincidence tied to a single remount.
-    rerender(<TechnologyList usages={[security]} activeTechName="Threat Modeling" onSelect={onSelect} />);
-    rerender(<TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />);
+    rerender(
+      withLocale(
+        <TechnologyList usages={[security]} activeTechName="Threat Modeling" onSelect={onSelect} />,
+      ),
+    );
+    rerender(withLocale(<TechnologyList usages={[cloud]} activeTechName="AWS" onSelect={onSelect} />));
 
     const row = Array.from(container.querySelectorAll('li')).find((li) =>
       li.textContent?.includes('AWS'),

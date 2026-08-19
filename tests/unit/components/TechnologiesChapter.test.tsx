@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { Experience, TechnologiesFile } from '@/lib/types/portfolio';
@@ -59,6 +60,11 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 }));
 
 import { TechnologiesChapter } from '@/components/Technologies/TechnologiesChapter';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 const experiences: Experience[] = [
   {
@@ -133,7 +139,7 @@ describe('TechnologiesChapter', () => {
   beforeEach(() => setContent());
 
   it('renders every technology with its category and a duration', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
 
     const list = screen.getByRole('list', { name: /technolog/i });
     expect(within(list).getByText('AWS')).toBeInTheDocument();
@@ -146,7 +152,7 @@ describe('TechnologiesChapter', () => {
   });
 
   it('narrows the list to one category on click, and "All" restores it', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Languages' }));
     expect(screen.queryByRole('button', { name: /^AWS/ })).not.toBeInTheDocument();
@@ -159,7 +165,7 @@ describe('TechnologiesChapter', () => {
   });
 
   it('updates the detail panel on mouseEnter', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     fireEvent.mouseEnter(screen.getByRole('button', { name: /^TypeScript/ }));
     expect(
       screen.getByRole('heading', { name: 'TypeScript', level: 3 }),
@@ -167,13 +173,13 @@ describe('TechnologiesChapter', () => {
   });
 
   it('updates the detail panel on focus', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     fireEvent.focus(screen.getByRole('button', { name: /^Java/ }));
     expect(screen.getByRole('heading', { name: 'Java', level: 3 })).toBeInTheDocument();
   });
 
   it('updates the detail panel on click (touch parity)', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     fireEvent.click(screen.getByRole('button', { name: /^AWS/ }));
     expect(screen.getByRole('heading', { name: 'AWS', level: 3 })).toBeInTheDocument();
   });
@@ -186,14 +192,14 @@ describe('TechnologiesChapter', () => {
         technologies: [technologiesFile.technologies[0], technologiesFile.technologies[1]],
       },
     });
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     fireEvent.click(screen.getByRole('button', { name: 'Cloud & Infrastructure' }));
     expect(screen.getByRole('button', { name: /^AWS/ })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /^TypeScript/ })).not.toBeInTheDocument();
   });
 
   it('moves the active technology to the first visible row when the current one is filtered out', () => {
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
 
     fireEvent.click(screen.getByRole('button', { name: /^AWS/ }));
     expect(screen.getByRole('heading', { name: 'AWS', level: 3 })).toBeInTheDocument();
@@ -208,32 +214,32 @@ describe('TechnologiesChapter', () => {
 
   it('renders the loading skeleton while either source is loading', () => {
     setContent({ techLoading: true, techData: null });
-    const { container } = render(<TechnologiesChapter />);
+    const { container } = renderWithLocale(<TechnologiesChapter />);
     expect(screen.queryByText('AWS')).not.toBeInTheDocument();
     expect(container.querySelector('.animate-shimmer')).not.toBeNull();
   });
 
   it('renders a failure line when technologies.json fails to load', () => {
     setContent({ techError: new Error('boom'), techData: null });
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     expect(screen.getByText(/failed to load/i)).toBeInTheDocument();
   });
 
   it('renders a failure line when experiences.json fails to load', () => {
     setContent({ expError: new Error('boom'), expData: null });
-    render(<TechnologiesChapter />);
+    renderWithLocale(<TechnologiesChapter />);
     expect(screen.getByText(/failed to load/i)).toBeInTheDocument();
   });
 
   describe('the Claude Code / spec-driven sentence (FR-005)', () => {
     it('appears exactly once', () => {
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
       const matches = screen.getAllByText(/claude code/i);
       expect(matches).toHaveLength(1);
     });
 
     it('carries no heading-level element or emphasis wrapper — ordinary body copy', () => {
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
       const [sentence] = screen.getAllByText(/claude code/i);
 
       expect(sentence.tagName.toLowerCase()).toBe('p');
@@ -244,7 +250,7 @@ describe('TechnologiesChapter', () => {
 
   describe('role traceability (User Story 3)', () => {
     it('lists the contributing roles in the detail panel', () => {
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
       fireEvent.click(screen.getByRole('button', { name: /^AWS/ }));
 
       expect(screen.getByText('Senior Software Engineer')).toBeInTheDocument();
@@ -276,7 +282,7 @@ describe('TechnologiesChapter', () => {
           ],
         },
       });
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
 
       // Untraceable, not just unlabelled: AWS must not appear anywhere in
       // the chapter at all — not in the list, not selectable, not in the
@@ -317,7 +323,7 @@ describe('TechnologiesChapter', () => {
           ],
         },
       });
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
 
       expect(screen.queryByRole('button', { name: /^Cordova/ })).not.toBeInTheDocument();
       expect(screen.queryByText('Cordova')).not.toBeInTheDocument();
@@ -356,7 +362,7 @@ describe('TechnologiesChapter', () => {
           ],
         },
       });
-      render(<TechnologiesChapter />);
+      renderWithLocale(<TechnologiesChapter />);
 
       // "Mobile" only ever had the sub-year Cordova entry, so once that is
       // omitted the category has nothing left — its filter pill must not

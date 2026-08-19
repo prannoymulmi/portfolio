@@ -8,6 +8,14 @@ import {
   MAX_BAR_YEARS,
 } from '@/lib/utils/techDuration';
 import type { Experience, TechnologiesFile } from '@/lib/types/portfolio';
+import type { Locale } from '@/lib/i18n/locales';
+
+// SUPPORTED_LOCALES (and therefore the Locale type) is `en`-only in
+// production until T047 (research.md, plan.md Decision 4 ordering), but
+// formatDuration's Intl.NumberFormat behaviour is locale-generic — this
+// bridges the type gap for the German-comma case the same way
+// tests/unit/i18n/localeProvider.test.tsx does for its mocked `de` locale.
+const TEST_LOCALE_DE = 'de' as unknown as Locale;
 
 describe('parseDateText', () => {
   it('parses an en-dash range like "11/2020 – 03/2026"', () => {
@@ -97,39 +105,49 @@ describe('unionMonths', () => {
 });
 
 describe('deriveLevel', () => {
-  it('is "Daily driver" whenever the technology is currently in use', () => {
-    expect(deriveLevel(1, true)).toBe('Daily driver');
-    expect(deriveLevel(100, true)).toBe('Daily driver');
+  // Invariant keys, not English literals (research R-006) — components map
+  // these through ui.technologies.levels[level].
+  it('is "dailyDriver" whenever the technology is currently in use', () => {
+    expect(deriveLevel(1, true)).toBe('dailyDriver');
+    expect(deriveLevel(100, true)).toBe('dailyDriver');
   });
 
-  it('is "Production" at and above the 24-month boundary when not current', () => {
-    expect(deriveLevel(24, false)).toBe('Production');
-    expect(deriveLevel(48, false)).toBe('Production');
+  it('is "production" at and above the 24-month boundary when not current', () => {
+    expect(deriveLevel(24, false)).toBe('production');
+    expect(deriveLevel(48, false)).toBe('production');
   });
 
-  it('is "Working knowledge" below the 24-month boundary when not current', () => {
-    expect(deriveLevel(23, false)).toBe('Working knowledge');
-    expect(deriveLevel(0, false)).toBe('Working knowledge');
+  it('is "workingKnowledge" below the 24-month boundary when not current', () => {
+    expect(deriveLevel(23, false)).toBe('workingKnowledge');
+    expect(deriveLevel(0, false)).toBe('workingKnowledge');
   });
 });
 
 describe('formatDuration', () => {
+  // Stand-in for ui.technologies.units.* — this module has no dictionary
+  // access of its own, so the caller (a component) supplies these.
+  const units = { underOneYear: '< 1 yr', years: '{value} yrs' };
+
   it('returns null for null input', () => {
-    expect(formatDuration(null)).toBeNull();
+    expect(formatDuration(null, 'en', units)).toBeNull();
   });
 
-  it('returns "< 1 yr" under twelve months', () => {
-    expect(formatDuration(0)).toBe('< 1 yr');
-    expect(formatDuration(11)).toBe('< 1 yr');
+  it('returns the under-one-year label under twelve months', () => {
+    expect(formatDuration(0, 'en', units)).toBe('< 1 yr');
+    expect(formatDuration(11, 'en', units)).toBe('< 1 yr');
   });
 
   it('rounds down to one decimal at and above twelve months', () => {
     // 30 months = 2.5 years exactly.
-    expect(formatDuration(30)).toBe('2.5 yrs');
+    expect(formatDuration(30, 'en', units)).toBe('2.5 yrs');
     // 35 months = 2.9166... years, must round DOWN to 2.9, never up to 3.0.
-    expect(formatDuration(35)).toBe('2.9 yrs');
+    expect(formatDuration(35, 'en', units)).toBe('2.9 yrs');
     // 12 months = 1.0 years exactly.
-    expect(formatDuration(12)).toBe('1.0 yrs');
+    expect(formatDuration(12, 'en', units)).toBe('1.0 yrs');
+  });
+
+  it('renders a German decimal comma through Intl.NumberFormat (research R-006)', () => {
+    expect(formatDuration(35, TEST_LOCALE_DE, units)).toBe('2,9 yrs');
   });
 });
 

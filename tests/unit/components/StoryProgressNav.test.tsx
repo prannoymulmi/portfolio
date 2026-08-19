@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { clearContentCache } from '@/lib/hooks/useContentLoader';
 
 jest.mock('framer-motion', () => ({
@@ -17,9 +18,11 @@ jest.mock('framer-motion', () => ({
 // social content, so the test mirrors that.
 const renderNav = () =>
   render(
-    <ContentProvider>
-      <StoryProgressNav />
-    </ContentProvider>,
+    <LocaleProvider>
+      <ContentProvider>
+        <StoryProgressNav />
+      </ContentProvider>
+    </LocaleProvider>,
   );
 
 describe('StoryProgressNav', () => {
