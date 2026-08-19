@@ -1,0 +1,61 @@
+{
+  "projects": [
+    {
+      "title": "Auth0 Identity- & Access-Plattform",
+      "bodyText": "Entwarf und implementierte Identity- und Access-Management auf Auth0 für AVIVs Plattformen mit über 1 Mio. aktiven Nutzern — Nutzerverwaltung, rollenbasierte Zugriffskontrolle und Drittanbieter-Integrationen. Verantwortete Sicherheitsbewertungen und Threat Modeling für wichtige Features, identifizierte Schwachstellen und Gegenmaßnahmen. Übernahm technische Verantwortung für Architekturentscheidungen und Code-Reviews und lieferte Microservices in Java und Node.js auf AWS.",
+      "tags": [
+        "Auth0",
+        "AWS",
+        "Java",
+        "Node.js",
+        "Sicherheit"
+      ],
+      "links": [
+        {
+          "text": "AVIV Germany",
+          "route": "https://www.aviv-group.com"
+        }
+      ],
+      "role": "Technische Leitung",
+      "metric": "1 Mio.+ aktive Nutzer"
+    },
+    {
+      "title": "AWS-Migration & Kostenoptimierung",
+      "bodyText": "Leitete die technische Umsetzung groß angelegter Datenbank- und Systemmigrationen zu AWS, verlagerte On-Premises-Server und PostgreSQL-Datenbanken und sicherte dabei Datenintegrität bei minimaler Ausfallzeit. Verantwortete die Cloud-Architektur mit Terraform, CloudFormation und CDK und trug durch gezielte Optimierung zu einer AWS-Kostensenkung von 10 % bei. Koordinierte teamübergreifend die Integration von Altsystemen und löste dabei komplexe technische Herausforderungen.",
+      "tags": [
+        "AWS",
+        "Terraform",
+        "CloudFormation",
+        "CDK",
+        "PostgreSQL"
+      ],
+      "links": [
+        {
+          "text": "AVIV Germany",
+          "route": "https://www.aviv-group.com"
+        }
+      ],
+      "role": "Technische Projektleitung",
+      "metric": "10 % AWS-Kostensenkung"
+    },
+    {
+      "title": "Logistik-Microservices-Plattform",
+      "bodyText": "Entwarf und baute Microservices in einem verteilten System für die Auslieferungslogistik bei OTTO, Deutschlands größtem Online-Händler für Mode, Lifestyle sowie Haus & Wohnen. Erweiterte zentrale Java-Projekte im Logistic-Service-Team und richtete Unit-, CDC-, Integrations- und funktionale Testsuiten ein. Verwaltete die Infrastruktur als Code mit Terraform und arbeitete im Scrum-Team nach DevOps-Praktiken auf AWS, mit kontinuierlicher Auslieferung in die Produktion.",
+      "tags": [
+        "Java",
+        "AWS",
+        "Terraform",
+        "Microservices",
+        "Scrum"
+      ],
+      "links": [
+        {
+          "text": "OTTO GmbH",
+          "route": "https://www.otto.de"
+        }
+      ],
+      "role": "Junior Backend-Entwickler",
+      "metric": "Deutschlands größter Online-Händler"
+    }
+  ]
+}

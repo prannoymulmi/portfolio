@@ -1,0 +1,54 @@
+{
+  "education": [
+    {
+      "title": "Sept. 2022 – Jan. 2025",
+      "cardTitle": "M.Sc. Cybersicherheit",
+      "cardSubtitle": "University of Essex",
+      "cardDetailedText": "Auszeichnung",
+      "icon": {
+        "src": "images/education/essex.png"
+      }
+    },
+    {
+      "title": "Sept. 2022",
+      "cardTitle": "AWS Certified Solutions Architect – Professional",
+      "cardSubtitle": "Amazon Web Services",
+      "url": "https://www.credly.com/badges/b8db39ce-c32b-4933-8fe1-c9d1ac5de261/public_url",
+      "media": {
+        "name": "AWS Certified Solutions Architect – Professional",
+        "source": {
+          "url": "https://images.credly.com/size/340x340/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png"
+        },
+        "type": "IMAGE"
+      },
+      "icon": {
+        "src": "images/skills/aws.png"
+      }
+    },
+    {
+      "title": "Apr. 2022",
+      "cardTitle": "AWS Certified Solutions Architect – Associate",
+      "cardSubtitle": "Amazon Web Services",
+      "url": "https://www.credly.com/badges/14e330ae-6ba1-482b-8e97-fe52d40f62d0/public_url",
+      "media": {
+        "name": "AWS Certified Solutions Architect – Associate",
+        "source": {
+          "url": "https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png"
+        },
+        "type": "IMAGE"
+      },
+      "icon": {
+        "src": "images/skills/aws.png"
+      }
+    },
+    {
+      "title": "Aug. 2013 – Juli 2018",
+      "cardTitle": "B.Sc. Informationstechnik",
+      "cardSubtitle": "HAW Hamburg",
+      "cardDetailedText": "Note 1,9",
+      "icon": {
+        "src": "images/education/haw.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Prannoy Mulmi",
+  "intro": "Ich baue sichere, skalierbare Cloud-Systeme und lege großen Wert auf Sicherheit und Detailgenauigkeit.",
+  "bio": "Seit 9 Jahren führe ich Teams, coache Ingenieure und bringe Plattformen vom Entwurf bis in die Produktion. Backend-Architektur und Sicherheit sind meine Stärken.",
+  "imageSource": "/images/hero_portrait.png",
+  "roles": [
+    "Softwareentwickler",
+    "Sicherheitsexperte",
+    "KI-Enthusiast"
+  ],
+  "cv": {
+    "label": "Lebenslauf ansehen",
+    "href": "https://drive.google.com/file/d/1TEiyG768RlXBEEH4sLLyTIHihJuMpmVc/view?usp=sharing"
+  },
+  "contactNote": "Ich antworte innerhalb von ein bis zwei Tagen — gerne auch ohne konkretes Stellenangebot, einfach um Architekturideen auszutauschen."
+}

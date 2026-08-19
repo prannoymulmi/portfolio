@@ -1,0 +1,39 @@
+{
+  "sections": [
+    {
+      "component": "pages/home",
+      "path": "/",
+      "headerTitle": "Startseite"
+    },
+    {
+      "component": "pages/skills",
+      "path": "/skills",
+      "headerTitle": "Fähigkeiten"
+    },
+    {
+      "component": "pages/career",
+      "path": "/career",
+      "headerTitle": "Karriereweg"
+    },
+    {
+      "component": "pages/education",
+      "path": "/education",
+      "headerTitle": "Ausbildung"
+    },
+    {
+      "component": "pages/projects",
+      "path": "/projects",
+      "headerTitle": "Projekte"
+    },
+    {
+      "component": "pages/about",
+      "path": "/about",
+      "headerTitle": "Über mich"
+    },
+    {
+      "component": "pages/contact",
+      "path": "/contact",
+      "headerTitle": "Kontakt"
+    }
+  ]
+}
