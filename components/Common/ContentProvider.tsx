@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useContentLoader } from '@/lib/hooks/useContentLoader';
+import { useLocale } from '@/components/Common/LocaleProvider';
 import {
   HomeSchema,
   ExperiencesFileSchema,
@@ -39,15 +40,16 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  const home = useContentLoader('home.json', HomeSchema);
-  const experiences = useContentLoader('experiences.json', ExperiencesFileSchema);
-  const education = useContentLoader('education.json', EducationFileSchema);
-  const projects = useContentLoader('projects.json', ProjectsFileSchema);
-  const systems = useContentLoader('systems.json', ProjectsFileSchema);
-  const principle = useContentLoader('principle.json', EngineeringPrincipleFileSchema);
-  const routes = useContentLoader('routes.json', RoutesFileSchema);
-  const social = useContentLoader('social.json', SocialFileSchema);
-  const technologies = useContentLoader('technologies.json', TechnologiesFileSchema);
+  const { locale } = useLocale();
+  const home = useContentLoader(locale, 'home.json', HomeSchema);
+  const experiences = useContentLoader(locale, 'experiences.json', ExperiencesFileSchema);
+  const education = useContentLoader(locale, 'education.json', EducationFileSchema);
+  const projects = useContentLoader(locale, 'projects.json', ProjectsFileSchema);
+  const systems = useContentLoader(locale, 'systems.json', ProjectsFileSchema);
+  const principle = useContentLoader(locale, 'principle.json', EngineeringPrincipleFileSchema);
+  const routes = useContentLoader(locale, 'routes.json', RoutesFileSchema);
+  const social = useContentLoader(locale, 'social.json', SocialFileSchema);
+  const technologies = useContentLoader(locale, 'technologies.json', TechnologiesFileSchema);
 
   const value: ContentContextType = {
     home,
