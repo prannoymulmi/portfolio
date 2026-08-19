@@ -3,16 +3,32 @@
 import { useEffect, useState } from 'react';
 import { validateJSON } from '@/lib/utils/validation';
 import type { ContentState } from '@/lib/types/portfolio';
+import type { Locale } from '@/lib/i18n/locales';
+import { DEFAULT_LOCALE } from '@/lib/i18n/locales';
 import { z } from 'zod';
 
-// In-memory cache for JSON content (session-level)
+// In-memory cache for JSON content (session-level), keyed by `${locale}/${fileName}`
+// so switching locale never serves an already-cached payload in the other
+// language (research.md R-009) — the silent-failure guard this key exists
+// for specifically.
 const contentCache = new Map<string, unknown>();
+
+function cacheKey(locale: Locale, fileName: string): string {
+  return `${locale}/${fileName}`;
+}
 
 interface UseContentLoaderOptions {
   immediate?: boolean; // Start loading on mount
 }
 
+/**
+ * Fetches `public/data/<locale>/<fileName>` and validates it against `schema`.
+ * A non-`ok` response or a failed validation for a non-English locale falls
+ * back to the whole `public/data/en/<fileName>` file — never a per-field
+ * merge (ADR 0024, contracts/locale-content-set.md §Fallback rule).
+ */
 export function useContentLoader<T>(
+  locale: Locale,
   fileName: string,
   schema: z.ZodSchema<T>,
   options: UseContentLoaderOptions = { immediate: true },
@@ -27,10 +43,12 @@ export function useContentLoader<T>(
   useEffect(() => {
     if (options.immediate === false) return;
 
+    const key = cacheKey(locale, fileName);
+
     const loadContent = async () => {
       // Check cache first
-      if (contentCache.has(fileName)) {
-        const cachedData = contentCache.get(fileName);
+      if (contentCache.has(key)) {
+        const cachedData = contentCache.get(key);
         setState({
           data: cachedData as T,
           loading: false,
@@ -42,33 +60,51 @@ export function useContentLoader<T>(
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
 
-        const response = await fetch(`/data/${fileName}`, {
-          // `force-cache` reuses a cached response even once it's stale,
-          // so content edits never show up without clearing the cache
-          // entirely (e.g. incognito). `no-store` always fetches fresh —
-          // these files are small and edited often, so freshness matters
-          // more than the caching win.
-          cache: 'no-store',
-        });
+        const fetchAndValidate = async (targetLocale: Locale) => {
+          const response = await fetch(`/data/${targetLocale}/${fileName}`, {
+            // `force-cache` reuses a cached response even once it's stale,
+            // so content edits never show up without clearing the cache
+            // entirely (e.g. incognito). `no-store` always fetches fresh —
+            // these files are small and edited often, so freshness matters
+            // more than the caching win.
+            cache: 'no-store',
+          });
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch ${fileName}: ${response.statusText}`);
+          if (!response.ok) {
+            return { ok: false as const, response };
+          }
+
+          const rawData = await response.json();
+          const validation = await validateJSON(rawData, schema, fileName);
+
+          if (!validation.valid) {
+            return { ok: false as const, response, validationError: validation.error };
+          }
+
+          return { ok: true as const, data: validation.data };
+        };
+
+        let result = await fetchAndValidate(locale);
+
+        if (!result.ok && locale !== DEFAULT_LOCALE) {
+          const reason = result.validationError ?? result.response.statusText;
+          console.warn(
+            `Content loader falling back to ${DEFAULT_LOCALE} for ${fileName} (locale "${locale}"): ${reason}`,
+          );
+          result = await fetchAndValidate(DEFAULT_LOCALE);
         }
 
-        const rawData = await response.json();
-
-        // Validate against schema
-        const validation = await validateJSON(rawData, schema, fileName);
-
-        if (!validation.valid) {
-          throw new Error(validation.error);
+        if (!result.ok) {
+          throw new Error(
+            result.validationError ?? `Failed to fetch ${fileName}: ${result.response.statusText}`,
+          );
         }
 
         // Store in cache
-        contentCache.set(fileName, validation.data);
+        contentCache.set(key, result.data);
 
         setState({
-          data: validation.data,
+          data: result.data,
           loading: false,
           error: null,
         });
@@ -85,7 +121,7 @@ export function useContentLoader<T>(
     };
 
     loadContent();
-  }, [fileName, schema, options.immediate]);
+  }, [locale, fileName, schema, options.immediate]);
 
   return state;
 }
