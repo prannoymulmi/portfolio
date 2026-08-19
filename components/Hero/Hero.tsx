@@ -10,10 +10,12 @@ import { CvLink } from './CvLink';
 import { HeroGradientLayers } from './HeroGradientLayers';
 import { HeroDrift } from './HeroParallax';
 import { HeroPortrait } from './HeroPortrait';
+import { LocationTag } from './LocationTag';
 import { useHeroScrollBlur } from './useHeroScrollBlur';
 import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
 import { dispatchProjectHighlight, PORTFOLIO_PROJECT_ID } from '@/lib/utils/projectHighlight';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 /**
  * One colour per role — three roles, three colours, no arbitrary cycling.
@@ -25,6 +27,7 @@ const MARK_STAGGER_MS = 350;
 
 export function Hero() {
   const { home } = useContent();
+  const ui = useUi();
   const heroBlurRef = useHeroScrollBlur();
   // Bumped on every pointer-enter of the credit pill. CreditPillText runs
   // its type-hold-revert cycle once automatically on mount (page load) and
@@ -112,7 +115,7 @@ export function Hero() {
                   target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
                 onMouseEnter={() => setCreditPillTriggerCue((count) => count + 1)}
-                aria-label="Built with Claude — click to see how"
+                aria-label={ui.hero.creditPillFull}
                 className="border-primary/20 bg-primary/5 text-primary hover:border-primary/40 hover:bg-primary/10 group mb-6 inline-flex w-fit items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium transition-colors"
               >
                 <span className="relative flex h-2 w-2">
@@ -124,7 +127,7 @@ export function Hero() {
 
               {/* Stacked one per line, so the colour bars read as a vertical
                   stack rather than an inline run of highlights. */}
-              <ul aria-label="What I do" className="space-y-3">
+              <ul aria-label={ui.hero.whatIDo} className="space-y-3">
                 {roles.map((role, index) => (
                   <li key={role} className="flex">
                     <RoughAnnotation
@@ -160,6 +163,11 @@ export function Hero() {
               {/* The About chapter, condensed to what the opening can carry
                   without pushing the card off the first screen. */}
               <p className="text-on-photo mt-4 max-w-xl">{bio}</p>
+
+              {/* Where the site's owner is based (US3, FR-008, SC-005) —
+                  additive, right under the bio it identifies the person
+                  behind. */}
+              <LocationTag />
 
               {/* sm:w-fit shrinks this wrapper to ValueProp's own rendered
                   width (the button pair, side by side from sm up) rather than

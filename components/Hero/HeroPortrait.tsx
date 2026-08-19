@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 interface HeroPortraitProps {
   /** Subject's name, used to build the alt text. */
@@ -43,13 +45,14 @@ interface HeroPortraitProps {
  * without that the second would cancel the first.
  */
 export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
+  const ui = useUi();
   if (!imageSource) return null;
 
   return (
     <Image
       src={imageSource}
       // A person is content, not decoration, so this is never empty.
-      alt={`${name}, portrait`}
+      alt={format(ui.hero.portraitAlt, { name })}
       width={929}
       height={1197}
       // Stacked below lg the full 2:3 frame would run 563px tall on a phone —

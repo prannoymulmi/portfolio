@@ -2,16 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { prefersReducedMotion } from '@/lib/utils/animations';
-
-/**
- * What the pill shows at rest — and, just as importantly, what the frame is
- * sized to. FULL_TEXT starts with it, so reverting to rest is a matter of
- * trimming back to this length rather than swapping in a different string.
- */
-const BASE_TEXT = 'Built with Claude';
-
-/** Typed out, character by character, start to finish, each cycle. */
-const FULL_TEXT = `${BASE_TEXT} — click to see how`;
+import { useUi } from '@/components/Common/LocaleProvider';
 
 const TYPE_INTERVAL_MS = 70;
 
@@ -38,11 +29,11 @@ type Phase = 'typing' | 'holding' | 'rest';
  * which tripped the `react-hooks/set-state-in-effect` lint rule. Every other
  * transition below fires from inside a timer callback for the same reason.
  */
-function useTypedLine(triggerCue: number): string {
+function useTypedLine(triggerCue: number, baseText: string, fullText: string): string {
   const [reducedMotion] = useState(() => typeof window !== 'undefined' && prefersReducedMotion());
   const [prevCue, setPrevCue] = useState(triggerCue);
   const [phase, setPhase] = useState<Phase>(reducedMotion ? 'rest' : 'typing');
-  const [charCount, setCharCount] = useState(reducedMotion ? BASE_TEXT.length : 0);
+  const [charCount, setCharCount] = useState(reducedMotion ? baseText.length : 0);
 
   if (triggerCue !== prevCue) {
     setPrevCue(triggerCue);
@@ -59,27 +50,27 @@ function useTypedLine(triggerCue: number): string {
     const interval = setInterval(() => {
       count += 1;
       setCharCount(count);
-      if (count >= FULL_TEXT.length) {
+      if (count >= fullText.length) {
         clearInterval(interval);
         setPhase('holding');
       }
     }, TYPE_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, [phase]);
+  }, [phase, fullText]);
 
   useEffect(() => {
     if (phase !== 'holding') return;
 
     const timeout = setTimeout(() => {
       setPhase('rest');
-      setCharCount(BASE_TEXT.length);
+      setCharCount(baseText.length);
     }, HOLD_MS);
 
     return () => clearTimeout(timeout);
-  }, [phase]);
+  }, [phase, baseText]);
 
-  return FULL_TEXT.slice(0, charCount);
+  return fullText.slice(0, charCount);
 }
 
 /**
@@ -102,7 +93,10 @@ function useTypedLine(triggerCue: number): string {
  * This is decoration layered on top of that static name, not the name.
  */
 export function CreditPillText({ triggerCue }: { triggerCue: number }) {
-  const text = useTypedLine(triggerCue);
+  const ui = useUi();
+  const baseText = ui.hero.creditPillBase;
+  const fullText = ui.hero.creditPillFull;
+  const text = useTypedLine(triggerCue, baseText, fullText);
   const frameRef = useRef<HTMLSpanElement>(null);
   const lineRef = useRef<HTMLSpanElement>(null);
 
@@ -128,7 +122,7 @@ export function CreditPillText({ triggerCue }: { triggerCue: number }) {
             margin, and the shift below would then slide that difference off
             the left edge, clipping the first letter. */}
         <span className="invisible flex items-center">
-          {BASE_TEXT}
+          {baseText}
           <span className="ml-1 inline-block h-3 w-px shrink-0" />
         </span>
         <span ref={lineRef} className="absolute inset-y-0 left-0 flex items-center">

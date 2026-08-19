@@ -1,4 +1,6 @@
 import type { CvLink as CvLinkData } from '@/lib/types/portfolio';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 interface CvLinkProps {
   /** Undefined when no address is configured — the link is then not rendered. */
@@ -37,6 +39,7 @@ interface CvLinkProps {
  * colour the hero does not already use.
  */
 export function CvLink({ cv }: CvLinkProps) {
+  const ui = useUi();
   if (!cv) return null;
 
   return (
@@ -47,7 +50,7 @@ export function CvLink({ cv }: CvLinkProps) {
       // The visible label comes from content; the accessible name has to also
       // say where it goes, because a link that opens a tab without warning is
       // a surprise for anyone who cannot see the new tab appear.
-      aria-label={`${cv.label} (opens in a new tab)`}
+      aria-label={format(ui.hero.cvOpensInNewTab, { label: cv.label })}
       className="text-on-photo decoration-current/30 font-mono-ui inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
     >
       {/* A ruled team sheet, not a download tray: nothing is fetched here, and
