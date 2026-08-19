@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero/Hero';
 import { ThreeSystems } from '@/components/Work/ThreeSystems';
 import { ChapterGradientOverlay } from '@/components/Common/ChapterGradientOverlay';
+import { Chapter } from '@/components/Common/Chapter';
 import { PrincipleBand } from '@/components/EngineeringPrinciple/PrincipleBand';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
 import { TechnologiesChapter } from '@/components/Technologies/TechnologiesChapter';
@@ -26,16 +27,16 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <section id="hero" aria-label="Introduction">
+      <Chapter id="hero" label="Introduction">
         <Hero />
-      </section>
+      </Chapter>
 
       {/* id stays "skills" though the chapter no longer is: the footer, the
           progress nav and any external link all point at /#skills, and
           renaming the anchor would break them for a cosmetic gain. */}
-      <section
+      <Chapter
         id="skills"
-        aria-label="Selected work"
+        label="Selected work"
         className="chapter-scrim relative isolate px-4 py-16 sm:px-6 lg:px-8"
       >
         {/* Full-bleed, so the wash has no left/right edge to read as a panel. */}
@@ -46,11 +47,11 @@ export default function Home() {
         <div className="relative mx-auto max-w-6xl">
           <ThreeSystems />
         </div>
-      </section>
+      </Chapter>
 
-      <section
+      <Chapter
         id="career"
-        aria-label="Career Journey"
+        label="Career Journey"
         className="chapter-scrim relative isolate px-4 py-16 sm:px-6 lg:px-8"
       >
         <ChapterGradientOverlay
@@ -60,7 +61,7 @@ export default function Home() {
         <div className="relative mx-auto max-w-6xl">
           <CareerJourneyLazy />
         </div>
-      </section>
+      </Chapter>
 
       {/* Deliberately absent from STORY_SECTIONS in StoryProgressNav: this is
           a held statement between chapters, not a chapter. Listing it would
@@ -71,35 +72,35 @@ export default function Home() {
           #career carry the wash; this chapter joins the later, quieter group
           (#education, #projects, #contact) so it does not read as the page's
           most visually dominant chapter (FR-008). */}
-      <section
+      <Chapter
         id="technologies"
-        aria-label="Technologies"
+        label="Technologies"
         className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <TechnologiesChapter />
         </div>
-      </section>
+      </Chapter>
 
-      <section
+      <Chapter
         id="education"
-        aria-label="Education"
+        label="Education"
         className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <EducationSection />
         </div>
-      </section>
+      </Chapter>
 
-      <section
+      <Chapter
         id="projects"
-        aria-label="Projects"
+        label="Projects"
         className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <ProjectGalleryLazy />
         </div>
-      </section>
+      </Chapter>
 
       {/* overflow-x-clip: ContactSection's decorative glow is a fixed
           w-[40rem] wash centred on this section, wider than the viewport at
@@ -111,15 +112,15 @@ export default function Home() {
           not the inner max-w-4xl column, so only the part already off screen
           is clipped — clipping the column would cut the blurred glow at its
           edge and leave a hard line. */}
-      <section
+      <Chapter
         id="contact"
-        aria-label="Contact"
+        label="Contact"
         className="chapter-scrim overflow-x-clip px-4 py-16 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-4xl">
           <ContactSection />
         </div>
-      </section>
+      </Chapter>
     </>
   );
 }

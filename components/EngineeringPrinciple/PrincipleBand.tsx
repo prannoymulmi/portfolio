@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useContent } from '@/components/Common/ContentProvider';
 import { ChapterGradientOverlay } from '@/components/Common/ChapterGradientOverlay';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
@@ -29,6 +30,7 @@ const GLOW_TRAVEL = -30;
  */
 export function PrincipleBand() {
   const { principle } = useContent();
+  const ui = useUi();
   const ref = useRef<HTMLElement>(null);
 
   // Read during the first render, not in an effect: an effect runs after the
@@ -122,7 +124,7 @@ export function PrincipleBand() {
           style={{ y: statementY, willChange: 'transform' }}
           className="label-mono text-xs text-primary"
         >
-          Engineering principle
+          {ui.work.principleEyebrow}
         </motion.p>
 
         {/* Display-scale, not heading-scale: a "held statement between two
