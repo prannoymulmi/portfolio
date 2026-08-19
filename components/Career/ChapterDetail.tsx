@@ -1,6 +1,9 @@
 'use client';
 
 import { DEFAULT_TECH, type CareerChapter } from './chapters';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
+import { displayDateText } from '@/lib/i18n/displayDateText';
 
 interface ChapterDetailProps {
   chapter: CareerChapter;
@@ -34,6 +37,7 @@ interface ChapterDetailProps {
  */
 export function ChapterDetail({ chapter }: ChapterDetailProps) {
   const { order, position, company, role, years, builtSummary, achievements, tech } = chapter;
+  const ui = useUi();
   // Defence in depth: `toChapters` already applies this fallback (FR-012),
   // but a chapter built any other way still gets it here rather than an
   // empty technologies section.
@@ -42,7 +46,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
   return (
     <div className="chapter-panel rounded-2xl p-5">
       <p className="label-mono text-primary text-xs">
-        Chapter {order} · {position}
+        {format(ui.career.chapterLabel, { order: String(order), position: ui.career.positions[position] })}
       </p>
 
       <h3 className="mt-2 text-2xl font-semibold tracking-tight">{company}</h3>
@@ -54,14 +58,14 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
           panel, after achievements and technologies. */}
       <p className="text-on-photo font-mono-ui mt-3 flex items-center gap-1.5 text-xs opacity-70">
         <span aria-hidden="true">📅</span>
-        <span>{years}</span>
+        <span>{displayDateText(years, ui.career.present)}</span>
       </p>
 
       {builtSummary && (
         <div className="mt-3">
           <p className="text-on-photo label-mono flex items-center gap-1.5 text-xs">
             <span aria-hidden="true">🛠️</span>
-            <span>What I built</span>
+            <span>{ui.career.whatIBuilt}</span>
           </p>
           <p className="text-on-photo mt-1 text-sm leading-snug">{builtSummary}</p>
         </div>
@@ -71,7 +75,7 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
         <div className="mt-3">
           <p className="text-on-photo label-mono flex items-center gap-1.5 text-xs">
             <span aria-hidden="true">🏆</span>
-            <span>Achievements</span>
+            <span>{ui.career.achievements}</span>
           </p>
           <ul className="mt-1 space-y-1">
             {achievements.map((item) => (
@@ -87,9 +91,12 @@ export function ChapterDetail({ chapter }: ChapterDetailProps) {
       <div className="mt-3">
         <p className="text-on-photo label-mono flex items-center gap-1.5 text-xs">
           <span aria-hidden="true">⚙️</span>
-          <span>Technologies</span>
+          <span>{ui.career.technologies}</span>
         </p>
-        <ul aria-label={`Technologies used at ${company}`} className="mt-1 flex flex-wrap gap-1.5">
+        <ul
+          aria-label={format(ui.career.technologiesUsedAt, { company })}
+          className="mt-1 flex flex-wrap gap-1.5"
+        >
           {techTags.map((item) => (
             <li
               key={item}
