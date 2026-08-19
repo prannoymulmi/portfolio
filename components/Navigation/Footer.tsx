@@ -3,9 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { useContent } from '@/components/Common/ContentProvider';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 export function Footer() {
   const { social } = useContent();
+  const ui = useUi();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -18,14 +21,14 @@ export function Footer() {
               Prannoy Mulmi
             </p>
             <p className="mt-1 text-sm text-muted-foreground dark:text-gray-400">
-              Senior Software Engineer & Cloud Architect
+              {ui.footer.tagline}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <p className="label-mono text-xs text-muted-foreground dark:text-gray-400">
-              Quick Links
+              {ui.footer.quickLinks}
             </p>
             <div className="mt-3 space-y-2">
               <div>
@@ -33,7 +36,7 @@ export function Footer() {
                   href="/#projects"
                   className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
-                  Projects
+                  {ui.footer.projects}
                 </Link>
               </div>
               <div>
@@ -41,7 +44,7 @@ export function Footer() {
                   href="/#skills"
                   className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
-                  Selected Work
+                  {ui.footer.selectedWork}
                 </Link>
               </div>
               <div>
@@ -49,7 +52,7 @@ export function Footer() {
                   href="/#career"
                   className="text-sm text-foreground hover:text-primary dark:text-gray-300 dark:hover:text-blue-400"
                 >
-                  Career
+                  {ui.footer.career}
                 </Link>
               </div>
             </div>
@@ -57,7 +60,9 @@ export function Footer() {
 
           {/* Social Links */}
           <div>
-            <p className="label-mono text-xs text-muted-foreground dark:text-gray-400">Connect</p>
+            <p className="label-mono text-xs text-muted-foreground dark:text-gray-400">
+              {ui.footer.connect}
+            </p>
             <div className="mt-3 space-y-2">
               {social.data?.social?.map((link, idx) => (
                 <div key={idx}>
@@ -78,7 +83,7 @@ export function Footer() {
         {/* Bottom section */}
         <div className="mt-8 border-t border-border pt-8 dark:border-gray-700">
           <p className="text-center text-sm text-muted-foreground dark:text-gray-400">
-            © {currentYear} Prannoy Mulmi. All rights reserved.
+            {format(ui.footer.copyright, { year: String(currentYear), name: 'Prannoy Mulmi' })}
           </p>
         </div>
       </div>

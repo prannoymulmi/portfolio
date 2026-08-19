@@ -1,3 +1,6 @@
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
+
 interface EmailLinkProps {
   /** Plain address, e.g. "prannoy.mulmi@gmail.com". */
   email: string;
@@ -21,12 +24,13 @@ interface EmailLinkProps {
  * have to strip the scheme back off.
  */
 export function EmailLink({ email }: EmailLinkProps) {
+  const ui = useUi();
   return (
     <a
       href={`mailto:${email}`}
       // The glyph is hidden from assistive tech, so the name has to be stated:
       // a link whose only content is a drawing is announced as nothing at all.
-      aria-label={`Email ${email}`}
+      aria-label={format(ui.nav.emailLabel, { email })}
       className="flex items-center rounded p-1.5 text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:text-gray-100 dark:hover:text-blue-400"
     >
       <svg
