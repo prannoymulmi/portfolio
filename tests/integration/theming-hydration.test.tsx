@@ -3,6 +3,7 @@ import { hydrateRoot } from 'react-dom/client';
 import '@testing-library/jest-dom';
 import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 /**
  * The theme is decided across two runtimes — a pre-paint script, a server
@@ -24,9 +25,11 @@ import { ThemeToggle } from '@/components/Common/ThemeToggle';
 const SERVER_HTML = '<script></script>';
 
 const tree = () => (
-  <ThemeProvider>
-    <ThemeToggle />
-  </ThemeProvider>
+  <LocaleProvider>
+    <ThemeProvider>
+      <ThemeToggle />
+    </ThemeProvider>
+  </LocaleProvider>
 );
 
 async function hydrate() {

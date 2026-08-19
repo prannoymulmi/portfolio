@@ -1,6 +1,7 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { Hero } from '@/components/Hero/Hero';
 
 // The unit tests in tests/unit/components/useHeroScrollBlur.test.tsx exercise
@@ -57,9 +58,11 @@ function setMediaQueries({
 
 async function renderRealHero() {
   render(
-    <ContentProvider>
-      <Hero />
-    </ContentProvider>,
+    <LocaleProvider>
+      <ContentProvider>
+        <Hero />
+      </ContentProvider>
+    </LocaleProvider>,
   );
   // Hero renders a loading skeleton until ContentProvider's fetch resolves;
   // waiting for the intro copy is the same "content has landed" signal the

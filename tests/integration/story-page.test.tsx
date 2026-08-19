@@ -2,13 +2,16 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from '@/app/page';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 describe('Story page (/)', () => {
   const renderStory = () =>
     render(
-      <ContentProvider>
-        <Home />
-      </ContentProvider>,
+      <LocaleProvider>
+        <ContentProvider>
+          <Home />
+        </ContentProvider>
+      </LocaleProvider>,
     );
 
   it('renders all 7 story sections in narrative order', () => {

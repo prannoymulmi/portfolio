@@ -19,8 +19,11 @@ const layoutSource = fs.readFileSync(path.join(process.cwd(), 'app', 'layout.tsx
 // fix contains it at the chapter section that hosts it, in app/page.tsx.
 describe('mobile horizontal overflow containment (specs/012-mobile-layout-fixes)', () => {
   it('gives the contact chapter section a horizontal containment utility', () => {
+    // The chapter landmarks render through <Chapter> (components/Common/Chapter.tsx,
+    // research R-008/T031) rather than a bare <section> in page.tsx's own
+    // source — the tag scanned for changed, the containment rule did not.
     const contactSectionMatch = pageSource.match(
-      /<section\s+id="contact"[\s\S]*?className="([^"]*)"/,
+      /<Chapter\s+id="contact"[\s\S]*?className="([^"]*)"/,
     );
 
     expect(contactSectionMatch).not.toBeNull();
@@ -35,7 +38,7 @@ describe('mobile horizontal overflow containment (specs/012-mobile-layout-fixes)
   // scrollport.
   it('uses overflow-x-clip rather than overflow-hidden on the contact section', () => {
     const contactSectionMatch = pageSource.match(
-      /<section\s+id="contact"[\s\S]*?className="([^"]*)"/,
+      /<Chapter\s+id="contact"[\s\S]*?className="([^"]*)"/,
     );
 
     expect(contactSectionMatch?.[1]).not.toMatch(/\boverflow-hidden\b/);
