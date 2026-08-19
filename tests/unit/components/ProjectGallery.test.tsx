@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { Project } from '@/lib/types/portfolio';
@@ -48,7 +49,12 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 }));
 
 import { ProjectGallery } from '@/components/Projects/ProjectGallery';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { dispatchProjectHighlight } from '@/lib/utils/projectHighlight';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 function project(overrides: Partial<Project> & { title: string }): Project {
   return {
@@ -72,7 +78,7 @@ describe('ProjectGallery', () => {
   });
 
   it('renders a low-emphasis GitHub profile link near the heading (US3, FR-008)', () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     const link = screen.getByRole('link', { name: /more on github/i });
     expect(link).toHaveAttribute('href', 'https://github.com/prannoymulmi');
     expect(link).toHaveAttribute('target', '_blank');
@@ -80,14 +86,14 @@ describe('ProjectGallery', () => {
   });
 
   it('communicates a curated subset, distinct from any per-project GitHub link text (FR-009)', () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     const links = screen.getAllByRole('link', { name: /view on github/i });
     const profileLink = screen.getByRole('link', { name: /more on github/i });
     links.forEach((link) => expect(link.textContent).not.toEqual(profileLink.textContent));
   });
 
   it("opens a project's detail modal on card click", () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     fireEvent.click(screen.getByRole('button', { name: /alpha project/i }));
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
@@ -95,7 +101,7 @@ describe('ProjectGallery', () => {
   });
 
   it('replaces the open modal rather than stacking a second one when another card is clicked', () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     fireEvent.click(screen.getByRole('button', { name: /alpha project/i }));
     fireEvent.click(screen.getByRole('button', { name: /beta project/i }));
 
@@ -108,7 +114,7 @@ describe('ProjectGallery', () => {
   });
 
   it('runs the same highlight ring when a card is opened from the gallery, not only from the hero pill', () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     fireEvent.click(screen.getByRole('button', { name: /alpha project/i }));
 
     const frame = screen.getByRole('dialog').parentElement as HTMLElement;
@@ -116,7 +122,7 @@ describe('ProjectGallery', () => {
   });
 
   it('closes the modal and returns focus to the triggering card', () => {
-    render(<ProjectGallery />);
+    renderWithLocale(<ProjectGallery />);
     const card = screen.getByRole('button', { name: /alpha project/i });
     fireEvent.click(card);
     fireEvent.keyDown(document, { key: 'Escape' });
@@ -133,7 +139,7 @@ describe('ProjectGallery', () => {
     const ringFrame = () => screen.getByRole('dialog').parentElement as HTMLElement;
 
     it('opens the detail modal on a dispatched event (hero pill click)', () => {
-      render(<ProjectGallery />);
+      renderWithLocale(<ProjectGallery />);
       act(() => dispatchProjectHighlight('alpha'));
 
       const dialog = screen.getByRole('dialog');
@@ -141,7 +147,7 @@ describe('ProjectGallery', () => {
     });
 
     it('runs the highlight ring on the opened modal, not on the card in the grid', () => {
-      render(<ProjectGallery />);
+      renderWithLocale(<ProjectGallery />);
       act(() => dispatchProjectHighlight('alpha'));
 
       expect(ringFrame().className).toMatch(/project-card-highlight/);
@@ -149,7 +155,7 @@ describe('ProjectGallery', () => {
     });
 
     it('retriggers the ring on a second dispatch for the same project, even while the first highlight is still active', () => {
-      render(<ProjectGallery />);
+      renderWithLocale(<ProjectGallery />);
       act(() => dispatchProjectHighlight('alpha'));
       const frame = ringFrame();
       expect(frame.className).toMatch(/project-card-highlight/);
@@ -171,7 +177,7 @@ describe('ProjectGallery', () => {
     it('retriggers the ring after the first highlight has cleared and is re-dispatched', () => {
       jest.useFakeTimers();
       try {
-        render(<ProjectGallery />);
+        renderWithLocale(<ProjectGallery />);
         act(() => dispatchProjectHighlight('alpha'));
         expect(ringFrame().className).toMatch(/project-card-highlight/);
 
@@ -190,7 +196,7 @@ describe('ProjectGallery', () => {
     });
 
     it('ignores a dispatch for an id that is not in the current project list', () => {
-      render(<ProjectGallery />);
+      renderWithLocale(<ProjectGallery />);
       act(() => dispatchProjectHighlight('does-not-exist'));
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });

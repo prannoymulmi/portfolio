@@ -1,6 +1,12 @@
+import type { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 const setTheme = jest.fn();
 
@@ -23,24 +29,24 @@ describe('ThemeToggle', () => {
 
   it('renders nothing without the experiment flag', () => {
     visit('');
-    const { container } = render(<ThemeToggle />);
+    const { container } = renderWithLocale(<ThemeToggle />);
     expect(container).toBeEmptyDOMElement();
   });
 
   it('stays hidden for a flag set to anything but true', () => {
     visit('?experiment=1');
-    const { container } = render(<ThemeToggle />);
+    const { container } = renderWithLocale(<ThemeToggle />);
     expect(container).toBeEmptyDOMElement();
   });
 
   it('T1: renders a button with an accessible label describing the action', async () => {
-    render(<ThemeToggle />);
+    renderWithLocale(<ThemeToggle />);
     const button = await screen.findByRole('button', { name: /switch to dark mode/i });
     expect(button).toBeInTheDocument();
   });
 
   it('T1: is keyboard-reachable — a real button, not a click-handling div', async () => {
-    render(<ThemeToggle />);
+    renderWithLocale(<ThemeToggle />);
     const button = await screen.findByRole('button');
     // Native buttons are focusable without an explicit tabIndex.
     expect(button.tagName).toBe('BUTTON');
@@ -48,7 +54,7 @@ describe('ThemeToggle', () => {
   });
 
   it('sets the opposite theme when activated', async () => {
-    render(<ThemeToggle />);
+    renderWithLocale(<ThemeToggle />);
     const button = await screen.findByRole('button');
     button.click();
     expect(setTheme).toHaveBeenCalledWith('dark');

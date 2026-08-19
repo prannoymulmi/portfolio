@@ -35,6 +35,15 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 }));
 
 import { PrincipleBand } from '@/components/EngineeringPrinciple/PrincipleBand';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderBand() {
+  return render(
+    <LocaleProvider>
+      <PrincipleBand />
+    </LocaleProvider>,
+  );
+}
 
 function setReducedMotion(reduced: boolean) {
   Object.defineProperty(window, 'matchMedia', {
@@ -61,14 +70,14 @@ describe('PrincipleBand', () => {
 
   it('carries the statement and its supporting line', () => {
     setReducedMotion(false);
-    render(<PrincipleBand />);
+    renderBand();
     expect(screen.getByText(/on-call engineer can reason about at 3am/i)).toBeInTheDocument();
     expect(screen.getByText(/not after the first incident/i)).toBeInTheDocument();
   });
 
   it('moves background and text at different rates, which is what reads as depth', () => {
     setReducedMotion(false);
-    render(<PrincipleBand />);
+    renderBand();
 
     expect(transformCalls.length).toBeGreaterThan(1);
     const magnitudes = transformCalls.map(({ output }) => Math.max(...output.map(Math.abs)));
@@ -79,7 +88,7 @@ describe('PrincipleBand', () => {
 
   it('collapses every layer to zero when reduced motion is requested', () => {
     setReducedMotion(true);
-    render(<PrincipleBand />);
+    renderBand();
     transformCalls.forEach(({ output }) => {
       expect(output.every((value) => value === 0)).toBe(true);
     });
@@ -87,7 +96,7 @@ describe('PrincipleBand', () => {
 
   it('stays readable under reduced motion — the statement is the point, not the motion', () => {
     setReducedMotion(true);
-    render(<PrincipleBand />);
+    renderBand();
     expect(screen.getByText(/on-call engineer can reason about at 3am/i)).toBeInTheDocument();
   });
 
@@ -95,7 +104,7 @@ describe('PrincipleBand', () => {
     setReducedMotion(false);
     mockPrinciple.data = null;
     mockPrinciple.error = new Error('boom');
-    const { container } = render(<PrincipleBand />);
+    const { container } = renderBand();
     expect(container).toBeEmptyDOMElement();
   });
 });

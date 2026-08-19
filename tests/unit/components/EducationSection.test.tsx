@@ -2,13 +2,16 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 describe('EducationSection', () => {
   const renderSection = () =>
     render(
-      <ContentProvider>
-        <EducationSection />
-      </ContentProvider>,
+      <LocaleProvider>
+        <ContentProvider>
+          <EducationSection />
+        </ContentProvider>
+      </LocaleProvider>,
     );
 
   it('renders the Distinction classification as a badge, not plain paragraph text', async () => {
