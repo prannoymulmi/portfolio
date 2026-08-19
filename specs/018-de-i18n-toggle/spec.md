@@ -8,6 +8,14 @@
 
 **Input**: User description: "I want to have a german language site as well default is english and if someone wants then there is a button to togggle. Make the project so that multi language can be supported later. Also add in the Hero section Hamburg Germay with a location icon"
 
+## Clarifications
+
+### Session 2026-08-19
+
+- Q: Who provides the actual German translation text for existing content — will you supply reviewed German copy, or should it be drafted for you to review during implementation? → A: Draft German copy is written during implementation; the user reviews and corrects it in the PR.
+- Q: Does the German version of the site need a German CV/resume document, or should the CV download link stay the same file regardless of language? → A: The CV link stays the same file in both languages; no German CV is produced in this feature.
+- Q: Where should the language toggle control live on the page? → A: In the navigation bar (desktop) / hamburger menu (mobile), alongside existing nav controls.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Switch the whole site to German (Priority: P1)
@@ -133,8 +141,10 @@ that reads translated content.
 
 - **FR-001**: The site MUST render entirely in English by default for any
   visitor with no previously stored language preference.
-- **FR-002**: The site MUST provide a visible, clearly labeled control that
-  toggles the active language between English and German.
+- **FR-002**: The site MUST provide a visible, clearly labeled control in
+  the site navigation (and its mobile hamburger menu equivalent) that
+  toggles the active language between English and German, reachable from
+  every scroll position.
 - **FR-003**: Activating the toggle MUST update all on-page, user-facing
   text on the current view to the selected language without a full page
   reload.
@@ -202,9 +212,11 @@ that reads translated content.
   initial language — the site always starts in English until the visitor
   explicitly toggles, consistent with the project's existing rule that no
   visitor is served a preference they did not explicitly choose.
-- German translations for existing content will be authored as part of
-  delivering this feature (accurate, professionally-worded German copy for
-  every existing English string), not left as placeholder/machine text.
+- German translations for existing content will be drafted as part of
+  delivering this feature (accurate, natural-sounding German copy for every
+  existing English string), then reviewed and corrected by the site owner
+  in the PR before merge — draft copy is not treated as final without that
+  review.
 - The language preference is stored per-browser (e.g. local storage), not
   tied to a user account, since the site has no authentication system.
 - The Hero location tag is additive copy near the existing bio/intro
@@ -215,3 +227,5 @@ that reads translated content.
 - Only English and German ship in this feature; the "supports more
   languages later" requirement is about the underlying content/toggle
   structure being extensible, not about shipping a third language now.
+- The downloadable CV/résumé file is out of scope for translation — the
+  same CV document is linked regardless of the active language.
