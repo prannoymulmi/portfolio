@@ -1,0 +1,16 @@
+{
+  "name": "Prannoy Mulmi",
+  "intro": "I build secure, scalable cloud systems, and I care about getting the security and the details right.",
+  "bio": "9 years in, I've led teams, mentored engineers, and taken platforms from design into production. Backend architecture and security are where I do my best work.",
+  "imageSource": "/images/hero_portrait.png",
+  "roles": [
+    "Software Engineer",
+    "Security Advocate",
+    "AI enthusiast"
+  ],
+  "cv": {
+    "label": "View CV",
+    "href": "https://drive.google.com/file/d/1TEiyG768RlXBEEH4sLLyTIHihJuMpmVc/view?usp=sharing"
+  },
+  "contactNote": "I reply to every message within a day or two — happy to trade notes on architecture even if there’s no role attached."
+}

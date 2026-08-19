@@ -1,0 +1,140 @@
+{
+  "intro": "Every technology below is tied to a real role and date range from the career history, not a self-rating typed into a list.",
+  "builtWithNote": "This site itself was designed and built with Claude Code, using spec-driven development: a written spec and plan before any code.",
+  "categories": ["Cloud & Infrastructure", "Languages", "Frameworks & Libraries", "Frontend", "Tools", "Observability", "Security"],
+  "technologies": [
+    {
+      "name": "AWS",
+      "category": "Cloud & Infrastructure",
+      "matches": ["AWS"],
+      "note": "Architected cloud infrastructure across four roles, from early Terraform deployments to IAM and secrets management at scale."
+    },
+    {
+      "name": "Terraform",
+      "category": "Cloud & Infrastructure",
+      "matches": ["Terraform"],
+      "note": "Wrote infrastructure as code for cloud services and migrations, starting as a junior backend developer and continuing into senior IaC work."
+    },
+    {
+      "name": "Docker",
+      "category": "Cloud & Infrastructure",
+      "matches": ["Docker"],
+      "note": "Containerized services for deployment, from early backend microservices to current CI/CD pipelines for authentication systems."
+    },
+    {
+      "name": "Auth0",
+      "category": "Cloud & Infrastructure",
+      "matches": ["Auth0"],
+      "note": "Built and maintained Auth0-based authentication and identity services, including secret rotation and customer-facing access issues."
+    },
+    {
+      "name": "AWS CDK",
+      "category": "Cloud & Infrastructure",
+      "matches": ["CDK"],
+      "note": "Delivered infrastructure as code with AWS CDK for an identity platform, alongside automating CI/CD pipeline delivery."
+    },
+    {
+      "name": "TypeScript",
+      "category": "Languages",
+      "matches": ["TypeScript"],
+      "note": "Primary language for authentication services and cloud tooling across the two most recent senior engineering roles."
+    },
+    {
+      "name": "Java",
+      "category": "Languages",
+      "matches": ["Java"],
+      "note": "Core backend language from junior full stack and backend roles through to senior microservice and Domain-Driven Design work."
+    },
+    {
+      "name": "JavaScript",
+      "category": "Languages",
+      "matches": ["JavaScript"],
+      "note": "Used across frontend and full stack roles, from early responsive prototypes to Angular and React-based applications."
+    },
+    {
+      "name": "Node.js",
+      "category": "Frameworks & Libraries",
+      "matches": ["Node.js"],
+      "note": "Backend runtime for authentication microservices, and part of the early frontend workflow alongside Cordova and Git."
+    },
+    {
+      "name": "Spring Boot",
+      "category": "Frameworks & Libraries",
+      "matches": ["Spring Boot"],
+      "note": "Built microservices as a junior backend developer, following an object-oriented, Domain-Driven Design approach on AWS."
+    },
+    {
+      "name": "Spring",
+      "category": "Frameworks & Libraries",
+      "matches": ["Spring"],
+      "note": "Used the wider Spring stack, Spring MVC and Spring Data JPA, to build backend modules during an early full stack role."
+    },
+    {
+      "name": "Hibernate",
+      "category": "Frameworks & Libraries",
+      "matches": ["Hibernate"],
+      "note": "Handled persistence for backend modules built with Spring during an early junior full stack developer role."
+    },
+    {
+      "name": "Angular.js",
+      "category": "Frameworks & Libraries",
+      "matches": ["Angular.js"],
+      "note": "Built web applications with Angular.js and Angular Material as a working student, before those apps were wrapped with Cordova."
+    },
+    {
+      "name": "React.js",
+      "category": "Frameworks & Libraries",
+      "matches": ["React.js"],
+      "note": "One of the frontend workflow tools used while building responsive prototypes early in a working-student frontend role."
+    },
+    {
+      "name": "HTML5",
+      "category": "Frontend",
+      "matches": ["HTML5"],
+      "note": "Marked up responsive prototypes to company requirements during an early frontend developer role."
+    },
+    {
+      "name": "CSS",
+      "category": "Frontend",
+      "matches": ["CSS"],
+      "note": "Styled Angular-based web and mobile applications, including apps later wrapped for Android and iOS with Cordova."
+    },
+    {
+      "name": "CSS3",
+      "category": "Frontend",
+      "matches": ["CSS3"],
+      "note": "Used alongside HTML and JavaScript to build efficient, responsive prototypes under company brand standards."
+    },
+    {
+      "name": "Cordova",
+      "category": "Frontend",
+      "matches": ["Cordova"],
+      "note": "Wrapped existing Angular web apps into Android and iOS mobile apps, then optimized and troubleshot them for release."
+    },
+    {
+      "name": "Webpack",
+      "category": "Tools",
+      "matches": ["Webpack"],
+      "note": "Configured as the frontend build tool and module bundler while developing backend modules with the Spring stack."
+    },
+    {
+      "name": "Maven",
+      "category": "Tools",
+      "matches": ["Maven"],
+      "note": "Built Java and Spring projects with Maven during an early junior full stack developer role at Novomind."
+    },
+    {
+      "name": "Datadog",
+      "category": "Observability",
+      "matches": ["Datadog"],
+      "note": "Used for metrics, dashboards, and observability across authentication services in the two most recent senior roles."
+    },
+    {
+      "name": "Threat Modeling",
+      "category": "Security",
+      "matches": ["Threat Modeling"],
+      "sinceByEmployer": { "AViV GmbH (Formerly Immowelt GmbH)": "01/2024" },
+      "note": "Identified and mitigated security risks early in design for major features, ongoing at the two most recent senior roles."
+    }
+  ]
+}
