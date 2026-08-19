@@ -1,6 +1,12 @@
+import type { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { HeroPortrait } from '@/components/Hero/HeroPortrait';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 // Same shape as Backdrop.test.tsx: next/image swallows its own props, so the
 // ones under test (sizes, preload) are re-exposed as data attributes.
@@ -16,17 +22,17 @@ const NAME = 'Prannoy Mulmi';
 
 describe('HeroPortrait', () => {
   it('renders nothing without a portrait address, so the opening falls back to text', () => {
-    const { container } = render(<HeroPortrait name={NAME} />);
+    const { container } = renderWithLocale(<HeroPortrait name={NAME} />);
     expect(container).toBeEmptyDOMElement();
   });
 
   it('renders exactly one image', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
+    renderWithLocale(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     expect(screen.getAllByRole('img')).toHaveLength(1);
   });
 
   it('names the subject in the alt text, because a person is content and not decoration', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
+    renderWithLocale(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     const portrait = screen.getByRole('img');
 
     expect(portrait).toHaveAccessibleName(new RegExp(NAME, 'i'));
@@ -34,7 +40,7 @@ describe('HeroPortrait', () => {
   });
 
   it('dissolves both clipped edges rather than ending on a crop line', () => {
-    const { container } = render(
+    const { container } = renderWithLocale(
       <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
 
@@ -48,7 +54,7 @@ describe('HeroPortrait', () => {
   });
 
   it('caps its height below lg so it does not eat a phone viewport', () => {
-    const { container } = render(
+    const { container } = renderWithLocale(
       <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
     const html = container.innerHTML;
@@ -59,12 +65,12 @@ describe('HeroPortrait', () => {
   });
 
   it('passes an explicit sizes, so the optimizer is not left assuming 100vw', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
+    renderWithLocale(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     expect(screen.getByRole('img')).toHaveAttribute('sizes');
   });
 
   it('preloads, because this element is the largest contentful paint', () => {
-    render(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
+    renderWithLocale(<HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />);
     // The plan assumed the backdrop would keep that role and left this off.
     // Measurement disagreed: Chrome reports the portrait as LCP, and
     // preloading it lands 196-208ms against 212-216ms without (SC-008).
@@ -72,7 +78,7 @@ describe('HeroPortrait', () => {
   });
 
   it('uses no inline style, so the fade stays a utility the stylesheet can see', () => {
-    const { container } = render(
+    const { container } = renderWithLocale(
       <HeroPortrait name={NAME} imageSource="/images/hero_portrait.png" />,
     );
     for (const node of Array.from(container.querySelectorAll('*'))) {

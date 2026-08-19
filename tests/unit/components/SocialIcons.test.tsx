@@ -2,13 +2,16 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SocialIcons } from '@/components/Navigation/SocialIcons';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { clearContentCache } from '@/lib/hooks/useContentLoader';
 
 const renderWithProvider = () =>
   render(
-    <ContentProvider>
-      <SocialIcons />
-    </ContentProvider>,
+    <LocaleProvider>
+      <ContentProvider>
+        <SocialIcons />
+      </ContentProvider>
+    </LocaleProvider>,
   );
 
 /** Serve a custom social.json for one test, leaving other content untouched. */

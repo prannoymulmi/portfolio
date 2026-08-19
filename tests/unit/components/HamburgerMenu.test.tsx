@@ -1,7 +1,13 @@
+import type { ReactElement } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { HamburgerMenu } from '@/components/Navigation/HamburgerMenu';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 jest.mock('@/lib/utils/animations', () => ({
   prefersReducedMotion: jest.fn(() => false),
@@ -40,7 +46,7 @@ const SECTIONS = [
 
 describe('HamburgerMenu', () => {
   it('renders a toggle button with the sections passed in, closed by default', () => {
-    render(<HamburgerMenu sections={SECTIONS} />);
+    renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
 
     expect(screen.getByRole('button', { name: /open menu/i })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Career Journey' })).not.toBeInTheDocument();
@@ -48,7 +54,7 @@ describe('HamburgerMenu', () => {
 
   describe('opening the menu', () => {
     it('lists every section, in order, with the right label and href (FR-002, FR-003)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
 
       const links = screen.getAllByRole('link');
@@ -61,7 +67,7 @@ describe('HamburgerMenu', () => {
 
   describe('closing the menu', () => {
     it('closes without navigating away when a link is selected (FR-004)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
       fireEvent.click(screen.getByRole('link', { name: 'Career Journey' }));
 
@@ -69,7 +75,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('closes on re-activating the toggle (FR-005)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       const toggle = screen.getByRole('button', { name: /open menu/i });
       fireEvent.click(toggle);
       fireEvent.click(screen.getByRole('button', { name: /close menu/i }));
@@ -78,7 +84,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('closes on Escape without navigating (FR-005)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
       fireEvent.keyDown(document, { key: 'Escape' });
 
@@ -86,7 +92,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('closes on a click outside the panel and toggle (FR-005)', () => {
-      render(
+      renderWithLocale(
         <div>
           <div data-testid="outside" />
           <HamburgerMenu sections={SECTIONS} />
@@ -105,14 +111,14 @@ describe('HamburgerMenu', () => {
       // event itself (browser default action) — the same handler this fires
       // is what a real Enter/Space activation reaches, so a click event here
       // stands in for keyboard activation.
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
 
       expect(document.activeElement).toBe(screen.getByRole('link', { name: 'Introduction' }));
     });
 
     it('returns focus to the toggle when the menu closes (FR-007)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       const toggle = screen.getByRole('button', { name: /open menu/i });
       fireEvent.click(toggle);
       fireEvent.keyDown(document, { key: 'Escape' });
@@ -121,7 +127,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('exposes aria-expanded and an accessible menu-toggle name (FR-006)', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       const toggle = screen.getByRole('button', { name: /open menu/i });
       expect(toggle).toHaveAttribute('aria-expanded', 'false');
 
@@ -137,7 +143,7 @@ describe('HamburgerMenu', () => {
     it('still opens and closes when prefers-reduced-motion is set (Edge Cases)', () => {
       (prefersReducedMotion as jest.Mock).mockReturnValue(true);
       try {
-        render(<HamburgerMenu sections={SECTIONS} />);
+        renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
         fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
         expect(screen.getByRole('link', { name: 'Career Journey' })).toBeInTheDocument();
 
@@ -151,7 +157,7 @@ describe('HamburgerMenu', () => {
 
   describe('edge cases', () => {
     it('closes the menu when the viewport resizes past a breakpoint', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
       expect(screen.getByRole('link', { name: 'Career Journey' })).toBeInTheDocument();
 
@@ -161,7 +167,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('wraps Tab from the last link back to the first, keeping focus inside the open menu', () => {
-      render(<HamburgerMenu sections={SECTIONS} />);
+      renderWithLocale(<HamburgerMenu sections={SECTIONS} />);
       fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
 
       const links = screen.getAllByRole('link');
@@ -176,7 +182,7 @@ describe('HamburgerMenu', () => {
     });
 
     it('renders a working, empty menu when sections have not loaded yet', () => {
-      render(<HamburgerMenu sections={[]} />);
+      renderWithLocale(<HamburgerMenu sections={[]} />);
       const toggle = screen.getByRole('button', { name: /open menu/i });
 
       expect(() => fireEvent.click(toggle)).not.toThrow();

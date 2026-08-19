@@ -1,19 +1,25 @@
+import type { ReactElement } from 'react';
 import fs from 'node:fs';
 import path from 'node:path';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { EmailLink } from '@/components/Navigation/EmailLink';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 const ADDRESS = 'someone@example.com';
 
 describe('EmailLink', () => {
   it('opens a message to the address it is given', () => {
-    render(<EmailLink email={ADDRESS} />);
+    renderWithLocale(<EmailLink email={ADDRESS} />);
     expect(screen.getByRole('link')).toHaveAttribute('href', `mailto:${ADDRESS}`);
   });
 
   it('announces itself as email rather than as an unlabelled glyph', () => {
-    render(<EmailLink email={ADDRESS} />);
+    renderWithLocale(<EmailLink email={ADDRESS} />);
     const link = screen.getByRole('link');
 
     // The visible content is a drawing, so the accessible name has to come
@@ -34,12 +40,12 @@ describe('EmailLink', () => {
     // Matches an import, not a mention — the file explains in a comment why it
     // does not use the library, and that explanation is worth keeping.
     expect(source).not.toMatch(/from\s+['"]react-icons/);
-    render(<EmailLink email={ADDRESS} />);
+    renderWithLocale(<EmailLink email={ADDRESS} />);
     expect(screen.getByRole('link').querySelector('svg')).not.toBeNull();
   });
 
   it('shows a focus indicator, since it is reachable by keyboard from anywhere', () => {
-    render(<EmailLink email={ADDRESS} />);
+    renderWithLocale(<EmailLink email={ADDRESS} />);
     expect(screen.getByRole('link').className).toMatch(/focus-visible:/);
   });
 });
