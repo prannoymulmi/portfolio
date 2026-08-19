@@ -2,6 +2,9 @@
 
 import React from 'react';
 import type { Experience } from '@/lib/types/portfolio';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
+import { displayDateText } from '@/lib/i18n/displayDateText';
 
 interface TimelineViewProps {
   experiences: Experience[];
@@ -17,8 +20,10 @@ interface TimelineViewProps {
  * surface, and this is the same content in the same register.
  */
 export function TimelineView({ experiences }: TimelineViewProps) {
+  const ui = useUi();
+
   if (!experiences || experiences.length === 0) {
-    return <p className="text-on-photo text-center">No experience data available</p>;
+    return <p className="text-on-photo text-center">{ui.career.noExperienceData}</p>;
   }
 
   return (
@@ -31,9 +36,11 @@ export function TimelineView({ experiences }: TimelineViewProps) {
           {/* Dates in their own rail, so the column reads as a timeline
               without needing a drawn line and a row of dots to say so. */}
           <div className="flex flex-col gap-2">
-            <span className="text-on-photo font-mono-ui text-sm">{experience.dateText}</span>
+            <span className="text-on-photo font-mono-ui text-sm">
+              {displayDateText(experience.dateText, ui.career.present)}
+            </span>
             <span className="text-on-photo label-mono w-fit rounded-full border border-border px-2.5 py-0.5 text-[0.65rem]">
-              {experience.workType}
+              {ui.career.workTypes[experience.workType]}
             </span>
           </div>
 
@@ -54,7 +61,7 @@ export function TimelineView({ experiences }: TimelineViewProps) {
 
             {experience.technologies && experience.technologies.length > 0 && (
               <ul
-                aria-label={`Technologies used at ${experience.subtitle}`}
+                aria-label={format(ui.career.technologiesUsedAt, { company: experience.subtitle })}
                 className="mt-5 flex flex-wrap gap-2"
               >
                 {experience.technologies.map((tech) => (

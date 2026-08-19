@@ -1,5 +1,18 @@
 import type { Experience } from '@/lib/types/portfolio';
 
+// Invariant keys, not English literals (research R-006, data-model.md
+// §Derived-value keys) — components map these through
+// `ui.career.positions[position]`, never branching on locale directly
+// (ADR 0024).
+export type CareerPosition =
+  | 'goalkeeper'
+  | 'centreBack'
+  | 'leftBack'
+  | 'defensiveMidfield'
+  | 'playmaker'
+  | 'rightWing'
+  | 'striker';
+
 export interface CareerChapter {
   id: string;
   /** Chronological chapter number, 1 = earliest. */
@@ -17,7 +30,7 @@ export interface CareerChapter {
   achievements: string[];
   tech: string[];
   /** Football position this chapter occupies, from the formation below. */
-  position: string;
+  position: CareerPosition;
   /** Percent coordinates on the pitch. */
   x: number;
   y: number;
@@ -94,15 +107,15 @@ export function toAbbreviation(displayName: string): string {
  * a content file every time a job is added — and the coordinates carry no
  * information a reader could recover, unlike the order they encode.
  */
-const FORMATION = [
-  { position: 'Goalkeeper', x: 8, y: 50 },
-  { position: 'Centre back', x: 26, y: 26 },
-  { position: 'Left back', x: 26, y: 74 },
-  { position: 'Defensive midfield', x: 44, y: 50 },
-  { position: 'Playmaker', x: 60, y: 28 },
-  { position: 'Right wing', x: 66, y: 72 },
-  { position: 'Striker', x: 84, y: 46 },
-] as const;
+const FORMATION: { position: CareerPosition; x: number; y: number }[] = [
+  { position: 'goalkeeper', x: 8, y: 50 },
+  { position: 'centreBack', x: 26, y: 26 },
+  { position: 'leftBack', x: 26, y: 74 },
+  { position: 'defensiveMidfield', x: 44, y: 50 },
+  { position: 'playmaker', x: 60, y: 28 },
+  { position: 'rightWing', x: 66, y: 72 },
+  { position: 'striker', x: 84, y: 46 },
+];
 
 /**
  * A sortable MM/YYYY start date, as year*12+month — `dateText` is free-form

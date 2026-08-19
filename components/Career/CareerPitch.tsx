@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Experience } from '@/lib/types/portfolio';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 import { SVGPitch, PITCH_HEIGHT } from './SVGPitch';
 import { ChapterDetail } from './ChapterDetail';
 import { toChapters } from './chapters';
@@ -30,6 +32,7 @@ interface CareerPitchProps {
  * animation library at all.
  */
 export function CareerPitch({ experiences }: CareerPitchProps) {
+  const ui = useUi();
   const chapters = toChapters(experiences);
   const [index, setIndex] = useState(() => Math.max(0, chapters.length - 1));
   const [playing, setPlaying] = useState(false);
@@ -82,18 +85,18 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
         <div className="chapter-panel flex items-center gap-1 rounded-full p-1">
           <button
             type="button"
-            aria-label="Previous chapter"
+            aria-label={ui.career.previousChapter}
             onClick={() => goTo(index - 1)}
             className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-background/60 dark:hover:bg-gray-700/60"
           >
             ‹
           </button>
           <span className="text-on-photo font-mono-ui px-2 text-xs whitespace-nowrap">
-            Chapter {active.order} / {chapters.length}
+            {format(ui.career.chapterCounter, { order: String(active.order), total: String(chapters.length) })}
           </span>
           <button
             type="button"
-            aria-label="Next chapter"
+            aria-label={ui.career.nextChapter}
             onClick={() => goTo(index + 1)}
             className="text-on-photo flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-background/60 dark:hover:bg-gray-700/60"
           >
@@ -111,7 +114,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
           }}
           className="text-on-photo rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary"
         >
-          {playing ? '❚❚ Pause the play' : '▶ Play in order'}
+          {playing ? ui.career.pausePlay : ui.career.playInOrder}
         </button>
       </div>
 
@@ -203,7 +206,12 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
                   role="button"
                   tabIndex={0}
                   aria-pressed={isActive}
-                  aria-label={`Chapter ${chapter.order}: pass to ${chapter.position} — ${chapter.company}, ${chapter.role}`}
+                  aria-label={format(ui.career.chapterAriaLabel, {
+                    order: String(chapter.order),
+                    position: ui.career.positions[chapter.position],
+                    company: chapter.company,
+                    role: chapter.role,
+                  })}
                   // `outline-none` (not only `focus-visible:outline-none`) is
                   // what removes the browser-default ring that a click leaves
                   // behind — a click also sets DOM focus on a tabIndex={0}
@@ -314,9 +322,7 @@ export function CareerPitch({ experiences }: CareerPitchProps) {
       {/* Static, site-authored — not derived from chapter data (FR-007, spec
           Assumptions). One line, distinct from the panel and the controls
           above. */}
-      <p className="text-on-photo text-xs opacity-70">
-        Tip: players can be clicked to open that chapter, or use ‹ › to step through them.
-      </p>
+      <p className="text-on-photo text-xs opacity-70">{ui.career.tip}</p>
     </div>
   );
 }
