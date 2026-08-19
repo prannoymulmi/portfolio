@@ -2,6 +2,7 @@
 
 import { useContent } from '@/components/Common/ContentProvider';
 import { SocialGlyph } from '@/components/Navigation/SocialIcons';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 /**
  * The story's endpoint: an eyebrow, a big statement, and a button row —
@@ -21,9 +22,11 @@ import { SocialGlyph } from '@/components/Navigation/SocialIcons';
  * DOM either way.
  */
 export function ContactSection() {
-  const { social } = useContent();
+  const { social, home } = useContent();
+  const ui = useUi();
   const email = social.data?.email;
   const links = social.data?.social ?? [];
+  const contactNote = home.data?.contactNote;
 
   return (
     <div className="relative isolate text-center">
@@ -35,14 +38,15 @@ export function ContactSection() {
         className="pointer-events-none absolute top-0 left-1/2 -z-10 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]"
       />
 
-      <p className="label-mono text-primary">Contact</p>
+      <p className="label-mono text-primary">{ui.contact.eyebrow}</p>
       <h2 className="text-foreground mt-4 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-        Got a gnarly system? <span className="text-gradient-accent">Let&rsquo;s talk.</span>
+        {ui.contact.headingLead} <span className="text-gradient-accent">{ui.contact.headingAccent}</span>
       </h2>
-      <p className="text-on-photo mx-auto mt-5 max-w-lg">
-        I reply to every message within a day or two — happy to trade notes on architecture even if
-        there&rsquo;s no role attached.
-      </p>
+      {/* Authored prose, not chrome (contracts/ui-dictionary.md §Scope rule,
+          T039) — sourced from home.json's contactNote alongside intro/bio,
+          not from the ui dictionary. Renders nothing when the field or the
+          content itself hasn't loaded, same as email/links below. */}
+      {contactNote && <p className="text-on-photo mx-auto mt-5 max-w-lg">{contactNote}</p>}
 
       {/* A failed content fetch leaves the eyebrow/heading/description in
           place rather than an empty chapter — the same shape SocialIcons
