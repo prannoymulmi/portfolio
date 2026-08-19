@@ -1,4 +1,6 @@
 import type { Experience, TechnologiesFile } from '@/lib/types/portfolio';
+import type { Locale } from '@/lib/i18n/locales';
+import { format } from '@/lib/i18n/format';
 
 /**
  * Half-open month interval, `[start, end)`, counted in months since epoch
@@ -12,7 +14,21 @@ export interface MonthInterval {
   end: number;
 }
 
-export type Level = 'Daily driver' | 'Production' | 'Working knowledge';
+// Invariant keys, never English literals (research R-006, data-model.md
+// §Derived-value keys) — components map these through
+// `ui.technologies.levels[level]` (ADR 0024), never branching on locale
+// directly.
+export type Level = 'dailyDriver' | 'production' | 'workingKnowledge';
+
+/** The `technologies.units.*` dictionary strings `formatDuration` needs —
+ * supplied by the caller (a component, via `useUi()`) since this module is
+ * React-free and has no dictionary access of its own. */
+export interface DurationUnitLabels {
+  /** Shown below the twelve-month floor instead of a fraction, e.g. "< 1 yr". */
+  underOneYear: string;
+  /** A `{value}`-interpolated template for the localized year figure, e.g. "{value} yrs". */
+  years: string;
+}
 
 /** The matched roles behind one technology's duration, most recent first —
  * feeds the detail panel's traceability line (User Story 3). */
@@ -169,24 +185,37 @@ export function unionMonths(intervals: MonthInterval[]): number {
  * against the named threshold above — never hand-authored (research R-005).
  */
 export function deriveLevel(totalMonths: number, isCurrent: boolean): Level {
-  if (isCurrent) return 'Daily driver';
-  if (totalMonths >= PRODUCTION_MONTHS_THRESHOLD) return 'Production';
-  return 'Working knowledge';
+  if (isCurrent) return 'dailyDriver';
+  if (totalMonths >= PRODUCTION_MONTHS_THRESHOLD) return 'production';
+  return 'workingKnowledge';
 }
 
 /**
  * Formats total months as a duration string. `null` in, `null` out. Below
- * twelve months renders `"< 1 yr"` rather than a fraction. At and above
- * twelve months, years are shown to one decimal, always rounded **down** —
- * an overstated duration is the specific failure this chapter exists to
- * avoid (research R-003).
+ * twelve months returns `units.underOneYear` rather than a fraction. At and
+ * above twelve months, years are shown to one decimal, always rounded
+ * **down** — an overstated duration is the specific failure this chapter
+ * exists to avoid (research R-003) — and rendered through
+ * `Intl.NumberFormat(locale)` so a German visitor sees a decimal comma
+ * (research R-006) rather than a hard-coded English fraction. `units` (the
+ * `technologies.units.*` dictionary strings) is supplied by the caller —
+ * this module has no dictionary access of its own, so no English string is
+ * hard-coded here (ADR 0024).
  */
-export function formatDuration(totalMonths: number | null): string | null {
+export function formatDuration(
+  totalMonths: number | null,
+  locale: Locale,
+  units: DurationUnitLabels,
+): string | null {
   if (totalMonths === null) return null;
-  if (totalMonths < MIN_MONTHS_FOR_YEAR_DISPLAY) return '< 1 yr';
+  if (totalMonths < MIN_MONTHS_FOR_YEAR_DISPLAY) return units.underOneYear;
 
   const years = Math.floor((totalMonths / 12) * 10) / 10;
-  return `${years.toFixed(1)} yrs`;
+  const formattedYears = new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(years);
+  return format(units.years, { value: formattedYears });
 }
 
 /**

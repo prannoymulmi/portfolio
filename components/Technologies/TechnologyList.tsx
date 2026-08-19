@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import type { TechnologyUsage } from '@/lib/utils/techDuration';
 import { formatDuration, barWidthClass } from '@/lib/utils/techDuration';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { useLocale, useUi } from '@/components/Common/LocaleProvider';
 
 // Read once during the first render, not in an effect — an effect runs
 // after the first paint, so a visitor who asked for reduced motion would
@@ -55,6 +56,8 @@ interface TechnologyListProps {
  */
 export function TechnologyList({ usages, activeTechName, onSelect }: TechnologyListProps) {
   const reduced = useReducedMotionOnce();
+  const { locale } = useLocale();
+  const ui = useUi();
 
   // `useInView` (`once: true`) rather than `whileInView`'s built-in viewport
   // trigger driving `variants` inherited by children: a `motion.li` that is
@@ -83,10 +86,10 @@ export function TechnologyList({ usages, activeTechName, onSelect }: TechnologyL
   const hasEntered = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <ul ref={ref} aria-label="Technologies" className="divide-border divide-y">
+    <ul ref={ref} aria-label={ui.technologies.label} className="divide-border divide-y">
       {usages.map((usage, index) => {
         const isActive = usage.name === activeTechName;
-        const duration = formatDuration(usage.totalMonths);
+        const duration = formatDuration(usage.totalMonths, locale, ui.technologies.units);
 
         return (
           <motion.li key={usage.name} {...rowMotionProps(reduced, hasEntered, index)}>
