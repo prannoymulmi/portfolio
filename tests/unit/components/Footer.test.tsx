@@ -2,13 +2,16 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Footer } from '@/components/Navigation/Footer';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 describe('Footer', () => {
   const renderFooter = () =>
     render(
-      <ContentProvider>
-        <Footer />
-      </ContentProvider>,
+      <LocaleProvider>
+        <ContentProvider>
+          <Footer />
+        </ContentProvider>
+      </LocaleProvider>,
     );
 
   it('keeps GitHub and LinkedIn reachable now that the nav bar is gone', async () => {

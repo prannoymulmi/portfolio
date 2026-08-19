@@ -1,6 +1,12 @@
+import type { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ValueProp } from '@/components/Hero/ValueProp';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 /** The two calls to action, in source order. */
 const buttons = () => [
@@ -16,7 +22,7 @@ const borderWidth = (el: Element) => {
 
 describe('ValueProp', () => {
   it('points each button at its own section', () => {
-    render(<ValueProp />);
+    renderWithLocale(<ValueProp />);
     const [viewWork, playCareer] = buttons();
 
     expect(viewWork).toHaveAttribute('href', '/#projects');
@@ -24,7 +30,7 @@ describe('ValueProp', () => {
   });
 
   it('gives both buttons the same box, so they cannot differ in height', () => {
-    render(<ValueProp />);
+    renderWithLocale(<ValueProp />);
     const [viewWork, playCareer] = buttons();
 
     // The defect this fixes: the primary had no border while the secondary
@@ -41,7 +47,7 @@ describe('ValueProp', () => {
   });
 
   it('leads both buttons with an icon, so their labels sit on one axis', () => {
-    render(<ValueProp />);
+    renderWithLocale(<ValueProp />);
 
     for (const button of buttons()) {
       const first = button.firstElementChild;
@@ -53,7 +59,7 @@ describe('ValueProp', () => {
   });
 
   it('keeps the trailing arrow on the primary button only, as a hierarchy cue', () => {
-    render(<ValueProp />);
+    renderWithLocale(<ValueProp />);
     const [viewWork, playCareer] = buttons();
 
     // Deliberate, and matching the reference design: FR-019 governs the
@@ -63,7 +69,7 @@ describe('ValueProp', () => {
   });
 
   it('stretches both buttons to one width when stacked', () => {
-    const { container } = render(<ValueProp />);
+    const { container } = renderWithLocale(<ValueProp />);
     const row = container.firstElementChild;
 
     expect(row?.className).toMatch(/flex-col/);
@@ -71,7 +77,7 @@ describe('ValueProp', () => {
   });
 
   it('announces no icon to a screen reader, since each button already has a label', () => {
-    render(<ValueProp />);
+    renderWithLocale(<ValueProp />);
 
     for (const button of buttons()) {
       for (const glyph of Array.from(button.querySelectorAll('svg'))) {

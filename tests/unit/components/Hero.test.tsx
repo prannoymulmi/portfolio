@@ -4,6 +4,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Hero } from '@/components/Hero/Hero';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { PROJECT_HIGHLIGHT_EVENT, PORTFOLIO_PROJECT_ID } from '@/lib/utils/projectHighlight';
 
 // Mock framer-motion to avoid animation issues in tests. className is forwarded:
@@ -29,9 +30,11 @@ jest.mock('rough-notation', () => ({
 describe('Hero Component', () => {
   const renderHero = () => {
     return render(
-      <ContentProvider>
-        <Hero />
-      </ContentProvider>,
+      <LocaleProvider>
+        <ContentProvider>
+          <Hero />
+        </ContentProvider>
+      </LocaleProvider>,
     );
   };
 
@@ -53,7 +56,7 @@ describe('Hero Component', () => {
     // Read from the content file rather than a copy of it: the phrases are
     // editable content, and a reworded role shouldn't fail this test.
     const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+      fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8'),
     );
     expect(raw.roles.length).toBeGreaterThan(0);
     for (const phrase of raw.roles) {
@@ -123,7 +126,7 @@ describe('Hero Component', () => {
   it('says it builds secure systems, not merely scalable ones', async () => {
     renderHero();
     const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+      fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8'),
     );
 
     // The word was missing from the shipped line while the design it was taken
@@ -135,7 +138,7 @@ describe('Hero Component', () => {
   it('marks the tagline with the accent rule', async () => {
     renderHero();
     const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+      fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8'),
     );
 
     const tagline = await screen.findByText(new RegExp(raw.intro.slice(0, 40), 'i'));
@@ -161,7 +164,7 @@ describe('Hero Component', () => {
     renderHero();
     await screen.findByRole('list', { name: /what i do/i });
     const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+      fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8'),
     );
 
     const portrait = screen.getByRole('img', { name: /prannoy mulmi/i });
@@ -197,6 +200,12 @@ describe('Hero Component', () => {
     expect(playCareerButton).toHaveAttribute('href', '/#career');
   });
 
+  it('shows the Hamburg, Germany location tag (US3, FR-008, SC-005)', async () => {
+    renderHero();
+    await screen.findByRole('list', { name: /what i do/i });
+    expect(screen.getByText('Hamburg, Germany')).toBeInTheDocument();
+  });
+
   it('applies a gradient background to the introduction', async () => {
     renderHero();
     await screen.findByRole('list', { name: /what i do/i });
@@ -216,7 +225,7 @@ describe('Hero Component', () => {
     // reason the roles test does: the CV lives on someone else's host (ADR
     // 0017) and the owner may repoint or relabel it without touching code.
     const raw = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8'),
+      fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8'),
     );
 
     expect(raw.cv.href).toMatch(/^https:\/\//);
