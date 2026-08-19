@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 /**
  * Light-mode colours are the site's design tokens (specs/009-typography-color-refresh);
@@ -23,6 +24,8 @@ import Link from 'next/link';
  * difference between the two buttons, and it is deliberate.
  */
 export function ValueProp() {
+  const ui = useUi();
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
       {/* View Work Button */}
@@ -47,7 +50,7 @@ export function ValueProp() {
           <path d="M3 7.5h6l2 2.5h10v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 19z" />
           <path d="M3 7.5v-2A1.5 1.5 0 014.5 4h4L10 6" />
         </svg>
-        View Work
+        {ui.hero.viewWork}
         <svg
           aria-hidden="true"
           className="ml-2 h-5 w-5 shrink-0"
@@ -77,7 +80,7 @@ export function ValueProp() {
         >
           <path d="M8 5v14l11-7z" />
         </svg>
-        Play Career
+        {ui.hero.playCareer}
       </Link>
     </div>
   );
