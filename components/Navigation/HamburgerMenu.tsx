@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 export interface HamburgerMenuSection {
   id: string;
@@ -108,6 +109,7 @@ function SectionIcon({ id }: { id: string }) {
  * instead of being anchored under the toggle.
  */
 export function HamburgerMenu({ sections }: HamburgerMenuProps) {
+  const ui = useUi();
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
@@ -173,7 +175,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls="story-sections-menu"
-        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-label={open ? ui.nav.closeMenu : ui.nav.openMenu}
         onClick={() => setOpen((value) => !value)}
         className="text-foreground hover:text-primary focus-visible:ring-primary flex items-center rounded p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 dark:text-gray-100 dark:hover:text-blue-400"
       >
@@ -211,7 +213,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                 <motion.nav
                   ref={panelRef}
                   id="story-sections-menu"
-                  aria-label="Story sections"
+                  aria-label={ui.nav.storySections}
                   initial={reducedMotion ? false : { x: '100%' }}
                   animate={{ x: 0 }}
                   exit={reducedMotion ? undefined : { x: '100%' }}
@@ -245,7 +247,7 @@ export function HamburgerMenu({ sections }: HamburgerMenuProps) {
                   className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col overflow-y-auto bg-[#fffaf4]/95 px-6 pb-8 pt-20 shadow-[0_10px_30px_-12px_rgb(17_28_56/0.45)] ring-1 ring-[#111c38]/10 backdrop-blur-xl dark:bg-[#0c101c]/95 dark:ring-white/10 sm:max-w-sm"
                 >
                   <p className="label-mono text-foreground/50 text-xs dark:text-gray-400">
-                    Jump to
+                    {ui.nav.jumpTo}
                   </p>
                   <ul className="mt-2 flex flex-1 flex-col">
                     {sections.map((section, index) => (
