@@ -1,0 +1,86 @@
+{
+  "experiences": [
+    {
+      "title": "Senior Softwareentwickler",
+      "subtitle": "Statista GmbH",
+      "workType": "Full-time",
+      "workDescription": [
+        "Verbesserte und pflegte Auth0-basierte Authentifizierung in einer IAM-Plattform mit AWS CDK, TypeScript, Node.js und Docker.",
+        "Verkürzte Deployment-Zeiten durch schlankere CI/CD-Pipelines und automatisierte Infrastruktur-Auslieferung.",
+        "Verbesserte Nachvollziehbarkeit durch bessere Metriken und Observability in den Authentifizierungsdiensten.",
+        "Stärkte das Secret-Management durch Migration zu AWS Secrets Manager mit nahtloser Secret-Rotation.",
+        "Unterstützte Kunden bei Authentifizierungsproblemen und sicherte zuverlässigen Systemzugriff.",
+        "Führte Threat Modeling für wichtige Features durch, um Sicherheitsrisiken früh im Design zu erkennen."
+      ],
+      "technologies": ["AWS", "CDK", "TypeScript", "Node.js", "Docker", "Auth0", "JavaScript", "Datadog", "Threat Modeling"],
+      "dateText": "04/2026 – Present"
+    },
+    {
+      "title": "Senior Softwareentwickler",
+      "subtitle": "AViV GmbH (Formerly Immowelt GmbH) ",
+      "workType": "Full-time",
+      "workDescription": [
+        "Setzte Softwareänderungen effizient anhand konkreter Design-Vorgaben um.",
+        "Führte Threat Modeling durch und arbeitete an strategischen Initiativen zu Design, Code und Tests wichtiger Features.",
+        "Architektur cloudbasierter Lösungen in AWS mit verschiedenen IaC-Tools wie Terraform, CloudFormation und CDK.",
+        "Trug durch verschiedene Metriken zu einer AWS-Kostensenkung von 10 % bei.",
+        "Migrierte On-Premises-Server und PostgreSQL-Datenbanken nach AWS.",
+        "Implementierte und deployte Auth0-basierte Authentifizierungsdienste und weitere Microservices nach Domain-Driven Design."
+      ],
+      "technologies": ["AWS", "Java", "Terraform", "TypeScript", "Auth0", "Node.js", "Docker", "JavaScript", "Spring Boot", "Datadog", "Threat Modeling"],
+      "dateText": "11/2020 – 03/2026"
+    },
+    {
+      "title": "Junior Backend-Entwickler",
+      "subtitle": "Otto GmbH & Co KG",
+      "workType": "Full-time",
+      "workDescription": [
+        "Architektur cloudbasierter Lösungen in Amazon Web Services.",
+        "Implementierte die Cloud-Infrastruktur als Code mit Terraform.",
+        "Implementierte und deployte verschiedene Microservices mit AWS nach Domain-Driven Design.",
+        "Setzte objektorientiertes Design und Entwurfsmuster in der Codebasis um.",
+        "Erstellte Unit-Tests und wertete Testergebnisse aus.",
+        "Nahm an agilen Scrum-Meetings teil."
+      ],
+      "technologies": ["AWS", "Terraform", "Java", "Spring Boot", "Docker"],
+      "dateText": "08/2018 – 10/2020"
+    },
+    {
+      "title": "Junior Full-Stack-Entwickler",
+      "subtitle": "Novomind AG",
+      "workType": "Working student",
+      "workDescription": [
+        "Entwickelte Frontend-Webseiten mit JSP, JavaScript, HTML5 und Less.",
+        "Konfigurierte Webpack als Modul-Bundler und Task-Runner für den Frontend-Build.",
+        "Baute Projekte mit Maven und entwickelte Backend-Module mit Spring, Spring IOC, Spring MVC, Spring Data JPA und Hibernate.",
+        "Setzte objektorientiertes Design und Entwurfsmuster in der Codebasis um."
+      ],
+      "technologies": ["Java", "Spring", "Hibernate", "JavaScript", "Webpack", "Maven"],
+      "dateText": "01/2018 – 08/2018"
+    },
+    {
+      "title": "Webentwickler",
+      "subtitle": "Lustita Limited",
+      "workType": "Working student",
+      "workDescription": [
+        "Entwickelte Webanwendungen mit Angular.js und Angular Material in JavaScript, CSS und Less.",
+        "Wandelte die bestehende Webapp mit Cordova in Android- und iOS-Apps um und optimierte sie.",
+        "Behob Fehler in Webanwendungen effektiv und nachhaltig."
+      ],
+      "technologies": ["Angular.js", "JavaScript", "Cordova", "CSS"],
+      "dateText": "03/2017 – 12/2017"
+    },
+    {
+      "title": "Frontend-Entwickler",
+      "subtitle": "Clansweb.de",
+      "workType": "Working student",
+      "workDescription": [
+        "Half bei der Entwicklung effizienter, responsiver Prototypen nach Firmenvorgaben mit HTML/HTML5, CSS3 und JavaScript.",
+        "Setzte Markenrichtlinien gemäß Unternehmensvorgaben um.",
+        "Zu den Workflow-Tools zählten HTML, CSS, React.js, Cordova, Node.js und Git."
+      ],
+      "technologies": ["HTML5", "CSS3", "JavaScript", "React.js", "Node.js"],
+      "dateText": "04/2016 – 02/2017"
+    }
+  ]
+}

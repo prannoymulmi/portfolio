@@ -1,0 +1,140 @@
+{
+  "intro": "Jede Technologie unten ist mit einer echten Rolle und einem Datumsbereich aus dem Werdegang verknüpft — keine Selbsteinschätzung aus einer Liste.",
+  "builtWithNote": "Diese Website selbst wurde mit Claude Code nach spezifikationsgetriebener Entwicklung entworfen und gebaut: erst Spec und Plan, dann Code.",
+  "categories": ["Cloud & Infrastruktur", "Sprachen", "Frameworks/Bibliotheken", "Frontend", "Tools", "Observability", "Sicherheit"],
+  "technologies": [
+    {
+      "name": "AWS",
+      "category": "Cloud & Infrastruktur",
+      "matches": ["AWS"],
+      "note": "Entwarf Cloud-Infrastruktur in vier Rollen — von frühen Terraform-Deployments bis zu IAM und Secrets-Management im großen Maßstab."
+    },
+    {
+      "name": "Terraform",
+      "category": "Cloud & Infrastruktur",
+      "matches": ["Terraform"],
+      "note": "Schrieb Infrastructure as Code für Cloud-Services und Migrationen — vom Junior Backend-Entwickler bis zu Senior-IaC-Arbeit."
+    },
+    {
+      "name": "Docker",
+      "category": "Cloud & Infrastruktur",
+      "matches": ["Docker"],
+      "note": "Containerisierte Services für Deployments — von frühen Backend-Microservices bis zu aktuellen CI/CD-Pipelines für Authentifizierungssysteme."
+    },
+    {
+      "name": "Auth0",
+      "category": "Cloud & Infrastruktur",
+      "matches": ["Auth0"],
+      "note": "Baute und pflegte Auth0-basierte Authentifizierungs- und Identitätsdienste, inklusive Secret-Rotation und kundenseitiger Zugriffsprobleme."
+    },
+    {
+      "name": "AWS CDK",
+      "category": "Cloud & Infrastruktur",
+      "matches": ["CDK"],
+      "note": "Lieferte Infrastructure as Code mit AWS CDK für eine Identity-Plattform und automatisierte zugleich die CI/CD-Auslieferung."
+    },
+    {
+      "name": "TypeScript",
+      "category": "Sprachen",
+      "matches": ["TypeScript"],
+      "note": "Hauptsprache für Authentifizierungsdienste und Cloud-Tooling in den beiden jüngsten Senior-Engineering-Rollen."
+    },
+    {
+      "name": "Java",
+      "category": "Sprachen",
+      "matches": ["Java"],
+      "note": "Kernsprache im Backend — vom Junior Full-Stack und Backend bis zu Senior-Microservices und Domain-Driven Design."
+    },
+    {
+      "name": "JavaScript",
+      "category": "Sprachen",
+      "matches": ["JavaScript"],
+      "note": "Eingesetzt in Frontend- und Full-Stack-Rollen — von frühen responsiven Prototypen bis zu Angular- und React-Anwendungen."
+    },
+    {
+      "name": "Node.js",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["Node.js"],
+      "note": "Backend-Runtime für Authentifizierungs-Microservices und Teil des frühen Frontend-Workflows neben Cordova und Git."
+    },
+    {
+      "name": "Spring Boot",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["Spring Boot"],
+      "note": "Baute Microservices als Junior Backend-Entwickler nach objektorientiertem Domain-Driven-Design-Ansatz auf AWS."
+    },
+    {
+      "name": "Spring",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["Spring"],
+      "note": "Nutzte den breiteren Spring-Stack, Spring MVC und Spring Data JPA, um Backend-Module in einer frühen Full-Stack-Rolle zu bauen."
+    },
+    {
+      "name": "Hibernate",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["Hibernate"],
+      "note": "Übernahm die Persistenz für Backend-Module mit Spring in einer frühen Junior-Full-Stack-Rolle."
+    },
+    {
+      "name": "Angular.js",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["Angular.js"],
+      "note": "Baute Webanwendungen mit Angular.js und Angular Material als Werkstudent, bevor diese Apps mit Cordova verpackt wurden."
+    },
+    {
+      "name": "React.js",
+      "category": "Frameworks/Bibliotheken",
+      "matches": ["React.js"],
+      "note": "Eines der Frontend-Workflow-Tools beim Bau responsiver Prototypen früh in einer Werkstudenten-Frontend-Rolle."
+    },
+    {
+      "name": "HTML5",
+      "category": "Frontend",
+      "matches": ["HTML5"],
+      "note": "Setzte responsive Prototypen nach Firmenvorgaben in einer frühen Frontend-Entwickler-Rolle um."
+    },
+    {
+      "name": "CSS",
+      "category": "Frontend",
+      "matches": ["CSS"],
+      "note": "Gestaltete Angular-basierte Web- und Mobile-Anwendungen, darunter später mit Cordova für Android und iOS verpackte Apps."
+    },
+    {
+      "name": "CSS3",
+      "category": "Frontend",
+      "matches": ["CSS3"],
+      "note": "Eingesetzt neben HTML und JavaScript für effiziente, responsive Prototypen nach Marken-Richtlinien des Unternehmens."
+    },
+    {
+      "name": "Cordova",
+      "category": "Frontend",
+      "matches": ["Cordova"],
+      "note": "Verpackte bestehende Angular-Webapps als Android- und iOS-Apps und optimierte sie für den Release."
+    },
+    {
+      "name": "Webpack",
+      "category": "Tools",
+      "matches": ["Webpack"],
+      "note": "Konfiguriert als Frontend-Build-Tool und Modul-Bundler während der Entwicklung von Backend-Modulen mit dem Spring-Stack."
+    },
+    {
+      "name": "Maven",
+      "category": "Tools",
+      "matches": ["Maven"],
+      "note": "Baute Java- und Spring-Projekte mit Maven in einer frühen Junior-Full-Stack-Rolle bei Novomind."
+    },
+    {
+      "name": "Datadog",
+      "category": "Observability",
+      "matches": ["Datadog"],
+      "note": "Eingesetzt für Metriken, Dashboards und Observability in Authentifizierungsdiensten der beiden jüngsten Senior-Rollen."
+    },
+    {
+      "name": "Threat Modeling",
+      "category": "Sicherheit",
+      "matches": ["Threat Modeling"],
+      "sinceByEmployer": { "AViV GmbH (Formerly Immowelt GmbH)": "01/2024" },
+      "note": "Identifizierte und minderte Sicherheitsrisiken früh im Design wichtiger Features, fortlaufend in den beiden jüngsten Senior-Rollen."
+    }
+  ]
+}

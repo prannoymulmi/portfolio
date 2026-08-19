@@ -1,0 +1,47 @@
+{
+  "logo": {
+    "source": "/logo.svg",
+    "height": 32,
+    "width": 120
+  },
+  "sections": [
+    {
+      "title": "Startseite",
+      "href": "/"
+    },
+    {
+      "title": "Fähigkeiten",
+      "href": "/skills"
+    },
+    {
+      "title": "Karriere",
+      "href": "/career"
+    },
+    {
+      "title": "Ausbildung",
+      "href": "/education"
+    },
+    {
+      "title": "Projekte",
+      "href": "/projects"
+    },
+    {
+      "title": "Über mich",
+      "href": "/about"
+    },
+    {
+      "title": "Kontakt",
+      "href": "/contact"
+    },
+    {
+      "title": "GitHub",
+      "href": "https://github.com/prannoymulmi",
+      "type": "link"
+    },
+    {
+      "title": "LinkedIn",
+      "href": "https://linkedin.com/in/prannoy-mulmi",
+      "type": "link"
+    }
+  ]
+}

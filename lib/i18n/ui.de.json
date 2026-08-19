@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "closeMenu": "Menü schließen",
+    "openMenu": "Menü öffnen",
+    "storySections": "Story-Abschnitte",
+    "jumpTo": "Springe zu",
+    "emailLabel": "E-Mail an {email}",
+    "switchToLightMode": "Zum hellen Modus wechseln",
+    "switchToDarkMode": "Zum dunklen Modus wechseln",
+    "switchLocale": "Von {current} zu {target} wechseln",
+    "sections": {
+      "hero": "Einführung",
+      "skills": "Ausgewählte Arbeiten",
+      "career": "Karriereweg",
+      "technologies": "Technologien",
+      "education": "Ausbildung",
+      "projects": "Projekte",
+      "contact": "Kontakt"
+    }
+  },
+  "hero": {
+    "creditPillBase": "Gebaut mit Claude",
+    "creditPillFull": "Gebaut mit Claude — klicken, um zu sehen wie",
+    "whatIDo": "Was ich mache",
+    "viewWork": "Arbeiten ansehen",
+    "playCareer": "Karriere abspielen",
+    "cvOpensInNewTab": "{label} (öffnet in neuem Tab)",
+    "portraitAlt": "{name}, Porträt",
+    "location": "Hamburg, Deutschland"
+  },
+  "work": {
+    "eyebrow": "Ausgewählte Arbeit",
+    "heading": "Drei Systeme, die ich in jedem Design-Review verteidigen würde",
+    "failedToLoad": "Systeme konnten nicht geladen werden",
+    "technologiesUsedOn": "Verwendete Technologien bei {title}",
+    "principleEyebrow": "Engineering-Prinzip"
+  },
+  "career": {
+    "eyebrow": "Karriere-Spieltag",
+    "heading": "Spiel den Ball ab, um zu sehen, wo ich gespielt habe",
+    "interactiveDescription": "Jeder Spieler ist ein Kapitel. Spiele frei, um zu erkunden, oder starte den Spielzug, um sie der Reihe nach zu durchlaufen, vom ältesten zum neuesten.",
+    "timelineDescription": "Dieselben Kapitel, vom ältesten zum neuesten, als einfache Liste.",
+    "failedToLoad": "Karriereverlauf konnte nicht geladen werden",
+    "previousChapter": "Vorheriges Kapitel",
+    "nextChapter": "Nächstes Kapitel",
+    "chapterCounter": "Kapitel {order} / {total}",
+    "pausePlay": "❚❚ Spielzug pausieren",
+    "playInOrder": "▶ Der Reihe nach abspielen",
+    "chapterAriaLabel": "Kapitel {order}: Pass zu {position} — {company}, {role}",
+    "tip": "Tipp: Klicke auf einen Spieler, um dieses Kapitel zu öffnen, oder nutze ‹ ›, um durchzublättern.",
+    "whatIBuilt": "Was ich gebaut habe",
+    "achievements": "Erfolge",
+    "technologies": "Technologien",
+    "chapterLabel": "Kapitel {order} · {position}",
+    "technologiesUsedAt": "Verwendete Technologien bei {company}",
+    "noExperienceData": "Keine Erfahrungsdaten verfügbar",
+    "pitch": "Spielfeld",
+    "timeline": "Zeitleiste",
+    "switchToTimelineView": "Zur Zeitleisten-Ansicht wechseln",
+    "switchToInteractiveView": "Zur interaktiven Ansicht wechseln",
+    "present": "Heute",
+    "positions": {
+      "goalkeeper": "Torwart",
+      "centreBack": "Innenverteidiger",
+      "leftBack": "Linksverteidiger",
+      "defensiveMidfield": "Defensives Mittelfeld",
+      "playmaker": "Spielmacher",
+      "rightWing": "Rechtsaußen",
+      "striker": "Stürmer"
+    },
+    "workTypes": {
+      "Full-time": "Vollzeit",
+      "Part-time": "Teilzeit",
+      "Contract": "Vertrag",
+      "Freelance": "Freiberuflich",
+      "Working student": "Werkstudent"
+    }
+  },
+  "technologies": {
+    "label": "Technologien",
+    "headingLead": "Womit ich",
+    "headingAccent": "wirklich gebaut",
+    "headingTail": "habe",
+    "failedToLoad": "Technologien konnten nicht geladen werden",
+    "allCategory": "Alle",
+    "whereItWasUsed": "Wo es eingesetzt wurde",
+    "levels": {
+      "dailyDriver": "Täglich im Einsatz",
+      "production": "Produktion",
+      "workingKnowledge": "Grundkenntnisse"
+    },
+    "units": {
+      "underOneYear": "< 1 Jahr",
+      "years": "{value} Jahre"
+    }
+  },
+  "education": {
+    "heading": "Ausbildung & Zertifizierungen",
+    "subheading": "Formale Ausbildung und berufliche Zertifizierungen",
+    "failedToLoad": "Ausbildung konnte nicht geladen werden",
+    "learnMore": "Mehr erfahren ↗",
+    "grades": {
+      "veryGood": "Sehr gut",
+      "good": "Gut",
+      "satisfactory": "Befriedigend",
+      "sufficient": "Ausreichend"
+    }
+  },
+  "projects": {
+    "heading": "Ausgewählte Projekte",
+    "subheading": "Fallstudien zu Problemlösung, technischen Entscheidungen und messbarer Wirkung",
+    "failedToLoad": "Projekte konnten nicht geladen werden",
+    "moreOnGithub": "Mehr auf GitHub ↗",
+    "close": "Schließen",
+    "viewOnGithub": "Auf GitHub ansehen"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "headingLead": "Ein kniffliges System?",
+    "headingAccent": "Lass uns reden."
+  },
+  "footer": {
+    "tagline": "Senior Softwareentwickler & Cloud-Architekt",
+    "quickLinks": "Schnellzugriff",
+    "connect": "Vernetzen",
+    "projects": "Projekte",
+    "selectedWork": "Ausgewählte Arbeiten",
+    "career": "Karriere",
+    "copyright": "© {year} {name}. Alle Rechte vorbehalten."
+  },
+  "errors": {
+    "contentUnavailable": "Inhalt nicht verfügbar",
+    "somethingWentWrong": "Etwas ist schiefgelaufen",
+    "tryAgain": "Erneut versuchen",
+    "couldNotLoadSection": "Dieser Abschnitt konnte nicht geladen werden. Bitte versuche es gleich noch einmal.",
+    "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten."
+  },
+  "a11y": {
+    "skipToMainContent": "Zum Hauptinhalt springen",
+    "landmarks": {
+      "hero": "Einführung",
+      "skills": "Ausgewählte Arbeit",
+      "career": "Karriereweg",
+      "technologies": "Technologien",
+      "education": "Ausbildung",
+      "projects": "Projekte",
+      "contact": "Kontakt"
+    }
+  }
+}
