@@ -2,6 +2,7 @@
 
 import { useContent } from '@/components/Common/ContentProvider';
 import { ProjectsSkeleton } from '@/components/Common/LoadingState';
+import { useUi } from '@/components/Common/LocaleProvider';
 import { SystemCard } from './SystemCard';
 
 /**
@@ -22,10 +23,11 @@ const SYSTEM_COUNT = 3;
  */
 export function ThreeSystems() {
   const { systems } = useContent();
+  const ui = useUi();
 
   if (systems.loading) return <ProjectsSkeleton />;
   if (systems.error || !systems.data) {
-    return <p className="text-center text-red-600">Failed to load systems</p>;
+    return <p className="text-center text-red-600">{ui.work.failedToLoad}</p>;
   }
 
   const threeSystems = systems.data.projects.slice(0, SYSTEM_COUNT);
@@ -37,9 +39,9 @@ export function ThreeSystems() {
   return (
     <section className="space-y-8 py-12">
       <div>
-        <p className="label-mono text-primary">Selected work</p>
+        <p className="label-mono text-primary">{ui.work.eyebrow}</p>
         <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
-          Three systems I&rsquo;d happily defend in a design review
+          {ui.work.heading}
         </h2>
       </div>
 
