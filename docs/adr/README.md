@@ -11,7 +11,7 @@ were on the table at the time.
 |----|-------|--------|
 | [0001](0001-json-files-over-cms.md) | JSON files over a CMS/database | Accepted — amended by [0017](0017-one-content-source-and-an-unhosted-cv.md) |
 | [0002](0002-nextjs-app-router.md) | Next.js App Router | Accepted — route structure superseded by [0012](0012-single-page-story.md) |
-| [0003](0003-client-content-loading-with-zod.md) | Client-side content loading with Zod validation | Accepted — fetch policy amended 2026-08-10 |
+| [0003](0003-client-content-loading-with-zod.md) | Client-side content loading with Zod validation | Accepted — fetch policy amended 2026-08-10; per-locale paths added by [0024](0024-localization-without-a-library.md) |
 | [0004](0004-football-pitch-metaphor.md) | Football pitch metaphor for career + skills | Accepted — extended by [0013](0013-hero-player-card.md) |
 | [0005](0005-gsap-and-framer-motion.md) | GSAP for scroll-driven, Framer for component motion | Accepted — amended by [0009](0009-rough-notation-third-animation-library.md) |
 | [0006](0006-tailwind-v4.md) | Tailwind CSS v4 with `@theme inline` | Accepted — dark-mode trigger superseded by [0011](0011-class-based-dark-mode.md) |
@@ -32,6 +32,7 @@ were on the table at the time.
 | [0021](0021-technical-playbook-chapter-removed.md) | The Technical Playbook chapter is removed | Accepted — amends [0012](0012-single-page-story.md) |
 | [0022](0022-migrate-to-pnpm.md) | Migrate to pnpm | Accepted — supersedes [0007](0007-react-19-legacy-peer-deps.md)'s install-command guidance |
 | [0023](0023-technologies-derive-from-experiences.md) | The Technologies chapter derives durations from `experiences.json` rather than storing them | Accepted — extends [0020](0020-work-showcase-replaces-skills-formation.md) |
+| [0024](0024-localization-without-a-library.md) | Localization without an i18n library | Accepted — extends [0003](0003-client-content-loading-with-zod.md) with per-locale content paths; amends the constitution's Principle IV (v1.6.0) |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
