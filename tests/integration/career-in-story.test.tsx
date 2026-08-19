@@ -1,6 +1,12 @@
+import type { ReactElement } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CareerJourneyLazy } from '@/components/Career/CareerJourneyLazy';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 // The story embeds CareerJourneyLazy directly (no page-level ContentProvider
 // wrapper needed here) — mock useContent so the test isn't coupled to the
@@ -36,12 +42,12 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 
 describe('Career journey embedded in the story', () => {
   it('opens on the most recent chapter', async () => {
-    render(<CareerJourneyLazy />);
+    renderWithLocale(<CareerJourneyLazy />);
     expect(await screen.findByRole('heading', { name: 'Acme Corp' })).toBeInTheDocument();
   });
 
   it('passes to another chapter when its player is clicked', async () => {
-    render(<CareerJourneyLazy />);
+    renderWithLocale(<CareerJourneyLazy />);
 
     const olderPlayer = await screen.findByRole('button', { name: /pass to.*Older Company/i });
     fireEvent.click(olderPlayer);
@@ -51,7 +57,7 @@ describe('Career journey embedded in the story', () => {
   });
 
   it('offers the plain timeline as an alternative to the pitch', async () => {
-    render(<CareerJourneyLazy />);
+    renderWithLocale(<CareerJourneyLazy />);
 
     const toggle = await screen.findByRole('button', { name: /switch to timeline/i });
     fireEvent.click(toggle);

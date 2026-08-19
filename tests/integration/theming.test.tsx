@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom';
 import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 /**
  * Exercises the theme contract (specs/003-.../contracts/theme-contract.md)
@@ -36,9 +37,11 @@ function visit(search: string) {
 
 const renderToggle = () =>
   render(
-    <ThemeProvider>
-      <ThemeToggle />
-    </ThemeProvider>,
+    <LocaleProvider>
+      <ThemeProvider>
+        <ThemeToggle />
+      </ThemeProvider>
+    </LocaleProvider>,
   );
 
 describe('Theme contract', () => {

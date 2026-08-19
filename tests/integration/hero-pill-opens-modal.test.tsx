@@ -82,6 +82,7 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 
 import { Hero } from '@/components/Hero/Hero';
 import { ProjectGallery } from '@/components/Projects/ProjectGallery';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 
 describe('hero credit pill -> project detail modal', () => {
   // jsdom implements no layout, so it ships no scrollIntoView at all — the
@@ -92,10 +93,10 @@ describe('hero credit pill -> project detail modal', () => {
 
   it('opens the targeted project detail modal when the pill is clicked', () => {
     render(
-      <>
+      <LocaleProvider>
         <Hero />
         <ProjectGallery />
-      </>,
+      </LocaleProvider>,
     );
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -110,10 +111,10 @@ describe('hero credit pill -> project detail modal', () => {
 
   it('runs the highlight ring on the opened modal', () => {
     render(
-      <>
+      <LocaleProvider>
         <Hero />
         <ProjectGallery />
-      </>,
+      </LocaleProvider>,
     );
 
     fireEvent.click(screen.getByRole('link', { name: /built with claude/i }));

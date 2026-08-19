@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { EducationSection } from '@/components/Education/EducationSection';
 import { ContentProvider } from '@/components/Common/ContentProvider';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { clearContentCache } from '@/lib/hooks/useContentLoader';
 
 describe('Error handling', () => {
@@ -21,9 +22,11 @@ describe('Error handling', () => {
     };
 
     render(
-      <ErrorBoundary>
-        <Boom />
-      </ErrorBoundary>,
+      <LocaleProvider>
+        <ErrorBoundary>
+          <Boom />
+        </ErrorBoundary>
+      </LocaleProvider>,
     );
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
@@ -42,11 +45,13 @@ describe('Error handling', () => {
     }));
 
     render(
-      <ErrorBoundary>
-        <ContentProvider>
-          <EducationSection />
-        </ContentProvider>
-      </ErrorBoundary>,
+      <LocaleProvider>
+        <ErrorBoundary>
+          <ContentProvider>
+            <EducationSection />
+          </ContentProvider>
+        </ErrorBoundary>
+      </LocaleProvider>,
     );
 
     expect(await screen.findByText(/failed to load education/i)).toBeInTheDocument();

@@ -41,7 +41,11 @@ describe('backdrop coverage across the story', () => {
   });
 
   it('puts the shared scrim on every chapter section', () => {
-    const sectionCount = (pageSource.match(/<section/g) ?? []).length;
+    // The chapter landmarks render through <Chapter> (components/Common/Chapter.tsx,
+    // research R-008/T031) rather than a bare <section> in page.tsx's own
+    // source — <Chapter> itself renders the <section> at runtime, so the tag
+    // scanned for here changed, but the one-scrim-per-chapter rule did not.
+    const sectionCount = (pageSource.match(/<Chapter\b/g) ?? []).length;
     const scrimCount = (pageSource.match(/chapter-scrim/g) ?? []).length;
 
     // The hero is the one section without a scrim: it carries its own gradient
