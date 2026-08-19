@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { TechnologyUsage } from '@/lib/utils/techDuration';
 import { formatDuration, barWidthClass } from '@/lib/utils/techDuration';
 import { prefersReducedMotion } from '@/lib/utils/animations';
+import { useLocale, useUi } from '@/components/Common/LocaleProvider';
+import { displayDateText } from '@/lib/i18n/displayDateText';
 
 interface TechnologyDetailProps {
   usage: TechnologyUsage;
@@ -18,7 +20,9 @@ interface TechnologyDetailProps {
  */
 export function TechnologyDetail({ usage }: TechnologyDetailProps) {
   const { name, category, note, totalMonths, level, roles } = usage;
-  const duration = formatDuration(totalMonths);
+  const { locale } = useLocale();
+  const ui = useUi();
+  const duration = formatDuration(totalMonths, locale, ui.technologies.units);
 
   // Read once during the first render, not in an effect — see
   // TechnologyList's identical comment for why.
@@ -53,7 +57,7 @@ export function TechnologyDetail({ usage }: TechnologyDetailProps) {
           {duration && (
             <p className="text-on-photo mt-3 text-sm">
               <span className="font-mono-ui font-semibold">{duration}</span>
-              {level && <span className="ml-2">&middot; {level}</span>}
+              {level && <span className="ml-2">&middot; {ui.technologies.levels[level]}</span>}
             </p>
           )}
 
@@ -73,13 +77,15 @@ export function TechnologyDetail({ usage }: TechnologyDetailProps) {
 
           {roles.length > 0 && (
             <div className="border-border mt-6 border-t pt-4">
-              <p className="label-mono text-muted-foreground text-xs">Where it was used</p>
+              <p className="label-mono text-muted-foreground text-xs">{ui.technologies.whereItWasUsed}</p>
               <ul className="mt-3 space-y-2">
                 {roles.map((role) => (
                   <li key={`${role.title}-${role.employer}`} className="text-on-photo text-sm">
                     <span className="font-medium">{role.title}</span>
                     <span className="text-muted-foreground"> &middot; {role.employer}</span>
-                    <span className="text-muted-foreground block text-xs">{role.dateText}</span>
+                    <span className="text-muted-foreground block text-xs">
+                      {displayDateText(role.dateText, ui.career.present)}
+                    </span>
                   </li>
                 ))}
               </ul>

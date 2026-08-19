@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { ProjectsSkeleton } from '@/components/Common/LoadingState';
 import { buildUsage } from '@/lib/utils/techDuration';
+import { useUi } from '@/components/Common/LocaleProvider';
 import { TechnologyList } from './TechnologyList';
 import { TechnologyDetail } from './TechnologyDetail';
 
@@ -18,6 +19,7 @@ const ALL_CATEGORY = 'All';
  */
 export function TechnologiesChapter() {
   const { technologies, experiences } = useContent();
+  const ui = useUi();
   const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORY);
   const [activeTechName, setActiveTechName] = useState<string | null>(null);
 
@@ -53,7 +55,7 @@ export function TechnologiesChapter() {
 
   if (loading) return <ProjectsSkeleton />;
   if (failed) {
-    return <p className="text-center text-red-600">Failed to load technologies</p>;
+    return <p className="text-center text-red-600">{ui.technologies.failedToLoad}</p>;
   }
 
   // Only offer a category filter for a category that still has at least one
@@ -67,7 +69,7 @@ export function TechnologiesChapter() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="label-mono text-primary">Technologies</p>
+        <p className="label-mono text-primary">{ui.technologies.label}</p>
         {/* font-display named explicitly, though it's already the body
             default (globals.css) — the reference's equivalent heading names
             its font family explicitly too, and doing the same here keeps the
@@ -78,7 +80,9 @@ export function TechnologiesChapter() {
             treatment. Scale stays text-3xl sm:text-4xl, matching ThreeSystems
             (FR-008): weight and colour change here, not size. */}
         <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-          What I&rsquo;ve <span className="text-gradient-accent">actually built</span> with
+          {ui.technologies.headingLead}{' '}
+          <span className="text-gradient-accent">{ui.technologies.headingAccent}</span>{' '}
+          {ui.technologies.headingTail}
         </h2>
         <p className="text-on-photo mt-4 max-w-2xl">{technologies.data!.intro}</p>
         <p className="text-on-photo mt-3 max-w-2xl">{technologies.data!.builtWithNote}</p>
@@ -95,7 +99,7 @@ export function TechnologiesChapter() {
               : 'border-border text-on-photo hover:border-primary/50'
           }`}
         >
-          All
+          {ui.technologies.allCategory}
         </button>
         {categories.map((category) => (
           <button
