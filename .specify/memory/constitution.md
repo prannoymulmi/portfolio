@@ -1,4 +1,26 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.5.0 → 1.6.0
+Modified principles:
+  - IV. Technology Stack (NON-NEGOTIABLE) — the Content bullet's literal path
+    changes from `public/data/` to `public/data/<locale>/`, and a new
+    Localization bullet names the locale state owner the way the Theming
+    bullet already names `next-themes` — a hand-rolled `LocaleProvider`, so a
+    future hand-rolled duplicate or a message-framework dependency arriving
+    quietly both need an amendment rather than a commit (ADR 0024).
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: sixth amendment to Principle IV. Localization was decided against
+`next-intl` specifically because it is routing-first and would overturn ADR
+0012's single scrolling story; the hand-rolled alternative still moves where
+content lives (`public/data/*.json` → `public/data/<locale>/*.json`) and adds
+a second cross-cutting client-state owner alongside theme, so Governance's
+"ADR + amendment, same PR" rule applies here even though no dependency was
+added. ADR 0003 is not rewritten — it gains a dated note pointing at ADR 0024
+for the per-locale path and fallback specifics, per Principle VI's own
+no-rewrite rule.
+
+--- previous ---
 Version change: 1.4.0 → 1.5.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — the Deployment bullet's install
@@ -139,8 +161,8 @@ constitution amendment:
 - **Framework**: Next.js (App Router) + TypeScript — strict mode enabled.
 - **Structure**: one scrolling story at `/`; sections are anchors, not routes. Retired
   paths MUST redirect rather than 404 (ADR 0012).
-- **Content**: JSON files in `public/data/`, fetched client-side and validated against a
-  Zod schema before use. No CMS, no database (ADR 0001, ADR 0003).
+- **Content**: JSON files in `public/data/<locale>/`, fetched client-side and validated
+  against a Zod schema before use. No CMS, no database (ADR 0001, ADR 0003, ADR 0024).
 - **Styling**: Tailwind CSS v4, theme tokens via `@theme inline`; dark mode is bound to
   the `.dark` class through `@custom-variant`, never to `prefers-color-scheme`
   (ADR 0006, ADR 0011). No CSS-in-JS.
@@ -149,6 +171,11 @@ constitution amendment:
   the `?experiment=true` flag: the toggle renders only under it, the default is `light`,
   and the OS preference is not consulted (ADR 0019). Nothing may serve a theme a visitor
   did not explicitly ask for and cannot leave.
+- **Localization**: a hand-rolled `LocaleProvider` owns the active locale, persisted
+  per-browser; English is the default and the fallback. Authored content lives per-locale
+  under `public/data/<locale>/`, Zod-validated as before; UI chrome strings live as JSON
+  dictionaries in `lib/i18n/`, validated by a shared schema and a key-parity test. No i18n
+  library — a fourth-party message framework requires an amendment (ADR 0024).
 - **Animation**: exactly three libraries, each with one domain and no overlap —
   GSAP + ScrollTrigger for scroll-sequenced and timeline motion; Framer Motion for
   component entrance, exit, and interaction motion; `rough-notation` for hand-drawn
@@ -253,4 +280,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.5.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-17
+**Version**: 1.6.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-19

@@ -3,6 +3,13 @@
 - **Status**: Accepted, fetch policy amended 2026-08-10
 - **Date**: 2026-08-09
 
+> **Amendment (2026-08-19) — per-locale paths and whole-file English fallback**:
+> [ADR 0024](0024-localization-without-a-library.md) adds a locale segment to
+> the fetch path (`public/data/<locale>/<file>.json`) and, on a 404 or a Zod
+> validation failure for a non-English locale, falls back to the whole
+> English file rather than merging fields. The client-side, Zod-validated
+> loading model this ADR decided is otherwise unchanged.
+>
 > **Amendment (2026-08-10) — freshness beats caching**: the loader originally
 > fetched with `cache: 'force-cache'`, which reuses a cached response even after
 > it has gone stale, so an edited JSON file never appeared on a normal hard
