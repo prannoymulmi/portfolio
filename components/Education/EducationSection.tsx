@@ -4,10 +4,12 @@ import React from 'react';
 import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EducationSkeleton } from '@/components/Common/LoadingState';
-import { gradeBadgeLabel } from '@/components/Education/grade';
+import { gradeBadgeLabel, isGradeBand } from '@/components/Education/grade';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 export function EducationSection() {
   const { education } = useContent();
+  const ui = useUi();
 
   if (education.loading) {
     return <EducationSkeleton />;
@@ -16,7 +18,7 @@ export function EducationSection() {
   if (education.error || !education.data) {
     return (
       <section className="py-12">
-        <p className="text-center text-red-600">Failed to load education</p>
+        <p className="text-center text-red-600">{ui.education.failedToLoad}</p>
       </section>
     );
   }
@@ -26,8 +28,8 @@ export function EducationSection() {
   return (
     <section className="space-y-8 py-12">
       <div>
-        <h2 className="text-3xl font-bold">Education & Certifications</h2>
-        <p className="text-on-photo mt-2">Formal education and professional certifications</p>
+        <h2 className="text-3xl font-bold">{ui.education.heading}</h2>
+        <p className="text-on-photo mt-2">{ui.education.subheading}</p>
       </div>
 
       {/* Rows on the open surface, matching the work showcase and the career
@@ -36,7 +38,8 @@ export function EducationSection() {
           awarding body in small grey text. */}
       <div className="divide-border border-border divide-y border-t">
         {educationList.map((item, idx) => {
-          const badgeLabel = gradeBadgeLabel(item.cardDetailedText);
+          const gradeKey = gradeBadgeLabel(item.cardDetailedText);
+          const badgeLabel = gradeKey && isGradeBand(gradeKey) ? ui.education.grades[gradeKey] : gradeKey;
 
           return (
             <article key={idx} className="grid gap-6 py-10 md:grid-cols-[1fr_14rem] md:items-start">
@@ -57,7 +60,7 @@ export function EducationSection() {
                     rel="noopener noreferrer"
                     className="text-on-photo border-border hover:border-primary mt-5 inline-block rounded-full border px-4 py-1.5 text-xs font-medium transition-colors"
                   >
-                    Learn more ↗
+                    {ui.education.learnMore}
                   </a>
                 )}
               </div>
