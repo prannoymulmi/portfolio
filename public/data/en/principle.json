@@ -1,0 +1,4 @@
+{
+  "statement": "Great architecture means I can change any part of the system with 99.99% confidence it stays intact.",
+  "supporting": "That confidence comes from well-automated, thoroughly tested systems — the kind that let teams deploy continuously without holding their breath."
+}

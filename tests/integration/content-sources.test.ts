@@ -1,18 +1,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parseDateText, buildUsage } from '@/lib/utils/techDuration';
+import { SUPPORTED_LOCALES } from '@/lib/i18n/locales';
 import type { TechnologiesFile, ExperiencesFile } from '@/lib/types/portfolio';
 
 /**
- * The site fetches its content from `/data/*.json`, which resolves from
- * `public/`. A second, unserved set of the same files once existed under
- * `app/data/` and had drifted — it held the *correct* LinkedIn address while
- * the served copy held a wrong one, which is why the broken link survived so
- * long: anyone spot-checking a social.json had even odds of opening the
- * reassuring one.
+ * The site fetches its content from `/data/<locale>/*.json`, which resolves
+ * from `public/`. A second, unserved set of the same files once existed
+ * under `app/data/` and had drifted — it held the *correct* LinkedIn address
+ * while the served copy held a wrong one, which is why the broken link
+ * survived so long: anyone spot-checking a social.json had even odds of
+ * opening the reassuring one.
  *
- * These tests hold the content sources to one place. Nothing in a Zod schema
- * can express "only one file may define this", so it is asserted here.
+ * These tests hold the content sources to one place *per locale* — ADR 0024
+ * moved the "one content source" invariant (ADR 0017) from one file to one
+ * file per registered locale directory. Nothing in a Zod schema can express
+ * "only one file may define this", so it is asserted here.
  */
 
 const REPO_ROOT = process.cwd();
@@ -36,7 +39,7 @@ function findByName(dir: string, filename: string): string[] {
 
 describe('content sources', () => {
   it('serves the owner’s real LinkedIn profile', () => {
-    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/social.json'), 'utf-8');
+    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/social.json'), 'utf-8');
     const { social } = JSON.parse(raw);
 
     const linkedin = social.find(
@@ -47,12 +50,22 @@ describe('content sources', () => {
     expect(linkedin.href).toBe('https://www.linkedin.com/in/prannoy-mulmi-0617026b/');
   });
 
-  it('keeps exactly one social.json, so a link can only be edited in one place', () => {
-    expect(findByName(REPO_ROOT, 'social.json')).toEqual(['public/data/social.json']);
+  it('keeps exactly one social.json per registered locale, so a link can only be edited in one place per language', () => {
+    const found = findByName(REPO_ROOT, 'social.json');
+
+    for (const { code } of SUPPORTED_LOCALES) {
+      const expected = `public/data/${code}/social.json`;
+      expect(found).toContain(expected);
+    }
+
+    // And nowhere else in the repo — the old single-file path in particular.
+    const localeDirs = new Set(SUPPORTED_LOCALES.map(({ code }) => `public/data/${code}/social.json`));
+    const unexpected = found.filter((entry) => !localeDirs.has(entry));
+    expect(unexpected).toEqual([]);
   });
 
   it('carries the contact address beside the profile links, not inside them', () => {
-    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/social.json'), 'utf-8');
+    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/social.json'), 'utf-8');
     const { social, email } = JSON.parse(raw);
 
     expect(email).toBe('prannoy.mulmi@gmail.com');
@@ -69,7 +82,7 @@ describe('content sources', () => {
   // Claude Code explicitly, without being reordered or resized relative to
   // the other featured projects.
   it('names Claude Code and spec-driven development in "This Portfolio, Spec-Driven"', () => {
-    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/projects.json'), 'utf-8');
+    const raw = fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/projects.json'), 'utf-8');
     const { projects } = JSON.parse(raw);
 
     const index = projects.findIndex(
@@ -92,10 +105,10 @@ describe('content sources', () => {
   // R-004, data-model.md).
   describe('technologies.json traces to experiences.json (SC-004)', () => {
     const technologies = JSON.parse(
-      fs.readFileSync(path.join(REPO_ROOT, 'public/data/technologies.json'), 'utf-8'),
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/technologies.json'), 'utf-8'),
     ).technologies as { name: string; matches: string[] }[];
     const experiences = JSON.parse(
-      fs.readFileSync(path.join(REPO_ROOT, 'public/data/experiences.json'), 'utf-8'),
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/experiences.json'), 'utf-8'),
     ).experiences as { title: string; technologies?: string[]; dateText: string }[];
 
     const experienceTechs = new Set<string>();
@@ -153,10 +166,10 @@ describe('content sources', () => {
   // Statista span — never the full 11/2020 AViV start.
   it("clamps Threat Modeling's real duration to its sinceByEmployer date at AViV (docs/adr/0023)", () => {
     const technologiesFile: TechnologiesFile = JSON.parse(
-      fs.readFileSync(path.join(REPO_ROOT, 'public/data/technologies.json'), 'utf-8'),
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/technologies.json'), 'utf-8'),
     );
     const experiencesFile: ExperiencesFile = JSON.parse(
-      fs.readFileSync(path.join(REPO_ROOT, 'public/data/experiences.json'), 'utf-8'),
+      fs.readFileSync(path.join(REPO_ROOT, 'public/data/en/experiences.json'), 'utf-8'),
     );
 
     const threatModelingEntry = technologiesFile.technologies.find(

@@ -11,7 +11,7 @@ const validHome = {
 
 describe('HomeSchema', () => {
   it('accepts the real home.json shipped in public/data', () => {
-    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/home.json'), 'utf-8');
+    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8');
     expect(HomeSchema.safeParse(JSON.parse(raw)).success).toBe(true);
   });
 
@@ -125,7 +125,10 @@ describe('TechnologiesFileSchema', () => {
   };
 
   it('accepts the real technologies.json shipped in public/data', () => {
-    const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/technologies.json'), 'utf-8');
+    const raw = fs.readFileSync(
+      path.join(process.cwd(), 'public/data/en/technologies.json'),
+      'utf-8',
+    );
     const result = TechnologiesFileSchema.safeParse(JSON.parse(raw));
     if (!result.success) {
       // Surface the Zod issues in the test failure output for a fast diagnosis.

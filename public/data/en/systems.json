@@ -1,0 +1,61 @@
+{
+  "projects": [
+    {
+      "title": "Auth0 Identity & Access Platform",
+      "bodyText": "Designed and implemented identity and access management on Auth0 for AVIV's platforms, serving 1M+ active users across user management, role-based access control, and third-party integrations. Owned security assessments and threat modeling for major features, identifying vulnerabilities and mitigations against established security standards. Took technical ownership of architecture decisions and code reviews while shipping maintainable microservices in Java and Node.js on AWS.",
+      "tags": [
+        "Auth0",
+        "AWS",
+        "Java",
+        "Node.js",
+        "Security"
+      ],
+      "links": [
+        {
+          "text": "AVIV Germany",
+          "route": "https://www.aviv-group.com"
+        }
+      ],
+      "role": "Tech lead",
+      "metric": "1M+ active users"
+    },
+    {
+      "title": "AWS Migration & Cost Optimization",
+      "bodyText": "Led technical delivery of large-scale database and system migrations onto AWS, moving on-premises servers and PostgreSQL databases while safeguarding data integrity and minimizing downtime. Directed cloud architecture using Terraform, CloudFormation, and CDK, and contributed to a 10% reduction in AWS costs through targeted optimization. Coordinated across teams to integrate legacy systems and resolve complex technical challenges along the way.",
+      "tags": [
+        "AWS",
+        "Terraform",
+        "CloudFormation",
+        "CDK",
+        "PostgreSQL"
+      ],
+      "links": [
+        {
+          "text": "AVIV Germany",
+          "route": "https://www.aviv-group.com"
+        }
+      ],
+      "role": "Technical project lead",
+      "metric": "10% AWS cost reduction"
+    },
+    {
+      "title": "Logistics Microservices Platform",
+      "bodyText": "Designed and built microservices in a distributed system for outbound logistics at OTTO, Germany's largest online retailer for fashion, lifestyle, and home & living. Extended core Java-based projects within the Logistic Service team, and set up unit, CDC, integration, and functional test suites to keep the distributed system reliable. Managed infrastructure as code with Terraform and practiced DevOps on AWS as part of a Scrum team, shipping continuously to production.",
+      "tags": [
+        "Java",
+        "AWS",
+        "Terraform",
+        "Microservices",
+        "Scrum"
+      ],
+      "links": [
+        {
+          "text": "OTTO GmbH",
+          "route": "https://www.otto.de"
+        }
+      ],
+      "role": "Junior Backend Developer",
+      "metric": "Germany's largest online retailer"
+    }
+  ]
+}
