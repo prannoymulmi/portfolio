@@ -1,6 +1,8 @@
 'use client';
 
 import type { Project } from '@/lib/types/portfolio';
+import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 interface SystemCardProps {
   project: Project;
@@ -15,6 +17,7 @@ interface SystemCardProps {
  */
 export function SystemCard({ project }: SystemCardProps) {
   const { title, bodyText, tags, year, role, metric } = project;
+  const ui = useUi();
 
   return (
     <article className="grid gap-6 py-10 md:grid-cols-[6rem_1fr_11rem] md:items-start">
@@ -32,7 +35,10 @@ export function SystemCard({ project }: SystemCardProps) {
         {role && <p className="mt-1 text-sm font-medium text-primary">{role}</p>}
         <p className="text-on-photo mt-4 max-w-xl leading-relaxed">{bodyText}</p>
 
-        <ul aria-label={`Technologies used on ${title}`} className="mt-5 flex flex-wrap gap-2">
+        <ul
+          aria-label={format(ui.work.technologiesUsedOn, { title })}
+          className="mt-5 flex flex-wrap gap-2"
+        >
           {tags.map((tag) => (
             <li
               key={tag}
