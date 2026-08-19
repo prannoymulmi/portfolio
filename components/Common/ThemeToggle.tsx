@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useExperimentEnabled } from '@/lib/utils/experiment';
+import { useUi } from '@/components/Common/LocaleProvider';
 
 /**
  * Switches the theme — behind the experiment flag.
@@ -21,6 +22,7 @@ import { useExperimentEnabled } from '@/lib/utils/experiment';
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const experimentEnabled = useExperimentEnabled();
+  const ui = useUi();
 
   if (!experimentEnabled) return null;
 
@@ -30,7 +32,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={isDark ? ui.nav.switchToLightMode : ui.nav.switchToDarkMode}
       className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-card text-foreground hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
     >
       {isDark ? (

@@ -30,6 +30,12 @@ export interface Home {
   imageSource?: string;
   /** Absent means the opening section renders no CV link at all. */
   cv?: CvLink;
+  /**
+   * Authored prose for the Contact chapter's closing line — content, not
+   * chrome (contracts/ui-dictionary.md §Scope rule, T039). Absent renders no
+   * paragraph rather than falling back to another locale's text.
+   */
+  contactNote?: string;
 }
 
 export interface Experience {

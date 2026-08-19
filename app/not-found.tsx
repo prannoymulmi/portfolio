@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+// Deliberately English-only, not translated: SEO metadata, same rationale as
+// app/layout.tsx's `metadata` — no German URL exists for this to describe
+// (ADR 0024, plan.md Decision 5).
 export const metadata: Metadata = {
   title: 'Page Not Found | Prannoy Mulmi',
   description: 'The page you are looking for does not exist.',
