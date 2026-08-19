@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { Project } from '@/lib/types/portfolio';
@@ -21,6 +22,11 @@ jest.mock('@/components/Common/ContentProvider', () => ({
 }));
 
 import { ThreeSystems } from '@/components/Work/ThreeSystems';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 function project(overrides: Partial<Project> & { title: string }): Project {
   return {
@@ -45,7 +51,7 @@ describe('ThreeSystems', () => {
   });
 
   it('shows three systems', () => {
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.getByText('Cloud Migration Platform')).toBeInTheDocument();
     expect(screen.getByText('Real-Time Analytics Dashboard')).toBeInTheDocument();
     expect(screen.getByText('E-Commerce API')).toBeInTheDocument();
@@ -53,19 +59,19 @@ describe('ThreeSystems', () => {
 
   it('shows at most three, even when the content file carries more', () => {
     mockSystems.data!.projects.push(project({ title: 'A Fourth System Nobody Asked For' }));
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.queryByText('A Fourth System Nobody Asked For')).not.toBeInTheDocument();
   });
 
   it("carries each system's headline metric and stack", () => {
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.getByText('99.99% uptime')).toBeInTheDocument();
     expect(screen.getByText('10M+ events daily')).toBeInTheDocument();
     expect(screen.getAllByText('Postgres').length).toBe(3);
   });
 
   it('shows a role when the data has one', () => {
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.getByText('Tech lead')).toBeInTheDocument();
   });
 
@@ -73,18 +79,18 @@ describe('ThreeSystems', () => {
     // Every fixture above deliberately has no `year`. A placeholder date on a
     // piece of professional evidence is worse than a missing one, so the
     // element must not render at all.
-    const { container } = render(<ThreeSystems />);
+    const { container } = renderWithLocale(<ThreeSystems />);
     expect(container.querySelector('[data-testid="system-year"]')).toBeNull();
   });
 
   it('shows the year when the data does have one', () => {
     mockSystems.data!.projects[0] = project({ title: 'Cloud Migration Platform', year: '2025' });
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.getByText('2025')).toBeInTheDocument();
   });
 
   it('renders the section heading the showcase is named for', () => {
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     // Apostrophe-agnostic: the heading uses a typographic apostrophe (’), and
     // the test should not be the reason that degrades to a straight quote.
     expect(
@@ -95,7 +101,7 @@ describe('ThreeSystems', () => {
   it('renders nothing but a skeleton while content is loading', () => {
     mockSystems.loading = true;
     mockSystems.data = null;
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.queryByText('Cloud Migration Platform')).not.toBeInTheDocument();
   });
 
@@ -103,7 +109,7 @@ describe('ThreeSystems', () => {
     mockSystems.loading = false;
     mockSystems.error = new Error('boom');
     mockSystems.data = null;
-    render(<ThreeSystems />);
+    renderWithLocale(<ThreeSystems />);
     expect(screen.getByText(/failed to load/i)).toBeInTheDocument();
   });
 });

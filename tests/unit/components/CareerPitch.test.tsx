@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { Experience } from '@/lib/types/portfolio';
@@ -36,6 +37,11 @@ jest.mock('framer-motion', () => {
 });
 
 import { CareerPitch } from '@/components/Career/CareerPitch';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
+
+function renderWithLocale(ui: ReactElement) {
+  return render(<LocaleProvider>{ui}</LocaleProvider>);
+}
 
 const experiences: Experience[] = [
   {
@@ -68,17 +74,17 @@ const experiences: Experience[] = [
 
 describe('CareerPitch', () => {
   it('puts one player on the pitch per career chapter', () => {
-    render(<CareerPitch experiences={experiences} />);
+    renderWithLocale(<CareerPitch experiences={experiences} />);
     expect(screen.getAllByRole('button', { name: /pass to/i })).toHaveLength(experiences.length);
   });
 
   it('opens on the most recent chapter, not the oldest', () => {
-    render(<CareerPitch experiences={experiences} />);
+    renderWithLocale(<CareerPitch experiences={experiences} />);
     expect(screen.getByRole('heading', { name: 'Immowelt GmbH' })).toBeInTheDocument();
   });
 
   it('shows a chapter in full when its player is passed to', () => {
-    render(<CareerPitch experiences={experiences} />);
+    renderWithLocale(<CareerPitch experiences={experiences} />);
     fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
 
     expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
@@ -88,7 +94,7 @@ describe('CareerPitch', () => {
   });
 
   it('lets chapters be visited in any order, not just forwards', () => {
-    render(<CareerPitch experiences={experiences} />);
+    renderWithLocale(<CareerPitch experiences={experiences} />);
     fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
     expect(screen.getByRole('heading', { name: 'Novomind AG' })).toBeInTheDocument();
 
@@ -101,7 +107,7 @@ describe('CareerPitch', () => {
   it('numbers the chapters oldest-first, whatever order the data arrives in', () => {
     // The fixture is already chronological; pass it reversed to prove the
     // ordering comes from dateText rather than from array position.
-    render(<CareerPitch experiences={[...experiences].reverse()} />);
+    renderWithLocale(<CareerPitch experiences={[...experiences].reverse()} />);
     expect(screen.getByRole('button', { name: /chapter 1.*Novomind/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /chapter 3.*Immowelt/i })).toBeInTheDocument();
   });
@@ -129,7 +135,7 @@ describe('CareerPitch', () => {
       },
     ];
 
-    render(<CareerPitch experiences={sameYear} />);
+    renderWithLocale(<CareerPitch experiences={sameYear} />);
     expect(screen.getByRole('button', { name: /chapter 1.*Novomind/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /chapter 2.*Otto/i })).toBeInTheDocument();
   });
@@ -137,7 +143,7 @@ describe('CareerPitch', () => {
   it('walks the chapters in order when the play is run, and stops when paused', () => {
     jest.useFakeTimers();
     try {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
 
       fireEvent.click(screen.getByRole('button', { name: /play in order/i }));
       // Starts the walk from the beginning rather than from wherever it sat.
@@ -160,7 +166,7 @@ describe('CareerPitch', () => {
   });
 
   it('renders nothing rather than an empty pitch when there are no chapters', () => {
-    const { container } = render(<CareerPitch experiences={[]} />);
+    const { container } = renderWithLocale(<CareerPitch experiences={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -170,7 +176,7 @@ describe('CareerPitch', () => {
     });
 
     it('renders exactly one ball marker, at mount and after selecting a different chapter', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
       expect(screen.getAllByTestId('pitch-ball')).toHaveLength(1);
 
       fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
@@ -178,7 +184,7 @@ describe('CareerPitch', () => {
     });
 
     it('is decorative — no role, no aria-label, ignored by pointer events', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
       const ball = screen.getByTestId('pitch-ball');
       expect(ball).not.toHaveAttribute('role');
       expect(ball).not.toHaveAttribute('aria-label');
@@ -188,7 +194,7 @@ describe('CareerPitch', () => {
     it('switches the active chapter synchronously on click, without waiting on the ball animation', () => {
       jest.useFakeTimers();
       try {
-        render(<CareerPitch experiences={experiences} />);
+        renderWithLocale(<CareerPitch experiences={experiences} />);
         fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
         // No timer advance at all — if the panel only updated once the ball
         // settled, this heading would not be here yet.
@@ -200,7 +206,7 @@ describe('CareerPitch', () => {
 
     it('collapses the ball travel to a zero-duration transition under prefers-reduced-motion', () => {
       (prefersReducedMotion as jest.Mock).mockReturnValue(true);
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
 
       fireEvent.click(screen.getByRole('button', { name: /pass to.*Novomind/i }));
 
@@ -209,7 +215,7 @@ describe('CareerPitch', () => {
     });
 
     it('keeps every player keyboard-operable and labelled after the focus rework', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
       const player = screen.getByRole('button', { name: /pass to.*Novomind/i });
 
       expect(player).toHaveAttribute('tabindex', '0');
@@ -226,7 +232,7 @@ describe('CareerPitch', () => {
 
   describe('naming every player on the field (US2)', () => {
     it('shows every player\'s number, abbreviation, and shortened display name without any interaction', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
 
       // Novomind AG -> displayName "Novomind", abbreviation "NOVO".
       expect(screen.getByText('NOVO')).toBeInTheDocument();
@@ -240,7 +246,7 @@ describe('CareerPitch', () => {
     });
 
     it('labels the field with the shortened displayName while the pill list and panel keep the full company name', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
 
       // Full name still appears exactly once — in the pill list / panel
       // heading — never as the on-pitch label, which uses the short form.
@@ -249,7 +255,7 @@ describe('CareerPitch', () => {
     });
 
     it('keeps the on-pitch number, abbreviation, and name labels out of pointer events and out of the tab order', () => {
-      const { container } = render(<CareerPitch experiences={experiences} />);
+      const { container } = renderWithLocale(<CareerPitch experiences={experiences} />);
       const labelTexts = container.querySelectorAll('svg text');
       labelTexts.forEach((label) => {
         expect(label).toHaveClass('pointer-events-none');
@@ -260,7 +266,7 @@ describe('CareerPitch', () => {
 
   describe('the how-to-use tip (US4)', () => {
     it('shows a single tip line below the pitch, without any interaction, mentioning players are clickable', () => {
-      render(<CareerPitch experiences={experiences} />);
+      renderWithLocale(<CareerPitch experiences={experiences} />);
       expect(screen.getByText(/players.*click/i)).toBeInTheDocument();
     });
   });
