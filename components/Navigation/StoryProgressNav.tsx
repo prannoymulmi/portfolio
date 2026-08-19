@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { LocaleToggle } from '@/components/Common/LocaleToggle';
 import { useContent } from '@/components/Common/ContentProvider';
+import { useUi } from '@/components/Common/LocaleProvider';
 import { EmailLink } from './EmailLink';
 import { HamburgerMenu } from './HamburgerMenu';
 import { SocialIcons } from './SocialIcons';
@@ -14,21 +16,24 @@ import { SocialIcons } from './SocialIcons';
 // skip ahead) without scrolling through everything. This renders a thin
 // scroll-progress bar; the section links themselves live inside the
 // hamburger menu (HamburgerMenu) rather than inline, so the bar stays
-// minimal at every width (spec 010-hamburger-nav).
-const STORY_SECTIONS = [
-  { id: 'hero', label: 'Introduction' },
+// minimal at every width (spec 010-hamburger-nav). `id`s are locale-invariant
+// DOM anchors; the labels come from `ui.nav.sections` (ADR 0024).
+const STORY_SECTION_IDS = [
+  'hero',
   // id stays 'skills' after the chapter became the work showcase — external
   // links and the footer both target /#skills. Only the label moved.
-  { id: 'skills', label: 'Selected Work' },
-  { id: 'career', label: 'Career Journey' },
-  { id: 'technologies', label: 'Technologies' },
-  { id: 'education', label: 'Education' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
-];
+  'skills',
+  'career',
+  'technologies',
+  'education',
+  'projects',
+  'contact',
+] as const;
 
 export function StoryProgressNav() {
   const { home, social } = useContent();
+  const ui = useUi();
+  const storySections = STORY_SECTION_IDS.map((id) => ({ id, label: ui.nav.sections[id] }));
   const { scrollYProgress } = useScroll();
   const springScaleX = useSpring(scrollYProgress, {
     stiffness: 300,
@@ -103,9 +108,10 @@ export function StoryProgressNav() {
         {/* The persistent chrome: menu toggle, profile links, address, and
             theme control, all reachable from anywhere in the story. */}
         <div className="flex shrink-0 items-center gap-1">
-          <HamburgerMenu sections={STORY_SECTIONS} />
+          <HamburgerMenu sections={storySections} />
           <SocialIcons />
           {social.data?.email && <EmailLink email={social.data.email} />}
+          <LocaleToggle />
           <ThemeToggle />
         </div>
       </div>
