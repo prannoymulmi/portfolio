@@ -3,10 +3,12 @@ import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
+import { LocaleProvider } from '@/components/Common/LocaleProvider';
 import { Footer } from '@/components/Navigation/Footer';
 import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 import { StructuredData } from '@/components/Common/StructuredData';
+import { SkipToContentLink } from '@/components/Common/SkipToContentLink';
 import './globals.css';
 
 // next/font's own `variable` names deliberately differ from the Tailwind
@@ -28,6 +30,10 @@ const fontMonoUi = JetBrains_Mono({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio.prannoy-mulmi.com';
 
+// Deliberately English-only, not translated: SEO/social metadata (title,
+// description, openGraph.locale, twitter card) has no German URL to point
+// at, so there is nothing for hreflang/alternate-locale metadata to name —
+// ADR 0024, plan.md Decision 5.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -82,25 +88,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* The photograph the whole story sits on. */}
         <Backdrop />
         <StructuredData />
-        <a
-          href="#main-content"
-          // Text on the primary fill uses `foreground`, not `primary-foreground` —
-          // research R1 (specs/009-typography-color-refresh) measured
-          // primary-foreground at 3.26:1 against primary, which fails AA.
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-        >
-          Skip to main content
-        </a>
         <ThemeProvider>
-          <ErrorBoundary>
-            <ContentProvider>
-              <StoryProgressNav />
-              <main id="main-content" className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </ContentProvider>
-          </ErrorBoundary>
+          <LocaleProvider>
+            {/* Split into its own client component so its one string can
+                follow the active locale — this file stays a server component
+                and keeps its `metadata` export (research R-008, ADR 0024). */}
+            <SkipToContentLink />
+            <ErrorBoundary>
+              <ContentProvider>
+                <StoryProgressNav />
+                <main id="main-content" className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </ContentProvider>
+            </ErrorBoundary>
+          </LocaleProvider>
         </ThemeProvider>
       </body>
     </html>
