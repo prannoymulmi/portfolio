@@ -12,6 +12,21 @@ export default defineConfig({
   testDir: './tests/e2e',
   use: {
     baseURL,
+    // This Vercel project has Deployment Protection on preview deployments —
+    // an unauthenticated request gets a 401, including Playwright's own
+    // (discovered on this feature's first live CI run). VERCEL_AUTOMATION_
+    // BYPASS_SECRET is only ever set in CI (see ci.yml's `e2e` job), never
+    // locally, so this header is empty/absent for a localhost run — there is
+    // nothing to bypass there and no secret to leak into a local shell's
+    // history either way.
+    ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+      ? {
+          extraHTTPHeaders: {
+            'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+            'x-vercel-set-bypass-cookie': 'true',
+          },
+        }
+      : {}),
   },
   // Only defined when PLAYWRIGHT_BASE_URL is unset (i.e. baseURL is still
   // the localhost default) — when it's set, the target is an external URL
