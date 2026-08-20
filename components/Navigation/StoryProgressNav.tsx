@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
-import { LocaleToggle } from '@/components/Common/LocaleToggle';
 import { useContent } from '@/components/Common/ContentProvider';
 import { useUi } from '@/components/Common/LocaleProvider';
 import { EmailLink } from './EmailLink';
@@ -106,12 +105,14 @@ export function StoryProgressNav() {
             the hamburger menu instead (spec 010-hamburger-nav). */}
         <div className="flex-1" />
         {/* The persistent chrome: menu toggle, profile links, address, and
-            theme control, all reachable from anywhere in the story. */}
+            theme control, all reachable from anywhere in the story. The
+            language toggle deliberately isn't here — it floats in its own
+            corner (LocaleToggle, mounted in app/layout.tsx) rather than
+            sitting in this icon row. */}
         <div className="flex shrink-0 items-center gap-1">
           <HamburgerMenu sections={storySections} />
           <SocialIcons />
           {social.data?.email && <EmailLink email={social.data.email} />}
-          <LocaleToggle />
           <ThemeToggle />
         </div>
       </div>

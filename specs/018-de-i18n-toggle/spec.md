@@ -16,6 +16,10 @@
 - Q: Does the German version of the site need a German CV/resume document, or should the CV download link stay the same file regardless of language? → A: The CV link stays the same file in both languages; no German CV is produced in this feature.
 - Q: Where should the language toggle control live on the page? → A: In the navigation bar (desktop) / hamburger menu (mobile), alongside existing nav controls.
 
+### Session 2026-08-20
+
+- Q: The nav-bar placement above shipped, but the site owner didn't like it sitting among the nav's icon row — where should the toggle live instead? → A: Its own floating pill, fixed in a page corner, independent of the nav bar and its hamburger menu entirely — not grouped with any other control. Supersedes the 2026-08-19 answer; FR-002 updated to match.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Switch the whole site to German (Priority: P1)
@@ -141,10 +145,12 @@ that reads translated content.
 
 - **FR-001**: The site MUST render entirely in English by default for any
   visitor with no previously stored language preference.
-- **FR-002**: The site MUST provide a visible, clearly labeled control in
-  the site navigation (and its mobile hamburger menu equivalent) that
-  toggles the active language between English and German, reachable from
-  every scroll position.
+- **FR-002**: The site MUST provide a visible, clearly labeled control,
+  reachable from every scroll position in one interaction, that toggles the
+  active language between English and German. Per the 2026-08-20
+  clarification, this control is its own floating element, independent of
+  the site navigation bar and its hamburger menu — not grouped with the
+  nav's other controls.
 - **FR-003**: Activating the toggle MUST update all on-page, user-facing
   text on the current view to the selected language without a full page
   reload.

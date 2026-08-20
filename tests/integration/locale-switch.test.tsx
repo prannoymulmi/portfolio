@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import Home from '@/app/page';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { LocaleProvider } from '@/components/Common/LocaleProvider';
+import { LocaleToggle } from '@/components/Common/LocaleToggle';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
 
 /**
@@ -35,10 +36,15 @@ jest.mock('@/lib/i18n/locales', () => {
 });
 
 function renderStory() {
+  // Mirrors app/layout.tsx: LocaleToggle is a sibling of StoryProgressNav,
+  // not nested inside it — it floats in its own corner rather than living in
+  // the nav bar's icon row (site owner's call; see LocaleToggle's own doc
+  // comment).
   return render(
     <LocaleProvider>
       <ContentProvider>
         <StoryProgressNav />
+        <LocaleToggle />
         <Home />
       </ContentProvider>
     </LocaleProvider>,
