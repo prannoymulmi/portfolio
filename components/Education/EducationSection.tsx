@@ -29,8 +29,12 @@ export function EducationSection() {
   return (
     <section className="space-y-8 py-12">
       <div>
-        <h2 className="text-3xl font-bold">{ui.education.heading}</h2>
-        <p className="text-on-photo mt-2">{ui.education.subheading}</p>
+        {/* max-w-2xl, matching ThreeSystems/TechnologiesChapter/CareerJourney's
+            own heading blocks — caps the subheading's line length now that
+            this chapter's outer container matches theirs (max-w-6xl) rather
+            than the narrower max-w-4xl it used to sit in. */}
+        <h2 className="max-w-2xl text-3xl font-bold">{ui.education.heading}</h2>
+        <p className="text-on-photo mt-2 max-w-2xl">{ui.education.subheading}</p>
       </div>
 
       {/* Rows on the open surface, matching the work showcase and the career

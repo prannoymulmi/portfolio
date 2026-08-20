@@ -87,7 +87,14 @@ export default function Home() {
         label="Education"
         className="chapter-scrim px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-4xl">
+        {/* max-w-6xl, not the narrower max-w-4xl this carried before —
+            EducationSection's rows are meant to read as "the open surface,
+            matching the work showcase and the career timeline" (see its own
+            comment), both of which use max-w-6xl. The narrower column left
+            this chapter visibly more inset/centered than its neighbours,
+            starting well right of where Selected work, Career and
+            Technologies each start. */}
+        <div className="mx-auto max-w-6xl">
           <EducationSection />
         </div>
       </Chapter>
