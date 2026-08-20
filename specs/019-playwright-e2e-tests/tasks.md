@@ -43,13 +43,13 @@ Decision). New test code under `tests/e2e/`, alongside the existing
 **Purpose**: Get the new tooling installed and the repo ready to hold its
 output, before any test or config code is written.
 
-- [ ] T001 [P] Add `@playwright/test` as a devDependency (`pnpm add -D
+- [X] T001 [P] Add `@playwright/test` as a devDependency (`pnpm add -D
       @playwright/test` from the repo root); confirm `pnpm-lock.yaml`
       updates accordingly.
-- [ ] T002 Run `npx playwright install --with-deps chromium` locally — the
+- [X] T002 Run `npx playwright install --with-deps chromium` locally — the
       one-time browser binary install needed before any e2e test can run on
       this machine. No repo file changes; CI installs its own copy in T012.
-- [ ] T003 [P] Add Playwright's default output directories (`test-results/`,
+- [X] T003 [P] Add Playwright's default output directories (`test-results/`,
       `playwright-report/`, `blob-report/`) to `.gitignore`.
 
 ---
@@ -62,7 +62,7 @@ against `localhost` or an external URL.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 Create `playwright.config.ts` at the repo root, per research.md
+- [X] T004 Create `playwright.config.ts` at the repo root, per research.md
       Decision 1 and contracts/e2e-target-contract.md: `use.baseURL` reads
       `process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'`; a
       `webServer` block (`command: 'pnpm run dev'`,
@@ -70,7 +70,7 @@ against `localhost` or an external URL.
       defined **only** when `PLAYWRIGHT_BASE_URL` is unset — when it's set,
       no local server is started at all. `testDir: './tests/e2e'`. Depends
       on T001.
-- [ ] T005 Add `"test:e2e": "playwright test"` to `package.json`'s
+- [X] T005 Add `"test:e2e": "playwright test"` to `package.json`'s
       `scripts`. Confirm `jest.config.js`'s `testMatch` pattern does not
       match anything under `tests/e2e/` — run `pnpm test` and check the
       suite count is unaffected (FR-008). Depends on T001.
@@ -91,24 +91,24 @@ browser against it, and reports pass/fail (spec.md US1 Independent Test).
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Create `tests/e2e/homepage.spec.ts`: navigate to `/`, wait
+- [X] T006 [US1] Create `tests/e2e/homepage.spec.ts`: navigate to `/`, wait
       for the hero's real, client-fetched content to render (not an
       immediate post-navigation assertion — this site fetches JSON content
       client-side per ADR 0003, spec.md Edge Cases), then assert the page
       title and a piece of hero content (e.g. the name or a role phrase) are
       visible. Single locale only — no language-toggle interaction (FR-001,
       FR-007, Clarifications Session 2026-08-20). Depends on T004.
-- [ ] T007 [US1] Confirm no dev server is already running (`lsof -ti:3000`
+- [X] T007 [US1] Confirm no dev server is already running (`lsof -ti:3000`
       returns nothing), then run `pnpm run test:e2e`. Confirm: a local dev
       server starts automatically, the test executes in a real Chromium
       browser and passes, and the server is torn down when the run finishes
       (Acceptance Scenario 1, FR-003, SC-001; quickstart.md Local run #2).
       Depends on T006.
-- [ ] T008 [US1] Start `pnpm run dev` manually and leave it running, then run
+- [X] T008 [US1] Start `pnpm run dev` manually and leave it running, then run
       `pnpm run test:e2e` again. Confirm the suite reuses the already-running
       server instead of starting a second one (Acceptance Scenario 2, FR-003;
       quickstart.md Local run #3). Depends on T006.
-- [ ] T009 [US1] Run `pnpm test` (the existing Jest command) and confirm it
+- [X] T009 [US1] Run `pnpm test` (the existing Jest command) and confirm it
       behaves exactly as it did before this feature — same suite, same
       timing, no browser launched, no reference to the e2e suite (Acceptance
       Scenario 3, FR-008; quickstart.md Local run #4). Depends on T005.
