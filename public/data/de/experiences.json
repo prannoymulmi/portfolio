@@ -5,12 +5,12 @@
       "subtitle": "Statista GmbH",
       "workType": "Full-time",
       "workDescription": [
-        "Verbesserung und Wartung von Auth0-basierten Authentifizierungssystemen innerhalb einer IAM-Plattform unter Verwendung von AWS CDK, TypeScript, Node.js und Docker.",
+        "Verbesserte und pflegte Auth0-basierte Authentifizierung in einer IAM-Plattform mit AWS CDK, TypeScript, Node.js und Docker.",
         "Verkürzte Bereitstellungszeit durch Optimierung der CI/CD-Pipelines und Automatisierung der Infrastrukturbereitstellung.",
         "Verbesserte Systemrückverfolgbarkeit durch die Optimierung von Metriken und Beobachtbarkeit über Authentifizierungsdienste hinweg.",
         "Verstärkte Verwaltung von Geheimnissen durch die Migration zu AWS Secrets Manager, wodurch eine nahtlose Rotation von Geheimnissen ermöglicht wird.",
         "Kunden bei der Behebung von Authentifizierungsproblemen unterstützt und zuverlässigen Zugriff auf Systeme gewährleistet.",
-        "Durchführung von Bedrohungsmodellierungen für wichtige Funktionen, um Sicherheitsrisiken bereits in einer frühen Entwurfsphase zu identifizieren und zu mindern."
+        "Führte Threat Modeling für wichtige Features durch, um Sicherheitsrisiken früh im Design zu erkennen."
       ],
       "technologies": [
         "AWS",
@@ -31,7 +31,7 @@
       "workType": "Full-time",
       "workDescription": [
         "Setzte Softwareänderungen und -anpassungen effektiv anhand konkreter Designvorgaben um.",
-        "Führte Bedrohungsmodellierungen durch und arbeitete an strategischen Initiativen zur Konzeption, Programmierung und zum Testen wichtiger Funktionen mit.",
+        "Führte Bedrohungsmodellierungen durch und arbeitete an strategischen Initiativen zu Design, Code und Tests wichtiger Features mit.",
         "Architektur cloudbasierter Lösungen in Amazon Web Services unter Verwendung verschiedener IaC-Tools, d. h. Terraform, CloudFormation und CDK",
         "Trug durch den Einsatz verschiedener Kennzahlen dazu bei, die AWS-Kosten auf 10 % zu senken.",
         "Lokale Server und Datenbank (PostgreSQL) wurden in AWS migriert.",
@@ -115,7 +115,7 @@
       "subtitle": "Clansweb.de",
       "workType": "Working student",
       "workDescription": [
-        "Unterstützung bei der Entwicklung voll funktionsfähiger, responsiver Prototypen auf Basis der Unternehmensanforderungen unter Verwendung von HTML/HTML5, CSS3 und JavaScript.",
+        "Unterstützte die Entwicklung responsiver Prototypen nach Firmenanforderungen mit HTML/HTML5, CSS3 und JavaScript.",
         "Einhaltung der Markenstandards gemäß den Unternehmensrichtlinien.",
         "Enthaltene Workflow-Tools: HTML, CSS, React.JS, Cordova, Node.js und Git."
       ],
