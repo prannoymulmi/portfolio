@@ -198,7 +198,31 @@ tests/                   # Jest unit + integration
     `https://portfolio.prannoy-mulmi.com`. Used by `sitemap.ts`,
     `robots.ts`, and Open Graph metadata.
 - **CI**: [.github/workflows/ci.yml](.github/workflows/ci.yml) runs
-  type-check, lint, tests, and a bundle-size check on every PR.
+  type-check, lint, unit/integration tests, a build/bundle-size check, and
+  an e2e job (Playwright, against the PR's real Vercel preview) on every
+  PR. `main` has branch protection requiring all four to pass — a red
+  check genuinely blocks merge, not just by convention.
+
+```mermaid
+flowchart LR
+    PR["Pull Request"] --> Preview["Vercel: Preview Deploy"]
+    PR --> CI["GitHub Actions\nlint · unit · build · e2e"]
+    CI -->|e2e runs against| Preview
+    CI -->|all checks pass| Merge["Merge to main"]
+    Merge --> Prod["Vercel: Production Deploy"]
+```
+
+- **Required GitHub secret — `VERCEL_AUTOMATION_BYPASS_SECRET`**: this
+  Vercel project has Deployment Protection on preview deployments, so an
+  unauthenticated request (CI's own) gets a `401` instead of the page.
+  Generate a "Protection Bypass for Automation" secret in Vercel (Project
+  Settings → Deployment Protection) and add it as a GitHub Actions repo
+  secret with that exact name — the `e2e` job sends it as the
+  `x-vercel-protection-bypass` header so only CI gets through; real
+  visitors still hit the same login wall as before. Without this secret,
+  the `e2e` check fails on every PR with repeated 401s until it times out.
+  Full mechanism: [docs/testing-pyramid.md](docs/testing-pyramid.md) and
+  [ADR 0028](docs/adr/0028-playwright-e2e-testing.md).
 
 ## Contributing
 
