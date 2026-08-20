@@ -235,14 +235,28 @@ feature is complete.
 **Purpose**: Confirm nothing else broke, and do a full run-through before
 requesting review.
 
-- [ ] T022 [P] Run `pnpm run type-check`, `pnpm run lint`, `pnpm test`, and
+- [X] T022 [P] Run `pnpm run type-check`, `pnpm run lint`, `pnpm test`, and
       `pnpm run build`; confirm all four pass with the new files present —
       regression check against the existing suite (57 suites / 448 tests as
       of this feature's branch point).
-- [ ] T023 Run through `specs/019-playwright-e2e-tests/quickstart.md`
+      **Confirmed**: type-check clean; lint clean (one pre-existing unrelated
+      warning in `ProjectGallery.tsx`); `pnpm test` 57 suites / 448 tests
+      passing (unchanged from the pre-feature baseline); `pnpm run build`
+      succeeds; `pnpm run test:e2e` also re-run locally as an extra check —
+      1 passed.
+- [X] T023 Run through `specs/019-playwright-e2e-tests/quickstart.md`
       end-to-end as a final validation pass before marking the PR ready for
       review. Depends on T022, and on every task quickstart.md's steps
       reference (T007–T009, T013–T016, T017–T021).
+      **Confirmed**: every quickstart.md step was verified live rather than
+      by inspection alone — local run (auto-start, reuse, `pnpm test`
+      unaffected), CI/PR-preview run (draft-skip, ready-for-review run
+      against the real preview, re-run on a further push, a deliberately
+      broken test failing and genuinely blocking merge via branch
+      protection, then a clean revert), and documentation (README section,
+      `docs/testing-pyramid.md` with a validated Mermaid diagram, ADR 0028
+      indexed). Final state: PR #29 `isDraft: false`, `mergeStateStatus:
+      "CLEAN"`, `mergeable: true`, all 4 CI checks green.
 
 ---
 
