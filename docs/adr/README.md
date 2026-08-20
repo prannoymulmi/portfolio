@@ -36,6 +36,7 @@ were on the table at the time.
 | [0025](0025-deepl-mcp-for-translation.md) | DeepL MCP as the translation tool for German content | Accepted — extends [0024](0024-localization-without-a-library.md)'s translator-reviews-in-PR model with the mechanism the translator uses to draft German text |
 | [0026](0026-hero-drops-the-biography-paragraph.md) | The hero drops the biography paragraph | Accepted — amends [0016](0016-about-folds-into-the-opening.md), removing the `bio` field it added |
 | [0027](0027-builtwithnote-becomes-locale-optional.md) | `builtWithNote` becomes locale-optional | Accepted — extends [0024](0024-localization-without-a-library.md) with a second field that legitimately differs in presence, not just wording, between locales |
+| [0028](0028-playwright-e2e-testing.md) | Playwright e2e testing against real Vercel previews, with a genuinely enforced merge gate | Accepted |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
