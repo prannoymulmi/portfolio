@@ -50,7 +50,7 @@
     {
       "id": "portfolio-spec-driven",
       "title": "Dieses Portfolio, spezifikationsgetrieben",
-      "bodyText": "Diese Website wurde mit Claude Code nach spezifikationsgetriebener Entwicklung entworfen und gebaut: Jedes Feature beginnt als Spezifikation und Plan, bevor Code entsteht. Architektonisch bedeutsame Entscheidungen werden als ADRs (23 und wachsend) in „docs/adr“ festgehalten — von JSON-Inhalten statt CMS bis zur Single-Page-Story-Struktur. Gebaut mit Next.js 16, React 19 und TypeScript im Strict-Modus, Inhalte laufzeitvalidiert von Zod.",
+      "bodyText": "Diese Website wurde mit Claude Code nach spezifikationsgetriebener Entwicklung entworfen und gebaut: Jedes Feature beginnt als Spezifikation und Plan, bevor Code entsteht. Architektonisch bedeutsame Entscheidungen werden als ADRs (23 und wachsend) in „docs/adr“ festgehalten — von JSON-Inhalten statt CMS bis zur Single-Page-Story-Struktur. Gebaut mit Next.js 16, React 19 und TypeScript im Strict-Modus, Inhalte laufzeitvalidiert von Zod. Deutscher Text via DeepL MCP erstellt, im PR geprüft.",
       "tags": [
         "Claude Code",
         "Spec-Driven Development",
@@ -58,7 +58,8 @@
         "TypeScript",
         "ADRs",
         "Tailwind CSS",
-        "Zod"
+        "Zod",
+        "DeepL MCP"
       ],
       "links": [
         {
