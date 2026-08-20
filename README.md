@@ -203,6 +203,16 @@ tests/                   # Jest unit + integration
   PR. `main` has branch protection requiring all four to pass — a red
   check genuinely blocks merge, not just by convention.
 
+At a glance:
+
+```mermaid
+flowchart LR
+    PR["Pull Request"] --> Preview["Preview site"]
+    Main["main branch"] --> Prod["Live site"]
+```
+
+In more detail — where the e2e job actually fits:
+
 ```mermaid
 flowchart LR
     PR["Pull Request"] --> Preview["Vercel: Preview Deploy"]
