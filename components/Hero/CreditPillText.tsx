@@ -11,12 +11,26 @@ const HOLD_MS = 2000;
 
 type Phase = 'typing' | 'holding' | 'rest';
 
+// Whether the intro cycle has already played once in this browser session.
+// Module-level, not component state: a genuine page load re-evaluates this
+// module from scratch and resets it, but a CreditPillText *mount* does not
+// always mean a page load — Hero swaps in a loading skeleton in place of the
+// whole hero markup while ContentProvider refetches an as-yet-uncached
+// locale's home.json (useContentLoader), then swaps the real markup back in
+// once it resolves, unmounting and remounting this component in the
+// process. Without this flag, that remount replayed the intro typing cycle
+// from scratch on every language switch, even though nothing about the pill
+// itself had changed.
+let hasPlayedIntroTyping = false;
+
 /**
  * Runs one type -> hold -> revert cycle over FULL_TEXT. The first cycle
- * starts on mount (a page load/reload); after that `triggerCue` — bumped by
- * Hero on every pointer-enter of the pill — starts each subsequent one. A
- * bump is only honoured from 'rest', so re-hovering mid-cycle can neither
- * restart nor extend it.
+ * starts on mount (a page load/reload) — or, more precisely, the first
+ * CreditPillText mount in this session that isn't a locale-switch remount,
+ * per hasPlayedIntroTyping above; after that `triggerCue` — bumped by Hero
+ * on every pointer-enter of the pill — starts each subsequent one. A bump is
+ * only honoured from 'rest', so re-hovering mid-cycle can neither restart
+ * nor extend it.
  *
  * Reverting means trimming charCount back to BASE_TEXT.length rather than
  * clearing it, so the pill lands back on its resting label instead of
@@ -32,8 +46,16 @@ type Phase = 'typing' | 'holding' | 'rest';
 function useTypedLine(triggerCue: number, baseText: string, fullText: string): string {
   const [reducedMotion] = useState(() => typeof window !== 'undefined' && prefersReducedMotion());
   const [prevCue, setPrevCue] = useState(triggerCue);
-  const [phase, setPhase] = useState<Phase>(reducedMotion ? 'rest' : 'typing');
-  const [charCount, setCharCount] = useState(reducedMotion ? baseText.length : 0);
+  // The lazy initializer runs at most once per mount, so the flag check and
+  // the flag set below happen atomically with deciding this mount's phase —
+  // a second mount, remount or not, always sees whatever the first one left
+  // behind.
+  const [phase, setPhase] = useState<Phase>(() => {
+    if (reducedMotion || hasPlayedIntroTyping) return 'rest';
+    hasPlayedIntroTyping = true;
+    return 'typing';
+  });
+  const [charCount, setCharCount] = useState(() => (phase === 'typing' ? 0 : baseText.length));
 
   if (triggerCue !== prevCue) {
     setPrevCue(triggerCue);

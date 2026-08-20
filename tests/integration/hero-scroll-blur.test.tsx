@@ -65,9 +65,16 @@ async function renderRealHero() {
     </LocaleProvider>,
   );
   // Hero renders a loading skeleton until ContentProvider's fetch resolves;
-  // waiting for the intro copy is the same "content has landed" signal the
-  // rest of the Hero test suite uses.
-  await screen.findByText(/built with claude/i);
+  // waiting for the roles list is the same "content has landed" signal
+  // tests/unit/components/Hero.test.tsx uses. The credit pill's own text
+  // used to serve that purpose here, but it isn't a safe query target for
+  // this: the pill can legitimately render already at rest on mount (e.g.
+  // prefers-reduced-motion, or CreditPillText.tsx's hasPlayedIntroTyping on
+  // a second mount within the same session), and at rest its live line
+  // duplicates the always-present invisible sizer's text exactly — a
+  // `findByText` on that string is ambiguous between the two whenever that
+  // happens, unrelated to anything this file actually tests.
+  await screen.findByRole('list', { name: /what i do/i });
 }
 
 describe('Hero scroll blur, wired through the real Hero component', () => {
