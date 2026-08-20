@@ -48,6 +48,107 @@ Highlights:
 - [ADR 0004](docs/adr/0004-football-pitch-metaphor.md) — Football pitch metaphor
 - [ADR 0007](docs/adr/0007-react-19-legacy-peer-deps.md) — React 19 with `--legacy-peer-deps`
 - [ADR 0022](docs/adr/0022-migrate-to-pnpm.md) — Migrate to pnpm
+- [ADR 0025](docs/adr/0025-deepl-mcp-for-translation.md) — DeepL MCP as the translation tool for German content
+
+## Spec-driven development with Claude Code
+
+This portfolio is also a testbed for building software with AI coding
+agents the way a real SDLC works — requirements, design, implementation,
+testing, and release as distinct phases with distinct owners — instead of
+one undifferentiated prompt-to-code loop. Requirements and planning
+artifacts come from GitHub's [Spec Kit](https://github.com/github/spec-kit);
+execution runs through three Claude Code agents defined in this repo (see
+[AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md)), each pinned to the
+cheapest model capable of its job:
+
+| Agent | Model | Responsibility |
+|---|---|---|
+| `architect` | Opus | Requirements, Spec Kit planning (`specify` → `clarify` → `plan` → `checklist` → `tasks` → `analyze`), architecture, hard escalations |
+| `coder` | Sonnet | Implementation, tests, normal debugging |
+| `release` | Haiku | Commits, pushes, pull requests — the only agent allowed to touch Git history |
+
+Every feature under [`specs/`](specs/) went through this pipeline: a spec
+and plan exist before any code is written, a task list the coder works
+through one item at a time, and a PR only goes up after type-check, lint,
+tests, and build all pass locally. When the coder hits something that needs
+real architectural judgment — an ambiguous spec, a concurrency question, a
+security-sensitive design call — it stops and escalates back to the
+architect rather than guessing, and only switches to Opus after explicit
+sign-off (see the escalation rules in [AGENTS.md](AGENTS.md)).
+
+The trade-off calls themselves are mine, not the model's. The architect
+proposes options and lays out the trade-offs each one carries;
+`/speckit.clarify` exists specifically to surface the questions where more
+than one reasonable answer exists, and I'm the one who picks an answer and
+states the reason it was chosen over the alternatives — that "why" is what
+ends up in the spec and, for anything load-bearing, in an ADR under
+[`docs/adr/`](docs/adr/README.md). Claude drafts the options; I own the
+decision and the reasoning behind it.
+
+```mermaid
+flowchart TD
+    U["User request"] --> A
+
+    subgraph SK["Spec Kit planning — architect · Opus"]
+        direction TB
+        A["/speckit.specify — draft spec"] --> B["/speckit.clarify — architect surfaces open questions"]
+        B --> UD{"Me: pick the trade-off, state the why"}
+        UD --> C["/speckit.plan"]
+        C --> D["/speckit.checklist"]
+        D --> E["/speckit.tasks"]
+        E --> F["/speckit.analyze"]
+    end
+
+    F --> G
+
+    subgraph IMPL["Implementation — coder · Sonnet"]
+        direction TB
+        G["/speckit.implement — work tasks.md"] --> H["Write code + tests"]
+        H --> I["Run type-check / lint / tests / build"]
+        I -->|"fails: ordinary bug"| H
+    end
+
+    I -->|"hard problem: ambiguous spec, architecture, concurrency, security"| J{"Escalate to architect?"}
+    J -->|"user approves Opus"| A
+    J -->|"no — keep debugging"| H
+    I -->|"all green"| K
+
+    subgraph REL["Release — release · Haiku"]
+        direction TB
+        K["git status + diff review"] --> L["Commit"]
+        L --> M["Push"]
+        M --> N["Open PR"]
+    end
+
+    N --> O["Merge → Vercel preview → production"]
+```
+
+Why this shape: it mirrors a normal SDLC — analysis and design stay with the
+model best suited to reasoning about trade-offs, implementation stays with a
+cheaper model that's good enough once the work is well-specified, and
+release is mechanical enough to run on the cheapest model of the three. It
+also keeps every Git-history write behind a single agent, so nothing
+commits, pushes, or opens a PR except through one reviewed path.
+
+## MCP servers
+
+Claude Code in this repo is configured via `.mcp.json`, which is gitignored
+because it holds live API keys. A key-free template is checked in at
+[`.mcp.json.copy`](.mcp.json.copy) with the same server list. To use it:
+
+```bash
+cp .mcp.json.copy .mcp.json
+# then edit .mcp.json and drop in your own API keys
+```
+
+| Server | Used for |
+|---|---|
+| `deepl` | Drafting German translations for `lib/i18n/ui.de.json` and `public/data/de/*.json` — see [ADR 0025](docs/adr/0025-deepl-mcp-for-translation.md) for the reviewed-draft workflow and why raw output is never applied verbatim |
+| `github` | Repo search, issues, and PRs from inside Claude Code |
+| `playwright` | Driving a real browser to verify UI changes and take screenshots |
+
+Bring your own DeepL API key (the free tier works) to `.mcp.json` and Claude
+Code can draft German translations the same way this project does.
 
 ## Project layout
 
