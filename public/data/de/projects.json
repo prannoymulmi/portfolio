@@ -12,12 +12,12 @@
       ],
       "links": [
         {
-          "text": "AVIV Germany",
-          "route": "https://www.aviv-group.com"
-        },
-        {
           "text": "Immowelt Login",
           "route": "https://signin.immowelt.de/"
+        },
+        {
+          "text": "AVIV Germany",
+          "route": "https://www.aviv-group.com"
         },
         {
           "text": "SeLoger Login",

@@ -114,7 +114,8 @@
     "failedToLoad": "Projekte konnten nicht geladen werden",
     "moreOnGithub": "Mehr auf GitHub ↗",
     "close": "Schließen",
-    "viewOnGithub": "Auf GitHub ansehen"
+    "viewOnGithub": "Auf GitHub ansehen",
+    "visitLive": "{name} besuchen"
   },
   "contact": {
     "eyebrow": "Kontakt",

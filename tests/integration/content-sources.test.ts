@@ -99,6 +99,30 @@ describe('content sources', () => {
     expect(entry.bodyText).toMatch(/spec-driven/i);
   });
 
+  // Regression guard, both locales: the Auth0 project has no GitHub repo,
+  // so ProjectDetailModal's CTA resolves to links[0] (see
+  // resolvePrimaryLink in ProjectDetailModal.tsx). It used to be "AVIV
+  // Germany" (the company's marketing site) — the site owner asked for the
+  // actual product login page instead. This pins links[0] directly in the
+  // content, independent of the component logic already covered by
+  // ProjectDetailModal.test.tsx.
+  it.each(['en', 'de'])(
+    "puts the Immowelt product login first in Auth0 Identity & Access Platform's links (%s)",
+    (locale) => {
+      const raw = fs.readFileSync(path.join(REPO_ROOT, `public/data/${locale}/projects.json`), 'utf-8');
+      const { projects } = JSON.parse(raw);
+
+      const entry = projects.find(
+        (project: { title: string }) => project.title === 'Auth0 Identity & Access Platform',
+      );
+      expect(entry).toBeDefined();
+      expect(entry.links[0]).toEqual({
+        text: 'Immowelt Login',
+        route: 'https://signin.immowelt.de/',
+      });
+    },
+  );
+
   // SC-004 guard: 100% of displayed technology durations must trace to a
   // dated entry in experiences.json. Nothing in TechnologiesFileSchema can
   // see across files, so the cross-file invariants live here (research R-002,

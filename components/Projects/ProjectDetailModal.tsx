@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { prefersReducedMotion } from '@/lib/utils/animations';
 import type { Project } from '@/lib/types/portfolio';
 import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -21,12 +22,18 @@ interface ProjectDetailModalProps {
 }
 
 /**
- * Resolves the project's "View on GitHub" link: the first `links` entry
- * whose route contains `github.com`, falling back to the first link when
- * none does (research.md decision — every project already carries a GitHub
- * or most-primary link, so no new `githubUrl` field is needed).
+ * Resolves the project's single CTA link: the first `links` entry whose
+ * route contains `github.com`, falling back to the first link when none
+ * does (research.md decision — every project already carries a GitHub or
+ * most-primary link, so no new `githubUrl` field is needed). The fallback
+ * case is not necessarily GitHub at all — a closed-source client project
+ * (e.g. "Auth0 Identity & Access Platform") has no repo to link, and its
+ * most-relevant link is whichever one the content puts first. The button's
+ * own label is chosen to match (see isGithubLink below); it used to say
+ * "View on GitHub" unconditionally, which was wrong — and misleading about
+ * the destination — for exactly this fallback case.
  */
-function resolveGithubLink(project: Project) {
+function resolvePrimaryLink(project: Project) {
   return project.links.find((link) => link.route.includes('github.com')) ?? project.links[0];
 }
 
@@ -140,7 +147,8 @@ export function ProjectDetailModal({
   if (!mounted || !project) return null;
 
   const titleId = `project-detail-title-${project.id ?? project.title}`;
-  const githubLink = resolveGithubLink(project);
+  const primaryLink = resolvePrimaryLink(project);
+  const isGithubLink = primaryLink?.route.includes('github.com') ?? false;
 
   return createPortal(
     <>
@@ -224,14 +232,16 @@ export function ProjectDetailModal({
                 </ul>
               )}
 
-              {githubLink && (
+              {primaryLink && (
                 <a
-                  href={githubLink.route}
+                  href={primaryLink.route}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-primary mt-6 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
                 >
-                  {ui.projects.viewOnGithub}
+                  {isGithubLink
+                    ? ui.projects.viewOnGithub
+                    : format(ui.projects.visitLive, { name: primaryLink.text })}
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"

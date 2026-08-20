@@ -157,6 +157,11 @@ export const UiSchema = z.object({
     moreOnGithub: z.string().min(1),
     close: z.string().min(1),
     viewOnGithub: z.string().min(1),
+    // The detail modal's CTA when its primary link isn't a GitHub repo (a
+    // closed-source client project) — `{name}` interpolates that link's own
+    // `text` (e.g. "Immowelt Login"), so the button describes where it
+    // actually goes instead of unconditionally claiming GitHub.
+    visitLive: z.string().min(1),
   }),
   contact: z.object({
     eyebrow: z.string().min(1),

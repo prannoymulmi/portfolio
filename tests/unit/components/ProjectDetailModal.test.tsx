@@ -151,8 +151,8 @@ describe('ProjectDetailModal', () => {
     });
   });
 
-  describe('GitHub link resolution (US2)', () => {
-    it('links to the first links entry containing github.com (FR-003)', () => {
+  describe('primary link resolution (US2)', () => {
+    it('links to the first links entry containing github.com, labelled "View on GitHub" (FR-003)', () => {
       renderWithLocale(
         <ProjectDetailModal
           project={project({
@@ -171,25 +171,45 @@ describe('ProjectDetailModal', () => {
       );
     });
 
-    it('falls back to links[0] when no entry contains github.com', () => {
+    // Regression test: a closed-source client project (e.g. "Auth0 Identity
+    // & Access Platform") has no GitHub repo, so its links[] never contains
+    // one — the CTA falls back to links[0]. It used to keep saying "View on
+    // GitHub" regardless, which misdescribed the destination (a company
+    // site, a product login page, whatever links[0] happened to be) as a
+    // code repository it never was.
+    it('falls back to links[0] when no entry contains github.com, labelled with that link\'s own name — not "View on GitHub"', () => {
       renderWithLocale(
         <ProjectDetailModal
           project={project({
             title: 'No GitHub Project',
-            links: [{ text: 'Company site', route: 'https://example.com' }],
+            links: [{ text: 'Immowelt Login', route: 'https://signin.immowelt.de/' }],
           })}
           onClose={jest.fn()}
         />,
       );
-      expect(screen.getByRole('link', { name: /view on github/i })).toHaveAttribute(
-        'href',
-        'https://example.com',
-      );
+      expect(screen.queryByRole('link', { name: /view on github/i })).not.toBeInTheDocument();
+      const link = screen.getByRole('link', { name: /visit immowelt login/i });
+      expect(link).toHaveAttribute('href', 'https://signin.immowelt.de/');
     });
 
     it('opens the GitHub link in a new tab safely', () => {
       renderWithLocale(<ProjectDetailModal project={project({ title: 'New Tab' })} onClose={jest.fn()} />);
       const link = screen.getByRole('link', { name: /view on github/i });
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    it('opens the non-GitHub fallback link in a new tab safely too', () => {
+      renderWithLocale(
+        <ProjectDetailModal
+          project={project({
+            title: 'New Tab, No GitHub',
+            links: [{ text: 'Immowelt Login', route: 'https://signin.immowelt.de/' }],
+          })}
+          onClose={jest.fn()}
+        />,
+      );
+      const link = screen.getByRole('link', { name: /visit immowelt login/i });
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     });
