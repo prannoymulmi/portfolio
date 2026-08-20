@@ -4,6 +4,7 @@ import { Backdrop } from '@/components/Common/Backdrop';
 import { ContentProvider } from '@/components/Common/ContentProvider';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { LocaleProvider } from '@/components/Common/LocaleProvider';
+import { LocaleToggle } from '@/components/Common/LocaleToggle';
 import { Footer } from '@/components/Navigation/Footer';
 import { ThemeProvider } from '@/components/Common/ThemeProvider';
 import { StoryProgressNav } from '@/components/Navigation/StoryProgressNav';
@@ -97,6 +98,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <ErrorBoundary>
               <ContentProvider>
                 <StoryProgressNav />
+                {/* Its own floating chip, not part of the nav bar — see
+                    LocaleToggle's own doc comment for why. Fixed-positioned,
+                    so it belongs at the body level rather than nested inside
+                    any one section. */}
+                <LocaleToggle />
                 <main id="main-content" className="flex-1">
                   {children}
                 </main>
