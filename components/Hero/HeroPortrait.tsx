@@ -57,7 +57,7 @@ export function HeroPortrait({ name, imageSource }: HeroPortraitProps) {
       height={1197}
       // Stacked below lg the full 2:3 frame would run 563px tall on a phone —
       // most of the viewport, under text that already carries three role
-      // lines, a tagline, a bio and two buttons. Capping the height and
+      // lines, a tagline and two buttons. Capping the height and
       // anchoring to the top keeps head and shoulders instead of the torso.
       // The height cap alone is enough to size this on mobile: next/image
       // emits the intrinsic aspect-ratio, so capping height scales width

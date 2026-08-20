@@ -5,7 +5,6 @@ import { HomeSchema, TechnologiesFileSchema } from '@/lib/utils/validation';
 const validHome = {
   name: 'Prannoy Mulmi',
   intro: 'I build scalable cloud systems, and I care about the details.',
-  bio: 'Senior software engineer with 9 years building cloud systems and leading teams.',
   roles: ['Software Engineer', 'AI enthusiast', 'Security Nerd'],
 };
 
@@ -13,21 +12,6 @@ describe('HomeSchema', () => {
   it('accepts the real home.json shipped in public/data', () => {
     const raw = fs.readFileSync(path.join(process.cwd(), 'public/data/en/home.json'), 'utf-8');
     expect(HomeSchema.safeParse(JSON.parse(raw)).success).toBe(true);
-  });
-
-  it('requires the biography that replaced the About chapter', () => {
-    const { bio: _bio, ...withoutBio } = validHome;
-    expect(HomeSchema.safeParse(withoutBio).success).toBe(false);
-  });
-
-  it('rejects a biography longer than two sentences worth of prose', () => {
-    // 240 characters is the enforceable proxy for the spec's 40-word ceiling.
-    const tooLong = { ...validHome, bio: 'a'.repeat(241) };
-    expect(HomeSchema.safeParse(tooLong).success).toBe(false);
-  });
-
-  it('rejects a biography trimmed down to a fragment', () => {
-    expect(HomeSchema.safeParse({ ...validHome, bio: 'Engineer.' }).success).toBe(false);
   });
 
   it('keeps the portrait reference optional, so the opening can fall back to text', () => {

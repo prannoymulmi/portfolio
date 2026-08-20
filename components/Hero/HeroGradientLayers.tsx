@@ -5,7 +5,7 @@ import { GRADIENT_LAYERS, HeroDrift } from './HeroParallax';
  * The four gradient washes behind the Hero's foreground content.
  *
  * Purely decorative — aria-hidden, no alt text — so screen readers skip
- * straight to the role bars, bio and portrait. Rendered before them in
+ * straight to the role bars and portrait. Rendered before them in
  * source order, and absolutely positioned within the Hero section, so they
  * sit behind everything else without taking part in the grid layout.
  *

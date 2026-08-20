@@ -1,6 +1,8 @@
 # ADR 0016: The About chapter folds into the opening
 
-- **Status**: Accepted
+- **Status**: Accepted — `bio` itself removed by [ADR 0026](0026-hero-drops-the-biography-paragraph.md)
+  (2026-08-20); everything else here (imageSource moving to home.json, the
+  `/about` redirect, `about.json`'s deletion) stands.
 - **Date**: 2026-08-10
 - **Amends**: [ADR 0012](0012-single-page-story.md) — the story is now seven chapters,
   not eight.

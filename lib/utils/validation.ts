@@ -17,10 +17,6 @@ export const CvLinkSchema = z.object({
 export const HomeSchema = z.object({
   name: z.string().min(1).max(100),
   intro: z.string().min(20).max(200),
-  // The biography the About chapter used to carry. 240 chars is the
-  // enforceable proxy for "2 sentences, 40 words" — Zod cannot count words,
-  // and at ~6 characters a word the two land in the same place.
-  bio: z.string().min(40).max(240),
   // Absent means the player card renders its placeholder rather than a photo.
   imageSource: z.string().optional(),
   // Short phrases ("AI enthusiast"), all rendered together and annotated.

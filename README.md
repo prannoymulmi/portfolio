@@ -30,7 +30,7 @@ pnpm run dev             # http://localhost:3000
 
 ## Editing content
 
-All copy — bio, roles, skills, jobs, projects — lives in
+All copy — intro, roles, skills, jobs, projects — lives in
 `public/data/*.json`. Edit the file, refresh the page. No rebuild
 needed. See [docs/content-editing.md](docs/content-editing.md) for the
 schema reference and common gotchas.

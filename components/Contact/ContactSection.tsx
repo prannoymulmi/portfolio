@@ -43,7 +43,7 @@ export function ContactSection() {
         {ui.contact.headingLead} <span className="text-gradient-accent">{ui.contact.headingAccent}</span>
       </h2>
       {/* Authored prose, not chrome (contracts/ui-dictionary.md §Scope rule,
-          T039) — sourced from home.json's contactNote alongside intro/bio,
+          T039) — sourced from home.json's contactNote alongside intro,
           not from the ui dictionary. Renders nothing when the field or the
           content itself hasn't loaded, same as email/links below. */}
       {contactNote && <p className="text-on-photo mx-auto mt-5 max-w-lg">{contactNote}</p>}

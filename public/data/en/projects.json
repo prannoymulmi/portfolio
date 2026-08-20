@@ -2,7 +2,7 @@
   "projects": [
     {
       "title": "Auth0 Identity & Access Platform",
-      "bodyText": "Designed and implemented identity and access management on Auth0 for AVIV's platforms, serving 1M+ active users across user management, role-based access control, and third-party integrations. Owned security assessments and threat modeling for major features, identifying vulnerabilities and mitigations against established security standards. Took technical ownership of architecture decisions and code reviews while shipping maintainable microservices in Java and Node.js on AWS.",
+      "bodyText": "Designed and implemented identity and access management on Auth0 for AVIV's platforms, serving 100k+ active users across user management, role-based access control, and third-party integrations. Owned security assessments and threat modeling for major features, identifying vulnerabilities and mitigations against established security standards. Took technical ownership of architecture decisions and code reviews while shipping maintainable microservices in Java and Node.js on AWS.",
       "tags": [
         "Auth0",
         "AWS",
@@ -25,7 +25,7 @@
         }
       ],
       "role": "Senior Software Engineer",
-      "metric": "1M+ active users"
+      "metric": "100k+ active users"
     },
     {
       "title": "Security & Risk Management Analysis",

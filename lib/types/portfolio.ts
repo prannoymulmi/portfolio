@@ -18,11 +18,6 @@ export interface Home {
   /** Role phrases rendered together in the hero, each with a hand-drawn mark. */
   roles: string[];
   /**
-   * Short biography, shown beneath the intro. Replaces the About chapter,
-   * which was retired in feature 004.
-   */
-  bio: string;
-  /**
    * Background-removed portrait shown in the opening. Absent renders no
    * portrait at all and the opening falls back to text — there is no
    * placeholder graphic (ADR 0018).

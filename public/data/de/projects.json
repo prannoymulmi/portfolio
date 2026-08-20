@@ -2,7 +2,7 @@
   "projects": [
     {
       "title": "Auth0 Identity & Access Platform",
-      "bodyText": "Konzipierte und implementierte Identity- und Access-Management auf Auth0 für AVIVs Plattformen mit über 1 Mio. aktiven Nutzern — Nutzerverwaltung, rollenbasierte Zugriffskontrolle und Drittanbieter-Integrationen. Verantwortete Sicherheitsbewertungen und Bedrohungsmodellierung, identifizierte Schwachstellen und Gegenmaßnahmen nach Sicherheitsstandards. Übernahm technische Verantwortung für Architektur und Code-Reviews, lieferte wartbare Microservices in Java und Node.js auf AWS.",
+      "bodyText": "Konzipierte und implementierte Identity- und Access-Management auf Auth0 für AVIVs Plattformen mit über 100.000 aktiven Nutzern — Nutzerverwaltung, rollenbasierte Zugriffskontrolle und Drittanbieter-Integrationen. Verantwortete Sicherheitsbewertungen und Bedrohungsmodellierung, identifizierte Schwachstellen und Gegenmaßnahmen nach Sicherheitsstandards. Übernahm technische Verantwortung für Architektur und Code-Reviews, lieferte wartbare Microservices in Java und Node.js auf AWS.",
       "tags": [
         "Auth0",
         "AWS",
@@ -25,7 +25,7 @@
         }
       ],
       "role": "Senior Softwareentwickler",
-      "metric": "1 Mio.+ aktive Nutzer"
+      "metric": "100.000+ aktive Nutzer"
     },
     {
       "title": "Analyse zu Sicherheit und Risikomanagement",

@@ -25,7 +25,6 @@ const mockHome = {
     name: 'Prannoy Mulmi',
     intro: 'Intro line.',
     roles: ['Software Engineer'],
-    bio: 'Bio copy.',
     imageSource: '/images/portrait.png',
     cv: { href: 'https://example.com/cv.pdf', label: 'View CV' },
   },

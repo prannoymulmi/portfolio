@@ -57,7 +57,7 @@ export function Hero() {
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
 
-  const { name, intro, roles, bio, imageSource, cv } = home.data;
+  const { name, intro, roles, imageSource, cv } = home.data;
 
   return (
     <>
@@ -179,12 +179,8 @@ export function Hero() {
                 {intro}
               </p>
 
-              {/* The About chapter, condensed to what the opening can carry
-                  without pushing the card off the first screen. */}
-              <p className="text-on-photo mt-4 max-w-xl">{bio}</p>
-
               {/* Where the site's owner is based (US3, FR-008, SC-005) —
-                  additive, right under the bio it identifies the person
+                  additive, right under the intro it identifies the person
                   behind. */}
               <LocationTag />
 
@@ -192,7 +188,7 @@ export function Hero() {
                   width (the button pair, side by side from sm up) rather than
                   the full text column — so CvLink's justify-center below
                   centers it under the two buttons specifically, not under the
-                  wider bio/intro text above. The wrapper itself stays flush
+                  wider intro text above. The wrapper itself stays flush
                   with that text's left edge (no margin, default block
                   position), so the button pair is still left-aligned; only
                   the CV link's centering point moves. Below sm, ValueProp's

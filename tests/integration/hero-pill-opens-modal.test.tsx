@@ -64,7 +64,6 @@ const mockContent = {
       name: 'Prannoy Mulmi',
       intro: 'Intro line.',
       roles: ['Software Engineer'],
-      bio: 'Bio copy.',
       imageSource: '/images/portrait.png',
       cv: '/cv.pdf',
     },
