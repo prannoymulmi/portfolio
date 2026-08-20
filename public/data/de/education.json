@@ -2,9 +2,9 @@
   "education": [
     {
       "title": "Sept. 2022 – Jan. 2025",
-      "cardTitle": "M.Sc. Cybersicherheit",
+      "cardTitle": "MSc. Cybersicherheit",
       "cardSubtitle": "University of Essex",
-      "cardDetailedText": "Auszeichnung",
+      "cardDetailedText": "„Distinction“",
       "icon": {
         "src": "images/education/essex.png"
       }
@@ -26,7 +26,7 @@
       }
     },
     {
-      "title": "Apr. 2022",
+      "title": "April 2022",
       "cardTitle": "AWS Certified Solutions Architect – Associate",
       "cardSubtitle": "Amazon Web Services",
       "url": "https://www.credly.com/badges/14e330ae-6ba1-482b-8e97-fe52d40f62d0/public_url",

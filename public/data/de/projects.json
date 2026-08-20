@@ -1,8 +1,8 @@
 {
   "projects": [
     {
-      "title": "Auth0 Identity- & Access-Plattform",
-      "bodyText": "Entwarf und implementierte Identity- und Access-Management auf Auth0 für AVIVs Plattformen mit über 1 Mio. aktiven Nutzern — Nutzerverwaltung, rollenbasierte Zugriffskontrolle und Drittanbieter-Integrationen. Verantwortete Sicherheitsbewertungen und Threat Modeling für wichtige Features, identifizierte Schwachstellen und Gegenmaßnahmen. Übernahm technische Verantwortung für Architekturentscheidungen und Code-Reviews und lieferte Microservices in Java und Node.js auf AWS.",
+      "title": "Auth0 Identity & Access Platform",
+      "bodyText": "Konzeption und Implementierung des Identitäts- und Zugriffsmanagements auf Auth0 für die Plattformen von AVIV, die über 1 Million aktive Nutzer in den Bereichen Benutzerverwaltung, rollenbasierte Zugriffskontrolle und Integrationen von Drittanbietern bedient. Verantwortlich für Sicherheitsbewertungen und Bedrohungsmodellierung für wichtige Funktionen, Identifizierung von Schwachstellen und Abhilfemaßnahmen gemäß etablierten Sicherheitsstandards. Übernahm die technische Verantwortung für Architekturentscheidungen und Code-Reviews und stellte gleichzeitig wartbare Microservices in Java und Node.js auf AWS bereit.",
       "tags": [
         "Auth0",
         "AWS",
@@ -28,8 +28,8 @@
       "metric": "1 Mio.+ aktive Nutzer"
     },
     {
-      "title": "Sicherheits- und Risikomanagementanalyse",
-      "bodyText": "Erstellte qualitative und quantitative Risikobewertungen für eine Cyber-Bedrohungs-Fallstudie und verband ein strukturiertes Risikoregister mit quantitativer Modellierung, um Verlustrisiken in Zahlen zu begründen. Baute Monte-Carlo-Simulationen in Python, um Eintrittswahrscheinlichkeit und Auswirkung in Verlust-Exceedance-Kurven zu übersetzen, und wandte TOPSIS-Entscheidungsanalyse an, um Gegenmaßnahmen zu priorisieren — Risiko quantifiziert, bevor Kontrollen entworfen wurden.",
+      "title": "Analyse zu Sicherheit und Risikomanagement",
+      "bodyText": "Erstellung qualitativer und quantitativer Risikobewertungen für eine Fallstudie zu Cyberbedrohungen, wobei ein strukturiertes Risikoregister mit quantitativer Modellierung kombiniert wurde, um das Verlustrisiko anhand von Zahlen und nicht durch subjektive Einschätzungen zu belegen. Erstellung von Monte-Carlo-Simulationen in Python, um die Wahrscheinlichkeit und die Auswirkungen von Bedrohungen in Verlustüberschreitungswahrscheinlichkeitskurven umzuwandeln, gefolgt von der Anwendung der TOPSIS-Entscheidungsanalyse zur Rangfolge von Risikominderungsmaßnahmen – Quantifizierung des Risikos vor der Konzeption entsprechender Kontrollmaßnahmen.",
       "tags": [
         "Risikomanagement",
         "Python",
@@ -50,7 +50,7 @@
     {
       "id": "portfolio-spec-driven",
       "title": "Dieses Portfolio, spezifikationsgetrieben",
-      "bodyText": "Entwarf und baute diese Website komplett mit Claude Code nach spezifikationsgetriebener Entwicklung: Jedes Feature beginnt mit einer geschriebenen Spec und einem Plan, bevor eine Zeile Code entsteht. Architektonisch bedeutsame Entscheidungen werden als ADRs (23 und wachsend) in docs/adr festgehalten — von der Wahl von JSON-Inhalten statt eines CMS bis zur Ein-Seiten-Story-Struktur. Gebaut mit Next.js 16, React 19 und TypeScript im Strict Mode, mit zur Laufzeit durch Zod validierten Inhalten.",
+      "bodyText": "Diese Website wurde von Anfang bis Ende mit Claude Code unter Verwendung einer spezifikationsgetriebenen Entwicklung entworfen und erstellt: Jede Funktion beginnt als schriftliche Spezifikation und Plan, bevor auch nur eine Zeile Code geschrieben wird. Architektonisch bedeutsame Entscheidungen werden als ADRs (23 und es werden immer mehr) in „docs/adr“ festgehalten – von der Entscheidung für JSON-Inhalte anstelle eines CMS bis hin zur Single-Page-Story-Struktur. Gebaut auf Next.js 16, React 19 und TypeScript im Strict-Modus, wobei die Inhalte zur Laufzeit von Zod validiert werden.",
       "tags": [
         "Claude Code",
         "Spec-Driven Development",
@@ -67,7 +67,7 @@
         }
       ],
       "role": "Alleiniger Entwickler",
-      "metric": "21 ADRs dokumentieren jede wichtige Entscheidung"
+      "metric": "21 ADRs, die jede wichtige Entscheidung dokumentieren"
     }
   ]
 }

@@ -4,10 +4,10 @@
     "openMenu": "Menü öffnen",
     "storySections": "Story-Abschnitte",
     "jumpTo": "Springe zu",
-    "emailLabel": "E-Mail an {email}",
-    "switchToLightMode": "Zum hellen Modus wechseln",
-    "switchToDarkMode": "Zum dunklen Modus wechseln",
-    "switchLocale": "Von {current} zu {target} wechseln",
+    "emailLabel": "E-Mail {email}",
+    "switchToLightMode": "Zum Hellmodus wechseln",
+    "switchToDarkMode": "In den Dunkelmodus wechseln",
+    "switchLocale": "Wechsel von {current} zu {target}",
     "sections": {
       "hero": "Einführung",
       "skills": "Ausgewählte Arbeiten",
@@ -19,36 +19,36 @@
     }
   },
   "hero": {
-    "creditPillBase": "Gebaut mit Claude",
-    "creditPillFull": "Gebaut mit Claude — klicken, um zu sehen wie",
+    "creditPillBase": "Erstellt mit Claude",
+    "creditPillFull": "Erstellt mit Claude – klick hier, um zu sehen, wie",
     "whatIDo": "Was ich mache",
     "viewWork": "Arbeiten ansehen",
-    "playCareer": "Karriere abspielen",
-    "cvOpensInNewTab": "{label} (öffnet in neuem Tab)",
+    "playCareer": "Karriere anzeigen",
+    "cvOpensInNewTab": "{label} (öffnet sich in einem neuen Tab)",
     "portraitAlt": "{name}, Porträt",
     "location": "Hamburg, Deutschland"
   },
   "work": {
-    "eyebrow": "Ausgewählte Arbeit",
-    "heading": "Drei Systeme, die ich in jedem Design-Review verteidigen würde",
+    "eyebrow": "Ausgewählte Arbeiten",
+    "heading": "Drei Systeme, für die ich mich bei einer Design-Review gerne einsetzen würde",
     "failedToLoad": "Systeme konnten nicht geladen werden",
-    "technologiesUsedOn": "Verwendete Technologien bei {title}",
-    "principleEyebrow": "Engineering-Prinzip"
+    "technologiesUsedOn": "Technologien auf {title}",
+    "principleEyebrow": "Technisches Prinzip"
   },
   "career": {
     "eyebrow": "Karriere-Spieltag",
-    "heading": "Spiel den Ball ab, um zu sehen, wo ich gespielt habe",
-    "interactiveDescription": "Jeder Spieler ist ein Kapitel. Spiele frei, um zu erkunden, oder starte den Spielzug, um sie der Reihe nach zu durchlaufen, vom ältesten zum neuesten.",
+    "heading": "Spiel den Ball weiter, um zu sehen, wo ich gespielt habe",
+    "interactiveDescription": "Jeder Spieler ist ein Kapitel. Pass frei, um zu stöbern, oder führ das Aufbauspiel durch, um die Kapitel der Reihe nach zu durchlaufen – vom ältesten zum neuesten.",
     "timelineDescription": "Dieselben Kapitel, vom ältesten zum neuesten, als einfache Liste.",
-    "failedToLoad": "Karriereverlauf konnte nicht geladen werden",
+    "failedToLoad": "Die Karriere-Zeitleiste konnte nicht geladen werden",
     "previousChapter": "Vorheriges Kapitel",
     "nextChapter": "Nächstes Kapitel",
     "chapterCounter": "Kapitel {order} / {total}",
-    "pausePlay": "❚❚ Spielzug pausieren",
-    "playInOrder": "▶ Der Reihe nach abspielen",
-    "chapterAriaLabel": "Kapitel {order}: Pass zu {position} — {company}, {role}",
-    "tip": "Tipp: Klicke auf einen Spieler, um dieses Kapitel zu öffnen, oder nutze ‹ ›, um durchzublättern.",
-    "whatIBuilt": "Was ich gebaut habe",
+    "pausePlay": "❚❚ Wiedergabe anhalten",
+    "playInOrder": "▶ In der Reihenfolge abspielen",
+    "chapterAriaLabel": "Kapitel {order}: Weiter zu {position} — {company}, {role}",
+    "tip": "Tipp: Du kannst auf die Spieler klicken, um das jeweilige Kapitel zu öffnen, oder mit ‹ › durch die Kapitel blättern.",
+    "whatIBuilt": "Was ich entwickelt habe",
     "achievements": "Erfolge",
     "technologies": "Technologien",
     "chapterLabel": "Kapitel {order} · {position}",
@@ -56,7 +56,7 @@
     "noExperienceData": "Keine Erfahrungsdaten verfügbar",
     "pitch": "Spielfeld",
     "timeline": "Zeitleiste",
-    "switchToTimelineView": "Zur Zeitleisten-Ansicht wechseln",
+    "switchToTimelineView": "Zur Zeitleistenansicht wechseln",
     "switchToInteractiveView": "Zur interaktiven Ansicht wechseln",
     "present": "Heute",
     "positions": {
@@ -65,7 +65,7 @@
       "leftBack": "Linksverteidiger",
       "defensiveMidfield": "Defensives Mittelfeld",
       "playmaker": "Spielmacher",
-      "rightWing": "Rechtsaußen",
+      "rightWing": "Rechter Flügel",
       "striker": "Stürmer"
     },
     "workTypes": {
@@ -78,9 +78,9 @@
   },
   "technologies": {
     "label": "Technologien",
-    "headingLead": "Womit ich",
-    "headingAccent": "wirklich gebaut",
-    "headingTail": "habe",
+    "headingLead": "Was ich",
+    "headingAccent": "tatsächlich erstellt",
+    "headingTail": "mit",
     "failedToLoad": "Technologien konnten nicht geladen werden",
     "allCategory": "Alle",
     "whereItWasUsed": "Wo es eingesetzt wurde",
@@ -95,8 +95,8 @@
     }
   },
   "education": {
-    "heading": "Ausbildung & Zertifizierungen",
-    "subheading": "Formale Ausbildung und berufliche Zertifizierungen",
+    "heading": "Ausbildung & Zertifikate",
+    "subheading": "Ausbildung und berufliche Zertifizierungen",
     "failedToLoad": "Ausbildung konnte nicht geladen werden",
     "learnMore": "Mehr erfahren ↗",
     "grades": {
@@ -108,7 +108,7 @@
   },
   "projects": {
     "heading": "Ausgewählte Projekte",
-    "subheading": "Fallstudien zu Problemlösung, technischen Entscheidungen und messbarer Wirkung",
+    "subheading": "Fallstudien, die Problemlösungen, technische Entscheidungen und messbare Auswirkungen veranschaulichen",
     "failedToLoad": "Projekte konnten nicht geladen werden",
     "moreOnGithub": "Mehr auf GitHub ↗",
     "close": "Schließen",
@@ -116,12 +116,12 @@
   },
   "contact": {
     "eyebrow": "Kontakt",
-    "headingLead": "Ein kniffliges System?",
+    "headingLead": "Hast du ein kniffliges System?",
     "headingAccent": "Lass uns reden."
   },
   "footer": {
-    "tagline": "Senior Softwareentwickler & Cloud-Architekt",
-    "quickLinks": "Schnellzugriff",
+    "tagline": "Senior-Softwareentwickler & Cloud-Architekt",
+    "quickLinks": "Schnelllinks",
     "connect": "Vernetzen",
     "projects": "Projekte",
     "selectedWork": "Ausgewählte Arbeiten",
@@ -130,16 +130,16 @@
   },
   "errors": {
     "contentUnavailable": "Inhalt nicht verfügbar",
-    "somethingWentWrong": "Etwas ist schiefgelaufen",
-    "tryAgain": "Erneut versuchen",
-    "couldNotLoadSection": "Dieser Abschnitt konnte nicht geladen werden. Bitte versuche es gleich noch einmal.",
-    "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten."
+    "somethingWentWrong": "Es ist ein Fehler aufgetreten",
+    "tryAgain": "Versuch es noch mal",
+    "couldNotLoadSection": "Dieser Bereich konnte nicht geladen werden. Bitte versuche es in einem Moment erneut.",
+    "unexpectedError": "Es ist ein unerwarteter Fehler aufgetreten."
   },
   "a11y": {
     "skipToMainContent": "Zum Hauptinhalt springen",
     "landmarks": {
       "hero": "Einführung",
-      "skills": "Ausgewählte Arbeit",
+      "skills": "Ausgewählte Arbeiten",
       "career": "Karriereweg",
       "technologies": "Technologien",
       "education": "Ausbildung",

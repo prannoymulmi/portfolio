@@ -33,6 +33,7 @@ were on the table at the time.
 | [0022](0022-migrate-to-pnpm.md) | Migrate to pnpm | Accepted — supersedes [0007](0007-react-19-legacy-peer-deps.md)'s install-command guidance |
 | [0023](0023-technologies-derive-from-experiences.md) | The Technologies chapter derives durations from `experiences.json` rather than storing them | Accepted — extends [0020](0020-work-showcase-replaces-skills-formation.md) |
 | [0024](0024-localization-without-a-library.md) | Localization without an i18n library | Accepted — extends [0003](0003-client-content-loading-with-zod.md) with per-locale content paths; amends the constitution's Principle IV (v1.6.0) |
+| [0025](0025-deepl-mcp-for-translation.md) | DeepL MCP as the translation tool for German content | Accepted — extends [0024](0024-localization-without-a-library.md)'s translator-reviews-in-PR model with the mechanism the translator uses to draft German text |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at
