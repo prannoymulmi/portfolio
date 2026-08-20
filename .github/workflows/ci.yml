@@ -131,12 +131,24 @@ jobs:
       # Pinned to the tagged v1.3.3 release (not @master) — verified directly
       # against the action's README: token + max_timeout (seconds) as
       # inputs, `url` as output.
+      #
+      # This Vercel project has Deployment Protection on preview deployments
+      # (returns 401 to unauthenticated requests, including this action's own
+      # polling — discovered live on this PR's first CI run). VERCEL_AUTOMATION_
+      # BYPASS_SECRET is the "Protection Bypass for Automation" secret generated
+      # in Vercel's dashboard (Project Settings -> Deployment Protection) and
+      # stored as a GitHub Actions repo secret — it lets only this CI pipeline
+      # through, real visitors still hit the login wall as before. Sent as the
+      # `x-vercel-protection-bypass` header (action's vercel_protection_bypass_
+      # header input does this internally); the same secret is passed to
+      # Playwright below so its own requests carry the header too.
       - name: Wait for Vercel preview deployment
         id: wait-for-vercel-preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 600
+          vercel_protection_bypass_header: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - uses: actions/checkout@v4
 
@@ -159,3 +171,4 @@ jobs:
         run: pnpm run test:e2e
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.wait-for-vercel-preview.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
