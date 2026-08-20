@@ -246,6 +246,19 @@ describe('TechnologiesChapter', () => {
       expect(sentence.closest('h1, h2, h3, h4, h5, h6')).toBeNull();
       expect(sentence.querySelector('strong, em, b, mark')).toBeNull();
     });
+
+    // ADR 0027: builtWithNote is optional per locale — German dropped it,
+    // English kept it. Renders nothing (not an empty paragraph) when absent,
+    // the same shape ContactSection's contactNote already has.
+    it('renders no paragraph at all when builtWithNote is absent (ADR 0027)', () => {
+      const { builtWithNote: _builtWithNote, ...withoutNote } = technologiesFile;
+      setContent({ techData: withoutNote });
+      renderWithLocale(<TechnologiesChapter />);
+
+      expect(screen.queryByText(/claude code/i)).not.toBeInTheDocument();
+      // The intro paragraph still renders — only the credit line is gone.
+      expect(screen.getByText(technologiesFile.intro)).toBeInTheDocument();
+    });
   });
 
   describe('role traceability (User Story 3)', () => {

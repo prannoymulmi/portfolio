@@ -196,8 +196,11 @@ export interface Technology {
 export interface TechnologiesFile {
   /** The chapter's supporting paragraph. */
   intro: string;
-  /** The single Claude Code / spec-driven development sentence (FR-005). */
-  builtWithNote: string;
+  /** The single Claude Code / spec-driven development sentence (FR-005).
+   * Optional: absent renders no paragraph rather than falling back to
+   * another locale's text — the German copy dropped it while English kept
+   * it, per the site owner's request (ADR 0027). */
+  builtWithNote?: string;
   /** Display order of the category filter row. The component prepends its
    * own "All" option; it is not stored here. */
   categories: string[];

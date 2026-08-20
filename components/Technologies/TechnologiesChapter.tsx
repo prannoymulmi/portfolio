@@ -85,7 +85,13 @@ export function TechnologiesChapter() {
           {ui.technologies.headingTail}
         </h2>
         <p className="text-on-photo mt-4 max-w-2xl">{technologies.data!.intro}</p>
-        <p className="text-on-photo mt-3 max-w-2xl">{technologies.data!.builtWithNote}</p>
+        {/* Optional per locale (ADR 0027) — German dropped this sentence at
+            the site owner's request while English kept it, so this renders
+            nothing rather than an empty paragraph when absent, same as
+            ContactSection's contactNote. */}
+        {technologies.data!.builtWithNote && (
+          <p className="text-on-photo mt-3 max-w-2xl">{technologies.data!.builtWithNote}</p>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">

@@ -35,6 +35,7 @@ were on the table at the time.
 | [0024](0024-localization-without-a-library.md) | Localization without an i18n library | Accepted — extends [0003](0003-client-content-loading-with-zod.md) with per-locale content paths; amends the constitution's Principle IV (v1.6.0) |
 | [0025](0025-deepl-mcp-for-translation.md) | DeepL MCP as the translation tool for German content | Accepted — extends [0024](0024-localization-without-a-library.md)'s translator-reviews-in-PR model with the mechanism the translator uses to draft German text |
 | [0026](0026-hero-drops-the-biography-paragraph.md) | The hero drops the biography paragraph | Accepted — amends [0016](0016-about-folds-into-the-opening.md), removing the `bio` field it added |
+| [0027](0027-builtwithnote-becomes-locale-optional.md) | `builtWithNote` becomes locale-optional | Accepted — extends [0024](0024-localization-without-a-library.md) with a second field that legitimately differs in presence, not just wording, between locales |
 
 Nothing here is fully superseded. Where a later ADR overturned part of an
 earlier one, the earlier record keeps its decision and carries a dated note at

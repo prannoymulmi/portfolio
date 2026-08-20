@@ -125,6 +125,34 @@ describe('TechnologiesFileSchema', () => {
     expect(TechnologiesFileSchema.safeParse(validTechnologies).success).toBe(true);
   });
 
+  // ADR 0027: German dropped builtWithNote at the site owner's request while
+  // English kept it — the field has to validate as absent, not merely as an
+  // empty string (which the min(40) floor would still reject).
+  it('accepts the real German technologies.json, which omits builtWithNote entirely', () => {
+    const raw = fs.readFileSync(
+      path.join(process.cwd(), 'public/data/de/technologies.json'),
+      'utf-8',
+    );
+    const parsed = JSON.parse(raw);
+    expect(parsed.builtWithNote).toBeUndefined();
+
+    const result = TechnologiesFileSchema.safeParse(parsed);
+    if (!result.success) {
+      console.error(result.error.issues);
+    }
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts a file with builtWithNote entirely absent (ADR 0027)', () => {
+    const { builtWithNote: _builtWithNote, ...withoutNote } = validTechnologies;
+    expect(TechnologiesFileSchema.safeParse(withoutNote).success).toBe(true);
+  });
+
+  it('still rejects a present-but-too-short builtWithNote', () => {
+    const bad = { ...validTechnologies, builtWithNote: 'Too short.' };
+    expect(TechnologiesFileSchema.safeParse(bad).success).toBe(false);
+  });
+
   it('rejects a technology whose category is not a member of categories', () => {
     const bad = {
       ...validTechnologies,

@@ -163,7 +163,10 @@ export const TechnologySchema = z.object({
 export const TechnologiesFileSchema = z
   .object({
     intro: z.string().min(40).max(240),
-    builtWithNote: z.string().min(40).max(220),
+    // Optional: the German copy dropped this sentence at the site owner's
+    // request while English kept it — a per-locale absence, not a
+    // whole-file fallback case (ADR 0027).
+    builtWithNote: z.string().min(40).max(220).optional(),
     categories: z.array(z.string().min(3).max(24)).min(2).max(8),
     technologies: z.array(TechnologySchema).min(4).max(40),
   })
