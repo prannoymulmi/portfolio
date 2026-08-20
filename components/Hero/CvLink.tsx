@@ -17,8 +17,7 @@ interface CvLinkProps {
  * That subordinate role is carried by the typeface rather than by size alone.
  * The buttons are Geist Sans at 18px semibold; setting this in mono micro-caps
  * gives it a records voice instead, so the line reads as a document *about*
- * the person rather than a third thing being asked of the visitor. Same reason
- * the glyph is a ruled sheet and not a download tray.
+ * the person rather than a third thing being asked of the visitor.
  *
  * The size and tracking match the name line at the top of the opening, not a
  * value near it: a second almost-identical letterspacing would read as drift
@@ -26,9 +25,14 @@ interface CvLinkProps {
  * before the card was removed — see ADR 0018.)
  *
  * The document lives on someone else's host; this is only a pointer to it
- * (ADR 0017). That also rules out the `download` attribute, which browsers
- * ignore cross-origin — whether the CV opens inline or saves is the host's
- * decision, not ours.
+ * (ADR 0017), and `href` is content the site owner can repoint at any time
+ * with no code change — as it was, from a Drive "view" page to the direct
+ * `uc?export=download` address it is now, which is what makes this a genuine
+ * download rather than a document opened in a viewer. No `download`
+ * attribute is added here — browsers ignore it cross-origin regardless — the
+ * download behaviour comes entirely from the host's own response headers for
+ * the address `href` currently points at, not from anything this component
+ * does.
  *
  * Resting colour comes from `text-on-photo` rather than a grey: the backdrop's
  * darkest region measures 0.293 relative luminance, and `--on-photo` resolves
@@ -53,8 +57,11 @@ export function CvLink({ cv }: CvLinkProps) {
       aria-label={format(ui.hero.cvOpensInNewTab, { label: cv.label })}
       className="text-on-photo decoration-current/30 font-mono-ui inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] underline decoration-1 underline-offset-[6px] transition-colors hover:text-[#93280f] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#93280f] focus-visible:ring-offset-2 dark:hover:text-[#ffa62b] dark:focus-visible:ring-[#ffa62b]"
     >
-      {/* A ruled team sheet, not a download tray: nothing is fetched here, and
-          the page it points at is a record rather than a file transfer. */}
+      {/* A download tray, matching what the label now says and the address
+          now does — the Drive "view" link this used to point at was a
+          record to open, not a file to take away, and carried a ruled-sheet
+          glyph for that reason; the direct-download address it points at
+          now genuinely transfers a file, so the icon does too. */}
       <svg
         aria-hidden="true"
         className="h-3.5 w-3.5 shrink-0"
@@ -65,9 +72,9 @@ export function CvLink({ cv }: CvLinkProps) {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M5 3.5h9l5 5v12H5z" />
-        <path d="M14 3.5v5h5" />
-        <path d="M8.5 12.5h7M8.5 16h7M8.5 9h2.5" />
+        <path d="M12 3.5v11" />
+        <path d="M7.5 10.5 12 15l4.5-4.5" />
+        <path d="M5 17.5v1.5a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-1.5" />
       </svg>
       {cv.label}
     </a>
