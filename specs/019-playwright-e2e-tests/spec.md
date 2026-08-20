@@ -8,6 +8,13 @@
 
 **Input**: User description: "I now want to create a playwright test as e2e test but I want to have local test which tests against localhost and also when I make a PR it takes the URL from vercel and tests against it I want to also make a documentation of the test Pyramid make a short note in the main Readme and in detail testing pyramind with unit integ and e2e with playwright. Also make a deployment diagram with github with preview and prod ans show e2e is done"
 
+## Clarifications
+
+### Session 2026-08-20
+
+- Q: Should the initial e2e smoke test also verify that switching the site's language (EN ↔ DE) works, or should it stay scoped to a single locale? → A: Single-locale homepage smoke test only — locale-toggle e2e coverage is a follow-up, not part of this feature.
+- Q: Should the e2e CI job run on every push to a PR — including while it's still a draft — or only once the PR is marked ready for review? → A: Only once the PR is marked ready for review (and on every push after that) — skip CI/preview cost while still in draft.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Run e2e tests locally against localhost (Priority: P1)
@@ -43,10 +50,13 @@ against it, and reports pass/fail.
 
 ### User Story 2 - E2E tests run automatically against the PR's Vercel preview (Priority: P2)
 
-When a pull request is opened or updated, CI runs the same e2e suite — unmodified
-— against that PR's actual Vercel preview deployment, once the preview is ready.
-This is the closest check to what a real visitor will see once the change ships,
-available before merge rather than after.
+Once a pull request is marked ready for review — not while it's still a draft —
+CI runs the same e2e suite, unmodified, against that PR's actual Vercel preview
+deployment, once the preview is ready. Every push after that point re-runs it
+too. This is the closest check to what a real visitor will see once the change
+ships, available before merge rather than after, without spending CI time and
+fresh preview builds on work-in-progress pushes to a draft PR that isn't ready
+to be evaluated yet.
 
 **Why this priority**: This is the feature's other half explicitly requested —
 local-only e2e testing would catch nothing environment-specific (build output,
@@ -60,15 +70,20 @@ merge.
 
 **Acceptance Scenarios**:
 
-1. **Given** a PR is opened, **When** Vercel finishes building that PR's preview
-   deployment, **Then** the e2e CI job runs the same test suite against that
-   specific preview URL.
-2. **Given** the e2e job is running for a PR, **When** it finishes, **Then** its
+1. **Given** a PR is still in draft, **When** new commits are pushed to it,
+   **Then** the e2e CI job does not run.
+2. **Given** a PR is marked ready for review (or is opened directly as
+   ready-for-review, not draft), **When** Vercel finishes building that PR's
+   preview deployment, **Then** the e2e CI job runs the same test suite against
+   that specific preview URL.
+3. **Given** a PR is already ready for review, **When** a new commit is pushed to
+   it, **Then** the e2e CI job runs again against the updated preview.
+4. **Given** the e2e job is running for a PR, **When** it finishes, **Then** its
    pass/fail result is visible on the PR as a check, the same way the existing
    type-check/lint/test check already is.
-3. **Given** an e2e test fails against a PR's preview, **When** someone attempts
-   to merge, **Then** the merge is blocked, matching how a failing type-check,
-   lint, or unit test already blocks merge today.
+5. **Given** an e2e test fails against a ready-for-review PR's preview, **When**
+   someone attempts to merge, **Then** the merge is blocked, matching how a
+   failing type-check, lint, or unit test already blocks merge today.
 
 ---
 
@@ -120,6 +135,11 @@ either.
 - What happens when the e2e suite runs locally but no `.env` / preview URL is
   configured? It MUST fall back to `localhost` with no additional setup required
   — the local path must work out of the box.
+- What happens when a draft PR (which never triggered e2e) is marked ready for
+  review? The e2e job MUST run at that point, against whatever preview
+  deployment reflects the PR's current commit — a PR MUST NOT be able to reach
+  "ready for review" and merge without ever having an e2e result, just because
+  every prior push happened while it was still a draft.
 
 ## Requirements *(mandatory)*
 
@@ -140,8 +160,13 @@ either.
 - **FR-005**: CI MUST run the e2e suite against the actual Vercel preview
   deployment URL for a pull request, automatically, once that preview build is
   ready — not against a separately-started local server.
+- **FR-005a**: The e2e CI job MUST NOT run while a pull request is a draft. It
+  MUST start running once the PR is marked ready for review (or is opened
+  directly as ready-for-review), and MUST run again on every subsequent push
+  while the PR remains ready for review (Clarifications, Session 2026-08-20).
 - **FR-006**: The e2e CI job's result MUST gate the pull request the same way the
-  existing type-check/lint/test CI job does — a failing e2e run blocks merge.
+  existing type-check/lint/test CI job does — a failing e2e run blocks merge —
+  for any PR the job runs on (i.e. once out of draft, per FR-005a).
 - **FR-007**: At least one real, passing e2e test scenario MUST exist (not empty
   scaffolding), and MUST pass against both a local dev server and a deployed
   Vercel URL, proving the dual-target setup actually works end-to-end.
@@ -171,9 +196,10 @@ either.
 
 - **SC-001**: A developer goes from a clean checkout to a passing local e2e run
   using one documented command, with no manual step to start a server first.
-- **SC-002**: Opening or updating a pull request produces an e2e test result
-  against that PR's own preview deployment with zero manual steps, visible on
-  the PR before merge.
+- **SC-002**: Marking a pull request ready for review (or opening one directly
+  as such) produces an e2e test result against that PR's own preview
+  deployment with zero manual steps, visible on the PR before merge; pushes to
+  a still-draft PR produce no such run.
 - **SC-003**: A pull request with a failing e2e test cannot be merged, matching
   the existing block-on-failure behavior of type-check, lint, and unit tests.
 - **SC-004**: A reader can go from `README.md` to a full explanation of all three
@@ -192,10 +218,12 @@ either.
   for completeness, but no new automated test targets it. This can be added
   later without restructuring what this feature builds.
 - **Initial test coverage**: this feature adds the dual-target (local/preview)
-  infrastructure and at least one real, working smoke-test scenario (e.g. the
-  homepage loads and its primary content renders) as a working example other
-  tests can follow. Comprehensive page-by-page e2e coverage of the whole site is
-  a separate, future effort, not this feature's scope.
+  infrastructure and at least one real, working smoke-test scenario (the
+  homepage loads and its primary content renders), scoped to a single locale —
+  it does not exercise the EN↔DE language toggle. Locale-toggle e2e coverage
+  and comprehensive page-by-page e2e coverage of the whole site are both
+  separate, future efforts, not this feature's scope (Clarifications, Session
+  2026-08-20).
 - **Browser coverage**: the initial suite targets one browser engine (Chromium),
   consistent with how most projects start an e2e suite. Playwright supports
   adding Firefox/WebKit later without restructuring existing tests; that
