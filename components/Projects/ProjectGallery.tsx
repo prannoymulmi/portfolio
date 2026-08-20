@@ -43,6 +43,15 @@ export function ProjectGallery() {
   // a still-running clear so a second open doesn't inherit the first one's
   // remaining time.
   const highlightTimeoutRef = useRef<number | undefined>(undefined);
+  // Set once the hash-on-load check below has run for the first time.
+  // Without this guard the effect would re-read `window.location.hash` on
+  // every rerun, including reruns triggered by nothing more than
+  // `projectList` getting a new array identity — which is exactly what a
+  // language switch does (useContentLoader refetches projects.json for the
+  // new locale). A stale `#project-<id>` left over from a modal the visitor
+  // already closed would then match again and reopen it, regardless of
+  // where they had since scrolled to.
+  const hasCheckedInitialHashRef = useRef(false);
   const projectList = projects.data?.projects ?? [];
 
   // Starts the ring on whichever project is open and schedules its removal.
@@ -88,9 +97,16 @@ export function ProjectGallery() {
       if (detail?.id) openWithHighlight(detail.id, detail.token);
     };
 
-    const hashMatch = window.location.hash.match(/^#project-(.+)$/);
-    if (hashMatch) {
-      openWithHighlight(decodeURIComponent(hashMatch[1]), nextProjectHighlightToken());
+    // Only ever consulted once per mount, on whichever render first has a
+    // non-empty `projectList` (see hasCheckedInitialHashRef above) — a real
+    // fresh load of a `/#project-<id>` link, not a locale-driven refetch of
+    // the same mount.
+    if (!hasCheckedInitialHashRef.current) {
+      hasCheckedInitialHashRef.current = true;
+      const hashMatch = window.location.hash.match(/^#project-(.+)$/);
+      if (hashMatch) {
+        openWithHighlight(decodeURIComponent(hashMatch[1]), nextProjectHighlightToken());
+      }
     }
 
     window.addEventListener(PROJECT_HIGHLIGHT_EVENT, onHighlightEvent);
@@ -119,6 +135,15 @@ export function ProjectGallery() {
     setSelectedProjectId(null);
     if (triggerRef.current instanceof HTMLElement) {
       triggerRef.current.focus();
+    }
+    // Drop a leftover `#project-<id>` hash once the visitor has explicitly
+    // dismissed the modal it pointed at. `replaceState`, not a navigation —
+    // it can't add a back-button entry or trigger a hash-scroll — but it
+    // stops the address bar from still claiming a project is open once it
+    // isn't, and removes the stale target the hasCheckedInitialHashRef guard
+    // above exists to protect against in the first place.
+    if (window.location.hash.startsWith('#project-')) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
   };
 

@@ -201,4 +201,59 @@ describe('ProjectGallery', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
   });
+
+  describe('hash-driven open on load', () => {
+    afterEach(() => {
+      window.history.replaceState(null, '', '/');
+    });
+
+    it("opens the matching project's modal on mount for a bookmarked or refreshed /#project-<id> link", () => {
+      window.history.replaceState(null, '', '#project-alpha');
+      renderWithLocale(<ProjectGallery />);
+
+      const dialog = screen.getByRole('dialog');
+      expect(within(dialog).getByRole('heading', { name: 'Alpha Project' })).toBeInTheDocument();
+    });
+
+    // Regression test: a stale `#project-<id>` hash, left over from a modal
+    // the visitor already closed, used to reopen that modal the moment
+    // `projectList` got a new array identity for any reason — not just a
+    // fresh hash navigation. A language switch is exactly that: it refetches
+    // projects.json for the new locale, so ContentProvider hands back a new
+    // `projects.data.projects` reference with the visitor's scroll position
+    // and closed modal otherwise untouched.
+    it('does not reopen a modal the visitor already closed when projectList gets a new reference (e.g. a language switch)', () => {
+      window.history.replaceState(null, '', '#project-alpha');
+      const { rerender } = renderWithLocale(<ProjectGallery />);
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+      // Same projects, new array/object identity — what a locale refetch
+      // produces even when the translated content resolves to the same ids.
+      mockProjects.data = {
+        projects: [
+          project({ id: 'alpha', title: 'Alpha Project' }),
+          project({ id: 'beta', title: 'Beta Project' }),
+        ],
+      };
+      rerender(
+        <LocaleProvider>
+          <ProjectGallery />
+        </LocaleProvider>,
+      );
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('clears the stale #project-<id> hash once the modal is explicitly closed', () => {
+      window.history.replaceState(null, '', '#project-alpha');
+      renderWithLocale(<ProjectGallery />);
+
+      fireEvent.keyDown(document, { key: 'Escape' });
+
+      expect(window.location.hash).toBe('');
+    });
+  });
 });
