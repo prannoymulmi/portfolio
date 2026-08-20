@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useContent } from '@/components/Common/ContentProvider';
 import { EducationSkeleton } from '@/components/Common/LoadingState';
-import { gradeBadgeLabel, isGradeBand } from '@/components/Education/grade';
+import { gradeBadgeLabel, gradeValue, isGradeBand } from '@/components/Education/grade';
 import { useUi } from '@/components/Common/LocaleProvider';
 import { format } from '@/lib/i18n/format';
 
@@ -40,7 +40,20 @@ export function EducationSection() {
       <div className="divide-border border-border divide-y border-t">
         {educationList.map((item, idx) => {
           const gradeKey = gradeBadgeLabel(item.cardDetailedText);
-          const badgeLabel = gradeKey && isGradeBand(gradeKey) ? ui.education.grades[gradeKey] : gradeKey;
+          // A graded band ("Good") also carries its raw source-text grade
+          // ("1.9" / "1,9") alongside the translated label — "Good (1.9)" —
+          // so the number stays legible to a visitor who does know the
+          // German scale, without it being the only thing shown to one who
+          // doesn't. A passthrough classification like "Distinction" has no
+          // raw grade behind it (gradeValue returns null), so it renders
+          // alone, unchanged.
+          const rawGrade = gradeKey && isGradeBand(gradeKey) ? gradeValue(item.cardDetailedText) : null;
+          const badgeLabel =
+            gradeKey && isGradeBand(gradeKey)
+              ? rawGrade
+                ? format(ui.education.gradeWithValue, { label: ui.education.grades[gradeKey], value: rawGrade })
+                : ui.education.grades[gradeKey]
+              : gradeKey;
 
           // Two independent, mutually exclusive image sources: `media` is an
           // externally-hosted certification badge (Credly), `icon` is a

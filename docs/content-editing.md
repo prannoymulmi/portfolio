@@ -143,6 +143,20 @@ locale's copy of `experiences.json` or `technologies.json` in particular —
 a "helpfully" translated technology name silently breaks the cross-file
 join between the two.
 
+**Grade text in `education.json`'s `cardDetailedText`**: a numeric grade
+("1.9 Grade") is parsed by `components/Education/grade.ts` into a
+qualitative badge ("Good") — it looks for a numeric token at the *start* of
+the string. A natural translation that puts the word first ("Note 1,9"
+instead of "1,9 Note") silently stops matching: the whole string falls
+back to showing as a raw, untranslated passthrough label instead of a
+badge. This exact mistake shipped in `de/education.json` for a while. The
+raw text is never shown once it does parse (it only ever surfaces as the
+translated badge label plus the grade in parentheses, e.g. "Gut (1,9)"),
+so word order here doesn't need to read naturally — only
+`grade.ts`'s `gradeValue`/`gradeBadgeLabel` need to parse it. A
+non-numeric classification like "Distinction"/"Auszeichnung" has no such
+constraint; it always renders verbatim.
+
 **No third language ships today.** `SUPPORTED_LOCALES` holds `en` and `de`
 only. The steps above are the extension path for a future contributor, not
 a promise of what currently exists. The parity tests

@@ -138,6 +138,11 @@ export const UiSchema = z.object({
     // Alt text for an institution's logo (EducationSection.tsx) — `{institution}`
     // interpolates the entry's own cardSubtitle, so it isn't duplicated here.
     logoAlt: z.string().min(1),
+    // Wraps a graded badge's translated label around its raw source-text
+    // grade — "Good (1.9)" / "Gut (1,9)" — via {label}/{value}. Only used
+    // when gradeValue() resolves a grade; a passthrough classification like
+    // "Distinction" renders as ui.education.grades[band] alone.
+    gradeWithValue: z.string().min(1),
     grades: z.object({
       veryGood: z.string().min(1),
       good: z.string().min(1),

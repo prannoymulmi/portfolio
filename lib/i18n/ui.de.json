@@ -100,6 +100,7 @@
     "failedToLoad": "Ausbildung konnte nicht geladen werden",
     "learnMore": "Mehr erfahren ↗",
     "logoAlt": "{institution}-Logo",
+    "gradeWithValue": "{label} ({value})",
     "grades": {
       "veryGood": "Sehr gut",
       "good": "Gut",

@@ -11,6 +11,22 @@ export function isGradeBand(value: string): value is GradeBand {
   return (GRADE_BANDS as string[]).includes(value);
 }
 
+/** Shared by gradeBadgeLabel and gradeValue below — matches a *leading*
+ * numeric token rather than parsing the whole string: the live data is
+ * "1.9 Grade", not "1.9", so Number(trimmed) would be NaN and miss the one
+ * value this mapping exists for (research R2/R4). A comma decimal ("1,9")
+ * is accepted too, for the German-locale spelling — the separator is
+ * captured, not discarded, so a caller that wants the original digits back
+ * (gradeValue) can preserve whichever mark the source text used instead of
+ * normalizing it. */
+function matchLeadingGrade(
+  trimmed: string,
+): { integer: string; separator: '.' | ','; decimal: string } | null {
+  const match = /^([0-5])([.,])(\d{1,2})/.exec(trimmed);
+  if (!match) return null;
+  return { integer: match[1], separator: match[2] as '.' | ',', decimal: match[3] };
+}
+
 /**
  * German university grades are decimals in a fixed 1.0–4.0 scale that reads
  * as meaningless (or backwards — lower is better) to a visitor outside that
@@ -23,14 +39,10 @@ export function gradeBadgeLabel(value?: string): GradeBand | string | null {
   const trimmed = value?.trim();
   if (!trimmed) return null;
 
-  // Match a *leading* numeric token rather than parsing the whole string:
-  // the live data is "1.9 Grade", not "1.9", so Number(trimmed) would be
-  // NaN and miss the one value this mapping exists for (research R2/R4).
-  // A comma decimal ("1,9") is accepted too, for the German-locale spelling.
-  const match = /^([0-5])[.,](\d{1,2})/.exec(trimmed);
-  if (!match) return trimmed;
+  const parsed = matchLeadingGrade(trimmed);
+  if (!parsed) return trimmed;
 
-  const grade = Number(`${match[1]}.${match[2]}`);
+  const grade = Number(`${parsed.integer}.${parsed.decimal}`);
   if (grade < 1.0 || grade > 4.0) return trimmed;
 
   // An ascending upper-bound chain rather than four two-sided range checks:
@@ -42,4 +54,27 @@ export function gradeBadgeLabel(value?: string): GradeBand | string | null {
   if (grade <= 2.5) return 'good';
   if (grade <= 3.5) return 'satisfactory';
   return 'sufficient';
+}
+
+/**
+ * The raw grade digits behind a gradeBadgeLabel() band, in the source
+ * text's own decimal notation ("1.9" for the English content, "1,9" for the
+ * German) rather than renormalized to a fixed separator — so a badge can
+ * read "Good (1.9)" / "Gut (1,9)" without the number looking translated
+ * when the label beside it is. Returns null for anything gradeBadgeLabel
+ * doesn't map to a band (a passthrough classification like "Distinction",
+ * or no leading numeric token at all): there is no raw value to show
+ * alongside those, only the classification itself.
+ */
+export function gradeValue(value?: string): string | null {
+  const trimmed = value?.trim();
+  if (!trimmed) return null;
+
+  const parsed = matchLeadingGrade(trimmed);
+  if (!parsed) return null;
+
+  const grade = Number(`${parsed.integer}.${parsed.decimal}`);
+  if (grade < 1.0 || grade > 4.0) return null;
+
+  return `${parsed.integer}${parsed.separator}${parsed.decimal}`;
 }
