@@ -1,4 +1,4 @@
 {
-  "statement": "Gute Architektur bedeutet, dass ich jeden Teil des Systems mit 99,99 % Sicherheit ändern kann, ohne dass er zerbricht.",
-  "supporting": "Diese Sicherheit entsteht durch gut automatisierte, gründlich getestete Systeme — solche, die Teams kontinuierliches Deployment ermöglichen, ohne den Atem anzuhalten."
+  "statement": "Tolle Architektur bedeutet, dass ich jeden Teil des Systems ändern kann und dabei zu 99,99 % sicher sein kann, dass es intakt bleibt.",
+  "supporting": "Dieses Vertrauen entsteht durch gut automatisierte, gründlich getestete Systeme – solche, die es Teams ermöglichen, kontinuierlich zu deployen, ohne den Atem anzuhalten."
 }
