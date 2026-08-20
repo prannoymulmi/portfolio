@@ -28,6 +28,16 @@ pnpm run dev             # http://localhost:3000
 | `pnpm test` | Jest + React Testing Library |
 | `pnpm run validate:json` | Validate `public/data/*.json` against Zod schemas |
 
+## Testing strategy
+
+Tests are split into three layers — unit (Jest, pure functions), integration
+(Jest + jsdom, real content/wiring, no browser), and e2e (Playwright, a real
+browser against a running deployment). `pnpm test` runs unit + integration;
+`pnpm run test:e2e` runs e2e, either locally against an auto-managed dev
+server or in CI against the PR's real Vercel preview. See
+[docs/testing-pyramid.md](docs/testing-pyramid.md) for what each layer
+catches and a diagram of where e2e sits in the CI/deploy pipeline.
+
 ## Editing content
 
 All copy — intro, roles, skills, jobs, projects — lives in

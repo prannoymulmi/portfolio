@@ -196,7 +196,7 @@ includes a deployment diagram, without needing to read any test source code
 
 ### Implementation for User Story 3
 
-- [ ] T017 [P] [US3] Write `docs/testing-pyramid.md`: explain the unit layer
+- [X] T017 [P] [US3] Write `docs/testing-pyramid.md`: explain the unit layer
       (Jest, no browser/DOM) using `tests/unit/education/grade.test.ts` as
       a concrete existing example; the integration layer (Jest + jsdom, real
       `ContentProvider`, multiple components) using
@@ -205,23 +205,23 @@ includes a deployment diagram, without needing to read any test source code
       deployment) using `tests/e2e/homepage.spec.ts` as the example — state
       what each layer catches that the others don't (FR-010). Depends on
       T006.
-- [ ] T018 [US3] Add a Mermaid flowchart to `docs/testing-pyramid.md`
+- [X] T018 [US3] Add a Mermaid flowchart to `docs/testing-pyramid.md`
       showing GitHub (push / pull request) → Vercel (preview deploy /
       production deploy), with the point where the `e2e` CI job runs marked
       explicitly (FR-011, research Decision 4). Depends on T017 (same
       file), T010 (needs the real job's trigger/gating to describe
       accurately).
-- [ ] T019 [P] [US3] Add a short (a few sentences) testing-strategy section
+- [X] T019 [P] [US3] Add a short (a few sentences) testing-strategy section
       to `README.md`, naming the three pyramid layers and linking to
       `docs/testing-pyramid.md` (FR-009).
-- [ ] T020 [US3] Write `docs/adr/0028-playwright-e2e-testing.md` recording
+- [X] T020 [US3] Write `docs/adr/0028-playwright-e2e-testing.md` recording
       the decision to add Playwright plus the CI Vercel-preview-URL
       retrieval mechanism, following the existing ADR format (Status/Date,
       Context, Decision, Consequences, Alternatives rejected) — draw on
       research.md Decisions 1–3 for content. Confirm 0028 is still the next
       free number before writing (FR-012, Constitution Principle VI).
       Depends on T004, T011.
-- [ ] T021 [US3] Add ADR 0028's row to the index table in
+- [X] T021 [US3] Add ADR 0028's row to the index table in
       `docs/adr/README.md`, in the same commit as T020 (Principle VI's
       same-PR rule). Depends on T020.
 
