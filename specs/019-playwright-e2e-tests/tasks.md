@@ -131,18 +131,18 @@ merge (spec.md US2 Independent Test).
 
 ### Implementation for User Story 2
 
-- [ ] T010 [US2] Add a new `e2e` job to `.github/workflows/ci.yml`:
+- [X] T010 [US2] Add a new `e2e` job to `.github/workflows/ci.yml`:
       `needs: lint-and-type-check` (fail fast before waiting on a preview);
       `pull_request` trigger `types: [opened, synchronize, reopened,
       ready_for_review]`; job-level `if: github.event.pull_request.draft ==
       false` (research Decision 3, FR-005a).
-- [ ] T011 [US2] Within the `e2e` job, add a step using an established
+- [X] T011 [US2] Within the `e2e` job, add a step using an established
       GitHub Action to wait for the PR's Vercel preview deployment and
       capture its URL (research Decision 2) — this **waits for** the
       deployment Vercel's own Git integration already creates automatically;
       it must not trigger a second deployment via the Vercel CLI or API.
       Depends on T010.
-- [ ] T012 [US2] Add the remaining steps to the `e2e` job: checkout,
+- [X] T012 [US2] Add the remaining steps to the `e2e` job: checkout,
       `pnpm/action-setup@v4` + `actions/setup-node@v4` (matching the existing
       jobs' pattern in this file), `pnpm install --frozen-lockfile`,
       `npx playwright install --with-deps chromium`, then
