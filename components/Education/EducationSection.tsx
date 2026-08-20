@@ -6,6 +6,7 @@ import { useContent } from '@/components/Common/ContentProvider';
 import { EducationSkeleton } from '@/components/Common/LoadingState';
 import { gradeBadgeLabel, isGradeBand } from '@/components/Education/grade';
 import { useUi } from '@/components/Common/LocaleProvider';
+import { format } from '@/lib/i18n/format';
 
 export function EducationSection() {
   const { education } = useContent();
@@ -41,6 +42,22 @@ export function EducationSection() {
           const gradeKey = gradeBadgeLabel(item.cardDetailedText);
           const badgeLabel = gradeKey && isGradeBand(gradeKey) ? ui.education.grades[gradeKey] : gradeKey;
 
+          // Two independent, mutually exclusive image sources: `media` is an
+          // externally-hosted certification badge (Credly), `icon` is a
+          // locally-stored institution logo (Essex, HAW Hamburg). Neither
+          // entry in the content carries both, so resolving to one `logo`
+          // here keeps the JSX below to a single image slot instead of two
+          // near-identical conditional blocks.
+          const logo =
+            item.media?.type === 'IMAGE'
+              ? { src: item.media.source.url, alt: item.media.name }
+              : item.icon
+                ? {
+                    src: item.icon.src,
+                    alt: format(ui.education.logoAlt, { institution: item.cardSubtitle }),
+                  }
+                : null;
+
           return (
             <article key={idx} className="grid gap-6 py-10 md:grid-cols-[1fr_14rem] md:items-start">
               <div>
@@ -65,11 +82,11 @@ export function EducationSection() {
                 )}
               </div>
 
-              {item.media?.type === 'IMAGE' && (
+              {logo && (
                 <div className="chapter-panel relative h-32 w-full overflow-hidden rounded-xl">
                   <Image
-                    src={item.media.source.url}
-                    alt={item.media.name}
+                    src={logo.src}
+                    alt={logo.alt}
                     fill
                     sizes="(min-width: 768px) 14rem, 100vw"
                     className="object-contain p-3"

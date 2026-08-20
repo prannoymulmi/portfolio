@@ -99,6 +99,7 @@
     "subheading": "Ausbildung und berufliche Zertifizierungen",
     "failedToLoad": "Ausbildung konnte nicht geladen werden",
     "learnMore": "Mehr erfahren ↗",
+    "logoAlt": "{institution}-Logo",
     "grades": {
       "veryGood": "Sehr gut",
       "good": "Gut",

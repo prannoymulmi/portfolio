@@ -45,4 +45,29 @@ describe('EducationSection', () => {
     const badges = document.querySelectorAll('span.rounded-full');
     expect(badges).toHaveLength(2);
   });
+
+  // education.json's `icon` field (as opposed to `media`, which only the two
+  // AWS certifications carry) had no renderer at all until this test was
+  // written — University of Essex's and HAW Hamburg's own logos were in the
+  // content but never appeared on the page in either locale.
+  it("renders each institution's own logo from its icon field, not a shared placeholder", async () => {
+    renderSection();
+    await screen.findByText('Distinction');
+
+    const essexLogo = screen.getByAltText('University of Essex logo');
+    const hawLogo = screen.getByAltText('HAW Hamburg logo');
+    expect(essexLogo).toHaveAttribute('src', expect.stringContaining('essex.png'));
+    expect(hawLogo).toHaveAttribute('src', expect.stringContaining('haw.png'));
+  });
+
+  it('renders both logos in German too, with the German-dictionary alt text', async () => {
+    window.localStorage.setItem('locale', 'de');
+    renderSection();
+    await screen.findByText('„Distinction“');
+
+    const essexLogo = screen.getByAltText('University of Essex-Logo');
+    const hawLogo = screen.getByAltText('HAW Hamburg-Logo');
+    expect(essexLogo).toHaveAttribute('src', expect.stringContaining('essex.png'));
+    expect(hawLogo).toHaveAttribute('src', expect.stringContaining('haw.png'));
+  });
 });

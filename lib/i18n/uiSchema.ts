@@ -135,6 +135,9 @@ export const UiSchema = z.object({
     subheading: z.string().min(1),
     failedToLoad: z.string().min(1),
     learnMore: z.string().min(1),
+    // Alt text for an institution's logo (EducationSection.tsx) — `{institution}`
+    // interpolates the entry's own cardSubtitle, so it isn't duplicated here.
+    logoAlt: z.string().min(1),
     grades: z.object({
       veryGood: z.string().min(1),
       good: z.string().min(1),

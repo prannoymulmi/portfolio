@@ -6,7 +6,7 @@
       "cardSubtitle": "University of Essex",
       "cardDetailedText": "Distinction",
       "icon": {
-        "src": "images/education/essex.png"
+        "src": "/images/essex.png"
       }
     },
     {
@@ -47,7 +47,7 @@
       "cardSubtitle": "HAW Hamburg",
       "cardDetailedText": "1.9 Grade",
       "icon": {
-        "src": "images/education/haw.png"
+        "src": "/images/haw.png"
       }
     }
   ]
