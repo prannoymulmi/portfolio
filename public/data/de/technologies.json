@@ -41,7 +41,7 @@
       "matches": [
         "Auth0"
       ],
-      "note": "Aufbau und Wartung von Auth0-basierten Authentifizierungs- und Identitätsdiensten, einschließlich der Rotation von Geheimnissen und kundenseitiger Zugriffsprobleme."
+      "note": "Baute und pflegte Auth0-basierte Authentifizierungs- und Identitätsdienste, inklusive Secret-Rotation und kundenseitiger Zugriffsprobleme."
     },
     {
       "name": "AWS CDK",
@@ -153,7 +153,7 @@
       "matches": [
         "Cordova"
       ],
-      "note": "Bestehende Angular-Webanwendungen wurden in mobile Android- und iOS-Apps umgewandelt und anschließend für die Veröffentlichung optimiert und von Fehlern befreit."
+      "note": "Verpackte bestehende Angular-Webanwendungen als Android- und iOS-Apps und optimierte sie anschließend für den Release."
     },
     {
       "name": "Webpack",
@@ -188,7 +188,7 @@
       "sinceByEmployer": {
         "AViV GmbH (Formerly Immowelt GmbH)": "01/2024"
       },
-      "note": "Sicherheitsrisiken für wichtige Funktionen wurden bereits in der Entwurfsphase frühzeitig erkannt und gemindert; dies geschah kontinuierlich in den beiden letzten leitenden Positionen."
+      "note": "Identifizierte und minderte Sicherheitsrisiken früh im Design wichtiger Features, laufend in den beiden jüngsten Senior-Rollen."
     }
   ]
 }

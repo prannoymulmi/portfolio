@@ -2,7 +2,7 @@
   "projects": [
     {
       "title": "Auth0 Identity & Access Platform",
-      "bodyText": "Konzeption und Implementierung des Identitäts- und Zugriffsmanagements auf Auth0 für die Plattformen von AVIV, die über 1 Million aktive Nutzer in den Bereichen Benutzerverwaltung, rollenbasierte Zugriffskontrolle und Integrationen von Drittanbietern bedient. Verantwortlich für Sicherheitsbewertungen und Bedrohungsmodellierung für wichtige Funktionen, Identifizierung von Schwachstellen und Abhilfemaßnahmen gemäß etablierten Sicherheitsstandards. Übernahm die technische Verantwortung für Architekturentscheidungen und Code-Reviews und stellte gleichzeitig wartbare Microservices in Java und Node.js auf AWS bereit.",
+      "bodyText": "Konzipierte und implementierte Identity- und Access-Management auf Auth0 für AVIVs Plattformen mit über 1 Mio. aktiven Nutzern — Nutzerverwaltung, rollenbasierte Zugriffskontrolle und Drittanbieter-Integrationen. Verantwortete Sicherheitsbewertungen und Bedrohungsmodellierung, identifizierte Schwachstellen und Gegenmaßnahmen nach Sicherheitsstandards. Übernahm technische Verantwortung für Architektur und Code-Reviews, lieferte wartbare Microservices in Java und Node.js auf AWS.",
       "tags": [
         "Auth0",
         "AWS",
@@ -21,7 +21,7 @@
     },
     {
       "title": "AWS-Migration und Kostenoptimierung",
-      "bodyText": "Leitung der technischen Umsetzung groß angelegter Datenbank- und Systemmigrationen auf AWS, wobei On-Premise-Server und PostgreSQL-Datenbanken unter Wahrung der Datenintegrität und bei minimaler Ausfallzeit migriert wurden. Leitete die Cloud-Architektur unter Verwendung von Terraform, CloudFormation und CDK und trug durch gezielte Optimierung zu einer Senkung der AWS-Kosten um 10 % bei. Koordinierte teamübergreifend die Integration von Altsystemen und löste dabei komplexe technische Herausforderungen.",
+      "bodyText": "Leitete die technische Umsetzung großer Datenbank- und Systemmigrationen auf AWS, verlagerte On-Premise-Server und PostgreSQL-Datenbanken bei gesicherter Datenintegrität und minimaler Ausfallzeit. Verantwortete die Cloud-Architektur mit Terraform, CloudFormation und CDK und trug durch gezielte Optimierung zu 10 % AWS-Kostensenkung bei. Koordinierte teamübergreifend die Integration von Altsystemen und löste komplexe technische Herausforderungen.",
       "tags": [
         "AWS",
         "Terraform",
@@ -40,7 +40,7 @@
     },
     {
       "title": "Logistik-Microservices-Plattform",
-      "bodyText": "Konzeption und Entwicklung von Microservices in einem verteilten System für die Auslieferungslogistik bei OTTO, Deutschlands größtem Online-Händler für Mode, Lifestyle sowie Wohnen und Leben. Erweiterte Java-basierte Kernprojekte im Logistic Service-Team und richtete Unit-, CDC-, Integrations- und Funktionstestsuiten ein, um die Zuverlässigkeit des verteilten Systems zu gewährleisten. Verwaltete Infrastructure as Code mit Terraform und praktizierte DevOps auf AWS als Teil eines Scrum-Teams, wobei kontinuierlich in die Produktion ausgeliefert wurde.",
+      "bodyText": "Entwarf und baute Microservices in einem verteilten System für die Auslieferungslogistik bei OTTO, Deutschlands größtem Online-Händler für Mode, Lifestyle sowie Haus & Wohnen. Erweiterte Java-Kernprojekte im Logistic-Service-Team und richtete Unit-, CDC-, Integrations- und Funktionstests ein, um das verteilte System zuverlässig zu halten. Verwaltete Infrastructure as Code mit Terraform und praktizierte DevOps auf AWS im Scrum-Team, mit kontinuierlicher Auslieferung in die Produktion.",
       "tags": [
         "Java",
         "AWS",
