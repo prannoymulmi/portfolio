@@ -148,24 +148,36 @@ merge (spec.md US2 Independent Test).
       `npx playwright install --with-deps chromium`, then
       `pnpm run test:e2e` with `PLAYWRIGHT_BASE_URL` set to the URL captured
       in T011. Depends on T011, T006.
-- [ ] T013 [US2] Push a commit to PR #29 while it remains a draft; confirm
+- [X] T013 [US2] Push a commit to PR #29 while it remains a draft; confirm
       the `e2e` check does not run (shown as skipped, not missing) on that
       push (Acceptance Scenario 1, FR-005a; spec.md Edge Cases: draft
       pushes). Depends on T012.
-- [ ] T014 [US2] Mark PR #29 ready for review. Once Vercel's preview
+- [X] T014 [US2] Mark PR #29 ready for review. Once Vercel's preview
       deployment for that commit finishes building, confirm the `e2e` check
       starts, runs against that specific preview URL, and reports pass
       (Acceptance Scenario 2, SC-002; quickstart.md CI run #2). Depends on
       T013.
-- [ ] T015 [US2] Push one more commit to the now-ready-for-review PR #29 and
+- [X] T015 [US2] Push one more commit to the now-ready-for-review PR #29 and
       confirm `e2e` runs again against the updated preview (Acceptance
       Scenario 3; quickstart.md CI run #3). Depends on T014.
-- [ ] T016 [US2] Temporarily edit `tests/e2e/homepage.spec.ts` to assert
+- [X] T016 [US2] Temporarily edit `tests/e2e/homepage.spec.ts` to assert
       something false, push, and confirm the `e2e` check fails and GitHub's
       merge button is blocked — matching how a failing type-check/lint/unit
       test already blocks merge. Revert the change and push again to confirm
       it returns to green (Acceptance Scenario 5, FR-006, SC-003;
       quickstart.md CI run #4). Depends on T014.
+      **Live-verification finding**: the first attempt showed
+      `mergeStateStatus: "UNSTABLE"` / `mergeable: true` with `e2e` red — `main`
+      had **no branch protection rule at all**, so nothing (not e2e, not the
+      pre-existing type-check/lint/unit-test checks either) was actually
+      GitHub-enforced before this feature; "merge blocked on failure" had only
+      ever been a social convention. Confirmed with the user and added branch
+      protection on `main` requiring all four checks (`Lint and Type Check
+      (22)`, `Unit Tests (22)`, `Build (22)`, `E2E Tests (22)`) via
+      `gh api .../branches/main/protection`. Re-checked afterward:
+      `mergeStateStatus: "BLOCKED"` with the same red `e2e` — now genuinely
+      enforced. This is out-of-spec scope (not an FR), but was necessary for
+      FR-006/SC-003 to be true rather than aspirational; recorded in ADR 0028.
 
 **Checkpoint**: User Stories 1 and 2 both work independently — local and CI
 e2e runs both function end-to-end, merge is genuinely gated.

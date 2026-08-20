@@ -17,5 +17,5 @@ test('homepage renders the hero once client-fetched content lands', async ({ pag
   // owner's name as its accessible name once home.json has loaded — a real
   // piece of client-fetched content, not something present in the initial
   // HTML shell (public/data/en/home.json).
-  await expect(page.getByRole('heading', { level: 1, name: 'Someone Else Entirely' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Prannoy Mulmi' })).toBeVisible();
 });
