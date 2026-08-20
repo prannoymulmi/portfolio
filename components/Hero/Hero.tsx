@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useContent } from '@/components/Common/ContentProvider';
 import { HeroSkeleton } from '@/components/Common/LoadingState';
 import { RoughAnnotation } from '@/components/Common/RoughAnnotation';
@@ -15,7 +15,7 @@ import { useHeroScrollBlur } from './useHeroScrollBlur';
 import { CREAM, EMBER, INK, TEAL } from './palette';
 import { ValueProp } from './ValueProp';
 import { dispatchProjectHighlight, PORTFOLIO_PROJECT_ID } from '@/lib/utils/projectHighlight';
-import { useUi } from '@/components/Common/LocaleProvider';
+import { useLocale, useUi } from '@/components/Common/LocaleProvider';
 
 /**
  * One colour per role — three roles, three colours, no arbitrary cycling.
@@ -28,12 +28,31 @@ const MARK_STAGGER_MS = 350;
 export function Hero() {
   const { home } = useContent();
   const ui = useUi();
+  const { locale } = useLocale();
   const heroBlurRef = useHeroScrollBlur();
-  // Bumped on every pointer-enter of the credit pill. CreditPillText runs
-  // its type-hold-revert cycle once automatically on mount (page load) and
-  // then again on each of these bumps, but only from rest, so re-hovering
-  // mid-cycle can neither restart nor extend it.
+  // Bumped on every pointer-enter of the credit pill, and on every language
+  // switch (the effect below). CreditPillText runs its type-hold-revert
+  // cycle once automatically on mount (page load, or a same-session remount
+  // — see CreditPillText.tsx) and then again on each of these bumps, but
+  // only from rest, so re-hovering (or a language switch) mid-cycle can
+  // neither restart nor extend it.
   const [creditPillTriggerCue, setCreditPillTriggerCue] = useState(0);
+
+  // A locale switch doesn't reliably remount Hero — useContentLoader caches
+  // per locale, so switching back to an already-fetched language never
+  // shows the loading skeleton that would otherwise remount CreditPillText
+  // and replay its intro on its own. Bumping the cue here makes the retype
+  // deterministic on every switch, cached or not, rather than an accident of
+  // whether ContentProvider happened to still be loading. Guarded against
+  // the initial render (prevLocaleRef starts equal to locale) so page load
+  // bumps the cue zero extra times — CreditPillText's own mount already
+  // starts it typing.
+  const prevLocaleRef = useRef(locale);
+  useEffect(() => {
+    if (prevLocaleRef.current === locale) return;
+    prevLocaleRef.current = locale;
+    setCreditPillTriggerCue((count) => count + 1);
+  }, [locale]);
 
   if (home.loading) return <HeroSkeleton />;
   if (home.error || !home.data) return null;
