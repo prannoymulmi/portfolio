@@ -1,4 +1,30 @@
 <!-- SYNC IMPACT REPORT
+Version change: 1.6.0 → 1.7.0
+Modified principles:
+  - III. Atomic Commits — adds a format exception for commits made by the
+    `release` agent: a three-line, 5-7-5 haiku instead of
+    `<type>(<scope>): <what> — <why>`. Codifies a standing user preference
+    that was already in active, uncontested practice across recent release
+    commits (e.g. "Toggle breaks away / From nav bar to its own pill / Float
+    in the corner") without being written down anywhere the constitution
+    could be checked against — the gap surfaced when two Node-pin release
+    commits were checked against Principle III as literally written and
+    failed it. `docs(specs)` commits (the `speckit-draft-pr` hook) and any
+    other non-release commit are unchanged and still require the full
+    `<type>(<scope>): <what> — <why>` format.
+Added sections: none
+Removed sections: none
+Follow-up TODOs: none
+Note: no ADR opened for this amendment — Principle VI's ADR trigger
+(dependency add/remove, structural/URL change, content storage/loading/
+validation change, or a metaphor commitment) doesn't cover a commit-message
+formatting rule, and the "ADR + amendment, same PR" requirement in
+Governance is scoped to Principle IV specifically. The rationale below
+carries the reasoning instead: by the time `release` commits, the why
+already lives in the feature's spec/plan/research/ADR trail landed earlier
+in the same PR, so a release commit's job narrows to marking what shipped.
+
+--- previous ---
 Version change: 1.5.0 → 1.6.0
 Modified principles:
   - IV. Technology Stack (NON-NEGOTIABLE) — the Content bullet's literal path
@@ -145,13 +171,27 @@ Every commit message MUST state both **what** changed and **why** it was changed
 Format: `<type>(<scope>): <what> — <why>`.
 Example: `feat(pitch): add SVG offside line — needed to visualise tactical positions`.
 
+**Exception — `release` agent commits**: implementation/release-stage commits made
+by the `release` agent MUST instead be formatted as a haiku — three lines, 5-7-5
+syllables, describing what shipped. No `<type>(<scope>)` prefix and no explicit
+"— why" clause. `docs(specs)` commits (the Spec Kit planning hooks, e.g.
+`speckit-draft-pr`) and every other commit are unaffected and still require the
+full `<type>(<scope>): <what> — <why>` format.
+
 A commit touching more than five files MUST be a single unit of work by nature — a
 config, formatting, or lint pass, or one change that genuinely spans that many files.
 Anything separable MUST be split, even when the parts ship together.
 
 **Rationale**: Atomic commits make history reviewable, bisectable, and revertable.
 The "why" prevents future engineers (including the author) from undoing intentional
-decisions unknowingly.
+decisions unknowingly — for most commits, the message is the only place that
+reasoning is recorded, hence the mandatory format. Release-stage commits are the
+named exception: by the time `release` commits, the why already lives in the
+feature's spec/plan/research/ADR trail landed earlier in the same PR (Principle VI),
+so the commit message's job narrows to marking what shipped. The haiku format is a
+deliberate, human-recognizable signature for that narrower job — not a loophole
+around recording reasoning, since the reasoning is already durably recorded
+elsewhere by the time it applies.
 
 ### IV. Technology Stack (NON-NEGOTIABLE)
 
@@ -280,4 +320,4 @@ Version bumping follows semantic versioning:
 
 All PRs and code reviews MUST verify compliance with this constitution.
 
-**Version**: 1.6.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-19
+**Version**: 1.7.0 | **Ratified**: 2026-08-09 | **Last Amended**: 2026-08-21
