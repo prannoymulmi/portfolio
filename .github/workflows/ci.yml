@@ -23,10 +23,6 @@ jobs:
     name: Lint and Type Check
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [22]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -36,7 +32,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: pnpm
 
       - name: Install dependencies
@@ -53,10 +49,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint-and-type-check
 
-    strategy:
-      matrix:
-        node-version: [22]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -66,7 +58,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: pnpm
 
       - name: Install dependencies
@@ -80,10 +72,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint-and-type-check
 
-    strategy:
-      matrix:
-        node-version: [22]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -93,7 +81,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: pnpm
 
       - name: Install dependencies
@@ -114,10 +102,6 @@ jobs:
     # for a draft PR too (research.md Decision 3, FR-005a). Shows as
     # "skipped" on the PR checks list, not silently absent.
     if: github.event.pull_request.draft == false
-
-    strategy:
-      matrix:
-        node-version: [22]
 
     steps:
       # Waits for the PR's Vercel preview deployment to become ready and
@@ -158,7 +142,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: pnpm
 
       - name: Install dependencies
