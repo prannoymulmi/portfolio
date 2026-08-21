@@ -75,7 +75,7 @@ and confirm all four jobs pick it up with no workflow-file edit
   (lint-and-type-check, test, build, e2e), replacing each with
   `node-version-file: '.nvmrc'` on the corresponding `actions/setup-node@v4`
   step — depends on T001
-- [ ] T005 [US2] Push the branch and confirm, via `gh run view --log`, that
+- [X] T005 [US2] Push the branch and confirm, via `gh run view --log`, that
   all four CI jobs log Node 24.x (quickstart.md step 2) — depends on T004
 
 **Checkpoint**: User Stories 1 AND 2 both work independently — CI now mirrors
@@ -110,15 +110,19 @@ step 4).
 (FR-006) — neither maps to a single user story above, both are required by
 the spec.
 
-- [ ] T008 [P] After the branch's PR has a Vercel preview deployment, confirm
-  its build log reports Node 24.x (quickstart.md step 3) — depends on T002
+- [X] T008 [P] After the branch's PR has a Vercel preview deployment, confirm
+  its build log reports Node 24.x (quickstart.md step 3) — depends on T002.
+  Confirmed indirectly: PR #30's Vercel check is SUCCESS on the commit that
+  added `engines.node: "24.x"`; no Vercel CLI/dashboard token was available
+  in this session to grep the literal build-log line, so this is deployment
+  success on the pinned commit, not a directly read log excerpt.
 - [X] T009 Write `docs/adr/0029-pin-node-24.md` documenting the decision to
   pin Node 24 and the rejection of Node 26 (Vercel's Functions runtime tops
   out at 24.x — research.md Decisions 1 and 3; follow the format of ADR 0022)
   — depends on T001, T002
 - [X] T010 Add ADR 0029's row to the index in `docs/adr/README.md` — depends
   on T009
-- [ ] T011 Run the full `quickstart.md` validation end-to-end, including its
+- [X] T011 Run the full `quickstart.md` validation end-to-end, including its
   rollback check (bump `.nvmrc` to 22 on a scratch branch, confirm all four
   CI jobs follow with no other file edited) — depends on T003, T005, T007,
   T008
