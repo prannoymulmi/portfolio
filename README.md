@@ -10,7 +10,8 @@ and is validated at runtime with Zod.
 ## Quickstart
 
 ```bash
-# Requires Node 22.x (matches CI). pnpm is pinned via package.json's
+# Requires the Node version pinned in .nvmrc (nvm use), matching CI and
+# Vercel — see docs/adr/0029 for rationale. pnpm is pinned via package.json's
 # packageManager field — see docs/adr/0022 for rationale.
 pnpm install
 pnpm run dev             # http://localhost:3000

@@ -8,6 +8,13 @@
 
 **Input**: User description: "pin the node version to LTS have a .nvmrc and also in githhub use the same version to build it."
 
+## Clarifications
+
+### Session 2026-08-21
+
+- Q: Should this feature upgrade the pinned Node version to whatever is currently Active LTS, or keep the existing Node 22 pin as-is? → A: Pin to Node 26 instead — a third option raised mid-session. Node 26 is currently in its "Current" release phase (not yet LTS) but graduates to Active LTS in October 2026, about six weeks from the spec date. The choice is deliberate early adoption, not a strict LTS pin, and MUST be recorded in an ADR explaining why a soon-to-be-LTS release was chosen over Node 24 (the release actually in Active LTS today).
+- Q: (Superseded during `/speckit-plan` research) Node 26 turned out not to be viable — Vercel's Functions/deployment runtime (the project's actual production target, per constitution Principle IV's Deployment bullet) only offers 20.x/22.x/24.x in Project Settings; Node 26 support announced in Vercel's changelog is for the unrelated Vercel Sandboxes product. Pinning `.nvmrc`/CI to 26 while Vercel stays on 24 would recreate the exact version split this feature exists to remove. → A: Pin to **Node 24** (current Active LTS, and Vercel's default/latest available runtime) everywhere — local, CI, and Vercel now resolve to the same version with no split. The ADR requirement (FR-006) stays, but now records why 24 was chosen and why 26 was rejected, rather than justifying a pre-LTS pin.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Consistent local Node version (Priority: P1)
@@ -31,7 +38,8 @@ without any additional flags or lookups.
    `nvm use` in the project root, **Then** their shell switches to the Node
    version declared in `.nvmrc` with no further input.
 2. **Given** the `.nvmrc` file, **When** its contents are inspected, **Then**
-   it names a single, current Node.js LTS version.
+   it names Node.js 24 — the current Active LTS release and the latest
+   version Vercel's production runtime supports, recorded in an ADR.
 
 ---
 
@@ -99,13 +107,18 @@ hardcodes it as a literal that must be kept in sync by hand.
 - What happens if `.nvmrc` is ever edited to an invalid or non-existent
   Node version? The CI Node setup step fails fast on that job, surfacing
   the mistake before it reaches `main`.
+- What happens if a future `.nvmrc` bump names a version Vercel's runtime
+  doesn't yet support (as happened with Node 26 during this feature's own
+  planning)? Out of scope to prevent automatically; the ADR this feature
+  adds documents the constraint so the next bump checks Vercel's supported
+  list first.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
 - **FR-001**: The repository MUST contain a `.nvmrc` file at the project
-  root naming a single current Node.js LTS release.
+  root naming Node.js 24.
 - **FR-002**: Every job in `.github/workflows/ci.yml` that sets up Node.js
   (lint-and-type-check, test, build, e2e) MUST source its Node version from
   `.nvmrc` rather than a hardcoded version number in the workflow file.
@@ -118,11 +131,23 @@ hardcodes it as a literal that must be kept in sync by hand.
 - **FR-005**: The README's quickstart instructions MUST reference `.nvmrc`
   as the source of the required Node version instead of restating the
   version number as independent text.
+- **FR-006**: The decision to pin Node 24 — and to reject Node 26, which was
+  the initially requested version until Vercel's production runtime ceiling
+  ruled it out — MUST be recorded as an ADR stating the rationale, per the
+  project's convention of recording non-obvious tooling decisions.
+- **FR-007**: The pinned version MUST also be the version Vercel's
+  production deployment runs, not just local dev and CI — a Vercel Project
+  Settings Node.js version that differs from `.nvmrc` would recreate the
+  fragmentation this feature exists to remove.
 
 ### Key Entities
 
 - **`.nvmrc`**: A single-line file at the repository root naming the
-  pinned Node.js version; the source of truth this feature introduces.
+  pinned Node.js version; the source of truth for local tooling and CI.
+- **`package.json` `engines.node`**: A git-tracked semver range that pins
+  Vercel's production runtime version, mirroring `.nvmrc`'s major version —
+  the same pattern this repo already uses for pnpm (`packageManager`
+  field, ADR 0022).
 
 ## Success Criteria *(mandatory)*
 
@@ -132,24 +157,31 @@ hardcodes it as a literal that must be kept in sync by hand.
   by reading one file (`.nvmrc`), with no cross-referencing needed against
   CI configuration or documentation.
 - **SC-002**: Changing the project's target Node version requires editing
-  exactly one file to take effect everywhere (locally and in every CI job).
+  only git-tracked version-declaration files (`.nvmrc` and `package.json`'s
+  `engines.node`) — no untracked, manual step (e.g. a Vercel dashboard
+  click) is required to keep any environment in sync.
 - **SC-003**: Zero CI jobs use a Node version that differs from `.nvmrc`'s
   contents, verified on every push and pull request.
+- **SC-004**: Vercel's production deployment runs the same Node major
+  version as `.nvmrc` and CI — zero version drift between build-time and
+  production environments.
 
 ## Assumptions
 
-- "LTS" means the current Active LTS release published on nodejs.org at
-  the time this feature is implemented; the exact version number is an
-  implementation detail resolved at build time, not fixed by this spec.
+- The pinned version is Node 24 — the current Active LTS release and the
+  latest version available on Vercel's Functions/deployment runtime (its
+  Project Settings dropdown offers only 20.x/22.x/24.x as of this spec's
+  planning phase). Node 26 was considered first but rejected once this
+  ceiling surfaced; the rationale for both is recorded in an ADR per FR-006.
+- Vercel's Node.js Version project setting is treated as part of what
+  "the same version everywhere" means (FR-007), alongside `.nvmrc` and CI —
+  not just local dev and CI as originally scoped.
 - The existing CI workflow (`.github/workflows/ci.yml`) and its four Node
   setup steps are the only place, besides the README, where the Node
-  version is currently duplicated as a literal.
-- No change to the actual Node major version is required by this feature
-  beyond what's needed to align on a single current LTS; if the
-  repository's current pin (Node 22, per the existing README/CI literal)
-  is already an LTS release, this feature may keep that version rather
-  than force an upgrade — the point is the single source of truth, not
-  necessarily a version bump.
+  version is currently duplicated as a literal (previously Node 22).
+- This feature does change the Node major version in use (Node 22 → Node
+  24), unlike a pure consolidation — the version bump and the
+  single-source-of-truth mechanism land together.
 - `nvm` is assumed as the reference version manager for `.nvmrc`
   consumption (the de facto standard for this file format), but no new
   tooling dependency is introduced for contributors who use a different

@@ -36,3 +36,11 @@
   existing artifacts because the feature's whole point is consolidating an
   existing duplication between them — this is scope description, not a
   prescribed implementation approach.
+- 2026-08-21 clarification: pinned version initially resolved to Node 26
+  (deliberate early adoption ahead of its October 2026 Active LTS
+  graduation), with an ADR required by FR-006.
+- 2026-08-21, during `/speckit-plan` research: Node 26 superseded by Node 24
+  after confirming Vercel's production runtime tops out at 24.x — FR-007
+  and SC-004 added to make Vercel parity explicit; FR-006's ADR now
+  documents both the choice of 24 and the rejection of 26. No checklist
+  item changed state.
