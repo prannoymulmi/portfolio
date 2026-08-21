@@ -194,6 +194,22 @@ After implementation and testing are complete:
 
 The release agent should not redesign or substantially modify the application.
 
+## 8.1 Commit Message Format
+
+Commit format is governed by the constitution
+(`.specify/memory/constitution.md`, Principle III) — it is the source of
+truth; this section only surfaces the split so it isn't missed:
+
+- **`release`-agent commits** (implementation/release-stage work, step 5
+  above): a haiku — three lines, 5-7-5 syllables, no `<type>(<scope>)`
+  prefix. No Claude/Anthropic trailers on any commit, release or otherwise.
+- **Every other commit** (including `docs(specs)` Spec Kit hook commits,
+  e.g. `speckit-draft-pr`, and constitution/governance changes): the full
+  `<type>(<scope>): <what> — <why>` format.
+
+If the constitution and this file ever disagree, the constitution wins —
+amend it first, then update this section to match.
+
 ---
 
 # 9. Model Strategy
