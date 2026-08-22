@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 // Dual-target selection lives entirely in this one env var — no separate
 // playwright.local.config.ts / playwright.ci.config.ts pair to drift, no CLI
@@ -45,4 +45,20 @@ export default defineConfig({
           reuseExistingServer: true,
         },
       }),
+  // Two viewport projects, sitting either side of the site's own `1024px`
+  // desktop breakpoint (`components/Hero/useHeroScrollBlur.ts`'s
+  // `DESKTOP_LAYOUT = '(min-width: 1024px)'`) — not a device profile; see
+  // specs/021-e2e-mobile-desktop-coverage/contracts/viewport-project-contract.md
+  // for what these names guarantee and which files each one runs.
+  projects: [
+    {
+      name: 'desktop',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+      testIgnore: /mobile\//,
+    },
+    {
+      name: 'mobile',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 } },
+    },
+  ],
 });
