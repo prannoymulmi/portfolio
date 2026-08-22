@@ -38,3 +38,8 @@
 - One assumption (mobile viewport achieved via a Playwright device profile)
   intentionally leaves the mechanism open for `/speckit-plan` — the spec only
   binds the outcome (mobile-sized viewport behavior verified).
+- Re-validated 2026-08-22 after the FR-006/FR-012 amendment (hamburger-menu
+  test promoted from mobile-only to both viewports). No checkbox state
+  changed — the amendment corrected a factually wrong premise about
+  `StoryProgressNav.tsx`, which strengthens "Requirements are testable and
+  unambiguous" rather than putting it at risk.

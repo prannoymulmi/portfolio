@@ -15,6 +15,7 @@
 - Q: Which flows count as "major functionality" for this feature's e2e scope? → A: Hero content load, locale (EN/DE) toggle, project detail modal open/close, career/story chapter navigation, and the contact section's links — the flows already proven at the integration level in `tests/integration/`.
 - Q: What counts as "mobile" versus "desktop" for viewport-scoped tests? → A: Reuse the site's own existing breakpoint (`<1024px` = mobile, `>=1024px` = desktop), the same line `tests/integration/hero-scroll-blur.test.tsx` already draws — not an arbitrary device profile.
 - Q: Does the new documentation replace or extend the existing testing-pyramid document from 019-playwright-e2e-tests? → A: Extend it — add/refresh the e2e section and its test-by-test breakdown there rather than starting a second, competing doc.
+- Q: Should the hamburger-menu test be mobile-only, given the control actually renders at every viewport width? → A: (amendment, 2026-08-22) No — promote it to run on both projects. `components/Navigation/StoryProgressNav.tsx:113` renders `<HamburgerMenu />` unconditionally and its accessible names, roles, and panel position are identical at both widths, so coverage should match actual component behavior rather than an assumed mobile-only layout. Supersedes the original FR-006 wording; the horizontal-overflow guard (FR-007) remains the only genuinely mobile-only test.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -62,14 +63,17 @@ each with a real pass/fail result.
 
 ### User Story 2 - The same major flows are proven on a mobile-sized viewport (Priority: P2)
 
-The site's layout and navigation change materially below the desktop
-breakpoint — the persistent nav gives way to a hamburger menu, sections
-reflow, and mobile-only overflow rules apply (per `tests/integration/
-mobile-overflow.test.tsx` and `tests/unit/components/HamburgerMenu.test.tsx`).
-A developer needs the same major flows re-verified under a mobile-sized
-viewport, plus the interactions that only exist on mobile (opening/closing the
-hamburger menu), so a mobile-only regression is caught with the same
-confidence as a desktop one.
+The site's layout changes materially below the desktop breakpoint — sections
+reflow, the wordmark's full name collapses to `sr-only`, the hamburger panel
+narrows, and mobile-only overflow rules apply (per `tests/integration/
+mobile-overflow.test.tsx`). The hamburger menu itself is *not* mobile-only:
+`components/Navigation/StoryProgressNav.tsx:113` renders it at every width, so
+it must be proven at both — but a phone is where its full-width overlay
+matters most, and where an overflow regression actually hurts a visitor. A
+developer needs the same major flows, including the hamburger menu,
+re-verified under a mobile-sized viewport, plus the guard that only makes
+sense there (no horizontal overflow), so a mobile-only regression is caught
+with the same confidence as a desktop one.
 
 **Why this priority**: The user explicitly asked for both desktop and mobile
 coverage. It's second because it re-runs Story 1's flows under a second
@@ -77,13 +81,16 @@ viewport rather than introducing new ones — Story 1 has to exist first.
 
 **Independent Test**: Run the e2e suite against a mobile-sized viewport and
 confirm it exercises the same major flows as Story 1, plus opening and closing
-the hamburger menu, each with a real pass/fail result.
+the hamburger menu (which also runs on desktop) and the mobile-only
+horizontal-overflow guard, each with a real pass/fail result.
 
 **Acceptance Scenarios**:
 
 1. **Given** the site loaded in a mobile-sized viewport, **When** the
    hamburger menu is opened, **Then** the e2e suite confirms its navigation
-   options become visible, and confirms it can be closed again.
+   options become visible, and confirms it can be closed again — the same
+   single test also running, unmodified, at the desktop viewport, since the
+   control renders at both.
 2. **Given** the site loaded in a mobile-sized viewport, **When** the locale
    toggle, project detail modal, career-chapter navigation, and contact
    section are each exercised, **Then** the e2e suite confirms the same
@@ -135,12 +142,13 @@ the test checks, and each row links to the actual spec file in the repo.
   on content that loads asynchronously? The new tests MUST wait for the real
   content the way the existing homepage test does (`toBeVisible()` / auto-
   waiting assertions), never a fixed sleep.
-- What happens when a test written for desktop is run at a mobile viewport
-  (or vice versa) by mistake — e.g. a test expects the persistent nav but runs
-  where only the hamburger menu exists? The suite MUST scope each test (or
-  group of tests) to the viewport it's written for, so a viewport mismatch
-  fails clearly rather than passing on the wrong UI or failing for the wrong
-  reason.
+- What happens when a test written for one viewport is run at the other by
+  mistake — e.g. a guard that can only be meaningfully measured below the
+  breakpoint runs at desktop width and passes vacuously? The suite MUST scope
+  each test to the viewport(s) it is written for, so a viewport mismatch fails
+  clearly rather than passing on the wrong UI or failing for the wrong reason.
+  A test whose UI is genuinely identical at both widths (the hamburger menu)
+  is scoped to both rather than arbitrarily to one.
 - What happens if a locale-toggle e2e test and a project-detail-modal e2e test
   both need to run in the same file? Each flow MUST remain independently
   understandable and independently passable/failable — a single test must not
@@ -150,10 +158,12 @@ the test checks, and each row links to the actual spec file in the repo.
   renamed or moved? The doc's links MUST point at the test's current path;
   a broken link is a defect in the doc, not an acceptable drift.
 - What happens on the hamburger menu test if the viewport is resized mid-test
-  rather than launched at a mobile size from the start? Out of scope for this
-  feature — mobile tests launch directly at a mobile-sized viewport, matching
-  how `tests/unit/components/HamburgerMenu.test.tsx` already separates "starts
-  mobile" from "resizes into desktop" as distinct concerns.
+  rather than launched at a fixed size from the start? Out of scope for this
+  feature — every test launches directly at its project's viewport and never
+  resizes, matching how `tests/unit/components/HamburgerMenu.test.tsx` already
+  separates "starts mobile" from "resizes into desktop" as distinct concerns.
+  (This matters more than usual here: the component closes its own panel on a
+  `resize` event, so a mid-test resize would silently invalidate the test.)
 
 ## Requirements *(mandatory)*
 
@@ -173,8 +183,12 @@ the test checks, and each row links to the actual spec file in the repo.
   mobile-sized viewport (`<1024px`, matching the site's existing desktop
   breakpoint), confirming the same underlying outcome where the flow exists
   on mobile.
-- **FR-006**: The e2e suite MUST include a mobile-only test verifying the
-  hamburger menu opens (revealing navigation) and closes.
+- **FR-006**: The e2e suite MUST include a test verifying the hamburger menu
+  opens (revealing navigation) and closes, and that test MUST run against
+  **both** the desktop-sized and the mobile-sized viewport — the control
+  renders at every width (`components/Navigation/StoryProgressNav.tsx:113`),
+  so coverage follows the component's actual behavior rather than an assumed
+  mobile-only layout. *(Amended 2026-08-22; see Clarifications.)*
 - **FR-007**: The e2e suite MUST include a mobile-only test verifying no
   horizontal overflow occurs on a mobile-sized viewport while scrolling
   through the page.
@@ -192,9 +206,12 @@ the test checks, and each row links to the actual spec file in the repo.
   Theming).
 - **FR-011**: A Markdown document MUST exist that lists every e2e test in the
   project, what it verifies, and a link to its test file.
-- **FR-012**: The document MUST separate mobile-specific e2e tests (those that
-  only make sense at a mobile viewport, e.g. the hamburger menu) from
-  viewport-agnostic/desktop-scoped e2e tests, in two distinct tables.
+- **FR-012**: The document MUST separate mobile-specific e2e tests — those
+  that only make sense, or are only worth measuring, below the mobile
+  breakpoint (the horizontal-overflow guard of FR-007) — from the
+  viewport-agnostic tests that run at both widths (FR-001–FR-004 and FR-006),
+  in two distinct tables. *(Amended 2026-08-22: the hamburger-menu test moved
+  to the viewport-agnostic table; see Clarifications.)*
 - **FR-013**: The document MUST extend the existing testing-strategy
   documentation produced by 019-playwright-e2e-tests rather than introduce a
   second, separate testing-strategy document.
@@ -214,12 +231,14 @@ the test checks, and each row links to the actual spec file in the repo.
 
 ### Measurable Outcomes
 
-- **SC-001**: The e2e suite covers five major flows (hero, locale toggle,
-  project detail modal, career-chapter navigation, contact links), up from
-  one today.
-- **SC-002**: Every major flow that has a mobile equivalent is verified at
-  both a desktop-sized and a mobile-sized viewport, so a viewport-specific
-  regression is caught regardless of which viewport it appears on.
+- **SC-001**: The e2e suite covers six major flows at both viewports (hero,
+  locale toggle, project detail modal, career-chapter navigation, contact
+  links, hamburger menu), up from one flow at one viewport today.
+- **SC-002**: Every major flow that exists at both widths — including the
+  hamburger menu — is verified at both a desktop-sized and a mobile-sized
+  viewport, so a viewport-specific regression is caught regardless of which
+  viewport it appears on. Only a check that is meaningless above the
+  breakpoint (the horizontal-overflow guard) is scoped to one viewport.
 - **SC-003**: A reader unfamiliar with the codebase can determine what the
   e2e suite tests, and reach the exact test file behind any given check, in
   under a minute by reading the coverage document alone.
@@ -242,6 +261,11 @@ the test checks, and each row links to the actual spec file in the repo.
   project/device profile to `playwright.config.ts` (implementation detail for
   the planning phase) — the spec only requires that mobile-sized viewport
   behavior is verified, not a specific Playwright configuration mechanism.
+- Which viewport(s) a test runs under follows the component's real behavior,
+  not an assumption about it. A control that renders at every width is tested
+  at every width (FR-006); only a check that cannot be meaningfully made above
+  the breakpoint is mobile-scoped (FR-007). Where the spec's original premise
+  and the code disagreed, the code won — see Clarifications, 2026-08-22.
 - The theme toggle (`?experiment=true`) is not one of the five major flows
   in scope (FR-001–FR-004); FR-010 exists only to constrain any theme-related
   test that might be added, per the constitution gate, not to require one.
