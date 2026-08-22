@@ -93,6 +93,49 @@ in CI a wait for an actual deployment to finish building) and they need a
 live target to run against — they cannot run against nothing, the way a unit
 test can.
 
+## E2E coverage
+
+What the e2e suite actually exercises today, one row per spec file — so a
+reader can see what's covered, and reach the real test behind any given
+check, without opening every `*.spec.ts` (specs/021-e2e-mobile-desktop-coverage).
+Every test file under `tests/e2e/` runs against **two** Playwright projects,
+`desktop` (1440x900) and `mobile` (390x844), sitting either side of the
+site's own `1024px` layout breakpoint
+(`components/Hero/useHeroScrollBlur.ts`'s `DESKTOP_LAYOUT`) — see
+[`viewport-project-contract.md`](../specs/021-e2e-mobile-desktop-coverage/contracts/viewport-project-contract.md)
+for exactly what those two names guarantee.
+
+### Viewport-agnostic — run by both `desktop` and `mobile`
+
+| Test | Flow | Verifies | Runs under |
+|---|---|---|---|
+| [`homepage.spec.ts`](../tests/e2e/homepage.spec.ts) | Hero content load | The page `<title>`, and the `<h1>` wordmark carries the client-fetched name once `home.json` has loaded | `desktop`, `mobile` |
+| [`locale-toggle.spec.ts`](../tests/e2e/locale-toggle.spec.ts) | Locale EN ↔ DE | `<html lang>` flips to `de` and a visible chrome string changes; toggling back restores `en` and the English string | `desktop`, `mobile` |
+| [`project-detail-modal.spec.ts`](../tests/e2e/project-detail-modal.spec.ts) | Project detail modal | The hero credit pill opens a `role="dialog"` with a real heading; the close control dismisses it | `desktop`, `mobile` |
+| [`career-navigation.spec.ts`](../tests/e2e/career-navigation.spec.ts) | Career chapter navigation | Clicking a company chip advances the chapter-detail panel's heading to that same company | `desktop`, `mobile` |
+| [`contact-links.spec.ts`](../tests/e2e/contact-links.spec.ts) | Contact links | The contact chapter's email link is visible with a `mailto:` href; its social links carry absolute `https:` hrefs opening in a new tab | `desktop`, `mobile` |
+| [`hamburger-menu.spec.ts`](../tests/e2e/hamburger-menu.spec.ts) | Hamburger menu | The toggle opens the "Story sections" navigation panel and its section links become visible; closing it removes the panel again | `desktop`, `mobile` |
+
+The hamburger menu sits in this table, not the mobile-specific one below,
+because `components/Navigation/StoryProgressNav.tsx` renders it at every
+width — there is no desktop-only chapter list beside it — so its coverage
+follows the component's actual behavior rather than an assumed mobile-only
+layout.
+
+### Mobile-specific — run by `mobile` only
+
+| Test | Flow | Verifies | Runs under |
+|---|---|---|---|
+| [`mobile/no-horizontal-overflow.spec.ts`](../tests/e2e/mobile/no-horizontal-overflow.spec.ts) | Horizontal overflow | `documentElement.scrollWidth <= clientWidth` on load and after scrolling through the page, including the contact chapter at the bottom | `mobile` |
+
+This does not replace `tests/integration/mobile-overflow.test.tsx` — jsdom
+has no layout engine, so `scrollWidth`/`clientWidth` return zero regardless
+of CSS there, and that test can only assert that the fix (the
+`overflow-x-clip` utility on the contact chapter) is still written into the
+page source. This e2e test asserts the thing jsdom structurally cannot: that
+the page does not actually scroll sideways in a real browser. Both stay —
+different claims, both worth having.
+
 ## Layer summary
 
 | Layer | Runner | Environment | Example | Catches |
